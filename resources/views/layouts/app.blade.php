@@ -214,7 +214,7 @@
                     </main>
                     <div class="text-[12px] dark:text-gris-20 flex mx-[24px]">
                         <p class="mr-auto">Realizado por <a href="https://estudio.nubesita.com/" target="__blank" class="text-corp-50">Nubesita Estudio</a></p>
-                        <p>Copyright © 2023. Todos los Derechos Reservados 3.</p>
+                        <p>Copyright © 2023. Todos los Derechos Reservados 5.</p>
                         <p class="ml-auto">Versión: <p class="text-corp-50 ml-1">0.1.0</p></p>
                     </div>
                 </div>

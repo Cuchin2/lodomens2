@@ -17,7 +17,7 @@ use App\Http\Controllers\RoleController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('web.index');
 })->name('home');
 
 Route::middleware([

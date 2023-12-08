@@ -8,7 +8,7 @@
           <h3 @click="openItem === 1 ? openItem = null : openItem = 1" class="collapsible text-sm font-semibold text-gris-20 tracking-wider uppercase">
             Solutions
             <!-- :class="open ? 'fa-chevron-down' : 'fa-chevron-up'" -->
-            <span class="float-right text-gris-20 hover:text-gris-40 md:hidden">
+            <span class="float-right text-gris-20 hover:text-gris-40 md:hidden cursor-pointer">
               <svg :class="openItem === 1 ? 'hidden' : 'block'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
@@ -47,7 +47,7 @@
         <div  class="col-12 md:col-4">
           <h3 @click="openItem === 2 ? openItem = null : openItem = 2" class="collapsible text-sm font-semibold text-gris-20 tracking-wider uppercase">
             Support
-            <span class="float-right text-gris-20 hover:text-gris-40 md:hidden">
+            <span class="float-right text-gris-20 hover:text-gris-40 md:hidden cursor-pointer">
               <svg :class="openItem === 2 ? 'hidden' : 'block'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
@@ -85,7 +85,7 @@
         <div  class="col-12 md:col-4">
           <h3 @click="openItem === 3 ? openItem = null : openItem = 3" class="collapsible text-sm font-semibold text-gris-20 tracking-wider uppercase">
             Company
-            <span class="float-right text-gris-20 hover:text-gris-40 md:hidden">
+            <span class="float-right text-gris-20 hover:text-gris-40 md:hidden cursor-pointer">
               <svg :class="openItem === 3 ? 'hidden' : 'block'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>

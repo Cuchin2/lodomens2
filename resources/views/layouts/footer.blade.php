@@ -94,7 +94,7 @@
               </svg>
             </span>
           </h3>
-          <ul x-show="openItem === 3" x-collapse.duration.400ms role="list" class="content space-y-4 cola">
+          <ul x-show="openItem === 3" x-collapse.duration.400ms x-cloak="mobile" role="list" class="content space-y-4 cola">
             <li>
               <a target="_blank" href="https://codepen.io/jettaz" x-cloak="mobile" class="text-base text-gris-40 hover:text-gray-900">
                 About

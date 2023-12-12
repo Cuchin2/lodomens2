@@ -1,19 +1,19 @@
-<header class="absolute w-full h-[84px]">
-    <div  class="flex items-center justify-between flex-wrap bg-gris-80 py-4 w-full lg:px-[50px]">
-    <div class="flex-shrink-0 ml-6">
-              <a href="#">
-      <i class="fas fa-drafting-compass fa-2x text-yellow-500"></i>
-      <span class="ml-1 text-3xl text-gris-20 font-semibold">LodoMens</span>
+<header class="absolute w-full" x-data="{ open:false}">
+    <div  class="flex items-center justify-between flex-wrap bg-gris-80  w-full lg:px-[50px] h-[44px] md:h-[84px]">
+        <button @click="open = !open" @click.away="open = false" class="md:hidden p-2 mr-4 ml-2 my-2 ">
+           <x-icons.hamburger class="h-[18.375px] w-[14px]" fill="#A4A4A4" grosor="2"/>
+        </button>
+    <div class="flex-shrink-0 lg:ml-6">
+              <a href="../../">
+                <x-lodomens.icons.logo_secundario class="md:h-[40px] h-[27px]"/>
               </a>
     </div>
 
 
-
-      <div class=" w-full md:w-auto hidden md:block mx-auto" id="nav-content">
+   {{--   Menu normal  --}}
+      <div class=" w-full md:w-auto mx-auto hidden md:block">
           <ul class="md:flex">
-{{--        <li class="mr-6 p-1 md:border-b-2 border-yellow-500">
-        <a class="text-blue-200 cursor-default" href="#">Home</a>
-      </li>  --}}
+
 
       <li class="mr-6 p-1">
         <a class="text-white hover:text-red-600" href="#">INICIO</a>
@@ -27,8 +27,8 @@
           </ul>
       </div>
 
-      <div class="flex space-x-[15px]" x-data="{show:true}" >
-            <a x-show="show"   @click="show = !show; $nextTick(() => $refs.inputsearh.focus())" class="dark:hover:text-corp-50 flex items-center relative"
+      <div class="flex space-x-[15px] mr-2 pr-2" x-data="{show:true}" >
+            <a x-show="show"   @click="show = !show; $nextTick(() => $refs.inputsearh.focus())" class="dark:hover:text-corp-50 md:flex items-center relative hidden"
 
                 >
                 <x-icons.search class="h-[20px] w-[20px]" fill="white"/>
@@ -52,17 +52,17 @@
                 class="dark:bg-black  border-none h-[30px] dark:text-gris-40 text-[12px] rounded-[20px] focus:ring-gris-50 focus:border-gris-50 block w-full pl-10 p-2"
                 placeholder="Buscar" required="">
             </div>
-            <a class="dark:hover:text-corp-50 flex items-center relative">
+            <a class="dark:hover:text-corp-50 md:flex hidden items-center relative">
             <x-icons.heart class="h-[20px] w-[20px]" fill="white"/>
-            <span class="absolute top-[-7px] right-[-6px] flex h-3 w-3 items-center justify-center">
+            <span class="absolute top-[-0.5px] right-[-6px] flex h-3 w-3 items-center justify-center">
                 <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-rojo-30 opacity-80"></span>
                 <span class="inline-flex h-2 w-2 rounded-full bg-rojo-30"></span>
               </span>
 
-             <a class="dark:hover:text-corp-50 flex items-center relative">
+             <a class="dark:hover:text-corp-50 md:flex hidden items-center relative">
             <x-icons.cart class="h-[20px] w-[20px]" fill="white"/> </a>
-            @if(auth()->user())
 
+            @if(auth()->user())
 
             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
 
@@ -70,7 +70,7 @@
                                 <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
 
 
-                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                                    <img class="h-8 w-8 rounded-full object-cover" src="{{Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                                 </button>
             @else
             <span class="inline-flex rounded-md">
@@ -86,19 +86,34 @@
         @else
             <a class="dark:hover:text-corp-50 flex items-center relative"> <x-icons.user class="h-[20px] w-[20px]" fill="white"/> </a>
         @endif
-        <button id="nav-toggle" class="md:hidden p-2 mr-4 ml-6 my-2 border rounded border-gray-600 text-blue-200 hover:border-blue-200">
-            <i class="fas fa-bars fa-2x"></i>
-                </button>
+
     </div>
+            {{--  Menu Responsive  --}}
+            <div class="absolute  top-[44px]
+           "  >
+                <ul class=" bg-blue-800  md:hidden transition-all duration-300 ease-in-out w-0" :class="{ 'w-0': open === false, 'w-[200px]':open === true}">
+
+
+            <li class="mr-6 p-1">
+            <a class="text-white hover:text-red-600 " x-show="open" x-cloak x-transition.duration.500ms
+            href="#">INICIO</a>
+            </li>
+            <li class="mr-6 p-1">
+            <a class="text-white hover:text-red-600 " x-show="open" x-cloak href="#" x-transition.duration.500ms>TIENDA</a>
+            </li>
+            <li class="mr-6 p-1">
+            <a class="text-white hover:text-red-600 " x-show="open" x-cloak href="#" x-transition.duration.500ms>CONTACTO</a>
+            </li>
+                </ul>
+            </div>
+            {{--  fin  --}}
     </div>
 
 
   </header>
 @push('scripts')
     <script>
-        document.getElementById('nav-toggle').onclick = function(){
-            document.getElementById("nav-content").classList.toggle("hidden");
-          }
+
           function afterEnterTransition() {
             console.log('La transición ha terminado');
             // Aquí puedes llamar a tu función o realizar otras operaciones después de la transición
@@ -106,4 +121,5 @@
 
         Alpine.data('afterEnterTransition', afterEnterTransition);
     </script>
+
 @endpush

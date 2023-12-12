@@ -8,7 +8,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="icon" href="{{ asset('image/SVG/iconos/lodomens/Favicon_LodoMens.ico') }}">
+    <link rel="icon" href="{{ asset('image/lodomens/Favicon_LodoMens.ico') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <!-- Styles -->
@@ -24,7 +24,8 @@
     @stack('styles')
 </head>
 
-<body class="font-sans antialiased dark:bg-gris-90" id="body">
+<body class="font-sans antialiased dark:bg-gris-90" x-data="{show_backToTop: false}"
+@scroll.window="show_backToTop = window.pageYOffset > 30">
 @include('layouts.header')
 
     <div class="min-h-screen">
@@ -44,7 +45,16 @@
                             <div class=" mx-auto">
 
                                 @yield('content')
+                                <button id="topButton"
+                                        x-ref="backTotop"
+                                        @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+                                        class="scrollTop fixed bottom-10 right-10 bg-corp-50 p-2 hidden"
+                                >
 
+                                <svg  xmlns="http://www.w3.org/2000/svg" class="h-[15px] w-[15px] rotate-180" fill="none" viewBox="0 0 24 24" stroke="white">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                  </svg>
+                                </button>
                             </div>
                         </div>
 
@@ -66,13 +76,6 @@
     <link rel="stylesheet" href="{{ asset('codemirror/theme/xq-dark.css') }}" data-navigate-track>
 
             <script>
-                document.addEventListener('alpine:init', () => {
-                    Alpine.data('topBtn', () => ({
-                        scrolltoTop() {
-                            window.pageYOffset = 0;
-                        }
-                    }));
-                });
 
                 const topBtn = document.querySelector("#topButton");
                 window.onscroll = () => {

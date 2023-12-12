@@ -21,7 +21,7 @@
     <script src="{{ asset('codemirror/lib/codemirror.js') }}" data-navigate-track></script>
     <script src="{{ asset('codemirror/mode/xml/xml.js') }}" data-navigate-track></script>
     @livewireStyles
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/admin/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased dark:bg-gris-90">

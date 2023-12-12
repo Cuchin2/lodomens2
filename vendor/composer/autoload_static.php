@@ -385,8 +385,8 @@ class ComposerStaticInitaaf0354a3201d236b3a6d5d78c00aaf0
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -4199,6 +4199,7 @@ class ComposerStaticInitaaf0354a3201d236b3a6d5d78c00aaf0
         'Livewire\\Features\\SupportPagination\\HandlesPagination' => __DIR__ . '/..' . '/livewire/livewire/src/Features/SupportPagination/HandlesPagination.php',
         'Livewire\\Features\\SupportPagination\\SupportPagination' => __DIR__ . '/..' . '/livewire/livewire/src/Features/SupportPagination/SupportPagination.php',
         'Livewire\\Features\\SupportPagination\\UnitTest' => __DIR__ . '/..' . '/livewire/livewire/src/Features/SupportPagination/UnitTest.php',
+        'Livewire\\Features\\SupportPolling\\BrowserTest' => __DIR__ . '/..' . '/livewire/livewire/src/Features/SupportPolling/BrowserTest.php',
         'Livewire\\Features\\SupportQueryString\\BaseUrl' => __DIR__ . '/..' . '/livewire/livewire/src/Features/SupportQueryString/BaseUrl.php',
         'Livewire\\Features\\SupportQueryString\\BrowserTest' => __DIR__ . '/..' . '/livewire/livewire/src/Features/SupportQueryString/BrowserTest.php',
         'Livewire\\Features\\SupportQueryString\\SupportQueryString' => __DIR__ . '/..' . '/livewire/livewire/src/Features/SupportQueryString/SupportQueryString.php',
@@ -4257,8 +4258,9 @@ class ComposerStaticInitaaf0354a3201d236b3a6d5d78c00aaf0
         'Livewire\\Livewire' => __DIR__ . '/..' . '/livewire/livewire/src/Livewire.php',
         'Livewire\\LivewireManager' => __DIR__ . '/..' . '/livewire/livewire/src/LivewireManager.php',
         'Livewire\\LivewireServiceProvider' => __DIR__ . '/..' . '/livewire/livewire/src/LivewireServiceProvider.php',
-        'Livewire\\Mechanisms\\CompileLivewireTags' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/CompileLivewireTags.php',
-        'Livewire\\Mechanisms\\CompileLivewireTagsUnitTest' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/CompileLivewireTagsUnitTest.php',
+        'Livewire\\Mechanisms\\CompileLivewireTags\\CompileLivewireTags' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/CompileLivewireTags/CompileLivewireTags.php',
+        'Livewire\\Mechanisms\\CompileLivewireTags\\LivewireTagPrecompiler' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/CompileLivewireTags/LivewireTagPrecompiler.php',
+        'Livewire\\Mechanisms\\CompileLivewireTags\\UnitTest' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/CompileLivewireTags/UnitTest.php',
         'Livewire\\Mechanisms\\ComponentRegistry' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/ComponentRegistry.php',
         'Livewire\\Mechanisms\\DataStore' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/DataStore.php',
         'Livewire\\Mechanisms\\ExtendBlade\\ExtendBlade' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendBlade.php',
@@ -4289,6 +4291,7 @@ class ComposerStaticInitaaf0354a3201d236b3a6d5d78c00aaf0
         'Livewire\\Mechanisms\\HandleComponents\\ViewContext' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/HandleComponents/ViewContext.php',
         'Livewire\\Mechanisms\\HandleRequests\\BrowserTest' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/HandleRequests/BrowserTest.php',
         'Livewire\\Mechanisms\\HandleRequests\\HandleRequests' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/HandleRequests/HandleRequests.php',
+        'Livewire\\Mechanisms\\Mechanism' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/Mechanism.php',
         'Livewire\\Mechanisms\\PersistentMiddleware\\BrowserTest' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/PersistentMiddleware/BrowserTest.php',
         'Livewire\\Mechanisms\\PersistentMiddleware\\PersistentMiddleware' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/PersistentMiddleware/PersistentMiddleware.php',
         'Livewire\\Mechanisms\\RenderComponent' => __DIR__ . '/..' . '/livewire/livewire/src/Mechanisms/RenderComponent.php',
@@ -4393,6 +4396,7 @@ class ComposerStaticInitaaf0354a3201d236b3a6d5d78c00aaf0
         'Mockery\\Matcher\\IsEqual' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Matcher/IsEqual.php',
         'Mockery\\Matcher\\IsSame' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Matcher/IsSame.php',
         'Mockery\\Matcher\\MatcherAbstract' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Matcher/MatcherAbstract.php',
+        'Mockery\\Matcher\\MatcherInterface' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Matcher/MatcherInterface.php',
         'Mockery\\Matcher\\MultiArgumentClosure' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Matcher/MultiArgumentClosure.php',
         'Mockery\\Matcher\\MustBe' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Matcher/MustBe.php',
         'Mockery\\Matcher\\NoArgs' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Matcher/NoArgs.php',

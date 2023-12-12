@@ -5,11 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="icon" href="{{ asset('image/ecowaste/favicon_ecowaste.ico') }}">
+    <link rel="icon" href="{{ asset('image/SVG/iconos/lodomens/Favicon_LodoMens.ico') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <!-- Styles -->
@@ -17,16 +16,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Scripts -->
 
-{{--<script src="{{ asset('ckeditor/ckeditor.js') }}" data-navigate-track></script>
-    <script src="{{ asset('codemirror/lib/codemirror.js') }}" data-navigate-track></script>
-    <script src="{{ asset('codemirror/mode/xml/xml.js') }}" data-navigate-track></script>  --}}
+
+
+    @livewireStyles
+    @vite(['resources/css/web/app.css', 'resources/js/app.js'])
     @yield('styles')
     @stack('styles')
-    @livewireStyles
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased dark:bg-gris-90">
+<body class="font-sans antialiased dark:bg-gris-90" id="body">
 @include('layouts.header')
 
     <div class="min-h-screen">
@@ -46,7 +44,7 @@
                             <div class=" mx-auto">
 
                                 @yield('content')
-
+                                            <div class="h-[1000px]"></div>
                             </div>
                         </div>
 
@@ -57,6 +55,14 @@
                         <p>Copyright © 2023. Todos los Derechos Reservados.</p>
                         <p class="ml-auto">Versión: <p class="text-corp-50 ml-1">0.1.0</p></p>
                     </div>
+
+                    <button x-data="topBtn" id="topButton" @click="$scroll(0)" class="fixed bg-corp-50 h-[40px] w-[40px] hidden items-center justify-center bottom-10 right-10 z-10">
+                        <div>
+                        <svg  xmlns="http://www.w3.org/2000/svg" class="h-[30px] w-[30px] rotate-180" fill="none" viewBox="0 0 24 24" stroke="white">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                    </button>
                 </div>
             </div>
         </div>
@@ -66,12 +72,33 @@
     </div>
     <link rel="stylesheet" href="{{ asset('codemirror/lib/codemirror.css') }}" data-navigate-track>
     <link rel="stylesheet" href="{{ asset('codemirror/theme/xq-dark.css') }}" data-navigate-track>
+
+            <script>
+                document.addEventListener('alpine:init', () => {
+                    Alpine.data('topBtn', () => ({
+                        scrolltoTop() {
+                            window.pageYOffset = 0;
+                        }
+                    }));
+                });
+
+                const topBtn = document.querySelector("#topButton");
+                window.onscroll = () => {
+                    if (window.pageYOffset > 50) {
+                        // unhide
+                        topBtn.classList.add("flex");
+                        topBtn.classList.remove("hidden");
+                    } else {
+                        // hide
+                        topBtn.classList.remove("flex");
+                        topBtn.classList.add("hidden");
+                    }
+                }
+            </script>
+
     @yield('scripts')
     @stack('scripts')
     <style>
-        [x-cloak] {
-            display: none !important;
-        }
 
         .mll-64 {
             margin-left: 16rem !important;

@@ -16,13 +16,13 @@
       </li>  --}}
 
       <li class="mr-6 p-1">
-        <a class="text-white hover:text-red-600" href="#">Inicio</a>
+        <a class="text-white hover:text-red-600" href="#">INICIO</a>
       </li>
       <li class="mr-6 p-1">
-        <a class="text-white hover:text-red-600" href="#">Tienda</a>
+        <a class="text-white hover:text-red-600" href="#">TIENDA</a>
       </li>
       <li class="mr-6 p-1">
-        <a class="text-white hover:text-red-600" href="#">Contacto</a>
+        <a class="text-white hover:text-red-600" href="#">CONTACTO</a>
       </li>
           </ul>
       </div>

@@ -44,7 +44,7 @@
                             <div class=" mx-auto">
 
                                 @yield('content')
-                                            <div class="h-[1000px]"></div>
+
                             </div>
                         </div>
 
@@ -55,14 +55,6 @@
                         <p>Copyright © 2023. Todos los Derechos Reservados.</p>
                         <p class="ml-auto">Versión: <p class="text-corp-50 ml-1">0.1.0</p></p>
                     </div>
-
-                    <button x-data="topBtn" id="topButton" @click="$scroll(0)" class="fixed bg-corp-50 h-[40px] w-[40px] hidden items-center justify-center bottom-10 right-10 z-10">
-                        <div>
-                        <svg  xmlns="http://www.w3.org/2000/svg" class="h-[30px] w-[30px] rotate-180" fill="none" viewBox="0 0 24 24" stroke="white">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                    </button>
                 </div>
             </div>
         </div>

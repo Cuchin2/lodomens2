@@ -18,7 +18,7 @@
             </span>
 
           </h3>
-          <ul x-show="openItem === 1" x-collapse.duration.400ms role="list" class="content space-y-4 " >
+          <ul x-show="openItem === 1" x-collapse.duration.400ms x-cloak="mobile" role="list" class="content space-y-4">
             <li>
               <a target="_blank" href="https://codepen.io/jettaz" class="text-base text-gris-40 hover:text-gray-900">
                 Marketing
@@ -56,7 +56,7 @@
               </svg>
             </span>
           </h3>
-          <ul x-show="openItem === 2" x-collapse.duration.400ms role="list" class="content space-y-4" >
+          <ul x-show="openItem === 2" x-collapse.duration.400ms x-cloak="mobile" role="list" class="content space-y-4" >
             <li>
               <a target="_blank" href="https://codepen.io/jettaz" class="text-base text-gris-40 hover:text-gray-900">
                 Pricing
@@ -96,7 +96,7 @@
           </h3>
           <ul x-show="openItem === 3" x-collapse.duration.400ms role="list" class="content space-y-4 cola">
             <li>
-              <a target="_blank" href="https://codepen.io/jettaz" class="text-base text-gris-40 hover:text-gray-900">
+              <a target="_blank" href="https://codepen.io/jettaz" x-cloak="mobile" class="text-base text-gris-40 hover:text-gray-900">
                 About
               </a>
             </li>
@@ -137,16 +137,12 @@
 <style>
 
 @media (min-width: 768px) {
-  [x-show="openItem === 1"] {
+  [x-show="openItem === 1"], [x-show="openItem === 2"], [x-show="openItem === 3"]{
     display: block !important; height: inherit!important;
   }
-  [x-show="openItem === 2"] {
-    display: block !important; height: inherit!important;
-  }
-  [x-show="openItem === 3"] {
-    display: block !important; height: inherit!important;
-  }
-
 }
+{{--  @media screen and (max-width: 768px) {
+    [x-cloak2] { display: none!important; }
+}  --}}
 </style>
 @endpush

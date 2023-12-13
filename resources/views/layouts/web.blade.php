@@ -24,20 +24,20 @@
     @stack('styles')
 </head>
 
-<body class="font-sans antialiased dark:bg-gris-90" x-data="{show_backToTop: false}"
+<body class="font-sans antialiased bg-black" x-data="{show_backToTop: false}"
 @scroll.window="show_backToTop = window.pageYOffset > 30">
 @include('layouts.header')
 
     <div class="min-h-screen">
 
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
+        <div class="bg-black  overflow-hidden shadow-xl sm:rounded-lg">
 
-            <div class="flex bg-gray-300 min-h-screen">
+            <div class="flex bg-black min-h-screen">
 
                 <div
-                    class="flex-1 flex flex-col dark:bg-gris-90">
+                    class="flex-1 flex flex-col">
 
-                    <main class="flex-1 px-6 pb-3 bg-gris-90 mt-54">
+                    <main class="flex-1 px-6 pb-3  mt-54">
                         <div class="flex">
 
                         </div>
@@ -60,10 +60,11 @@
 
                     </main>
                     @include('layouts.footer')
-                    <div class="text-[12px] dark:text-gris-20 flex mx-[24px]">
-                        <p class="mr-auto">Realizado por <a href="https://estudio.nubesita.com/" target="__blank" class="text-corp-50">Nubesita Estudio</a></p>
-                        <p>Copyright © 2023. Todos los Derechos Reservados.</p>
-                        <p class="ml-auto">Versión: <p class="text-corp-50 ml-1">0.1.0</p></p>
+                    <div class="md:text-[14px] text-[12px] bg-gris-90 text-gris-10 flex w-full border-t-[1px] border-t-gris-70">
+                        <div class="mx-auto flex">
+
+                        <p class="mr-auto">© 2023 Realizado por <a href="https://estudio.nubesita.com/" target="__blank" class="hover:text-corp-50 font-bold">Nubesita Estudio</a></p>
+                        </div>
                     </div>
                 </div>
             </div>

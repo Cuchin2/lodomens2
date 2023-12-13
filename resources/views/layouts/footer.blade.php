@@ -163,7 +163,7 @@
  {{--  normal  --}}
 <footer class="bg-gris-90 hidden md:flex" aria-labelledby="footer-heading">
 
-    <div class=" mx-auto py-4 px-4 mt-[30px]  lg:px-8">
+    <div class=" mx-auto py-4 px-4 mt-[30px] lg:px-8">
 
         <div class=" grid md:grid-cols-3 gap-[250px]  xl:col-span-2 ">
             <div class="col-12 md:col-4">
@@ -177,21 +177,21 @@
                     class="content space-y-2">
                     <li>
                         <a target="_blank" href="https://codepen.io/jettaz"
-                            class="text-base text-gris-10 hover:text-gray-900">
+                            class="text-base text-gris-10 hover:text-gris-30">
                             Joyería y moda masculina
                         </a>
                     </li>
 
                     <li>
                         <a target="_blank" href="https://codepen.io/jettaz"
-                            class="text-base text-gris-10 hover:text-gray-900">
+                            class="text-base text-gris-10 hover:text-gris-30">
                             Potencia tu imagen y tu estilo
                         </a>
                     </li>
 
                     <li>
                         <a target="_blank" href="https://codepen.io/jettaz"
-                            class="text-base text-gris-10 hover:text-gray-900">
+                            class="text-base text-gris-10 hover:text-gris-30">
                             La perfección está en los detalles
                         </a>
                     </li>

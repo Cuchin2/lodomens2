@@ -12,13 +12,8 @@ export default {
     ],
 
     theme: {
+
         extend: {
-            margin:{
-                '54': '54px',
-            },
-            height: {
-                '54': '54px',
-                    },
             fontFamily: {
                // sans: ['Jura variant0','Tofu' ],
                sans: ['Jura','sans-serif'],
@@ -62,13 +57,13 @@ export default {
                 'naranja-70':'#E35D12',
                 'naranja-50':'#FF6F1E',
                 'naranja-30':'#FE8A49',
-                }
+                },
+
 
             },
-            fontSize: {
-                '15': '15px',
-                    },
+
     },
+
     plugins: [forms, typography],
 };
 

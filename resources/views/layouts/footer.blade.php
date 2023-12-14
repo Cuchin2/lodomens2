@@ -161,19 +161,19 @@
     </div>
 </footer>
  {{--  normal  --}}
-<footer class="bg-gris-90 hidden md:flex" aria-labelledby="footer-heading">
+<footer class="bg-gris-90 hidden md:flex h-[182px]" aria-labelledby="footer-heading">
 
-    <div class=" mx-auto py-4 px-4 mt-[30px] lg:px-8">
+    <div class=" mx-auto mt-[30px] px-4  lg:px-8">
 
-        <div class=" grid md:grid-cols-3 gap-[250px]  xl:col-span-2 ">
+        <div class="grid md:grid-cols-3 gap-[203px]  xl:col-span-2 ">
             <div class="col-12 md:col-4">
                 <h3
-                    class="collapsible text-sm font-semibold text-gris-10 tracking-wider uppercase mb-[20px]">
+                    class="collapsible font-semibold text-gris-10 tracking-wider mb-[20px] ">
                     ¿Quiénes Somos?
 
 
                 </h3>
-                <ul role="list"
+                <ul role="list h-[81px] w-[256px]"
                     class="content space-y-2">
                     <li>
                         <a target="_blank" href="https://codepen.io/jettaz"
@@ -203,7 +203,7 @@
 
                     <x-lodomens.icons.logo_principal class="w-[183px] " />
 
-                <div class="mt-[20px] flex space-x-[27px]">
+                <div class="mt-[25px] flex space-x-[27px]">
                     <x-icons.socialmedia.instagram class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/>
                     <x-icons.socialmedia.tiktok class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/>
                     <x-icons.socialmedia.facebook class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/>
@@ -212,11 +212,7 @@
 
             </div>
             <div class="col-12 md:col-4">
-                <h3
-                    class="collapsible text-sm font-semibold text-gris-10 tracking-wider uppercase">
-                    Company
 
-                </h3>
                 <ul  role="list"
                     class="content space-y-4 cola">
                     <li>

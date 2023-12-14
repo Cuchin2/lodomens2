@@ -60,7 +60,7 @@
 
                     </main>
                     @include('layouts.footer')
-                    <div class="md:text-[14px] text-[12px] bg-gris-90 text-gris-10 flex w-full border-t-[1px] border-t-gris-70">
+                    <div class="items-center h-[38px] md:text-[14px] text-[12px] bg-gris-90 text-gris-10 flex w-full border-t-[1px] border-t-gris-70">
                         <div class="mx-auto flex">
 
                         <p class="mr-auto">© 2023 Realizado por <a href="https://estudio.nubesita.com/" target="__blank" class="hover:text-corp-50 font-bold">Nubesita Estudio</a></p>

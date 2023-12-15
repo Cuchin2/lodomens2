@@ -165,7 +165,7 @@
 
     <div class=" mx-auto mt-[30px] px-4  lg:px-8">
 
-        <div class="grid md:grid-cols-3 gap-[203px]  xl:col-span-2 ">
+        <div class="grid md:grid-cols-3 gap-[120px]  xl:col-span-2 ">
             <div class="col-12 md:col-4">
                 <h3
                     class="collapsible font-semibold text-gris-10 tracking-wider mb-[20px] ">
@@ -174,7 +174,7 @@
 
                 </h3>
                 <ul role="list h-[81px] w-[256px]"
-                    class="content space-y-2">
+                    class="content space-y-1">
                     <li>
                         <a target="_blank" href="https://codepen.io/jettaz"
                             class="text-base text-gris-10 hover:text-gris-30">
@@ -214,32 +214,32 @@
             <div class="col-12 md:col-4">
 
                 <ul  role="list"
-                    class="content space-y-4 cola">
+                    class="content space-y-3 cola">
                     <li>
-                        <a target="_blank" href="https://codepen.io/jettaz" x-cloak="mobile"
-                            class="text-base text-gris-30 hover:text-gray-900">
-                            About
+                        <a target="_blank" href="https://codepen.io/jettaz"
+                            class="text-base text-gris-10 flex">
+                            <x-icons.address class="h-[20px] mr-4"/> <p>Lima, Perú</p>
                         </a>
                     </li>
 
                     <li>
                         <a target="_blank" href="https://codepen.io/jettaz"
-                            class="text-base text-gris-30 hover:text-gray-900">
-                            Blog
+                            class="text-base text-gris-10 flex">
+                            <x-icons.phone class="h-[20px] mr-4"/> <p>+51 927 093 258</p>
                         </a>
                     </li>
 
                     <li>
                         <a target="_blank" href="https://codepen.io/jettaz"
-                            class="text-base text-gris-30 hover:text-gray-900">
-                            Jobs
+                            class="text-base text-gris-10 flex">
+                            <x-icons.mail class="h-[20px] mr-4"/> <p>contacto@lodomens.com</p>
                         </a>
                     </li>
 
                     <li>
                         <a target="_blank" href="https://codepen.io/jettaz"
-                            class="text-base text-gris-30 hover:text-gray-900">
-                            Press
+                            class="text-base text-gris-10 flex">
+                            <x-icons.pedidos class="h-[20px] mr-4"/> <p>Envios Nacionales e Internacionales</p>
                         </a>
                     </li>
 

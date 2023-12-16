@@ -63,8 +63,8 @@
                     </span>
                 </h3>
                 <ul x-show="openItem === 2" x-collapse.duration.400ms x-cloak="mobile" role="list"
-                    class="content space-y-4 mx-[20px] mt-[10px]">
-                    <li>
+                    class="content space-y-4 mx-[20px] ">
+                    <li class="mt-[10px]">
                         <a target="_blank" href="https://codepen.io/jettaz"
                             class="text-base text-gris-10 flex">
                             <x-icons.address class="h-[20px] mr-4"/> <p>Lima, Perú</p>

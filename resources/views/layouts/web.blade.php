@@ -37,11 +37,11 @@
                 <div
                     class="flex-1 flex flex-col">
 
-                    <main class="flex-1 px-6 pb-3  mt-54">
+                    <main class="flex-1  pb-3  mt-54">
                         <div class="flex">
 
                         </div>
-                        <div class="py-4">
+
                             <div class=" mx-auto">
 
                                 @yield('content')
@@ -56,11 +56,11 @@
                                   </svg>
                                 </button>
                             </div>
-                        </div>
+
 
                     </main>
                     @include('layouts.footer')
-                    <div class="items-center h-[38px] md:text-[14px] text-[12px] bg-gris-90 text-gris-10 flex w-full border-t-[1px] border-t-gris-70">
+                    <div class="items-center hidden h-[38px] md:text-[14px] text-[12px] bg-gris-90 text-gris-10 md:flex w-full border-t-[1px] border-t-gris-70">
                         <div class="mx-auto flex">
 
                         <p class="mr-auto">© 2023 Realizado por <a href="https://estudio.nubesita.com/" target="__blank" class="hover:text-corp-50 font-bold">Nubesita Estudio</a></p>
@@ -94,148 +94,7 @@
 
     @yield('scripts')
     @stack('scripts')
-    <style>
 
-        .mll-64 {
-            margin-left: 16rem !important;
-        }
-
-        .mll-20 {
-            margin-left: 4rem !important;
-        }
-
-        .wll-64 {
-            width: 16rem !important;
-        }
-
-        .wll-20 {
-            width: 4rem !important;
-        }
-
-        .rotate-0 {
-            --tw-rotate: 0deg !important;
-            transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
-        }
-
-        .filterit {
-            filter: invert(12%) sepia(93%) saturate(3489%) hue-rotate(344deg) brightness(86%) contrast(103%);
-        }
-        .filterit:hover{
-            filter: invert(11%) sepia(66%) saturate(3775%) hue-rotate(341deg) brightness(87%) contrast(105%);
-        }
-        .w-inherit {
-            width: inherit;
-        }
-
-        body::-webkit-scrollbar,
-        .simplebar-scrollable-y::-webkit-scrollbar {
-            width: 3px;
-            background: #202020;
-        }
-
-
-        body::-webkit-scrollbar-thumb,
-        .simplebar-scrollable-y::-webkit-scrollbar-thumb {
-            background: #393939;
-            border-radius: 5px;
-        }
-
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: #26334D #192132;
-        }
-        input:checked + label > span {
-	border: 8px solid #990C1A;
-	animation: bounce 250ms;
-}
-
-input:checked + label > span::before {
-	content: '';
-	position: absolute;
-	top: 9px;
-	left: 3px;
-	border-right: 2px solid transparent;
-	border-bottom: 2px solid transparent;
-	transform: rotate(45deg);
-	transform-origin: 0% 100%;
-	animation: checked-box 125ms 250ms forwards;
-}
-
-@keyframes checked-box {
-	0% {
-		width: 0;
-		height: 0;
-		border-color: #212121;
-		transform: translate(0,0) rotate(45deg);
-	}
-	33% {
-		width: 4px;
-		height: 0;
-		border-color: #212121;
-		transform: translate(0,0) rotate(45deg);
-	}
-	100% {
-		width: 5px;
-		height: 10px;
-		border-color: #212121;
-		transform: translate(0,-8px) rotate(45deg);
-	}
-}
-
-@keyframes bounce {
-	0% {
-		transform: scale(1);
-	}
-	33% {
-		transform: scale(.7);
-	}
-	100% {
-		transform: scale(1);
-	}
-}
-.pan {
-    width: 16px;
-	height: 16px;
-	display: flex;
-	justify-content: center;
-	border: 1px solid #6C6C6C;
-	margin-right: 15px;
-	border-radius: 3px;
-	transition: all .3s;
-}
-@keyframes checked-box {
-	0% {
-		width: 0;
-		height: 0;
-		border-color: #B5B5B5;
-		transform: translate(0,0) rotate(45deg);
-	}
-	33% {
-		width: 4px;
-		height: 0;
-		border-color: #B5B5B5;
-		transform: translate(0,0) rotate(45deg);
-	}
-	100% {
-		width: 5px;
-		height: 9px;
-		border-color: #B5B5B5;
-		transform: translate(0,-8px) rotate(45deg);
-	}
-}
-
-@keyframes bounce {
-	0% {
-		transform: scale(1);
-	}
-	33% {
-		transform: scale(.7);
-	}
-	100% {
-		transform: scale(1);
-	}
-}
-    </style>
     @stack('modals')
 
     @stack('scripts')

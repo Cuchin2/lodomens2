@@ -1,9 +1,9 @@
 <header class="absolute w-full" x-data="{ open:false}">
-    <div class="flex items-center justify-between flex-wrap bg-black  w-full lg:px-[50px] h-[44px] md:h-[84px]">
+    <div class="flex items-center justify-between flex-wrap bg-black w-full  h-[44px] md:h-[84px]">
         <button @click="open = !open" @click.away="open = false" class="md:hidden p-2 mr-4 ml-2 my-2 ">
-            <x-icons.hamburger class="h-[18.375px] w-[14px]" fill="#A4A4A4" grosor="2" />
+            <x-icons.hamburger class="h-[22.231px] w-[16.94px]" fill="#A4A4A4" grosor="2" />
         </button>
-        <div class="flex-shrink-0 lg:ml-6">
+        <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 md:relative md:flex md:top-1/4 md:left-[70px]">
             <a href="../../">
                 <x-lodomens.icons.logo_secundario class="md:h-[40px] h-[27px]" />
             </a>
@@ -11,7 +11,7 @@
 
 
         {{-- Menu normal --}}
-        <div class=" w-full md:w-auto mx-auto hidden md:block">
+        <div class=" w-full md:w-auto mx-auto hidden md:block md:absolute md:left-1/2 md:top-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2">
             <ul class="md:flex">
 
 
@@ -29,11 +29,11 @@
 
         <div class="flex space-x-[15px] mr-2 pr-2" x-data="{show:true}">
             <a x-show="show" @click="show = !show; $nextTick(() => $refs.inputsearh.focus())"
-                class="dark:hover:text-corp-50 md:flex items-center relative hidden">
+                class="dark:hover:text-corp-50 md:flex items-center relative hidden cursor-pointer">
                 <x-icons.search class="h-[20px] w-[20px]" fill="white" />
             </a>
 
-            <div x-show="!show" x-cloak class="relative w-[260px] ml-auto"
+            <div x-show="!show" x-cloak class="relative w-[200px] ml-auto"
                 x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 scale-90"
                 x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100"
                 x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90">
@@ -88,7 +88,33 @@
                     <x-icons.user class="h-[20px] w-[20px]" fill="white" />
                 </a>
                 @endif
+                {{--  flag  --}}
+                <div class="relative" x-data="{ isOpen: false, src: '{{ asset('image/flags/Bandera-PE.png') }}' }">
+                    <button
+                            @click="isOpen = !isOpen"
+                            @keydown.escape="isOpen = false"
+                            class="flex items-center bg-gris-90 p-1 rounded w-[57px]"
+                    >
+                        <img :src="src" src="{{ asset('image/flags/Bandera-PE.png') }}" alt="Peru" class="w-[32px] h-[20.61px] ">
+                        <svg fill="#cacaca" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M15.3 9.3a1 1 0 0 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4l3.3 3.29 3.3-3.3z" class="heroicon-ui"></path></svg>
+                    </button>
+                    <ul x-show="isOpen" x-cloak x-collapse
+                        @click.away="isOpen = false"
+                        class="absolute font-normal bg-gris-90 shadow overflow-hidden rounded w-fit right-0 z-20"
+                    >
+                    <li @click="src = '{{ asset('image/flags/Bandera-PE.png') }}',isOpen = false">
+                        <img src="{{ asset('image/flags/Bandera-PE.png') }}" alt="Mexico" srcset="" class="w-[32px] h-[20.61px] cursor-pointer m-1" >
+                     </li>
+                        <li @click="src = '{{ asset('image/flags/Bandera-MX.png') }}',isOpen = false">
+                           <img src="{{ asset('image/flags/Bandera-MX.png') }}" alt="Mexico" srcset="" class="w-[32px] h-[20.61px] cursor-pointer m-1" >
+                        </li>
+                        <li @click="src = '{{ asset('image/flags/Bandera-US.png') }}',isOpen = false">
+                            <img src="{{ asset('image/flags/Bandera-US.png') }}" alt="Mexico" srcset="" class="w-[32px] h-[20.61px] cursor-pointer m-1" >
+                         </li>
 
+                    </ul>
+                </div>
+                {{--  fin de flags  --}}
         </div>
         {{-- Menu Responsive --}}
         <div class="absolute  top-[44px] w-[140px]

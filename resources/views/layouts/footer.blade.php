@@ -88,12 +88,12 @@
                     <li>
                         <a target="_blank" href="https://codepen.io/jettaz"
                             class="text-base text-gris-10 flex">
-                            <x-icons.pedidos class="h-[20px] mr-4"/> <p>Envios Nacionales e Internacionales</p>
+                            <x-icons.pedidos class="h-[20px] mr-4"/> <p class="text-left">Envios Nacionales e Internacionales</p>
                         </a>
                     </li>
                 </ul>
             </div>
-            <div class="col-12  py-[9.4px]  mx-auto">
+            <div class="col-12  py-[13.4px]  mx-auto">
                 <div class="flex space-x-[37px]">
                     <x-icons.socialmedia.instagram class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/>
                     <x-icons.socialmedia.tiktok class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/>

@@ -48,7 +48,7 @@
                                 <button id="topButton"
                                         x-ref="backTotop"
                                         @click="window.scrollTo({top: 0, behavior: 'smooth'})"
-                                        class="scrollTop fixed bottom-10 right-10 bg-corp-50 p-2 hidden"
+                                        class="scrollTop fixed bottom-[6px] right-[6px] bg-corp-50 p-2 hidden"
                                 >
 
                                 <svg  xmlns="http://www.w3.org/2000/svg" class="h-[15px] w-[15px] rotate-180" fill="none" viewBox="0 0 24 24" stroke="white">

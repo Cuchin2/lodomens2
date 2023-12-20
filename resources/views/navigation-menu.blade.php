@@ -102,7 +102,7 @@
                               </span>
                         </a>
 
-                    <a  {{-- href="{{route('web.welcome')}}"  --}}class="dark:hover:text-corp-50" target="_blank">
+                    <a  href="/"class="dark:hover:text-corp-50" target="_blank">
                     <x-icons.planet class="h-5 mr-[15px]"></x-icons.planet> </a>
 
                      </div>

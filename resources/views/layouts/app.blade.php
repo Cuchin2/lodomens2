@@ -9,7 +9,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="icon" href="{{ asset('image/ecowaste/favicon_ecowaste.ico') }}">
+    <link rel="icon" href="{{ asset('image/lodomens/Favicon_LodoMens2.ico') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <!-- Styles -->
@@ -43,10 +43,10 @@
                     <a href="#"
                         class="h-[54px] flex fixed z-10 w-inherit items-center dark:bg-gris-90 overflow-hidden dark:border-gris-70 border-r border-b">
                         {{-- <x-icons.logosSvg.Logo_imag_Def width="38px"></x-icons.logosSvg.Logo_imag_Def> --}}
-                        <img src="{{ asset('image/ecowaste/logos/Logo_imag_SVG.svg') }}" class="h-8 ml-[9px]">
+                        <img src="{{ asset('image/lodomens/Logo_isotipo2.svg') }}" class="h-[23.48px] w-[33px] ml-[9px]">
                         <span class="font-medium duration-300 ease-in-out ml-[13.74px] mr-[13px]"
                             :class="isSidebarExpanded ? 'block' : 'hidden'">
-                            <x-icons.logosSvg.Logo_horizontal_Def width="131px"></x-icons.logosSvg.Logo_horizontal_Def>
+                            <x-icons.logosSvg.Logo_horizontal_Def width="131px" />
                         </span>
                     </a>
 

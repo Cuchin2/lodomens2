@@ -37,10 +37,10 @@
             </a>
             <div :class="{'md:w-[265px] w-[200px]' : !show, 'w-0': show}" class="absolute @guest right-[80px] md:right-[187px]
                 @else right-[93px] md:right-[200px]
-            @endguest  top-[7px] md:top-[27px] duration-500 ease-out">
+            @endguest  top-[7px] md:top-[27px] duration-500 ease-out ">
 
-                <input @blur="show = true" x-transition:leave-end="opacity-0 scale-90"  x-ref="inputsearh" type="text" :class="{'p-2 border-gris-50 pr-[30px]' : !show, 'p-0 border-none': show}"
-                    class="text-gris-10 bg-black  h-[30px]  text-[12px]  rounded-[3px] focus:ring-gris-50 focus:border-gris-50 block w-full"
+                <input @blur="show = true" x-transition:leave-end="opacity-0 scale-90"  x-ref="inputsearh" type="text" :class="{'p-2  pr-[30px]' : !show, 'p-0 border-none': show}"
+                    class="text-gris-10 bg-black h-[30px]  text-[12px]  rounded-[3px] focus:ring-gris-50 focus:border-gris-50 block w-full"
                     placeholder="Buscar" required="">
             </div>
              </div>

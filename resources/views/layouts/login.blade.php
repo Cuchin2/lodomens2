@@ -34,14 +34,14 @@ $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
                         :class="fly ? 'text-[10px] top-[8px] px-[3px] bg-gris-90 text-gris-10' : 'text-[14px]'">Correo
                         electrónico</label>
                     <input type="email" name="email" @click=" fly=true" @input="inputValue = $event.target.value"
-                        @click.away="inputValue === null || inputValue === '' ? fly=false : null "
+                        @click.away="inputValue === null || inputValue === '' ? fly=false : null " x-on:change="fly=true"
                         class="bg-gris-90 rounded-[3px] w-[203px] border-gris-50 focus:ring-gris-50 focus:border-gris-50 text-gris-10" autocomplete="off" placeholder=" ">
                 </div>
                 <div class="mb-2 text-center text-gris-50" x-data="{ fly: false, inputValue: '' }">
                     {{-- <label for="exampleDropdownFormPassword1" class="form-label label-eco mb0">Contraseña</label> --}}
-                    <input type="password" name="password" class="text-gris-10 bg-gris-90 rounded-[3px] w-[203px] border-gris-50 focus:ring-gris-50 focus:border-gris-50"
+                    <input type="password" name="password" class=" text-gris-10 bg-gris-90 rounded-[3px] w-[203px] border-gris-50 focus:ring-gris-50 focus:border-gris-50"
                         autocomplete="off" placeholder=" " @click=" fly=true" @input="inputValue = $event.target.value"
-                        @click.away="inputValue === null || inputValue === '' ? fly=false : null ">
+                        @click.away="inputValue === null || inputValue === '' ? fly=false : null " x-on:change="fly=true">
                     <label class="absolute left-[25px] pointer-events-none transition-all"
                         :class="fly ? 'text-[10px] top-[61px] px-[3px] bg-gris-90 text-gris-10' : 'text-[14px] top-[78px]'">Contraseña</label>
                     <a class="text-[14px] text-corp-50" href="{{ route('password.request') }}">¿Olvidaste la contraseña?</a>

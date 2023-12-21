@@ -16,8 +16,8 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
-
+    'name_web' => 'Lodomens',
+    'name_dashboard' => 'Dashboard - Lodomens',
     /*
     |--------------------------------------------------------------------------
     | Application Environment

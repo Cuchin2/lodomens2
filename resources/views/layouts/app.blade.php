@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name_dashboard', 'Lodomens') }}</title>
 
     <!-- Fonts -->
     <link rel="icon" href="{{ asset('image/lodomens/Favicon_LodoMens2.ico') }}">
@@ -185,7 +185,7 @@
                     <a href="#"
                         class="h-[36px] flex fixed z-10 bottom-0 w-inherit hover:bg-gris-70 border-t dark:bg-gris-90 items-center  dark:border-gris-70items-center overflow-hidden dark:border-gris-70 border-r border-b">
 
-                        <img src="{{ asset('image/SVG_ecowaste/iconos/setting.svg') }}"
+                        <img src="{{ asset('image/SVG/iconos/setting.svg') }}"
                             class="h-[20px] w-[20px] ml-[12px] ">
                         <span class="font-normal text-[15px] text-gris-20 duration-300 ease-in-out ml-[9px] mr-[13px]"
                             :class="isSidebarExpanded ? 'block' : 'hidden'">
@@ -212,10 +212,10 @@
                         </div>
 
                     </main>
-                    <div class="text-[12px] dark:text-gris-20 flex mx-[24px]">
+                    <div class="text-[12px] dark:text-gris-20 flex mx-[24px] my-1">
                         <p class="mr-auto">Realizado por <a href="https://estudio.nubesita.com/" target="__blank" class="text-corp-50">Nubesita Estudio</a></p>
                         <p>Copyright © 2023. Todos los Derechos Reservados.</p>
-                        <p class="ml-auto">Versión: <p class="text-corp-50 ml-1">0.1.0</p></p>
+                        <p class="ml-auto">Versión: <p class="text-corp-50 ml-1 ">0.1.0</p></p>
                     </div>
                 </div>
             </div>

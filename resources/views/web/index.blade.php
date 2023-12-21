@@ -7,10 +7,11 @@
 </div>
 <div class="grid grid-cols-2 col-span-1">
     <div class="col-6">
-        <img src="{{ asset('image/lodomens/Banner_1.png') }}" class="w-full md:border-[10px] border-black border-[3px]" alt="" srcset="">
+       <a href="https://www.youtube.com/watch?v=SI841UoThPM" target="__blank"> <img src="{{ asset('image/lodomens/Banner_1.png') }}" class="w-full md:border-[10px] border-black border-[3px]" alt="" srcset=""> </a>
     </div>
     <div class="col-6">
-        <img src="{{ asset('image/lodomens/Banner_2.png') }}" class="w-full md:border-[10px] border-black border-[3px]" alt="" srcset="">
+        <a href="#" target="__blank">
+        <img src="{{ asset('image/lodomens/Banner_2.png') }}" class="w-full md:border-[10px] border-black border-[3px]" alt="" srcset=""></a>
     </div>
 </div>
 <div class="grid col-span-1 md:grid-cols-2 bg-gris-10 md:py-[59px] lg:py-[90px] lg:px-[123px]">

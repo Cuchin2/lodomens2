@@ -4,7 +4,7 @@
             <x-icons.hamburger class="h-[22.231px] w-[16.94px]" fill="#A4A4A4" grosor="2" />
         </button>
         <div
-            class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 md:relative md:flex md:top-1/4 md:left-[70px]">
+            class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 md:relative md:flex md:top-1/4 md:left-[104px]">
             <a href="../../">
                 <x-lodomens.icons.logo_secundario class="md:h-[40px] h-[27px]" />
             </a>
@@ -14,7 +14,7 @@
         {{-- Menu normal --}}
         <div
             class=" w-full md:w-auto mx-auto hidden md:block md:absolute md:left-1/2 md:top-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2">
-            <ul class="md:flex text-gris-10 ">
+            <ul class="md:flex text-gris-10 md:text-[12px] lg:text-[14px]">
 
 
                 <li class="mr-6 p-1 ">
@@ -30,33 +30,28 @@
         </div>
 
         <div class="flex space-x-[15px] md:mr-2 mr-0 pr-2 items-center" x-data="{ show: true }">
-            <a x-show="show" @click="show = !show; $nextTick(() => $refs.inputsearh.focus())"
-                class="dark:hover:text-corp-50 md:flex items-center relative hidden cursor-pointer">
+            <div class="h-[20px] w-[20px]">
+            <a @click="show = !show; $nextTick(() => $refs.inputsearh.focus())"
+                class="dark:hover:text-corp-50 absolute cursor-pointer z-50">
                 <x-icons.search class="h-[20px] w-[20px] fill-gris-10"  />
             </a>
+            <div :class="{'md:w-[265px] w-[200px]' : !show, 'w-0': show}" class="absolute @guest right-[80px] md:right-[187px]
+                @else right-[93px] md:right-[200px]
+            @endguest  top-[7px] md:top-[27px] duration-500 ease-out">
 
-            <div x-show="!show" x-cloak class="relative w-[200px] ml-auto"
-                x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 scale-90"
-                x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100"
-                x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90">
-                <div class="absolute inset-y-1 left-0 flex items-center pl-3 pointer-events-none">
-                    <x-icons.search class="w-[14px] h-[14px] text-gris-300 dark:text-gris-40" />
-
-                </div>
-                <input @blur="show = true" x-transition:leave-end="opacity-0 scale-90" x-ref="inputsearh" type="text"
-                    class="dark:bg-black  border-none h-[30px] dark:text-gris-40 text-[12px] rounded-[20px] focus:ring-gris-50 focus:border-gris-50 block w-full pl-10 p-2"
+                <input @blur="show = true" x-transition:leave-end="opacity-0 scale-90"  x-ref="inputsearh" type="text" :class="{'p-2 border-gris-50 pr-[30px]' : !show, 'p-0 border-none': show}"
+                    class="text-gris-10 bg-black  h-[30px]  text-[12px]  rounded-[3px] focus:ring-gris-50 focus:border-gris-50 block w-full"
                     placeholder="Buscar" required="">
             </div>
-            <a class="dark:hover:text-corp-50 md:flex hidden items-center relative">
-                <x-icons.heart class="h-[20px] w-[20px] fill-gris-10"  />
-                <span class="absolute top-[-0.5px] right-[-6px] flex h-3 w-3 items-center justify-center">
-                    <span
-                        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-rojo-30 opacity-80"></span>
-                    <span class="inline-flex h-2 w-2 rounded-full bg-rojo-30"></span>
-                </span>
+             </div>
 
-                <a class="dark:hover:text-corp-50 md:flex hidden items-center relative">
-                    <x-icons.cart class="h-[20px] w-[20px] fill-gris-10"  />
+            <a class=" md:flex hidden items-center relative">
+                <x-icons.heart class="h-[20px] w-[20px] fill-gris-10 hover:fill-corp-50"  />
+                <x-elements.notification-icon number="1"/>
+
+                <a class="md:flex hidden items-center relative">
+                    <x-icons.cart class="h-[20px] w-[20px] fill-gris-10 hover:fill-corp-50"  />
+                    <x-elements.notification-icon number="7"/>
                 </a>
 
 

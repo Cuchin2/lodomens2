@@ -105,13 +105,13 @@
                         <div class="my-3">
                             <x-label for="password_confirmation" value="{{ __('Nueva contraseña') }}" />
                             <div class="mt-1 items-center password-input" x-data="{ show: true }">
-                                <input class="w-full border-gray-300 h-[30px] dark:border-gray-700 dark:bg-gris-90 dark:text-gris-30 focus:border-cop-50 dark:focus:border-corp-70 focus:ring-corp-50 dark:focus:ring-corp-70 rounded-md shadow-sm text-[12px]
+                                <input class="w-full border-gray-300 h-[30px] dark:border-gray-700 dark:bg-gris-90 dark:text-gris-30 focus:border-cop-50 dark:focus:border-corp-70 focus:ring-corp-50 dark:focus:ring-corp-70 rounded-md shadow-sm text-[12px] pr-[30px]
 
                                 " :type="show ? 'password' : 'text'" placeholder="Contraseña" name="password" >
 
                                 <div class="password-icon dark:text-gray-400  px-1  text-sm leading-5">
-                                    <x-icons.eye_open class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': show, 'block': !show }"/>
-                                    <x-icons.eye_close class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': !show, 'block': show }"/>
+                                    <x-icons.eye_open x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': show, 'block': !show }"/>
+                                    <x-icons.eye_close x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': !show, 'block': show }"/>
                                 </div>
 
                             </div>
@@ -125,13 +125,13 @@
                         <div class="my-3">
                             <x-label for="password_confirmation" value="{{ __('Confirmar nueva Contraseña') }}" />
                             <div class="mt-1 items-center password-input" x-data="{ show: true }">
-                                <input class="w-full border-gray-300 h-[30px] dark:border-gray-700 dark:bg-gris-90 dark:text-gris-30 focus:border-cop-50 dark:focus:border-corp-70 focus:ring-corp-50 dark:focus:ring-corp-70 rounded-md shadow-sm text-[12px]
+                                <input class="w-full border-gray-300 h-[30px] dark:border-gray-700 dark:bg-gris-90 dark:text-gris-30 focus:border-cop-50 dark:focus:border-corp-70 focus:ring-corp-50 dark:focus:ring-corp-70 rounded-md shadow-sm text-[12px] pr-[30px]
 
                                 " :type="show ? 'password' : 'text'" placeholder="Repetir contraseña"  name="password_confirmation">
 
                                 <div class="password-icon dark:text-gray-400  px-1  text-sm leading-5">
-                                    <x-icons.eye_open class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': show, 'block': !show }"/>
-                                    <x-icons.eye_close class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': !show, 'block': show }"/>
+                                    <x-icons.eye_open x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': show, 'block': !show }"/>
+                                    <x-icons.eye_close x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': !show, 'block': show }"/>
 
                                 </div>
 

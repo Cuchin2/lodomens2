@@ -13,7 +13,7 @@ class UserTable extends Component
     public $showModal = false;
     public $itemIdToDelete;
     public $itemName;
-    public $perPage = 1;
+    public $perPage = 5;
 
     #[Url(history:true)]
     public $search = '';

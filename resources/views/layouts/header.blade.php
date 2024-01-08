@@ -18,10 +18,10 @@
 
 
                 <li class="mr-6 p-1 ">
-                    <a class="hover:text-corp-50" href="#">INICIO</a>
+                    <a class="hover:text-corp-50" href="{{route('root')}}">INICIO</a>
                 </li>
                 <li class="mr-6 p-1">
-                    <a class="hover:text-corp-50" href="#">TIENDA</a>
+                    <a class="hover:text-corp-50" href="{{route('shop.index')}}">TIENDA</a>
                 </li>
                 <li class="mr-6 p-1">
                     <a class="hover:text-corp-50" href="#">CONTACTO</a>
@@ -46,11 +46,11 @@
              </div>
 
             <a class=" md:flex hidden items-center relative">
-                <x-icons.heart class="h-[20px] w-[20px] fill-gris-10 hover:fill-corp-50"  />
+                <x-icons.heart class="h-[20px] w-[20px] fill-gris-10 hover:fill-corp-50 cursor-pointer"  />
                 <x-elements.notification-icon number="1"/>
 
                 <a class="md:flex hidden items-center relative">
-                    <x-icons.cart class="h-[20px] w-[20px] fill-gris-10 hover:fill-corp-50"  />
+                    <x-icons.cart class="h-[20px] w-[20px] fill-gris-10 hover:fill-corp-50 cursor-pointer"  />
                     <x-elements.notification-icon number="7"/>
                 </a>
 
@@ -62,7 +62,7 @@
                         class="flex items-center bg-gris-90 p-1 rounded-[3px] md:w-[57px]">
                         <img :src="src" src="{{ asset('image/flags/Bandera-PE.png') }}":alt="alt" alt="Peru"
                             class="md:w-[32px] w-[20px] h-[12px] md:h-[20.61px]">
-                        <x-icons.chevron_down x-show="isOpen === false" fill="#A4A4A4" grosor="1px" class="w-[10px] h-[7px] ml-[5.5px] hidden md:block" />
+                        <x-icons.chevron-down x-show="isOpen === false" fill="#A4A4A4" grosor="1px" class="w-[10px] h-[7px] ml-[5.5px] hidden md:block" />
                         <p x-show="isOpen === true" class="text-gris-10 text-[10px] ml-auto hidden md:block " x-text="lang"  />
                     </button>
                     <ul x-show="isOpen" x-cloak x-collapse @click.away="isOpen = false" :class="isOpen ? 'rounded-t-none' : 'rounded-t-none'"
@@ -91,7 +91,7 @@
                 {{--  fin de flags  --}}
         </div>
         {{-- Menu Responsive --}}
-        <div class="absolute  top-[44px] "
+        <div class="absolute top-[44px] z-10"
            ">
             <ul class="bg-gris-90 md:hidden transition-all duration-300 ease-in-out w-0 h-screen"
                 :class="{ 'w-0': open === false, 'w-full': open === true }">
@@ -99,10 +99,10 @@
 
                 <li class="mr-6 p-2">
                     <a class="text-gris-10 hover:text-red-600 text-[12px]" x-show="open" x-cloak
-                        x-transition.duration.300ms href="#">INICIO</a>
+                        x-transition.duration.300ms href="{{route('root')}}">INICIO</a>
                 </li>
                 <li class="mr-6 p-2">
-                    <a class="text-gris-10 hover:text-red-600 text-[12px]" x-show="open" x-cloak href="#"
+                    <a class="text-gris-10 hover:text-red-600 text-[12px]" x-show="open" x-cloak href="{{route('shop.index')}}"
                         x-transition.duration.300ms>TIENDA</a>
                 </li>
                 <li class="mr-6 p-2">

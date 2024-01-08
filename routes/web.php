@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ShopController;
 /*
 
 |--------------------------------------------------------------------------
@@ -18,7 +19,7 @@ use App\Http\Controllers\RoleController;
 
 Route::get('/', function () {
     return view('web.index');
-})->name('home');
+})->name('root');
 
 Route::middleware([
     'auth:sanctum',
@@ -29,7 +30,7 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
-
+Route::get('tienda',[ShopController::class,'index'])->name('shop.index');
 Route::middleware(['auth', config('jetstream.auth_session'),'verified',
 ])->group(function () {
     Route::get('home',[HomeController::class,'index'])->name('home');

@@ -44,7 +44,10 @@
 
                         <div class=" mx-auto">
                              {{--  contenido principal  --}}
+                             <div class=" md:mt-[84px] mt-[44px]">
                                 @yield('content')
+                            </div>
+
 
                              {{--  boton scroll-top     --}}
                             <button id="topButton"

@@ -22,7 +22,7 @@ $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
 
     </div>
     <ul x-show="isOpen" x-on:click.away="isOpen = false" x-collapse x-cloak
-        class="absolute @guest w-[235px] @else w-fit  @endguest rounded-[5px] bg-gris-90 top-[40px] right-[10px] md:top-[70px] md:right-[20px]  text-gris-10">
+        class="absolute @guest w-[235px] @else w-fit  @endguest rounded-[5px] bg-gris-90 top-[40px] right-[10px] md:top-[70px] md:right-[20px]  text-gris-10 z-20">
 
         @guest
             <div @if ($firefox == true) style="left: 200px" @endif

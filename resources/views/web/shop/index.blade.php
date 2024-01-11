@@ -11,8 +11,9 @@
         <x-breadcrumb.lodomens.breadcrumb2 name='Tienda' />
         </x-breadcrumb.lodomens.breadcrumb2>
 
-        <div class="container text-gris-10 mx-auto px-[20px] relative">
-            <div class="flex py-3 mx-auto max-w-[1100px]">
+        <div class="container text-gris-10 mx-auto px-[20px] relative z-60 md:top-[69px] top-[28px]">
+            <div class="fixed w-full z-50 bg-black">
+            <div class="flex py-3 mx-auto max-w-[450px] lg:max-w-[1140px] md:max-w-[730px] px-2">
                 <div class="w-[30px]  bg-gris-90 rounded p-1 cursor-pointer" @click="open=true"
                     >
                     <x-icons.chevron-left height="20px" width="20px" grosor="2" class="p-1" />
@@ -36,39 +37,41 @@
                         <option>Option 3</option>
                     </select>
                 </div>
-                <div class="flex">
-                    <div class="w-fit bg-gris-90 rounded p-1 ml-auto cursor-pointer md:hidden block " @click="open2 = !open2">
+                <div class="flex my-auto">
+                    <div class="w-fit bg-gris-90 rounded p-1 ml-auto cursor-pointer md:hidden block" @click="open2 = !open2">
                         <x-icons.chevron-down height="20px" width="20px" grosor="2" class="p-1" />
                     </div>
-                    <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:block hidden">
-                        <x-icons.chevron-down height="20px" width="20px" grosor="2" class="p-1" />
+                    <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]">
+                        <x-icons.format_list_bulleted class=" mx-auto my-auto"   />
                     </div>
-                    <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:block hidden">
-                        <x-icons.chevron-down height="20px" width="20px" grosor="2" class="p-1" />
+                    <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]">
+                        <x-icons.grid_on  class=" mx-auto my-auto"/>
                     </div>
-                    <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:block hidden">
-                        <x-icons.chevron-down height="20px" width="20px" grosor="2" class="p-1" />
+                    <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]">
+                        <x-icons.window  class=" mx-auto my-auto"/>
                     </div>
-                    <div class="bg-gris-70 rounded p-1 ml-auto cursor-pointer md:block hidden text-white">
-                        <x-icons.chevron-down height="20px" width="20px" grosor="2" class="p-1" />
+                    <div class="bg-gris-70 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px] text-white">
+                        <x-icons.auto_awesome_mosaic  class=" mx-auto my-auto"/>
                     </div>
                 </div>
             </div>
-            <div class="flex space-x-4  {{--  items-center  --}} justify-center">
+            </div>
+            <div class="flex justify-center pt-[46px]">
                 {{--  <div class="lg:block hidden lg:bg-red-700 w-40 h-auto m-2"> </div>  --}}
                 {{-- menu 1 --}}
-                <div class="absolute top-[44px] lg:top-[7px] z-10 left-0 lg:relative lg:w-[170px]" x-data="{menu1 : 0}"  x-show="open"
-                @click.away="if (window.innerWidth < 1024) {
+                <div class="absolute top-[62px] md:top-[7px] z-10 left-0  md:relative lg:w-[210px] w-1/2 md:w-1/4 h-full md:h-auto md:ml-[7px] lg:ml-[9px] " x-data="{menu1 : 0}"  x-show="open"
+                {{--  @click.away="if (window.innerWidth < 1024) {
                     open = false;
-                }"
-                x-transition:enter="transition ease-out duration-300 -ml-64"
+                }"  --}}
+                @click.away="open=false"
+                x-transition:enter="transition ease-out duration-300 md:duration-0 -ml-64  "
                 x-transition:enter-start=""
-                x-transition:enter-end="transform translate-x-64"
-                x-transition:leave="transition ease-out duration-300"
+                x-transition:enter-end="transform translate-x-64 md:translate-x-[0px] "
+                x-transition:leave="transition ease-out duration-300 md:duration-0 "
                 x-transition:leave-start=""
-                x-transition:leave-end="transform -translate-x-64"
+                x-transition:leave-end="transform -translate-x-64 md:-translate-x-[0px]"
                 >
-                <ul class=" bg-gris-90 h-fit">
+                <ul class=" bg-gris-90 h-full">
                     <li class="mr-6 p-2 ">
                         <a class="text-gris-10 hover:text-red-600 text-[12px]">FILTROS</a>
                     </li>
@@ -102,51 +105,54 @@
                     </ul>
                 </div>
                 {{-- FIN menu 1 --}}
-                <div class="grid grid-cols-2 md:grid-cols-4">
+                <div class="grid grid-cols-2 " :class="{'lg:grid-cols-5 md:grid-cols-4' : open === false, 'lg:grid-cols-4 md:grid-cols-3' : open === true}">
+                     @for ($i = 0; $i < 50; $i++)
                     <div class="p-2 mx-auto relative">
-                        <img src="{{ asset('image/lodomens/Producto_1.png') }}" class=" border-[1px] border-corp-50" alt="">
+                        <img src="{{ asset('image/lodomens/Producto_1.png') }}" class=" border-[2px] border-corp-50" alt="">
                         <div class="absolute right-0 top-0 p-[14px]">
                             <x-icons.heart  class="h-[20px] w-[20px] fill-white hover:fill-corp-50 cursor-pointer mb-2"/>
                             <x-icons.cart class="h-[20px] w-[20px] fill-white hover:fill-corp-50 cursor-pointer"/>
                         </div>
                         <div class="m-2 leading-[1.2]">
-                            <p>Anillo Serpiente</p>
-                            <p>S/. 50</p>
+                            <p class="text-[14px] md:text-[18px] ">Anillo Serpiente</p>
+                            <p class="text-[18px] md:text-[22px]">S/. 50</p>
                         </div>
                     </div>
                     <div class="p-2 mx-auto relative">
-                        <img src="{{ asset('image/lodomens/Producto_2.png') }}" class=" border-[1px] border-corp-50" alt="">
+                        <img src="{{ asset('image/lodomens/Producto_2.png') }}" class=" border-[2px] border-corp-50" alt="">
                         <div class="absolute right-0 top-0 p-[14px]">
                             <x-icons.heart  class="h-[20px] w-[20px] fill-white hover:fill-corp-50 cursor-pointer mb-2"/>
                             <x-icons.cart class="h-[20px] w-[20px] fill-white hover:fill-corp-50 cursor-pointer"/>
                         </div>
                         <div class="m-1 leading-[1.2]">
-                            <p>Anillo Serpiente</p>
-                            <p>S/. 50</p>
+                            <p class="text-[14px] md:text-[18px] ">Anillo Serpiente</p>
+                            <p class="text-[18px] md:text-[22px]">S/. 50</p>
                         </div>
                     </div>
                     <div class="p-2 mx-auto relative">
-                        <img src="{{ asset('image/lodomens/Producto_3.png') }}" class=" border-[1px] border-corp-50" alt="">
+                        <img src="{{ asset('image/lodomens/Producto_3.png') }}" class=" border-[2px] border-corp-50" alt="">
                         <div class="absolute right-0 top-0 p-[14px]">
                             <x-icons.heart  class="h-[20px] w-[20px] fill-white hover:fill-corp-50 cursor-pointer mb-2"/>
                             <x-icons.cart class="h-[20px] w-[20px] fill-white hover:fill-corp-50 cursor-pointer"/>
                         </div>
                         <div class="m-1 leading-[1.2]">
-                            <p>Anillo Serpiente</p>
-                            <p>S/. 50</p>
+                            <p class="text-[14px] md:text-[18px] ">Anillo Serpiente</p>
+                            <p class="text-[18px] md:text-[22px]">S/. 50</p>
                         </div>
                     </div>
                     <div class="p-2 mx-auto relative">
-                        <img src="{{ asset('image/lodomens/Producto_4.png') }}" class=" border-[1px] border-corp-50" alt="">
+                        <img src="{{ asset('image/lodomens/Producto_4.png') }}" class=" border-[2px] border-corp-50" alt="">
                         <div class="absolute right-0 top-0 p-[14px]">
                             <x-icons.heart  class="h-[20px] w-[20px] fill-white hover:fill-corp-50 cursor-pointer mb-2"/>
                             <x-icons.cart class="h-[20px] w-[20px] fill-white hover:fill-corp-50 cursor-pointer"/>
                         </div>
                         <div class="m-1 leading-[1.2]">
-                            <p>Anillo Serpiente</p>
-                            <p>S/. 50</p>
+                            <p class="text-[14px] md:text-[18px] ">Anillo Serpiente</p>
+                            <p class="text-[18px] md:text-[22px]">S/. 50</p>
                         </div>
                     </div>
+                    @endfor
+
                 </div>
             </div>
                 {{-- menu 2 --}}

@@ -53,7 +53,7 @@
                             <button id="topButton"
                                         x-ref="backTotop"
                                         @click="window.scrollTo({top: 0, behavior: 'smooth'})"
-                                        class="scrollTop fixed bottom-[6px] right-[6px] md:bottom-[9px] md:right-[9px] lg:bottom-[18px] lg:right-[20px] bg-corp-50 p-2 hidden"
+                                        class="z-30 scrollTop fixed bottom-[6px] right-[6px] md:bottom-[9px] md:right-[9px] lg:bottom-[18px] lg:right-[20px] bg-corp-50 p-2 hidden"
                                 >
 
                                 <svg  xmlns="http://www.w3.org/2000/svg" class="h-[15px] w-[15px] rotate-180" fill="none" viewBox="0 0 24 24" stroke="white">
@@ -70,7 +70,7 @@
                     <div class="items-center hidden lg:h-[35px] md:h-[50px] md:text-[14px] text-[12px] bg-gris-90 text-gris-10 md:flex w-full border-t-[1px] border-t-gris-70">
                         <div class="lg:mx-auto md:mr-auto flex md:ml-[140px]">
 
-                        <p class="mr-auto">© 2023 Realizado por <a href="https://www.instagram.com/nubesita.estudio/" target="__blank" class="hover:text-corp-50 font-bold">Nubesita Estudio</a></p>
+                        <p class="mr-1 lg:block md:hidden">© 2023 </p> <p> Realizado por <a href="https://www.instagram.com/nubesita.estudio/" target="__blank" class="hover:text-corp-50 font-bold">Nubesita Estudio</a></p>
                         </div>
                         <div class="md:flex lg:hidden space-x-[57px] md:ml-auto md:mr-[140px]">
                             <a href="https://www.instagram.com/lodo.mens" target="_blank"><x-icons.socialmedia.instagram class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>

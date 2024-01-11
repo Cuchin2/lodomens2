@@ -1,5 +1,5 @@
-<header class="absolute w-full" x-data="{ open: false }">
-    <div class="flex items-center justify-between flex-wrap bg-black w-full  h-[44px] md:h-[84px]">
+<header class="fixed w-full z-50" x-data="{ open: false }">
+    <div class="flex  items-center justify-between flex-wrap bg-black w-full  h-[44px] md:h-[84px]">
         <button @click="open = !open" @click.away="open = false" class="md:hidden mr-4 ml-2 my-2 ">
             <x-icons.hamburger class="h-[22.231px] w-[16.94px]" fill="#A4A4A4" grosor="2" />
         </button>

@@ -11,55 +11,55 @@
         <x-breadcrumb.lodomens.breadcrumb2 name='Tienda' />
         </x-breadcrumb.lodomens.breadcrumb2>
 
-        <div class="container text-gris-10 mx-auto px-[20px] relative z-60 md:top-[69px] top-[28px]">
-            <div class="fixed w-full z-50 bg-black">
-            <div class="flex py-3 mx-auto max-w-[450px] lg:max-w-[1140px] md:max-w-[730px] px-2">
-                <div class="w-[30px]  bg-gris-90 rounded p-1 cursor-pointer" @click="open=true"
-                    >
-                    <x-icons.chevron-left height="20px" width="20px" grosor="2" class="p-1" />
-                </div>
-                <div class="hidden md:block w-fit mx-3 whitespace-nowrap">
-                    <p>107 Resultados</p>
-                </div>
-                <div class="mx-3 w-full">
-                    <div class="relative">
-                        <x-icons.search class="absolute right-1 top-1 h-[20px] w-[20px] fill-gris-10" />
-                        <input type="text"
-                            class="text-gris-60 bg-black h-[30px]  text-[12px] pr-[26px] rounded-[3px] focus:ring-gris-50 focus:border-gris-50 w-full "
-                            placeholder="Buscar" required="" x-cloak>
+        <div class="container text-gris-10 mx-auto px-[20px] relative z-60 md:top-[69px] top-[28px] ">
+            <div class="fixed w-full z-10 bg-black left-1/2 transform -translate-x-1/2 px-2 max-w-[478px] md:max-w-[750px] lg:max-w-[1153px]">
+                <div class="flex py-2 mx-auto  px-2">
+                    <div class="w-[34px] h-[34px] bg-gris-90 rounded p-1 cursor-pointer" @click="open=true"
+                        >
+                        <x-icons.chevron-left height="22px" width="22px" grosor="2" class="p-1" />
                     </div>
-                </div>
-                <div  class="hidden md:block w-full mx-3">
-                    <select name="secondary_color_select" id="secondary_color_select" class="text-gris-60 bg-black h-[30px]  text-[12px]  rounded-[3px] focus:ring-gris-50 focus:border-gris-50 w-full p-0 pl-2">
-                        <option disabled selected>Ordenar por</option>
-                        <option>Option 1</option>
-                        <option>Option 2</option>
-                        <option>Option 3</option>
-                    </select>
-                </div>
-                <div class="flex my-auto">
-                    <div class="w-fit bg-gris-90 rounded p-1 ml-auto cursor-pointer md:hidden block" @click="open2 = !open2">
-                        <x-icons.chevron-down height="20px" width="20px" grosor="2" class="p-1" />
+                    <div class="hidden md:block w-fit mx-3 whitespace-nowrap">
+                        <p>107 Resultados</p>
                     </div>
-                    <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]">
-                        <x-icons.format_list_bulleted class=" mx-auto my-auto"   />
+                    <div class="mx-3 w-full">
+                        <div class="relative">
+                            <x-icons.search class="absolute right-1 top-1 h-[20px] w-[20px] fill-gris-10" />
+                            <input type="text"
+                                class="text-gris-60 bg-black h-[30px]  text-[12px] pr-[26px] rounded-[3px] focus:ring-gris-50 focus:border-gris-50 w-full "
+                                placeholder="Buscar" required="" x-cloak>
+                        </div>
                     </div>
-                    <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]">
-                        <x-icons.grid_on  class=" mx-auto my-auto"/>
+                    <div  class="hidden md:block w-full mx-3">
+                        <select name="secondary_color_select" id="secondary_color_select" class="text-gris-60 bg-black h-[30px]  text-[12px]  rounded-[3px] focus:ring-gris-50 focus:border-gris-50 w-full p-0 pl-2">
+                            <option disabled selected>Ordenar por</option>
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
                     </div>
-                    <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]">
-                        <x-icons.window  class=" mx-auto my-auto"/>
-                    </div>
-                    <div class="bg-gris-70 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px] text-white">
-                        <x-icons.auto_awesome_mosaic  class=" mx-auto my-auto"/>
+                    <div class="flex my-auto">
+                        <div class="w-fit bg-gris-90 rounded p-1 ml-auto cursor-pointer md:hidden block" @click="open2 = !open2">
+                            <x-icons.chevron-down height="20px" width="20px" grosor="2" class="p-1" />
+                        </div>
+                        <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]">
+                            <x-icons.format_list_bulleted class=" mx-auto my-auto"   />
+                        </div>
+                        <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]">
+                            <x-icons.grid_on  class=" mx-auto my-auto"/>
+                        </div>
+                        <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]">
+                            <x-icons.window  class=" mx-auto my-auto"/>
+                        </div>
+                        <div class="bg-gris-70 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px] text-white">
+                            <x-icons.auto_awesome_mosaic  class=" mx-auto my-auto"/>
+                        </div>
                     </div>
                 </div>
             </div>
-            </div>
-            <div class="flex justify-center pt-[46px]">
+            <div class="flex justify-center pt-[46px] pb-[44px] md:pb-[70px]">
                 {{--  <div class="lg:block hidden lg:bg-red-700 w-40 h-auto m-2"> </div>  --}}
                 {{-- menu 1 --}}
-                <div class="absolute top-[62px] md:top-[7px] z-10 left-0  md:relative lg:w-[210px] w-1/2 md:w-1/4 h-full md:h-auto md:ml-[7px] lg:ml-[9px] " x-data="{menu1 : 0}"  x-show="open"
+                <div class="fixed top-[126px] md:top-[7px] z-10 left-0  md:relative lg:w-[210px] w-1/2 md:w-1/4 h-full md:h-auto md:ml-[7px] lg:ml-[9px] " x-data="{menu1 : 0}"  x-show="open"
                 {{--  @click.away="if (window.innerWidth < 1024) {
                     open = false;
                 }"  --}}
@@ -71,7 +71,7 @@
                 x-transition:leave-start=""
                 x-transition:leave-end="transform -translate-x-64 md:-translate-x-[0px]"
                 >
-                <ul class=" bg-gris-90 h-full">
+                <ul class=" bg-gris-90 h-full md:fixed md:w-[139px] lg:w-[173px] xl:w-[inherit] ">
                     <li class="mr-6 p-2 ">
                         <a class="text-gris-10 hover:text-red-600 text-[12px]">FILTROS</a>
                     </li>

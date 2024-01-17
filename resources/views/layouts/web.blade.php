@@ -14,14 +14,15 @@
     <!-- Styles -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    @vite(['resources/css/web/app.css', 'resources/js/app.js'])
     <!-- Scripts -->
-
+    @yield('styles')
+    @stack('styles')
 
 
     @livewireStyles
-    @vite(['resources/css/web/app.css', 'resources/js/app.js'])
-    @yield('styles')
-    @stack('styles')
+
+
 </head>
 
 <body class="font-sans antialiased bg-black" x-data="{show_backToTop: false}"
@@ -42,14 +43,23 @@
 
                         </div>
 
-                        <div class=" mx-auto">
-                             {{--  contenido principal  --}}
-                             <div class=" md:mt-[84px] mt-[44px]">
-                                @yield('content')
+                        <div class=" mx-auto"  x-data="{preloader: true}" x-init="preloader = false">
+                            {{--  contenido principal  --}}
+
+                            <div id="preloader">
+                            <div id="loader" x-show="preloader"
+
+                            ></div>
+                            </div>
+                            <div class=" md:mt-[84px] mt-[44px]">
+                                @yield('breadcrumb')
+                                <div class="container text-gris-10 mx-auto px-[20px] relative z-60 md:top-[69px] top-[28px] ">
+                                    @yield('content')
+                                </div>
                             </div>
 
 
-                             {{--  boton scroll-top     --}}
+                            {{--  boton scroll-top     --}}
                             <button id="topButton"
                                         x-ref="backTotop"
                                         @click="window.scrollTo({top: 0, behavior: 'smooth'})"
@@ -61,6 +71,7 @@
                                   </svg>
                                 </button>
                            {{--  fin boton scroll-top     --}}
+
                          </div>
 
 
@@ -87,8 +98,7 @@
     </div>
 
     </div>
-    <link rel="stylesheet" href="{{ asset('codemirror/lib/codemirror.css') }}" data-navigate-track>
-    <link rel="stylesheet" href="{{ asset('codemirror/theme/xq-dark.css') }}" data-navigate-track>
+
 
             <script>
 
@@ -112,8 +122,8 @@
     @stack('modals')
 
     @stack('scripts')
-
     @livewireScripts
+
 </body>
 
 </html>

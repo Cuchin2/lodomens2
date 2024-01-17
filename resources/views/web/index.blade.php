@@ -7,7 +7,7 @@
 </div>
 <div class="grid grid-cols-2 col-span-1">
     <div class="col-6">
-       <a href="https://www.youtube.com/watch?v=SI841UoThPM" target="__blank"> <img src="{{ asset('image/lodomens/Banner_1.png') }}" class="w-full md:border-[10px] border-black border-[3px]" alt="" srcset=""> </a>
+        <a href="https://www.youtube.com/watch?v=SI841UoThPM" target="__blank"> <img src="{{ asset('image/lodomens/Banner_1.png') }}" class="w-full md:border-[10px] border-black border-[3px]" alt="" srcset=""> </a>
     </div>
     <div class="col-6">
         <a href="#" target="__blank">
@@ -35,4 +35,5 @@
 
 </div>
 </div>
+
 @endsection

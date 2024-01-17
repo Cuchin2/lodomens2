@@ -16,13 +16,9 @@
             class=" w-full md:w-auto mx-auto hidden md:block md:absolute md:left-1/2 md:top-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2">
             <ul class="md:flex text-gris-10 md:text-[12px] lg:text-[14px]">
 
+                <x-menu-item  :active="request()->routeIs('root')" href="{{route('root')}}">INICIO</x-menu-item>
+                <x-menu-item  :active="request()->routeIs('web.shop.*')" href="{{route('web.shop.index')}}">TIENDA</x-menu-item>
 
-                <li class="mr-6 p-1 ">
-                    <a class="hover:text-corp-50" href="{{route('root')}}">INICIO</a>
-                </li>
-                <li class="mr-6 p-1">
-                    <a class="hover:text-corp-50" href="{{route('shop.index')}}">TIENDA</a>
-                </li>
                 <li class="mr-6 p-1">
                     <a class="hover:text-corp-50" href="#">CONTACTO</a>
                 </li>
@@ -92,21 +88,21 @@
         </div>
         {{-- Menu Responsive --}}
         <div class="absolute top-[44px] z-10"
-           ">
+           >
             <ul class="bg-gris-90 md:hidden transition-all duration-300 ease-in-out w-0 h-screen"
                 :class="{ 'w-0': open === false, 'w-full': open === true }">
 
 
                 <li class="mr-6 p-2">
-                    <a class="text-gris-10 hover:text-red-600 text-[12px]" x-show="open" x-cloak
+                    <a class="text-gris-10 hover:text-corp-30 text-[12px]" x-show="open" x-cloak
                         x-transition.duration.300ms href="{{route('root')}}">INICIO</a>
                 </li>
                 <li class="mr-6 p-2">
-                    <a class="text-gris-10 hover:text-red-600 text-[12px]" x-show="open" x-cloak href="{{route('shop.index')}}"
+                    <a class="text-gris-10 hover:text-corp-30 text-[12px]" x-show="open" x-cloak href="{{route('web.shop.index')}}"
                         x-transition.duration.300ms>TIENDA</a>
                 </li>
                 <li class="mr-6 p-2">
-                    <a class="text-gris-10 hover:text-red-600 text-[12px]" x-show="open" x-cloak href="#"
+                    <a class="text-gris-10 hover:text-corp-30 text-[12px]" x-show="open" x-cloak href="#"
                         x-transition.duration.300ms>CONTACTO</a>
                 </li>
             </ul>
@@ -116,13 +112,5 @@
 
 
 </header>
-@push('scripts')
-    <script>
-        function afterEnterTransition() {
-            console.log('La transición ha terminado');
-            // Aquí puedes llamar a tu función o realizar otras operaciones después de la transición
-        }
 
-        Alpine.data('afterEnterTransition', afterEnterTransition);
-    </script>
-@endpush
+</div>

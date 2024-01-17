@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\ShopController;
+use App\Http\Controllers\WebShopController;
 /*
 
 |--------------------------------------------------------------------------
@@ -30,7 +30,8 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
-Route::get('tienda',[ShopController::class,'index'])->name('shop.index');
+Route::get('tienda',[WebShopController::class,'index'])->name('web.shop.index');
+Route::get('tienda/{product}',[WebShopController::class,'show'])->name('web.shop.show');
 Route::middleware(['auth', config('jetstream.auth_session'),'verified',
 ])->group(function () {
     Route::get('home',[HomeController::class,'index'])->name('home');

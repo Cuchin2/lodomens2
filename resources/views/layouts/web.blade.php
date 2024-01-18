@@ -51,9 +51,10 @@
 
                             ></div>
                             </div>
-                            <div class=" md:mt-[84px] mt-[44px]">
+                            <div class=" md:mt-[81px] mt-[44px]">
                                 @yield('breadcrumb')
-                                <div class="container text-gris-10 mx-auto px-[20px] relative z-60 md:top-[69px] top-[28px] ">
+                                    @yield('main')
+                                <div class="container text-gris-10 mx-auto px-[20px] relative md:pt-[81px] pt-[28px] ">
                                     @yield('content')
                                 </div>
                             </div>
@@ -96,10 +97,7 @@
         </div>
     </div>
     </div>
-
     </div>
-
-
             <script>
 
                 const topBtn = document.querySelector("#topButton");

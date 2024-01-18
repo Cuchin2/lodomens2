@@ -23,17 +23,17 @@ export default {
                 sans: ['Inter', ...defaultTheme.fontFamily.sans],
             },
             colors:{
-                'gris-100':'#0F0F0F',
-                'gris-90':'#161616',
-                'gris-80':'#202020',
-                'gris-70':'#2B2B2B',
-                'gris-60':'#393939',
-                'gris-50':'#484848',
-                'gris-40':'#6C6C6C',
-                'gris-30':'#919191',
-                'gris-20':'#B5B5B5',
-                'gris-10':'#DADADA',
-                'gris-5': '#F2F2F2',
+                /* 'gris-100':'#0F0F0F', */
+                'gris-90':'#1C1C1C',
+                /* 'gris-80':'#202020', */
+                'gris-70':'#404040',
+                /* 'gris-60':'#393939', */
+                'gris-50':'#4F4F4F',
+                /* 'gris-40':'#6C6C6C', */
+                'gris-30':'#787878',
+                /* 'gris-20':'#B5B5B5', */
+                'gris-10':'#A4A4A4',
+                /* 'gris-5': '#F2F2F2', */
                 'verde-70':'#00904C',
                 'verde-50':'#0CAD61',
                 'verde-30':'#17C573',
@@ -43,9 +43,9 @@ export default {
                 'rojo-70':'#CE2F39',
                 'rojo-50':'#EF4751',
                 'rojo-30':'#FF545E',
-                'corp-70':'#780A15',
-                'corp-50':'#990C1A',
-                'corp-30': '#BF0D17',
+                'corp-70':'#800303',
+                'corp-50':'#900D0D',
+                'corp-30': '#AD0D0D',
                 'amarillo-70':'#EB9B00',
                 'amarillo-50':'#FFB21C',
                 'amarillo-30':'#FFC045',

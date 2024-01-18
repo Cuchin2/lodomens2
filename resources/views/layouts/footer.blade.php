@@ -97,7 +97,7 @@
     </div>
 </footer>
  {{--  normal  --}}
-<footer class="bg-gris-90 hidden md:flex h-[182px] z-20 border-t-[1px] border-t-gris-70 " aria-labelledby="footer-heading">
+<footer class="bg-gris-90 hidden md:flex h-[182px]  border-t-[1px] border-t-gris-70 " aria-labelledby="footer-heading">
 
     <div class=" mx-auto mt-[20px] px-4  lg:px-8">
 

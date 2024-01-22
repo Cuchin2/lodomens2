@@ -11,10 +11,15 @@ class Rating extends Model
     protected $fillable=[
         'ratings',
         'user_id',
-        'product_id',
+        'rateable_id',
+        'rateable_type'
     ];
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
-
+    }
+    public function rateable()
+    {
+        return $this->morphTo();
     }
 }

@@ -18,8 +18,8 @@ class CreateRatingsTable extends Migration
             $table->integer('ratings');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->unsignedBigInteger('rateable_id');
+            $table->string('rateable_type');
             $table->timestamps();
         });
     }

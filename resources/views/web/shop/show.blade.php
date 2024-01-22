@@ -28,6 +28,10 @@
     <div class="md:pt-[20px] md:ml-[20px]">
         <div>
             <h3>{{ $product->name }}</h3>
+            <div class="mb-2">
+            <livewire:star-show  />
+            <p class="text-gris-30"> - 14 reseñas -</p>
+            </div>
             <div class="flex space-x-3">
                 <h4>S/. {{ $product->sell_price }}</h4>
                 <h5 class="line-through text-gris-70">S/.65 </h5>

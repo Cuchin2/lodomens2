@@ -69,7 +69,7 @@ $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
                 </li>
                 @can('home')
                     <li class="">
-                        <a href="{{ route('home') }}" class="flex items-center hover:text-corp-50">
+                        <a href="{{ route('dashboard') }}" class="flex items-center hover:text-corp-50">
                             <x-icons.home class="h-4"></x-icons.home>
                             <span class="ml-3 ">Dashboard</span>
                         </a>

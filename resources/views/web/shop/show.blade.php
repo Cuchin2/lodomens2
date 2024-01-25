@@ -35,14 +35,14 @@
                 <h3>{{ $product->name }}</h3>
                 <div class="mb-2 cursor-pointer flex" x-data
                     x-on:click="$scroll('#second', { offset: 200 }); tab = 'tab2'">
-                    <livewire:star-show star=" {{ round($product->reviews->avg('score'), 1)*20 }}"/>
+                    <x-star star=" {{ round($product->reviews->avg('score'), 1)*20 }}"/>
                     <p class="text-gris-30"> - {{ $product->reviews->count() }} reseñas -</p>
                 </div>
                 <div class="flex space-x-3">
                     <h4>S/. {{ $product->sell_price }}</h4>
                     <h5 class="line-through text-gris-70">S/.65 </h5>
                 </div>
-                <p class="mt-4 text-[12px] text-justify">{{ $product->short_description }}</p>
+                <p class="mt-4 text-justify">{{ $product->short_description }}</p>
                 <div class="flex my-4 space-x-1">
                     <h5> COLOR</h5>
                     <div>
@@ -77,6 +77,10 @@
                         </svg>
                     </div>
                 </div>
+                <div class="flex space-x-1 mb-4">
+                    <h5> Disponible : {{ $product->stock }} {{ ($product->stock > 1) ? 'unidades' : 'unidad'}} </h5>
+                 </div>
+
                 <div class="flex justify-center space-x-3">
                     <div class="flex" x-data={count:null}>
                         <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[30px] border-[1px] text-[12px] rounded-l-[3px]  border-gris-50 w-[30px] flex items-center"

@@ -70,7 +70,7 @@
             x-transition:leave="transition ease-out duration-300 md:duration-0 " x-transition:leave-start=""
             x-transition:leave-end="transform -translate-x-64 md:-translate-x-[0px]">
             <div class="h-full bg-gris-90">
-            <ul class="md:fixed  md:w-[139px] lg:w-[173px] xl:w-[210px]">
+            <ul class="md:fixed  md:w-[148px] lg:w-[120px] xl:w-[207px] ">
                 <li class="mr-6 p-2 ">
                     <a class="text-gris-10 hover:text-red-600 text-[12px]">FILTROS</a>
                 </li>

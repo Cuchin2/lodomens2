@@ -19,7 +19,7 @@
         " class="flex items-center mb-1">
     <div class="flex ">
         <template x-for="(star, index) in ratings" :key="index">
-            <button @click="rate(star.amount)" @mouseover="hoverRating = star.amount" @mouseleave="hoverRating = rating"
+            <button @click="rate(star.amount), $wire.rate(star.amount)" @mouseover="hoverRating = star.amount" @mouseleave="hoverRating = rating"
                 aria-hidden="true" :title="star.label"
                 class="rounded-sm text-gray-400 fill-current focus:outline-none focus:shadow-outline px-[2px] m-0 cursor-pointer"
                 :class="{'text-gray-600': hoverRating >= star.amount, 'text-yellow-500/75': rating >= star.amount && hoverRating >= star.amount}">

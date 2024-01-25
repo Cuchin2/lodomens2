@@ -14,26 +14,27 @@
     <!-- Styles -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite(['resources/css/web/app.css', 'resources/js/app.js'])
+
     <!-- Scripts -->
     @yield('styles')
     @stack('styles')
 
 
     @livewireStyles
-
+    @vite(['resources/css/web/app.css', 'resources/js/app.js'])
 
 </head>
 
 <body class="font-sans antialiased bg-black" x-data="{show_backToTop: false}"
 @scroll.window="show_backToTop = window.pageYOffset > 30">
+
 @include('layouts.header')
 
     <div class="min-h-screen">
 
-        <div class="bg-black  overflow-hidden shadow-xl sm:rounded-lg">
+        <div class="overflow-hidden shadow-xl sm:rounded-lg">
 
-            <div class="flex bg-black min-h-screen">
+            <div class="flex min-h-screen">
 
                 <div
                     class="flex-1 flex flex-col">
@@ -54,9 +55,10 @@
                             <div class=" md:mt-[81px] mt-[44px]">
                                 @yield('breadcrumb')
                                     @yield('main')
-                                <div class="container text-gris-10 mx-auto px-[20px] relative md:pt-[81px] pt-[28px] ">
+                                <div class="container text-gris-10 mx-auto px-[5px] md:px-[20px] relative md:pt-[81px] pt-[28px] ">
                                     @yield('content')
                                 </div>
+
                             </div>
 
 
@@ -69,35 +71,28 @@
 
                                 <svg  xmlns="http://www.w3.org/2000/svg" class="h-[15px] w-[15px] rotate-180" fill="none" viewBox="0 0 24 24" stroke="white">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                  </svg>
+                                </svg>
                                 </button>
-                           {{--  fin boton scroll-top     --}}
+                        {{--  fin boton scroll-top     --}}
 
-                         </div>
+                        </div>
 
 
                     </main>
-                   {{--   footer  --}}
-                    @include('layouts.footer')
-                    <div class="items-center hidden lg:h-[35px] md:h-[50px] md:text-[14px] text-[12px] bg-gris-90 text-gris-10 md:flex w-full border-t-[1px] border-t-gris-70">
-                        <div class="lg:mx-auto md:mr-auto flex md:ml-[140px]">
+                           {{--   footer  --}}
+                           <div class="relative">
+                            @include('layouts.footer')
+                              </div>
+                            {{--  fin  footer  --}}
 
-                        <p class="mr-1 lg:block md:hidden">© 2023 </p> <p> Realizado por <a href="https://www.instagram.com/nubesita.estudio/" target="__blank" class="hover:text-corp-50 font-bold">Nubesita Estudio</a></p>
-                        </div>
-                        <div class="md:flex lg:hidden space-x-[57px] md:ml-auto md:mr-[140px]">
-                            <a href="https://www.instagram.com/lodo.mens" target="_blank"><x-icons.socialmedia.instagram class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
-                            <a href="https://www.tiktok.com/@lodo.mens" target="_blank"><x-icons.socialmedia.tiktok class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
-                            <a href="https://www.facebook.com/profile.php?id=100077757468220" target="_blank"><x-icons.socialmedia.facebook class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
-                            <a href="https://www.youtube.com/@Lodomens" target="_blank"><x-icons.socialmedia.youtube class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
-                        </div>
-                    </div>
-                    {{--  fin  footer  --}}
                 </div>
             </div>
         </div>
     </div>
+
     </div>
     </div>
+
             <script>
 
                 const topBtn = document.querySelector("#topButton");

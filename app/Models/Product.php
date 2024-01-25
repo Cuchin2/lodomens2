@@ -27,7 +27,7 @@ class Product extends Model
         'brand_id',
         'provider_id',
     ];
-    public function reviews(){
+    public function ratings(){
         return $this->hasMany(Rating::class);
     }
     public function add_stock($quantity){
@@ -71,7 +71,20 @@ class Product extends Model
     }
     public function comments(){
         return $this->morphToMany(Comment::class, 'commentable');
-    }/*
+    }
+    public function reviews(){
+        return $this->morphToMany(Review::class, 'reviewable');
+    }
+    public function scopeSearch($query, $value)
+    {
+        $query->where('name','like',"%{$value}%")
+        ->orWhere('sell_price','like',"%{$value}%");
+         /* ->orWhereHas('roles', function ($roleQuery) use ($value) {
+            $roleQuery->where('name', 'like', "%{$value}%");
+        });
+       ->orWhere('updated_at','like',"%{$value}%"); */
+    }
+    /*
     public function my_store($request)
     {
         $product = self::create($request->all()+[

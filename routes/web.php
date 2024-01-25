@@ -1,8 +1,8 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\WebShopController;
 /*
@@ -38,6 +38,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified',
     Route::prefix('admin')->group(function(){
         Route::resource('roles', RoleController::class)->names('roles');
         Route::resource('users', UserController::class)->names('users');
+        Route::resource('products', ProductController::class)->names('products');
         Route::resource('categories', CategoryController::class)->names('categories');
         Route::resource('tags', TagController::class)->except('show')->names('tags');
         Route::get('tag/{type}',[TagController::class,'type'])->name('tags.indextype');

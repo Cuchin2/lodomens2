@@ -5,15 +5,16 @@
 </x-breadcrumb.lodomens.breadcrumb>
 @endsection
 @section('content')
+<video class="top-0 z-[-10] left-0 hidden lg:block fixed" src="{{ asset('image/lodomens/video_fondo.mp4') }}" autoplay muted loop></video>
 <div x-data="{ open: window.innerWidth > 1024, open2: false}" x-init="window.addEventListener('resize', () => {
             console.log(window.innerWidth,open);
             if(window.innerWidth > 1024){
             open = true;} else { open = false}
-        });">
+        });" class="pb-4">
         {{--  MENU DE FILTROS  --}}
     <div
-        class="fixed w-full z-20 bg-black left-1/2 transform -translate-x-1/2 px-2 max-w-[478px] md:max-w-[750px] lg:max-w-[1153px]">
-        <div class="flex py-3 mx-auto px-2 items-center">
+        class="fixed w-full bg-black z-20 left-1/2 transform -translate-x-1/2 md:top-[159px]">
+        <div class="flex py-3 mx-auto items-center sm:w-[442px] md:w-[711px] lg:w-[962px] xl:w-[1115px]">
             <div class="w-[34px] h-[34px] bg-gris-90 rounded p-1 cursor-pointer" @click="open=!open">
                 <x-icons.chevron-left height="22px" width="22px" grosor="2" class="p-1" />
             </div>
@@ -57,7 +58,7 @@
             </div>
         </div>
     </div>
-    <div class="flex justify-center pt-[54px]">
+    <div class="flex justify-center pt-[54px] bg-black/75">
         {{-- <div class="lg:block hidden lg:bg-red-700 w-40 h-auto m-2"> </div> --}}
         {{-- menu 1 --}}
         <div class="fixed top-[126px] md:top-0 z-10 left-0 md:relative lg:w-[210px] w-1/2 md:w-1/4 h-full md:h-auto md:ml-[7px] pt-[4px]"
@@ -69,7 +70,7 @@
             x-transition:leave="transition ease-out duration-300 md:duration-0 " x-transition:leave-start=""
             x-transition:leave-end="transform -translate-x-64 md:-translate-x-[0px]">
             <div class="h-full bg-gris-90">
-            <ul class="md:fixed  md:w-[139px] lg:w-[173px] xl:w-[inherit] ">
+            <ul class="md:fixed  md:w-[139px] lg:w-[173px] xl:w-[210px]">
                 <li class="mr-6 p-2 ">
                     <a class="text-gris-10 hover:text-red-600 text-[12px]">FILTROS</a>
                 </li>
@@ -112,7 +113,7 @@
             </div>
         </div>
         {{-- FIN menu 1 --}}
-        <div class="grid grid-cols-2"
+        <div class="grid grid-cols-2  mt-1 md:mt-0"
             :class="{'lg:grid-cols-5 md:grid-cols-4' : open === false, 'lg:grid-cols-4 md:grid-cols-3' : open === true}">
             @foreach ($products as $product )
             <div class="px-2 my-[4px] mx-auto relative " x-data="{icon:false}">

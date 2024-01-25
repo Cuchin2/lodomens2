@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'user_type_id'
     ];
 
     /**
@@ -69,6 +70,14 @@ class User extends Authenticatable
     }
     public function commets(){
         return $this->hasMany(Comment::class);
+    }
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
+
+    public function userType()
+    {
+        return $this->belongsTo(UserType::class);
     }
     public function socialMedia()
     {

@@ -336,6 +336,7 @@ class RoleSeeder extends Seeder
             'name'=>'Admin',
             'email'=>'admin@gmail.com',
             'password'=> Hash::make('lalala123123'),
+            'user_type_id'=> 1
         ]);
 
        /*  $admin_user->profile()->create([
@@ -346,6 +347,7 @@ class RoleSeeder extends Seeder
             'name'=>'Cashier',
             'email'=>'Cashier@gmail.com',
             'password'=> Hash::make('lalala123123'),
+            'user_type_id'=> 3
         ]);
        /*  $cashier_user->profile()->create([
             'first_name'=>$cashier_user->name,
@@ -355,6 +357,7 @@ class RoleSeeder extends Seeder
             'name'=>'Client',
             'email'=>'Client@gmail.com',
             'password'=> Hash::make('lalala123123'),
+            'user_type_id'=> 2
         ]);
         /* $client_user->profile()->create([
             'first_name'=>$client_user->name,

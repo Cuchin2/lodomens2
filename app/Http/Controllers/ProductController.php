@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Category;
+use Illuminate\Validation\Rules\Can;
 
 class ProductController extends Controller
 {
@@ -13,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.product.index');
     }
 
     /**
@@ -37,7 +39,6 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
     }
 
     /**
@@ -45,7 +46,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories = Category::all()->pluck('name', 'id')->toArray();
+        return view('admin.product.edit', compact('product','categories'));
     }
 
     /**

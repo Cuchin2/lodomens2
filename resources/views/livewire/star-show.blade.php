@@ -1,3 +1,4 @@
+
 <div>
     {{-- Be like water. --}}
     <!-- Avoid repeating the graphic by implementing as symbol -->
@@ -36,7 +37,7 @@
 
                     </div>
                     <div class="overflow-hidden absolute left-0 top-0 text-corp2-30 flex space-x-1"
-                        style="width: 90%">
+                        style="width: {{ $star }}%">
                         <svg class="h-6 w-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                             fill="currentColor">
                             <path

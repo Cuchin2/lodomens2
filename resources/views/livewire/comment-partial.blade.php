@@ -4,10 +4,13 @@
                 src="{{asset('storage/'.$reply->user->profile_photo_path)}}" alt="alt" /></div>
         <div class="w-full">
             <div>
-                <div class="w-full flex">
+                <div class="w-full flex space-x-2">
                     <div class="font-bold">{{$reply->user->name}}</div>
                     <div class="item__date">- {{Carbon\Carbon::parse($reply->created_at)->isoformat('DD MMM YYYY, h:mm
                         a')}}</div>
+                        <div>
+                            <img src="{{ asset('storage/crown/'.$reply->user->userType->file) }}" alt="">
+                        </div>
                 </div>
                 <p class="mt-[revert] mb-[10px]">{{$reply->body}}</p>
 

@@ -12,6 +12,7 @@ use App\Models\Image;
 use App\Models\Promotion;
 use App\Models\Provider;
 use App\Models\Tag;
+use App\Models\UserType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,7 +31,9 @@ class DatabaseSeeder extends Seeder
             $product->promotions()->attach($this->array(rand(1,20)));
             $product->images()->saveMany(Image::factory(4)->make());
         });
+        $this->call(UserTypeSeeder::class);
         $this->call(RoleSeeder::class);
+
     }
     public function array($max){
         $values =[];

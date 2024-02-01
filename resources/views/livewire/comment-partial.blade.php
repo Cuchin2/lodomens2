@@ -8,9 +8,11 @@
                     <div class="font-bold">{{$reply->user->name}}</div>
                     <div class="item__date">- {{Carbon\Carbon::parse($reply->created_at)->isoformat('DD MMM YYYY, h:mm
                         a')}}</div>
+                        @if($reply->user->user_type_id < 3)
                         <div>
                             <img src="{{ asset('storage/crown/'.$reply->user->userType->file) }}" alt="">
                         </div>
+                        @endif
                 </div>
                 <p class="mt-[revert] mb-[10px]">{{$reply->body}}</p>
 

@@ -6,7 +6,7 @@
 @endsection
 @section('content')
 <video class="top-0 z-[-10] left-0 hidden lg:block fixed" src="{{ asset('image/lodomens/video_fondo.mp4') }}" autoplay muted loop></video>
-<div x-data="{ open: window.innerWidth > 1024, open2: false}" x-init="window.addEventListener('resize', () => {
+<div x-data="{ open: window.innerWidth > 1024, open2: false, sort:3}" x-init="window.addEventListener('resize', () => {
             console.log(window.innerWidth,open);
             if(window.innerWidth > 1024){
             open = true;} else { open = false}
@@ -30,30 +30,28 @@
                 </div>
             </div>
             <div class="hidden md:block w-full mx-3">
-                <select name="secondary_color_select" id="secondary_color_select"
-                    class="text-gris-60 bg-black h-[30px]  text-[12px]  rounded-[3px] focus:ring-gris-50 focus:border-gris-50 w-full p-0 pl-2">
-                    <option disabled selected>Ordenar por</option>
+                <x-select>
                     <option>Option 1</option>
                     <option>Option 2</option>
                     <option>Option 3</option>
-                </select>
+                </x-select>
             </div>
             <div class="flex my-auto">
                 <div class="w-fit bg-gris-90 rounded p-1 ml-auto cursor-pointer md:hidden block"
                     @click="open2 = !open2">
                     <x-icons.chevron-down height="20px" width="20px" grosor="2" class="p-1" />
                 </div>
-                <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]">
-                    <x-icons.format_list_bulleted class=" mx-auto my-auto" />
+                <div class=" rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]" :class="{ 'bg-gris-70 text-white': sort === 1, 'bg-gris-90': sort !== 1 }">
+                    <x-icons.format_list_bulleted class=" mx-auto my-auto"  @click="sort=1" />
                 </div>
-                <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]">
+{{--                  <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]">
                     <x-icons.grid_on class=" mx-auto my-auto" />
+                </div>  --}}
+                <div class="rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]" :class="{ 'bg-gris-70 text-white': sort === 2, 'bg-gris-90': sort !== 2 }">
+                    <x-icons.window class=" mx-auto my-auto"  @click="sort=2"/>
                 </div>
-                <div class="bg-gris-90 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]">
-                    <x-icons.window class=" mx-auto my-auto" />
-                </div>
-                <div class="bg-gris-70 rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px] text-white">
-                    <x-icons.auto_awesome_mosaic class=" mx-auto my-auto" />
+                <div class=" rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px] " :class="{ 'bg-gris-70 text-white': sort === 3, 'bg-gris-90': sort !== 3 }">
+                    <x-icons.auto_awesome_mosaic class=" mx-auto my-auto" @click="sort=3"/>
                 </div>
             </div>
         </div>
@@ -69,7 +67,7 @@
             x-transition:enter-end="transform translate-x-64 md:translate-x-[0px] "
             x-transition:leave="transition ease-out duration-300 md:duration-0 " x-transition:leave-start=""
             x-transition:leave-end="transform -translate-x-64 md:-translate-x-[0px]">
-            <div class="h-full bg-gris-90">
+            <div class="h-full bg-gris-90 lg:w-[120px] xl:w-[210px]">
             <ul class="md:fixed  md:w-[148px] lg:w-[120px] xl:w-[207px] ">
                 <li class="mr-6 p-2 ">
                     <a class="text-gris-10 hover:text-red-600 text-[12px]">FILTROS</a>
@@ -113,21 +111,39 @@
             </div>
         </div>
         {{-- FIN menu 1 --}}
-        <div class="grid grid-cols-2  mt-1 md:mt-0"
-            :class="{'lg:grid-cols-5 md:grid-cols-4' : open === false, 'lg:grid-cols-4 md:grid-cols-3' : open === true}">
+        <div :class="{
+            'grid-cols-2 lg:grid-cols-5 md:grid-cols-4': !open && sort === 3,
+            'grid-cols-2 lg:grid-cols-4 md:grid-cols-3': (open && sort === 3) || (!open && sort === 2),
+            'grid-cols-2 lg:grid-cols-3 md:grid-cols-2': open && sort === 2,
+            'mt-1 md:mt-0': true,
+        }" class="grid">
             @foreach ($products as $product )
-            <div class="px-2 my-[4px] mx-auto relative " x-data="{icon:false}">
-                <a href="{{route('web.shop.show',$product)}}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false">
+            <div class="px-2 mx-auto relative my-[8px]" x-data="{icon:false}">
+                <a href="{{route('web.shop.show',$product)}}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex':sort===1}">
                     <img src="{{ asset($product->images[0]->url) }}" class="border-[2px] border-corp-50 rounded-[3px]"
-                        alt="">
-                    <div class="absolute right-0 top-0 p-[14px] " x-show="icon">
+                        alt="{{ $product->name }}" :class="{'h-[210px] m-auto':sort===1}">
+                    <div class="absolute right-0 top-0 p-[14px] " x-show="(icon && sort !== 1 )|| sort === 1">
                         <x-icons.heart class="h-[20px] w-[20px] fill-gris-10 hover:fill-white cursor-pointer mb-2" />
-                        <x-icons.cart class="h-[20px] w-[20px] fill-gris-10 hover:fill-white cursor-pointer" />
+                        <x-icons.cart class="h-[20px] w-[20px] fill-gris-10 hover:fill-white cursor-pointer" x-show="sort !==1"/>
                     </div>
-                    <div class="m-2 leading-[1.2]">
+                    <div class="m-2 leading-[1.2]" x-show="sort===3" x-cloak>
                         <p class="text-[14px] md:text-[18px] ">{{ $product->name }}</p>
                         <p class="text-[18px] md:text-[22px]">S/. {{ $product->sell_price }}</p>
-
+                    </div>
+                    <div x-show="sort===1" x-cloak class="px-8">
+                        <h3>{{ $product->name }}</h3>
+                        <div class="mb-2 cursor-pointer flex">
+                            <x-star class="h-5 w-5" star=" {{ round($product->reviews->avg('score'), 1)*20 }}"/>
+                            <p class="text-gris-30"> - {{ $product->reviews->count() }} reseñas -</p>
+                        </div>
+                        <div class="flex space-x-3">
+                            <h4>S/. {{ $product->sell_price }}</h4>
+                            <h5 class="line-through text-gris-70">S/.65 </h5>
+                        </div>
+                        <p class="mt-4 text-justify">{{ $product->short_description }}</p>
+                        <button class="bg-corp-50 rounded-[3px] px-4 my-4">
+                            Añadir a Carrito
+                        </button>
                     </div>
                 </a>
             </div>

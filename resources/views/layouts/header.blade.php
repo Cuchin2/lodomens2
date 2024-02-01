@@ -14,14 +14,12 @@
         {{-- Menu normal --}}
         <div
             class=" w-full md:w-auto mx-auto hidden md:block md:absolute md:left-1/2 md:top-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2">
-            <ul class="md:flex text-gris-10 md:text-[12px] lg:text-[14px]">
+            <ul class="md:flex text-gris-10 ">
 
                 <x-menu-item  :active="request()->routeIs('root')" href="{{route('root')}}">INICIO</x-menu-item>
                 <x-menu-item  :active="request()->routeIs('web.shop.*')" href="{{route('web.shop.index')}}">TIENDA</x-menu-item>
+                <x-menu-item  :active="request()->routeIs('root')" href="{{route('root')}}">CONTACTO</x-menu-item>
 
-                <li class="mr-6 p-1">
-                    <a class="hover:text-corp-50" href="#">CONTACTO</a>
-                </li>
             </ul>
         </div>
 

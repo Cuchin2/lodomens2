@@ -1,6 +1,6 @@
 @props(['fill'=>'currentColor','grosor'=>'0'])
 
-<svg @click="show = !show" :class="{'block': !show, 'hidden':show }" version="1.1"  fill="{{$fill}}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20"  xml:space="preserve" {{ $attributes->merge(['class' => '']) }}>
+<svg @click="show = !show" x-cloak :class="{'block': !show, 'hidden':show }" version="1.1"  fill="{{$fill}}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20"  xml:space="preserve" {{ $attributes->merge(['class' => '']) }}>
     <g id="ico-eyes">
         <g>
             <g>

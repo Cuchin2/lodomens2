@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\WebShopController;
+use App\Http\Controllers\WebController;
 /*
 
 |--------------------------------------------------------------------------
@@ -32,6 +33,9 @@ Route::middleware([
 });
 Route::get('tienda',[WebShopController::class,'index'])->name('web.shop.index');
 Route::get('tienda/{product}',[WebShopController::class,'show'])->name('web.shop.show');
+Route::get('registro',[WebController::class,'login_register'])->name('web.login_register');
+Route::post('registro/user',[WebController::class,'register_user'])->name('web.store_register');
+
 Route::middleware(['auth', config('jetstream.auth_session'),'verified',
 ])->group(function () {
     Route::get('home',[HomeController::class,'index'])->name('home');

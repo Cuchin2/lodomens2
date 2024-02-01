@@ -35,7 +35,7 @@
                 <h3>{{ $product->name }}</h3>
                 <div class="mb-2 cursor-pointer flex" x-data
                     x-on:click="$scroll('#second', { offset: 200 }); tab = 'tab2'">
-                    <x-star star=" {{ round($product->reviews->avg('score'), 1)*20 }}"/>
+                   <livewire-starmain {{--  star="{{ round($product->reviews->avg('score'), 1)*20 }}"   --}} product="{{ $product->id }}"/>
                     <p class="text-gris-30"> - {{ $product->reviews->count() }} reseñas -</p>
                 </div>
                 <div class="flex space-x-3">
@@ -205,6 +205,13 @@
                             :class="{ ' text-corp-30 border-b border-corp-50': tab == 'tab2'}"
                             @click.prevent="tab = 'tab2'">Reseñas</a>
                     </li>
+                    <div class="my-auto ml-auto w-[120px]">
+                        <x-select class="">
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </x-select>
+                    </div>
 
                 </ul>
                 <div>

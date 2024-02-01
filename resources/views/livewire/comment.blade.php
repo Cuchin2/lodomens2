@@ -53,9 +53,11 @@
                     <div class="item__date">- {{ Carbon\Carbon::parse($com->created_at)->isoformat('DD MMM YYYY, h:mm
                         a') }}
                     </div>
+                    @if($com->user->user_type_id < 3)
                     <div>
                         <img src="{{ asset('storage/crown/'.$com->user->userType->file) }}" alt="">
                     </div>
+                    @endif
                 </div>
                 <p class="mt-[revert] mb-[10px]"> {{ $com->body }}</p>
                 <div class="flex items-center space-x-3 no-select">

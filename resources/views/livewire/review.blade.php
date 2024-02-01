@@ -1,14 +1,14 @@
 <div class="lg:grid lg:grid-cols-4 gap-5">
     <div class=" mx-auto w-fit  my-auto  pb-4 lg:col-span-1 lg:mt-0">
-        <div class="flex items-center">
+        <div class="flex items-center mb-3">
             <h2 class="mr-2">{{ $average }} </h2>
             <div class="ml-2">
-                <x-star star="{{ $average/5*100 }}"/>
+                <x-star class="w-6 h-6" star="{{ $average/5*100 }}"/>
                 {{--  <livewire:star-show star="{{ $average/5*100 }}" />  --}}
-                <p class="text-gris-30 text-center"> Basado en {{ $total }} {{ $total === 1 ? 'calificación':'calificaciones' }}</p>
+                <p class="text-gris-30 text-center"> Basado en {{ $total }} {{ $total === 1 ? 'reseña':'reseñas' }}</p>
             </div>
         </div>
-        <div class="flex items-center cursor-pointer" wire:click="sort(5)">
+        <div class="flex items-center cursor-pointer " wire:click="sort(5)">
             <p class="w-3">5</p>
             <x-icons.star class="h-6 w-6 fill-corp2-30" />
             <div
@@ -59,7 +59,7 @@
     <!-- Verificar si el usuario está autenticado -->
 
     {{-- reseñas --}}
-    <li class="flex justify-center space-x-4">
+    <li class="flex justify-center space-x-4 border-gris-70 border-[1px] p-4 mb-4">
         <div class="item__avatar w-[70px]"><img style="border-radius: 50%!important"
                 src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" /></div>
         <div class="w-full" x-data="{ count: 0 }" x-init="count = $refs.countme.value.length">
@@ -85,7 +85,7 @@
                 <small id="helpId" class="form-text text-muted" x-html="$refs.countme.maxLength"></small>
 
             </div>
-            <button wire:click="save" type="button" class=" mt-3 float-right bg-corp-50 rounded-[3px]"
+            <button wire:click="save" type="button" class=" mt-3 float-right bg-corp-50 rounded-[3px]" @click="$dispatch('star-rating')"
                 style="font-size:14px; width:90px; order: 1;">Comentar</button>
             <button type="button" class="btn  gris2  hv-turkey mt-3 float-right br-20"
                 style="border-radius:8px;font-size:14px; width:90px; order: 2;">Cancelar</button>
@@ -100,7 +100,7 @@
 
     <ul class="p-0 mb-4 mt-0 pt-[25px]">
         @foreach ($co as $com)
-        <li class="w-full flex  px-0 space-x-5" x-data="{ abc: false }">
+        <li class="w-full flex  space-x-5 border-gris-70 border-[1px] p-4 mb-4 px-4" x-data="{ abc: false }">
             <div class="flex-none w-[50px]"><img style="border-radius: 50%!important"
                     src="{{ asset('storage/'.$com->user->profile_photo_path) }}" alt="" /></div>
             <div class="w-full">
@@ -109,11 +109,13 @@
                     <div class="item__date">- {{ Carbon\Carbon::parse($com->created_at)->isoformat('DD MMM YYYY, h:mm
                         a') }}
                     </div>
+                    @if($com->user->user_type_id < 3)
                     <div>
                         <img src="{{ asset('storage/crown/'.$com->user->userType->file) }}" alt="">
                     </div>
+                    @endif
                 </div>
-                <x-star star="{{ $com->score*20  }}"/>
+                <x-star star="{{ $com->score*20  }}" class="w-5 h-5"/>
                 <p class="mt-[revert] mb-[10px]"> {{ $com->body }}</p>
                 <div class="flex items-center space-x-3 no-select">
                     @if (auth()->check())

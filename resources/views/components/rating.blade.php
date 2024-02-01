@@ -2,7 +2,7 @@
         {
             rating: 0,
             hoverRating: 0,
-            ratings: [{'amount': 1, 'label':'Terrible'}, {'amount': 2, 'label':'Mala'}, {'amount': 3, 'label':'Ok'}, {'amount': 4, 'label':'Buena'}, {'amount': 5, 'label':'Excelente'}],
+            ratings: [{'amount': 1, 'label':'Malo'}, {'amount': 2, 'label':'Regular'}, {'amount': 3, 'label':'Bueno'}, {'amount': 4, 'label':'Estupendo'}, {'amount': 5, 'label':'Excelente'}],
             rate(amount) {
                 if (this.rating == amount) {
             this.rating = 0;
@@ -22,7 +22,7 @@
             <button @click="rate(star.amount), $wire.rate(star.amount)" @mouseover="hoverRating = star.amount" @mouseleave="hoverRating = rating"
                 aria-hidden="true" :title="star.label"
                 class="rounded-sm text-gray-400 fill-current focus:outline-none focus:shadow-outline px-[2px] m-0 cursor-pointer"
-                :class="{'text-gray-600': hoverRating >= star.amount, 'text-yellow-500/75': rating >= star.amount && hoverRating >= star.amount}">
+                :class="{'text-gray-600': hoverRating >= star.amount, 'text-[#C69B4C]': rating >= star.amount && hoverRating >= star.amount}">
                 <svg class="w-5 transition duration-150" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                     fill="currentColor">
                     <path

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class WebShopController extends Controller
 {
     public function index(){
-        $products = Product::all();
+        $products = Product::with('reviews')->get();
         $categories = Category::all();
         $brands = Brand::all();
         return view('web.shop.index',compact('products','categories','brands'));

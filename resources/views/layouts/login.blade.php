@@ -53,7 +53,7 @@ $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
                         sesión</button>
                     <div class="flex mt-1">
                         <eco style="margin-right:5px">¿No tienes cuenta?</eco>
-                        <a class="text-corp-50" href="">Registrate</a>
+                        <a class="text-corp-50" href="{{ route('web.login_register') }}">Registrate</a>
                     </div>
                 </div>
 

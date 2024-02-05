@@ -54,7 +54,7 @@ class Product extends Model
         ])->inRandomOrder()->take(6)->get();
     }
     public function getRouteKeyName(){
-        return 'name';
+        return 'slug';
     }
     public function category(){
      return $this->belongsTo(Category::class);
@@ -84,6 +84,29 @@ class Product extends Model
         });
        ->orWhere('updated_at','like',"%{$value}%"); */
     }
+    public function my_update($request){
+        $this->update($request->all());
+
+        if ($request->tags !== NULL) {
+            // Obtén el valor de tags como un solo string
+            $tagsString = $request->get('tags');
+
+            // Divide el string de tags en un arreglo utilizando la coma como separador
+            $tagsArray = explode(",", $tagsString);
+
+                // Busca las etiquetas correspondientes a los nombres
+                $tagIds = Tag::whereIn('name', $tagsArray)->pluck('id')->toArray();
+
+                // Sincroniza las etiquetas utilizando los IDs encontrados
+                $this->tags()->sync($tagIds);
+            }
+
+            else {
+                 // Verifica si hay etiquetas asociadas antes de realizar el detach
+                    $this->tags()->detach();
+            }
+            /* $this->tags()->sync($request->get('tags')); */
+            }
     /*
     public function my_store($request)
     {
@@ -96,12 +119,7 @@ class Product extends Model
         return $product;
     }
 
-    public function my_update($request){
-        $this->update($request->all()+[
-            'slug' => Str::slug($request->name, '_'),
-        ]);
-        $this->tags()->sync($request->get('tags'));
-        $this->generate_code($this);
+
 
     }
     public function generate_code($product){

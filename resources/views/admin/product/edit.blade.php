@@ -36,29 +36,61 @@
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 " id="miDiv">
+            <div class="grid grid-cols-12 gap-6 sm:gap-6 lg:gap-6" id="miDiv">
 
-                <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="col-span-12 lg:col-span-8 bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg: ">
 
                         <div class="my-3">
-                            <x-label class="mb-2">Primer nombre</x-label>
+                            <x-label class="mb-2">Nombre:</x-label>
                             <x-input name="name" value="{{ $product->name }}" placeholder="Primer nombre "></x-input>
                         </div>
+                        <div class="my-1 flex">
+                            <div class="flex items-center space-x-2">
+                                <x-label class="my-2">URL:</x-label>
+                                <p class="text-gris-10 underline">ecowaste.nubesita.com/blog/</p>
+                            </div>
+                           <x-input-editable name="slug" value="{{$product->slug}}"></x-input-editable>
+                        </div>
+                        <div class="my-3">
+                            <x-label class="my-2">Descripción corta:</x-label>
+                            <x-input-textarea placeholder="Descripción corta" name="short_description" col="3">
+                                {{ $product->short_description }}
+                                </x-imput-textarea>
+                        </div>
+                        <div class="my-3">
+                            <x-label class="my-2">Contenido:</x-label>
+                            <textarea class="form-control" name="long_description" id="long_description" rows="10">
+                            {{ old('long_description', $product->long_description) }}
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 lg:col-span-4 bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
+                    <div class="mx-auto max-w-screen-xl px-4 py-4 lg: ">
                         <div class="my-3">
                             <x-label class="mb-2">Nivel de stock</x-label>
-                            <x-input name="middle_name" value="{{ $product->stock}}" placeholder="Nivel de stock "></x-input>
+                            <x-input name="stock" value="{{ $product->stock}}" placeholder="Nivel de stock "></x-input>
                         </div>
                         <div class="my-3">
-                            <x-label class="mb-2">Preocio de venta</x-label>
-                            <x-input name="last_name" value="{{ $product->sell_price }}" placeholder="Precio de venta "></x-input>
+                            <x-label class="mb-2">Precio de venta</x-label>
+                            <x-input name="sell_price" value="{{ $product->sell_price }}" placeholder="Precio de venta "></x-input>
                         </div>
-                        <div class="my-3">
-                            <x-label class="mb-2">Visualizaciones</x-label>
+                        <div class="flex space-x-4 my-3">
+                            <x-label class="mb-2">Reseñas:</x-label>
+                            <x-label>{{ $product->reviews->count() }}</x-label>
+                        </div>
+                        <div class="flex space-x-4 my-3">
+                            <x-label class="mb-2">Calificación:</x-label>
+                            <p class="text-gris-30 text-[18px] font-bold">{{ $average}}</p>
+                            <x-star class="w-6 h-6" star="{{ $average/5*100 }}"/>
+                        </div>
+                        <div class="flex space-x-4 my-3">
+                            <x-label class="mb-2">Visualizaciones:</x-label>
                             <x-label>{{ $product->views }}</x-label>
                         </div>
                         <div class="my-3">
-                            <x-label class="mb-2">Categoría</x-label>
+                            <x-label class="mb-2">Categoría:</x-label>
                             <div class="mt-3">
                                 <x-select-search placeholder="Selecciona la categoría"
                                     message="Ninguna categoría coincide con la búsqueda" name="category_id" :data="$categories"
@@ -70,108 +102,235 @@
                                 ></x-input>
                             <span class="dark:text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>  --}}
                         </div>
-                    </div>
-                </div>
-                <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
-                    <div class="mx-auto max-w-screen-xl px-4 py-4 lg: ">
                         <div class="my-3">
-                            <x-label class="mb-2">Teléfono / Celular</x-label>
-                            <x-input name="phone" value="{{ optional($product->profile)->phone }}" type="number" placeholder="Teléfono / Celular"></x-input>
-                            <span class="dark:text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
+                            <x-label class="mb-2">Etiquetas:</x-label>
                         </div>
-                        <div class="my-3">
-                            <x-label class="my-2">Descripción corta</x-label>
-                            <x-input-textarea placeholder="Descripción corta" name="shot_description" col="8">
-                                {{ $product->short_description }}
-                                </x-imput-textarea>
-                                <span class="dark:text-gris-50 text-[12px] flex m-1">Se recomienda de 200 a 300
-                                    caracteres</span>
-                        </div>
-                    </div>
-                </div>
-                <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
-                    <div class="mx-auto max-w-screen-xl px-4 py-4 lg: ">
 
-                        <div class="my-3">
-                            <x-label for="password_confirmation" value="{{ __('Nueva contraseña') }}" />
-                            <div class="mt-1 items-center password-input" x-data="{ show: true }">
-                                <input class="w-full border-gray-300 h-[30px] dark:border-gray-700 dark:bg-gris-90 dark:text-gris-30 focus:border-cop-50 dark:focus:border-corp-70 focus:ring-corp-50 dark:focus:ring-corp-70 rounded-md shadow-sm text-[12px] pr-[30px]
+                        <div class=" mb-4">
+                            <div class="msa-wrapper border-gray-700 border-[1px] dark:border-gray-700 dark:bg-gris-90 dark:text-gray-300 w-full focus:border-corp-50 dark:focus:border-corp-50 focus:ring-corp-50 dark:focus:ring-corp-50 rounded-lg shadow-sm"
+                                x-data="multiselectComponent()" x-init="$watch('selected', value => selectedString = value.join(','))">
 
-                                " :type="show ? 'password' : 'text'" placeholder="Contraseña" name="password" >
-
-                                <div class="password-icon dark:text-gray-400  px-1  text-sm leading-5">
-                                    <x-icons.eye_open x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': show, 'block': !show }"/>
-                                    <x-icons.eye_close x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': !show, 'block': show }"/>
+                                <input x-model="selectedString" name="tags" type="text" id="msa-input"
+                                    aria-hidden="true" x-bind:aria-expanded="listActive.toString()" aria-haspopup="tag-list"
+                                    hidden>
+                                <div class="input-presentation" @click="listActive = !listActive"
+                                    @click.away="listActive = false" x-bind:class="{ 'active': listActive }">
+                                    <span class="placeholder" x-show="selected.length == 0">Selecciona las etiquetas</span>
+                                    <template x-for="(tag, index) in selected">
+                                        <div class="tag-badge"
+                                            x-bind:class="{
+                                                'bg-teal-600': index % 4 === 0,
+                                                'bg-gray-600': index % 4 ===
+                                                    1,
+                                                'bg-green-600': index % 4 === 2,
+                                                'bg-sky-600': index % 4 === 3
+                                            }">
+                                            <span x-text="tag"></span>
+                                            <button type="button" x-bind:data-index="index"
+                                                @click.stop="removeMe($event)">x</button>
+                                        </div>
+                                    </template>
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="h-4 w-4 dark:text-gray-500  rotate-90 ml-auto " fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
                                 </div>
-
+                                <ul id="tag-list" x-show.transition="listActive" role="listbox">
+                                    <template x-for="(tag, index, collection) in unselected">
+                                        <li x-show="!selected.includes(tag)" x-bind:value="tag" x-text="tag"
+                                            aria-role="button" @click.stop="addMe($event)" x-bind:data-index="index"
+                                            role="option"></li>
+                                    </template>
+                                </ul>
                             </div>
-                            @error('password')
-                            <small class="text-sm dark:text-red-500">
-                                {{$message}}
-                            </small>
-                            @enderror
                         </div>
-
-                        <div class="my-3">
-                            <x-label for="password_confirmation" value="{{ __('Confirmar nueva Contraseña') }}" />
-                            <div class="mt-1 items-center password-input" x-data="{ show: true }">
-                                <input class="w-full border-gray-300 h-[30px] dark:border-gray-700 dark:bg-gris-90 dark:text-gris-30 focus:border-cop-50 dark:focus:border-corp-70 focus:ring-corp-50 dark:focus:ring-corp-70 rounded-md shadow-sm text-[12px] pr-[30px]
-
-                                " :type="show ? 'password' : 'text'" placeholder="Repetir contraseña"  name="password_confirmation">
-
-                                <div class="password-icon dark:text-gray-400  px-1  text-sm leading-5">
-                                    <x-icons.eye_open x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': show, 'block': !show }"/>
-                                    <x-icons.eye_close x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': !show, 'block': show }"/>
-
-                                </div>
-
-                            </div>
-                            @error('password')
-                                    <small class="text-sm dark:text-red-500">
-                                        {{$message}}
-                                    </small>
-                                    @enderror
-                        </div>
-                        <div class="my-3">
-                            <x-label class="mb-2">Correo electrónico</x-label>
-                            <x-input name="email" type="email" value="{{ $product->email }}" placeholder="correo electrónico"></x-input>
-                            <span class="dark:text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
-                        </div>
-                        <div class="my-3">
-                            <x-label class="mb-2">Fecha de nacimiento</x-label>
-                            <input type="date"
-                                class="border-gray-300 dark:border-gris-60 dark:bg-gris-90 dark:text-gris-30 focus:border-corp-50 dark:focus:border-corp-50 focus:ring-corp-50 dark:focus:ring-corp-60 rounded-lg shadow-sm text-[12px] h-[30px]
-                                block"
-                                name="birthday" id="birthday">
-                            <span class="dark:text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
-                        </div>
-                        <div class="mt-4 dark:text-gray-300">
-
-                        </div>
-
-                        <x-button.corp1 class="ml-auto">Actualizar</x-button.corp1>
-
+                        <x-button.corp1 class="ml-auto" type="submit">Actualizar</x-button.corp1>
                     </div>
-                </div>
+
+
+
             </div>
+            @include('admin.product.image')
         </form>
-        <style>
-            .password-input {
-          position: relative;
+
+        @push('scripts')
+        <script data-navigate-once>
+            function multiselectComponent() {
+                return {
+                    listActive: false,
+                    selectedString: @json($tagSelect),
+                    selected: @json($tagSelect),
+                    unselected: @json($tagNames),
+                    addMe(e) {
+                        const index = e.target.dataset.index;
+                        const extracted = this.unselected.splice(index, 1);
+                        this.selected.push(extracted[0]);
+                    },
+                    removeMe(e) {
+                        const index = e.target.dataset.index;
+                        const extracted = this.selected.splice(index, 1);
+                        this.unselected.push(extracted[0]);
+                    }
+
+                };
+            }
+
+
+
+            function configureCKEditor() {
+                CKEDITOR.replace('long_description', {
+                    language: 'es',
+                    height: 300,
+                    resize_dir: 'vertical',
+                    resize_minHeight: 300,
+                    skin: 'prestige',
+                });
+
+                CKEDITOR.addCss('.cke_editable { background-color: #161616; color: white;  }');
+            }
+        </script>
+    @endpush
+
+    <style>
+        .cke_chrome {
+            border: 1px solid rgb(55 65 81);
+        }
+        [hidden] {
+            display: none !important;
         }
 
-        .password-input input[type="password"] {
-          padding-right: 40px; /* Espacio para el icono */
+        .msa-wrapper {
+
+
+            &:focus-within {
+                .input-presentation {
+                    border-bottom-right-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+            }
+
+            &>* {
+                display: block;
+                width: 100%;
+            }
+
+            .input-presentation {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+                align-items: center;
+                min-height: 40px;
+                padding: 6px 10px 6px 12px;
+                border-radius: 10px;
+                position: relative;
+                cursor: pointer;
+
+
+                &.active {
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 0;
+                    border-color: #16AC9F;
+                }
+
+                .tag-badge {
+
+                    padding-left: 14px;
+                    padding-right: 28px;
+                    color: white;
+                    border-radius: 14px;
+                    position: relative;
+
+                    span {
+                        font-size: 16px;
+                        line-height: 27px;
+                    }
+
+                    button {
+                        display: inline-block;
+                        padding: 0;
+                        -webkit-appearance: none;
+                        appearance: none;
+                        background: transparent;
+                        border: none;
+                        color: rgba(255, 255, 255, .8);
+                        font-size: 12px;
+                        position: absolute;
+                        right: 0px;
+                        padding-right: 10px;
+                        padding-left: 5px;
+                        cursor: pointer;
+                        line-height: 26px;
+                        height: 26px;
+                        font-weight: 600;
+
+                        &:hover {
+                            background-color: rgba(255, 255, 255, .2);
+                            color: white;
+                        }
+                    }
+                }
+            }
+
+            ul {
+                border: 1px solid rgba(0, 0, 0, 0.3);
+                font-size: 1rem;
+                margin: 0;
+                padding: 0;
+                border-top: none;
+                list-style: none;
+                border-bottom-right-radius: 10px;
+                border-bottom-left-radius: 10px;
+
+                li {
+                    padding: 6px 12px;
+                    text-transform: capitalize;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: #16AC9F;
+                        color: white;
+                    }
+                }
+            }
         }
 
-        .password-input .password-icon {
-          position: absolute;
-          top: 50%;
-          right: 5px;
-          transform: translateY(-50%);
-          pointer-events: pointer; /* Evita que el icono sea interactivo */
+        .CodeMirror {
+            min-height: 30px;
+            height: 100%;
         }
-        </style>
+
+        .CodeMirror-line {
+            min-height: 30px;
+        }
+
+        .filepond--item {
+            width: calc(50% - 0.5em);
+        }
+
+        @media (min-width: 30em) {
+            .filepond--item {
+                width: calc(50% - 0.5em);
+            }
+        }
+
+        @media (min-width: 50em) {
+            .filepond--item {
+                width: calc(33.33% - 0.5em);
+            }
+        }
+
+        .filepond--drop-label {
+            background: #111827 !important;
+            color: #d1d5db;
+        }
+
+        .filepond--panel-root {
+            background-color: #111827;
+        }
+    </style>
+
     </x-slot>
 
 </x-app-layout>

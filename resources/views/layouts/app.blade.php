@@ -17,8 +17,8 @@
 
     <!-- Scripts -->
 
-{{--      <script src="{{ asset('ckeditor/ckeditor.js') }}" data-navigate-track></script>
-    <script src="{{ asset('codemirror/lib/codemirror.js') }}" data-navigate-track></script>
+     <script src="{{ asset('ckeditor/ckeditor.js') }}" data-navigate-track></script>
+ {{--<script src="{{ asset('codemirror/lib/codemirror.js') }}" data-navigate-track></script>
     <script src="{{ asset('codemirror/mode/xml/xml.js') }}" data-navigate-track></script>  --}}
     @livewireStyles
     @vite(['resources/css/admin/app.css', 'resources/js/app.js'])

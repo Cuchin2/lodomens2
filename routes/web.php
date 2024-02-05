@@ -48,7 +48,10 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified',
         Route::get('tag/{type}',[TagController::class,'type'])->name('tags.indextype');
         Route::resource('posts',PostController::class)->except('create')->names('posts');
         Route::get('category/product',[CategoryController::class,'index_product'])->name('categories.PRODUCT');
-
+        Route::get('getimages/{product}',[ProductController::class,'getimages'])->name('getimages');
+        Route::post('addimages/{product}',[ProductController::class,'addimages'])->name('addimages');
+        Route::delete('deleteimage/{product}',[ProductController::class,'deleteimage'])->name('deleteimage');
+        Route::post('handleReorder/{product}',[ProductController::class,'handleReorder'])->name('handleReorder');
         Route::prefix('blog')->group(function(){
             Route::get('category/post',[CategoryController::class,'index_post'])->name('POST.categories');
             Route::get('category/post/create',[CategoryController::class,'create_post'])->name('POST.categories.create');

@@ -14,18 +14,18 @@
 
 <div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1" x-data="{ tab: 'tab1' }">
     <div class="md:grid md:grid-cols-2">
-        <div class="md:grid md:grid-cols-6 mt-5" x-data="{src: '{{ asset($product->images[0]->url) }}'}">
+        <div class="md:grid md:grid-cols-6 mt-5" x-data="{src: '{{ asset('storage/'.$product->images[0]->url) }}'}">
             <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2">
-                <img src="{{ asset($product->images[0]->url) }}" :src="src"
+                <img src="{{ asset('storage/'.$product->images[0]->url) }}" :src="src"
                     class="w-full border-[2px] border-corp-50 rounded-[3px]" alt="">
             </div>
             <div
                 class="flex md:block md:col-span-1 md:w-fit space-x-2 md:space-x-0 md:space-y-2 mt-2 overflow-x-auto md:overflow-x-hidden md:order-1">
                 @foreach ($product->images as $image)
-                <img src="{{ asset($image->url) }}"
+                <img src="{{ asset('storage/'.$image->url) }}"
                     class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer"
-                    :class="{'border-gris-10': src === '{{ asset($image->url) }}'}"
-                    @click="src='{{ asset($image->url) }}'">
+                    :class="{'border-gris-10': src === '{{ asset('storage/'.$image->url) }}'}"
+                    @click="src='{{ asset('storage/'.$image->url) }}'">
                 @endforeach
             </div>
         </div>
@@ -35,7 +35,7 @@
                 <h3>{{ $product->name }}</h3>
                 <div class="mb-2 cursor-pointer flex" x-data
                     x-on:click="$scroll('#second', { offset: 200 }); tab = 'tab2'">
-                   <livewire-starmain {{--  star="{{ round($product->reviews->avg('score'), 1)*20 }}"   --}} product="{{ $product->id }}"/>
+                   <livewire-starmain  product="{{ $product->id }}"/>
                     <p class="text-gris-30"> - {{ $product->reviews->count() }} reseñas -</p>
                 </div>
                 <div class="flex space-x-3">
@@ -161,7 +161,8 @@
     </div>
     <hr class="mt-[20px] mb-[10px] border-gris-70">
     <div>
-        <div class="space-y-4 text-justify">
+        {!! $product->long_description !!}
+       {{--   <div class="space-y-4 text-justify">
             <h3 class="text-center">Tamaño y Materiales</h3>
             <h4>Titulo Heading 3</h4>
 
@@ -190,7 +191,7 @@
             <p>
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua. Ut enim ad minim veniam, quis nos".</p>
-        </div>
+        </div>  --}}
         <hr class="my-[40px] border-gris-70">
         <div id="second">
             <div class="mx-auto mb-4">

@@ -150,10 +150,10 @@
                                 <td class="px-4 py-[13px]"><x-button.success class="mx-auto">{{$product->status}}</x-button.success>
                                 </td>
                                 <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
-                                    <a class="text-azul-50 hover:text-azul-30" href="{{route('products.edit',$product->name)}}">
+                                    <a class="text-azul-50 hover:text-azul-30" href="{{route('products.edit',$product->slug)}}">
                                         <x-icons.edit></x-icons.edit>
                                     </a>
-                                    <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal({{ $product->name }},'{{$product->name}}')" >
+                                    <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal({{ $product->name }},'{{$product->slug}}')" >
                                         <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                     </button>
                                 </td>

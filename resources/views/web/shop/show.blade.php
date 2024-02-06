@@ -11,21 +11,48 @@
 @endsection
 <video class="hidden lg:block fixed top-0" src="{{ asset('image/lodomens/video_fondo.mp4') }}" autoplay muted loop></video>
 @section('content')
+@php
+$firstImage = $product->images->sortBy('order')->first();
 
-<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1" x-data="{ tab: 'tab1' }">
+@endphp
+<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1" x-data="{ tab: 'tab1', ext:'{{ pathinfo(asset($firstImage ->url), PATHINFO_EXTENSION) }}' }">
     <div class="md:grid md:grid-cols-2">
-        <div class="md:grid md:grid-cols-6 mt-5" x-data="{src: '{{ asset('storage/'.$product->images[0]->url) }}'}">
+        <div class="md:grid md:grid-cols-6 mt-5" x-data="{src: '{{ asset('storage/'.$firstImage->url) }}'}">
             <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2">
-                <img src="{{ asset('storage/'.$product->images[0]->url) }}" :src="src"
-                    class="w-full border-[2px] border-corp-50 rounded-[3px]" alt="">
+                <p x-tet="ext"></p>
+ {{--                 <img  :src="src"
+                class="w-full border-[2px] border-corp-50 rounded-[3px]" alt="">  --}}
+                <template x-if="ext === 'mp4'">
+                    <video :src="src" controls
+                  class="w-full border-[2px] border-corp-50 rounded-[3px]" :alt="ext" alt="">
+                </video>
+                 </template>
+
+                  <template x-if="ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif'">
+                  <img  :src="src"
+                  class="w-full border-[2px] border-corp-50 rounded-[3px]" alt="">
+                  </template>
+
+
             </div>
             <div
                 class="flex md:block md:col-span-1 md:w-fit space-x-2 md:space-x-0 md:space-y-2 mt-2 overflow-x-auto md:overflow-x-hidden md:order-1">
-                @foreach ($product->images as $image)
+                @foreach ($product->images->sortBy('order') as $image)
+                @if (pathinfo(asset('storage/'.$image->url), PATHINFO_EXTENSION) === 'mp4')
+                <div @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4'">
+                <video src="{{ asset('storage/'.$image->url) }}" muted
+                class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer" >
+                :class="{'border-gris-10': src === '{{ asset('storage/'.$image->url) }}'}"
+                @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4',alert('hola')">
+                </video>
+                 </div>
+                @else
                 <img src="{{ asset('storage/'.$image->url) }}"
-                    class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer"
-                    :class="{'border-gris-10': src === '{{ asset('storage/'.$image->url) }}'}"
-                    @click="src='{{ asset('storage/'.$image->url) }}'">
+                class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer"
+                :class="{'border-gris-10': src === '{{ asset('storage/'.$image->url) }}'}"
+                @click="src='{{ asset('storage/'.$image->url) }}', ext='{{ pathinfo(asset('storage/'.$image->url), PATHINFO_EXTENSION) }}'">
+                @endif
+
                 @endforeach
             </div>
         </div>

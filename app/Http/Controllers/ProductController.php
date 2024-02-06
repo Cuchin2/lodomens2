@@ -8,6 +8,7 @@ use App\Models\Image;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
+use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rules\Can;
 use Illuminate\Http\Request;
 class ProductController extends Controller
@@ -89,7 +90,8 @@ class ProductController extends Controller
                 'name' => $imageName, // Usar solo el nombre del archivo
                 'url' => asset('storage/'.$image->url),
                 'size' => $sizeText,
-                'id'=> $image->id
+                'id'=> $image->id,
+                'extension'=> File::extension(asset('storage/'.$image->url))
             ];
         });
         return response()->json($images);
@@ -110,7 +112,7 @@ class ProductController extends Controller
                     'imageable_id'=>$id
                 ]);
             }
-        return response()->json('exito');
+        return response()->json(['id'=>$id]);
     }
     public function handleReorder(Request $request,$id)
     {

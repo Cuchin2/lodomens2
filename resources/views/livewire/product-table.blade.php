@@ -140,7 +140,7 @@
                                     class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
                                     {{$product->id}}</th>
                                     <th scope="row" class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
-                                        <img src="{{ asset($product->images[0]->url) }}" class="border-[2px] border-corp-50 rounded-[3px] h-[40px] flex mx-auto" alt="">
+                                        <img src="{{ asset($product->images->sortBy('order')->first()->url) }}" class="border-[2px] border-corp-50 rounded-[3px] h-[40px] flex mx-auto" alt="">
                                       </th>
                                 <td class="px-4 py-[13px] ">
                                     {{$product->name}}</td>

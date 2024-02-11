@@ -60,7 +60,7 @@
                         </div>
                         <div class="my-3">
                             <x-label class="my-2">Contenido:</x-label>
-                            <textarea class="form-control" name="long_description" id="long_description" rows="10">
+                            <textarea class="form-control" name="body" id="body" rows="10">
                             {{ old('long_description', $product->long_description) }}
                             </textarea>
                         </div>
@@ -156,6 +156,7 @@
         </form>
 
         @push('scripts')
+
         <script data-navigate-once>
             function multiselectComponent() {
                 return {
@@ -177,10 +178,7 @@
                 };
             }
 
-
-
-            function configureCKEditor() {
-                CKEDITOR.replace('long_description', {
+                CKEDITOR.replace('body', {
                     language: 'es',
                     height: 300,
                     resize_dir: 'vertical',
@@ -189,7 +187,7 @@
                 });
 
                 CKEDITOR.addCss('.cke_editable { background-color: #161616; color: white;  }');
-            }
+
         </script>
     @endpush
 

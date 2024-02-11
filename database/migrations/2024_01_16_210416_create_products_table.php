@@ -19,8 +19,8 @@ return new class extends Migration
             $table->integer('stock')->default(0);
             $table->decimal('sell_price',12,2)->nullable();
             $table->mediumText('short_description')->nullable();
-            $table->longText('long_description')->nullable();
-            $table->integer('views')->nullable();
+            $table->longText('body')->nullable();
+            $table->integer('views')->default(0);
             $table->softDeletes();
             $table->integer('rating')->default(0);
             $table->enum('status', ['DRAFT','SHOP','POS','BOTH','DISABLED'])->default('DRAFT');

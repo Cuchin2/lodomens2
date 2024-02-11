@@ -17,7 +17,7 @@
 
     <!-- Scripts -->
 
-     <script src="{{ asset('ckeditor/ckeditor.js') }}" data-navigate-track></script>
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
  {{--<script src="{{ asset('codemirror/lib/codemirror.js') }}" data-navigate-track></script>
     <script src="{{ asset('codemirror/mode/xml/xml.js') }}" data-navigate-track></script>  --}}
     @livewireStyles
@@ -223,8 +223,7 @@
     </div>
 
     </div>
-{{--      <link rel="stylesheet" href="{{ asset('codemirror/lib/codemirror.css') }}" data-navigate-track>
-    <link rel="stylesheet" href="{{ asset('codemirror/theme/xq-dark.css') }}" data-navigate-track>  --}}
+
 
     @stack('modals')
 

@@ -19,7 +19,7 @@ class Product extends Model
         'stock',
         'sell_price',
         'short_description',
-        'long_description',
+        'body',
         'status',
         'views',
         'rating',

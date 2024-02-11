@@ -9,6 +9,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use Illuminate\Validation\Rules\Can;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 class ProductController extends Controller
 {
@@ -89,7 +90,8 @@ class ProductController extends Controller
                 'name' => $imageName, // Usar solo el nombre del archivo
                 'url' => asset('storage/'.$image->url),
                 'size' => $sizeText,
-                'id'=> $image->id
+                'id'=> $image->id,
+                'extension' => File::extension($image->url),
             ];
         });
         return response()->json($images);

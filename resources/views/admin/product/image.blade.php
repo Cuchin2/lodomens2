@@ -1,24 +1,14 @@
-<div class="my-4 col-span-12" x-data="carga({{ $product->id }})" x-init="obtenerImagenes">
+<div class="my-4 col-span-12" x-data="carga({{ $product->id }})" x-init="obtenerImagenes({{ $product->id }})">
     <main class="container mx-auto">
         <!-- file upload modal -->
-        <article aria-label="File Upload Modal" class="relative h-full flex flex-col dark:bg-gray-800 -xl rounded-md">
+        <article aria-label="File Upload Modal" class="relative h-full flex flex-col dark:bg-gris-80 -xl rounded-md">
             <!-- overlay -->
-            {{-- <div id="overlay"
-                class="w-full h-full absolute top-0 left-0 pointer-events-none z-50 flex flex-col items-center justify-center rounded-md">
-                <i>
-                    <svg class="fill-current w-12 h-12 mb-3 text-teal-700" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" viewBox="0 0 24 24">
-                        <!-- ... -->
-                    </svg>
-                </i>
-                <p class="text-lg text-teal-700">Soltar archivos para subir</p>
-            </div> --}}
 
             <!-- scroll area -->
             <section class="h-full overflow-auto p-8 w-full  flex flex-col ">
                 <form wire:submit="save" enctype="multipart/form-data">
                     <header
-                        class="border-dashed border-2 border-gray-600 py-4 flex flex-col justify-center items-center dark:bg-gray-900">
+                        class="border-dashed border-2 border-gray-600 py-4 flex flex-col justify-center items-center dark:bg-gris-90">
 
                         <div x-ref="dnd" class="w-full">
 
@@ -46,9 +36,15 @@
                                     class="block p-1 w-1/2 sm:w-1/3 md:w-1/3 lg:w-1/4 xl:w-1/5 h-36 mx-1">
                                     <article tabindex="0"
                                         class="w-full h-full rounded-md focus:outline-none focus:shadow-outline cursor-move relative text-transparent hover:text-white shadow-sm">
+                                        <template x-if="image.extension === 'jpg' || image.extension === 'png' || image.extension === 'gif' || image.extension === 'jpeg' || image.extension === 'webpp'">
                                         <img :alt="image.name" :src="image.url"
                                             class="img-preview w-full h-full sticky object-cover rounded-md bg-fixed" />
-
+                                        </template>
+                                        <template x-if="image.extension === 'mp4'">
+                                            <video :alt="image.name" :src="image.url" controls
+                                                class="img-preview w-full h-full sticky object-cover rounded-md bg-fixed" >
+                                            </video>
+                                            </template>
                                         <section
                                             class="flex flex-col rounded-md text-xs break-words w-full h-full z-20 absolute top-0 py-2 px-3">
                                             <h1 class="flex-1" x-text="image.name"></h1>
@@ -82,22 +78,12 @@
                         </ul>
                     </header>
 
-                    {{-- @if ($photos)
-                    <ul class="flex flex-1 flex-wrap  justify-center">
-                        <div class="flex mx-auto py-4">
-                            <span class="text-green-500"> Cargando ...</span>
-
-                        </div>
-                    </ul>
-                    @endif --}}
-                </form>
-
 
             </section>
 
             <!-- sticky footer -->
             <footer class="flex justify-end px-8 pb-8 pt-4">
-                <button type="button" @click="obtenerImagenes()">click</button>
+                <button type="button" @click="obtenerImagenes({{ $product->id }})" id="recargar" hidden>click</button>
             </footer>
         </article>
 
@@ -108,13 +94,15 @@
         function carga(id) {
             return {
               images: [], // Declarar la variable images como una propiedad del objeto carga
-
+              image: '',
+              idd: id,
               // Lógica para obtener las imágenes utilizando Axios
-              obtenerImagenes: function() {
+              obtenerImagenes: function(a) {
                 this.images = [],
-                axios.get('../../getimages/' + id)
+                axios.get('../../getimages/' + a)
                   .then(function(response) {
-                    this.images = response.data; // Asignar los datos de respuesta a la propiedad images
+                    this.images = response.data;
+                    console.log(this.images); // Asignar los datos de respuesta a la propiedad images
                   }.bind(this))
                   .catch(function(error) {
                     console.log(error);
@@ -139,14 +127,13 @@
                 for (let i = 0; i < files.length; i++) {
                   const file = files[i];
                   formData.append(`files[${i}]`, file);
-                  const reader = new FileReader();
-
+                 /* const reader = new FileReader();
                   reader.onload = function(event) {
-                    const imageUrl = event.target.result; // Obtener la URL de la imagen cargada
-                    const imageName = file.name; // Obtener el nombre de la imagen cargada
-                    const imageSize = file.size; // Obtener el tamaño de la imagen cargada
+                    const imageUrl = event.target.result;
+                    const imageName = file.name;
+                    const imageSize = file.size;
 
-                    // Agregar la imagen al arreglo images
+
                     this.images.push({
                       id: this.images[this.images.length - 1].id+i,
                       name: imageName,
@@ -154,37 +141,37 @@
                       size: imageSize
                     });
                   }.bind(this);
-
-                  // Leer el archivo como una URL
-                  reader.readAsDataURL(file);
+                  reader.readAsDataURL(file); */
                 };
-                axios.post('../../addimages/' + id,formData,{
+                axios.post('../../addimages/' + this.idd,formData,{
                     headers: {
                         'Content-Type': 'multipart/form-data'
                       }
                 })
                 .then(function(response) {
-                    // Maneja la respuesta del backend si es necesario
-
+                    document.getElementById("recargar").click();
                   })
                   .catch(function(error) {
                     // Maneja el error si ocurre
                     console.log(error);
                   });
-              }
+
+              },
               // Otras funciones y lógica de tu componente aquí
             }
           }
-        var sortableList = document.getElementById('gallery');
-        Sortable.create(sortableList, {
-            animation: 150,
-            store:{
-                set: function(sortable){
-                    const sorts = sortable.toArray();
-                    handleNewPositions(sorts,{{ $product->id }});
+
+            var sortableList = document.getElementById('gallery');
+            Sortable.create(sortableList, {
+                animation: 150,
+                store:{
+                    set: function(sortable){
+                        const sorts = sortable.toArray();
+                        handleNewPositions(sorts,{{ $product->id }});
+                    }
                 }
-            }
-          });
+              });
+
     function handleNewPositions(pos,id) {
             console.log(pos);
             axios.post('../../handleReorder/' + id,{
@@ -199,5 +186,6 @@
                 console.log(error);
               });
         }
+
     </script>
 </div>

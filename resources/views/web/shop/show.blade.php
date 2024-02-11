@@ -9,7 +9,7 @@
 </x-breadcrumb.lodomens.breadcrumb>
 
 @endsection
-<video class="hidden lg:block fixed top-0" src="{{ asset('image/lodomens/video_fondo.mp4') }}" autoplay muted loop></video>
+<x-lodomens.video />
 @section('content')
 
 <div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1" x-data="{ tab: 'tab1' }">

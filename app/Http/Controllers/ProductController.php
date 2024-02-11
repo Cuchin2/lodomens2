@@ -92,11 +92,7 @@ class ProductController extends Controller
                 'url' => asset('storage/'.$image->url),
                 'size' => $sizeText,
                 'id'=> $image->id,
-<<<<<<< HEAD
-                'extension' => File::extension($image->url),
-=======
                 'extension'=> File::extension(asset('storage/'.$image->url))
->>>>>>> d7ba8c5d52829ba655b1c8e5df7cb11acfc1e279
             ];
         });
         return response()->json($images);

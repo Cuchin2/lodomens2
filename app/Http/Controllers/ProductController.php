@@ -10,7 +10,6 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rules\Can;
-use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 class ProductController extends Controller
 {

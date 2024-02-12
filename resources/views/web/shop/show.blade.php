@@ -9,7 +9,7 @@
 </x-breadcrumb.lodomens.breadcrumb>
 
 @endsection
-<video class="hidden lg:block fixed top-0" src="{{ asset('image/lodomens/video_fondo.mp4') }}" autoplay muted loop></video>
+<x-lodomens.video />
 @section('content')
 @php
 $firstImage = $product->images->sortBy('order')->first();

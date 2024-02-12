@@ -5,12 +5,12 @@
 </x-breadcrumb.lodomens.breadcrumb>
 @endsection
 @section('content')
-<video class="top-0 z-[-10] left-0 hidden lg:block fixed" src="{{ asset('image/lodomens/video_fondo.mp4') }}" autoplay muted loop></video>
+<x-lodomens.video />
 <div x-data="{ open: window.innerWidth > 1024, open2: false, sort:3}" x-init="window.addEventListener('resize', () => {
             console.log(window.innerWidth,open);
             if(window.innerWidth > 1024){
             open = true;} else { open = false}
-        });" class="pb-4">
+        });" class="pb-4 lg:px-[57px]">
         {{--  MENU DE FILTROS  --}}
     <div
         class="fixed w-full bg-black z-20 left-1/2 transform -translate-x-1/2 md:top-[159px]">
@@ -120,7 +120,7 @@
             @foreach ($products as $product )
             <div class="px-2 mx-auto relative my-[8px]" x-data="{icon:false}">
                 <a href="{{route('web.shop.show',$product)}}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex':sort===1}">
-                    <img src="{{ asset($product->images[0]->url) }}" class="border-[2px] border-corp-50 rounded-[3px]"
+                    <img src="{{ asset('storage/'.$product->images[0]->url) }}" class="border-[2px] border-corp-50 rounded-[3px]"
                         alt="{{ $product->name }}" :class="{'h-[210px] m-auto':sort===1}">
                     <div class="absolute right-0 top-0 p-[14px] " x-show="(icon && sort !== 1 )|| sort === 1">
                         <x-icons.heart class="h-[20px] w-[20px] fill-gris-10 hover:fill-white cursor-pointer mb-2" />

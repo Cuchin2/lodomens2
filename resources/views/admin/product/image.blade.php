@@ -3,16 +3,6 @@
         <!-- file upload modal -->
         <article aria-label="File Upload Modal" class="relative h-full flex flex-col dark:bg-gris-80 -xl rounded-md">
             <!-- overlay -->
-            {{-- <div id="overlay"
-                class="w-full h-full absolute top-0 left-0 pointer-events-none z-50 flex flex-col items-center justify-center rounded-md">
-                <i>
-                    <svg class="fill-current w-12 h-12 mb-3 text-teal-700" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" viewBox="0 0 24 24">
-                        <!-- ... -->
-                    </svg>
-                </i>
-                <p class="text-lg text-teal-700">Soltar archivos para subir</p>
-            </div> --}}
 
             <!-- scroll area -->
             <section class="h-full overflow-auto p-8 w-full  flex flex-col ">
@@ -111,7 +101,8 @@
                 this.images = [],
                 axios.get('../../getimages/' + a)
                   .then(function(response) {
-                    this.images = response.data; // Asignar los datos de respuesta a la propiedad images
+                    this.images = response.data;
+                    console.log(this.images); // Asignar los datos de respuesta a la propiedad images
                   }.bind(this))
                   .catch(function(error) {
                     console.log(error);

@@ -85,4 +85,8 @@ class WebController extends Controller
             Auth::login($user);
             return redirect()->route('root');
     }
+    public function recover_password()
+    {
+        return view('web.forgotpassword');
+    }
 }

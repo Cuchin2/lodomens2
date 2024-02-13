@@ -83,11 +83,15 @@
                 </ul>
             </div>
             <div class="col-12  py-[13.4px]  mx-auto">
-                <div class="flex space-x-[37px]">
+                <div class="flex justify-between w-[270px]">
                     <a href="https://www.instagram.com/lodo.mens" target="_blank"><x-icons.socialmedia.instagram class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
                     <a href="https://www.tiktok.com/@lodo.mens" target="_blank"><x-icons.socialmedia.tiktok class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
                     <a href="https://www.facebook.com/profile.php?id=100077757468220" target="_blank"><x-icons.socialmedia.facebook class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
                     <a href="https://www.youtube.com/@Lodomens" target="_blank"><x-icons.socialmedia.youtube class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
+
+                    <a href="https://www.youtube.com/@Lodomens" target="_blank"><x-icons.socialmedia.spotify class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
+                    <a href="https://www.youtube.com/@Lodomens" target="_blank"><x-icons.socialmedia.pinterest class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
+                    <a href="https://www.youtube.com/@Lodomens" target="_blank"><x-icons.socialmedia.flikr class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
                 </div>
             </div>
 
@@ -131,14 +135,17 @@
 
                 </ul>
             </div>
-            <div class="hidden lg:block col-12 md:col-4 mx-auto">
-                    <x-lodomens.icons.logo_principal class="w-[183px] " />
+            <div class="hidden lg:block col-12 md:col-4 mx-auto w-[300px]">
+                    <x-lodomens.icons.logo_principal class="w-[183px] mx-auto" />
 
-                <div class="mt-[25px] flex space-x-[27px]">
+                <div class="mt-[25px] flex justify-between">
                     <a href="https://www.instagram.com/lodo.mens" target="_blank"><x-icons.socialmedia.instagram class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
                     <a href="https://www.tiktok.com/@lodo.mens" target="_blank"><x-icons.socialmedia.tiktok class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
                     <a href="https://www.facebook.com/profile.php?id=100077757468220" target="_blank"><x-icons.socialmedia.facebook class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
                     <a href="https://www.youtube.com/@Lodomens" target="_blank"><x-icons.socialmedia.youtube class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
+                    <a href="https://www.youtube.com/@Lodomens" target="_blank"><x-icons.socialmedia.spotify class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
+                    <a href="https://www.youtube.com/@Lodomens" target="_blank"><x-icons.socialmedia.pinterest class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
+                    <a href="https://www.youtube.com/@Lodomens" target="_blank"><x-icons.socialmedia.flikr class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
                 </div>
 
             </div>
@@ -183,16 +190,21 @@
 
     </div>
 </footer>
+<div class="md:px-4 lg:px-auto hidden md:flex lg:h-[35px] md:h-[50px] md:text-[14px] text-[12px] bg-gris-90 text-gris-10 border-t-[1px] border-t-gris-70 ">
+<div class="items-center hidden md:grid md:grid-cols-2 md:gap-[120px] md:mx-auto lg:flex md:px-[50px]">
+    <div class="lg:flex">
 
-<div class="items-center hidden lg:h-[35px] md:h-[50px] md:text-[14px] text-[12px] bg-gris-90 text-gris-10 md:flex w-full border-t-[1px] border-t-gris-70">
-    <div class="lg:mx-auto md:mr-auto flex md:ml-[140px]">
-
-    <p class="mr-1 lg:block md:hidden">© 2023 </p> <p> Realizado por <a href="https://www.instagram.com/nubesita.estudio/" target="__blank" class="hover:text-corp-50 font-bold">Nubesita Estudio</a></p>
+        <p class=" lg:block md:hidden">© 2023 </p> <p> Realizado por <a href="https://www.instagram.com/nubesita.estudio/" target="__blank" class="hover:text-corp-50 font-bold">Nubesita Estudio</a></p>
     </div>
-    <div class="md:flex lg:hidden space-x-[57px] md:ml-auto md:mr-[140px]">
+    <div class="md:flex lg:hidden justify-between  w-[280px]">
         <a href="https://www.instagram.com/lodo.mens" target="_blank"><x-icons.socialmedia.instagram class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
         <a href="https://www.tiktok.com/@lodo.mens" target="_blank"><x-icons.socialmedia.tiktok class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
         <a href="https://www.facebook.com/profile.php?id=100077757468220" target="_blank"><x-icons.socialmedia.facebook class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
         <a href="https://www.youtube.com/@Lodomens" target="_blank"><x-icons.socialmedia.youtube class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
+
+        <a href="https://www.youtube.com/@Lodomens" target="_blank"><x-icons.socialmedia.spotify class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
+        <a href="https://www.youtube.com/@Lodomens" target="_blank"><x-icons.socialmedia.pinterest class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
+        <a href="https://www.youtube.com/@Lodomens" target="_blank"><x-icons.socialmedia.flikr class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
     </div>
+</div>
 </div>

@@ -35,6 +35,7 @@ Route::get('tienda',[WebShopController::class,'index'])->name('web.shop.index');
 Route::get('tienda/{product}',[WebShopController::class,'show'])->name('web.shop.show');
 Route::get('registro',[WebController::class,'login_register'])->name('web.login_register');
 Route::post('registro/user',[WebController::class,'register_user'])->name('web.store_register');
+Route::get('recuperar_password',[WebController::class,'recover_password'])->name('web.recover_password');
 
 Route::middleware(['auth', config('jetstream.auth_session'),'verified',
 ])->group(function () {

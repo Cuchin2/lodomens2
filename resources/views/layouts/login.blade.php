@@ -43,7 +43,7 @@ $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
                         @click.away="inputValue === null || inputValue === '' ? fly=false : null " x-on:change="fly=true">
                     <label class="absolute left-[25px] pointer-events-none transition-all"
                         :class="fly ? 'text-[10px] top-[61px] px-[3px] bg-gris-90 text-gris-10' : 'text-[14px] top-[78px]'">Contraseña</label>
-                    <a class="text-[14px] text-corp-50" href="{{ route('password.request') }}">¿Olvidaste la contraseña?</a>
+                    <a class="text-[14px] text-corp-50" href="{{ route('web.recover_password') }}">¿Olvidaste la contraseña?</a>
 
                 </div>
                 <div class="mb-2 text-[14px]">

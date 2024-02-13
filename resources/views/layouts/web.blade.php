@@ -30,14 +30,14 @@
 
 @include('layouts.header')
 
-    <div class="min-h-screen">
+    <div class="min-h-screen mobile-height ">
 
-        <div class="overflow-hidden shadow-xl sm:rounded-lg">
+        <div class="overflow-hidden shadow-xl">
 
             <div class="flex min-h-screen">
 
                 <div
-                    class="flex-1 flex flex-col">
+                    class="flex flex-1 flex flex-col">
 
                     <main class="flex-1 mt-54">
                         <div class="flex">

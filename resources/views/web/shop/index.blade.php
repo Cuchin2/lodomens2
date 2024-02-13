@@ -10,7 +10,7 @@
             console.log(window.innerWidth,open);
             if(window.innerWidth > 1024){
             open = true;} else { open = false}
-        });" class="pb-4 lg:px-[57px]">
+        });" class="pb-4 lg:px-[177px]">
         {{--  MENU DE FILTROS  --}}
     <div
         class="fixed w-full bg-black z-20 left-1/2 transform -translate-x-1/2 md:top-[159px]">

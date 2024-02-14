@@ -205,7 +205,7 @@
                                             </div>
 
                                         </div>
-                                        <div @click.away="showModal = false, activeItem = null, mainPage = true" class="bg-gris-90 lg:w-[658px] rounded px-8 py-5 mx-auto br-10 relative border-gris-70 border-[1px] relative"
+                                        <div @click.away="showModal = false, activeItem = null, mainPage = true" class="bg-gris-90 lg:w-[658px] rounded px-8 py-5 mx-auto br-10 relative border-gris-70 border-[1px]"
                                             x-show="!mainPage" x-cloak>
                                             <label for="" @click="showModal = false, activeItem = null, mainPage = true"
                                             class=" absolute h-6 w-6 cursor-pointer bg-corp-50 "

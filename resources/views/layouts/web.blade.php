@@ -37,7 +37,7 @@
             <div class="flex min-h-screen">
 
                 <div
-                    class="flex flex-1 flex flex-col">
+                    class="flex-1 flex flex-col">
 
                     <main class="flex-1 mt-54">
                         <div class="flex">

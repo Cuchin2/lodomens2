@@ -71,6 +71,18 @@
 
                         </x-sidebar.ul-drop>
                         @endcan
+                        <x-sidebar.ul-drop name="Mi página" id="2">
+                            <x-slot name="icon">
+                                <x-icons.planet class="h-[20px] w-[20px]" />
+                            </x-slot>
+                            <x-sidebar.ul-drop-son>Header</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('mypage.edit') }}">Footer</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son>Inicio</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son>Tienda</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son>Contacto</x-sidebar.ul-drop-son>
+
+                        </x-sidebar.ul-drop>
+
                         @can('purchases.index')
                         <x-sidebar.ul-simple {{-- :active="request()->routeIs('home')" --}}
                             href="{{ route('dashboard') }}">
@@ -96,7 +108,7 @@
                         </x-sidebar.ul-simple>
                         @endcan
                         @can(['products.index', 'categories.index', 'tags.index', 'brands.index'])
-                        <x-sidebar.ul-drop name="Inventario" id="2">
+                        <x-sidebar.ul-drop name="Inventario" id="3">
                             <x-slot name="icon">
                                 <x-icons.inventario>
                                 </x-icons.inventario>
@@ -118,7 +130,7 @@
                         {{-- <x-sidebar.ul-simple href="{{ route('tags.index') }}"
                             :active="request()->routeIs('tags.*')">Etiquetas</x-sidebar.ul-simple> --}}
 
-                        <x-sidebar.ul-drop name="Blog" id="3">
+                        <x-sidebar.ul-drop name="Blog" id="4">
                             <x-slot name="icon">
                                 <x-icons.blog>
                                 </x-icons.blog>
@@ -135,7 +147,7 @@
                             @endcan
                         </x-sidebar.ul-drop>
                         @can(['products.index', 'categories.index', 'tags.index', 'brands.index'])
-                        <x-sidebar.ul-drop name="eCommerce" id="4">
+                        <x-sidebar.ul-drop name="eCommerce" id="5">
                             <x-slot name="icon">
                                 <x-icons.eCommerce>
                                 </x-icons.eCommerce>
@@ -213,7 +225,7 @@
                     </main>
                     <div class="text-[12px] dark:text-gris-20 flex mx-[24px] my-1">
                         <p class="mr-auto">Realizado por <a href="https://estudio.nubesita.com/" target="__blank" class="text-corp-50">Nubesita Estudio</a></p>
-                        <p>Copyright © 2023. Todos los Derechos Reservados.</p>
+                        <p>Copyright © {{ now()->year }}. Todos los Derechos Reservados.</p>
                         <p class="ml-auto">Versión: <p class="text-corp-50 ml-1 ">0.1.0</p></p>
                     </div>
                 </div>

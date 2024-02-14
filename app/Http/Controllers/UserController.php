@@ -113,7 +113,7 @@ class UserController extends Controller
 
         $redesSociales = $request->input('redes');
         if (!empty($redesSociales)) {
-    foreach ($redesSociales as $redSocialData) {
+        foreach ($redesSociales as $redSocialData) {
         $nombre = $redSocialData['\'name\''];
         $url = $redSocialData['\'url\''];
 
@@ -137,7 +137,7 @@ class UserController extends Controller
                 ]);
             }
         }
-    }
+        }
     $nombresRedes = collect($redesSociales)->pluck('\'name\'');
 
     $user->socialMedia()

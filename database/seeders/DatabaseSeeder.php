@@ -12,7 +12,7 @@ use App\Models\Image;
 use App\Models\Promotion;
 use App\Models\Provider;
 use App\Models\Tag;
-use App\Models\UserType;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
         });
         $this->call(UserTypeSeeder::class);
         $this->call(RoleSeeder::class);
+        $this->call(FooterSeeder::class);
 
     }
     public function array($max){

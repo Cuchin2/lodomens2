@@ -8,9 +8,9 @@
 
 @endsection
 
-{{-- <video class="hidden lg:block fixed top-0" src="{{ asset('image/lodomens/video_fondo.mp4') }}" autoplay muted
-    loop></video> --}}
+<x-lodomens.video />
 @section('content')
+
 <div class="container lg:max-w-[766px] mx-auto">
     <div class="row">
         <div class="col-12 col-lg-8 mt-5 mb-5">

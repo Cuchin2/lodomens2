@@ -7,7 +7,7 @@ use Livewire\Component;
 class SocialmediaProfile extends Component
 {
     public $redes;
-    public $socials=['youtube','facebook','tiktok','instagram','twitter','discord'];
+    public $socials=['youtube','facebook','tiktok','instagram','twitter','spotify','pinterest','flikr'];
     public $newsocials=[];
     public function mount(){
 

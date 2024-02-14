@@ -7,7 +7,7 @@
 </x-breadcrumb.lodomens.breadcrumb>
 
 @endsection
-
+<x-lodomens.video />
 @section('content')
 <div class="lg:p-[39px] px-[10px] py-[70px]">
 <x-box title='Restaurar contraseña' href="{{ url()->previous() }}">

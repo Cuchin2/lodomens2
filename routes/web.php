@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\FooterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
@@ -41,6 +43,8 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified',
 ])->group(function () {
     Route::get('home',[HomeController::class,'index'])->name('home');
     Route::prefix('admin')->group(function(){
+        Route::get('footer',[FooterController::class,'edit'])->name('mypage.edit');
+        Route::put('footer/{id}',[FooterController::class,'update'])->name('mypage.update');
         Route::resource('roles', RoleController::class)->names('roles');
         Route::resource('users', UserController::class)->names('users');
         Route::resource('products', ProductController::class)->names('products');

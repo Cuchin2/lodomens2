@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\WebShopController;
 use App\Http\Controllers\WebController;
+use App\Http\Controllers\CategoryController;
 /*
 
 |--------------------------------------------------------------------------

@@ -74,21 +74,13 @@ class Category extends Model
     }
     public function item_numbers(){
         $total=0;
-        if($this->category_type == 'PRODUCT')
-        {
-          $total += $this->products()->count();  return '('.$total.') productos';
-          if ($total== 1) {
-            return '('.$total.') producto';
-           }
-        }
-        if($this->category_type == 'POST')
-        {
-          $total += $this->posts()->count();
+
+          $total += $this->products()->count();
            if ($total== 1) {
             return '('.$total.') publicación';
            }
           return '('.$total.') publicaciones';
-        }
+
         if($this->category_type == ''){
             return '('.$total.') '.$this->subcategoriesfather->translate();
         }

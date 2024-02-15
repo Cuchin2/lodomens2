@@ -90,22 +90,22 @@ class Product extends Model
         if ($request->tags !== NULL) {
             // Obtén el valor de tags como un solo string
             $tagsString = $request->get('tags');
-
+            $a = [];
             // Divide el string de tags en un arreglo utilizando la coma como separador
             $tagsArray = explode(",", $tagsString);
-
-                // Busca las etiquetas correspondientes a los nombres
-                $tagIds = Tag::whereIn('name', $tagsArray)->pluck('id')->toArray();
-
-                // Sincroniza las etiquetas utilizando los IDs encontrados
-                $this->tags()->sync($tagIds);
+            foreach ($tagsArray as $key => $value) {
+                $tags = Tag::whereIn('name', [$value])->pluck('id');
+                $a = array_merge($a, $tags->toArray());
+            }
+                $this->tags()->detach();
+                $this->tags()->sync($a);
             }
 
             else {
                  // Verifica si hay etiquetas asociadas antes de realizar el detach
                     $this->tags()->detach();
             }
-            /* $this->tags()->sync($request->get('tags')); */
+
             }
     /*
     public function my_store($request)

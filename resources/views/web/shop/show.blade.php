@@ -36,7 +36,7 @@ $firstImage = $product->images->sortBy('order')->first();
 
             </div>
             <div
-                class="flex md:block md:col-span-1 md:w-fit space-x-2 md:space-x-0 md:space-y-2 mt-2 overflow-x-auto md:overflow-x-hidden md:order-1">
+                class="md:max-h-[254px] lg:max-h-[370px] flex md:block md:col-span-1 md:w-fit space-x-2 md:space-x-0 md:space-y-2 mt-2 overflow-x-auto md:overflow-x-hidden md:order-1">
                 @foreach ($product->images->sortBy('order') as $image)
                 @if (pathinfo(asset('storage/'.$image->url), PATHINFO_EXTENSION) === 'mp4')
                 <div @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4'">

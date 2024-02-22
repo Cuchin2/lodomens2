@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Rating;
+use App\Models\Color;
+
 class Product extends Model
 {
     use HasFactory;
@@ -27,6 +29,10 @@ class Product extends Model
         'brand_id',
         'provider_id',
     ];
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class);
+    }
     public function ratings(){
         return $this->hasMany(Rating::class);
     }
@@ -105,6 +111,25 @@ class Product extends Model
                  // Verifica si hay etiquetas asociadas antes de realizar el detach
                     $this->tags()->detach();
             }
+
+            if ($request->colors !== NULL) {
+                // Obtén el valor de colors como un solo string
+                $colorsString = $request->get('colors');
+                $b = [];
+                // Divide el string de colors en un arreglo utilizando la coma como separador
+                $colorsArray = explode(",", $colorsString);
+                foreach ($colorsArray as $key => $value) {
+                    $colors = Color::whereIn('name', [$value])->pluck('id');
+                    $b = array_merge($b, $colors->toArray());
+                }
+                    $this->colors()->detach();
+                    $this->colors()->sync($b);
+                }
+
+                else {
+                     // Verifica si hay etiquetas asociadas antes de realizar el detach
+                        $this->colors()->detach();
+                }
 
             }
     /*

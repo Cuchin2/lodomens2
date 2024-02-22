@@ -127,6 +127,21 @@
                 for (let i = 0; i < files.length; i++) {
                   const file = files[i];
                   formData.append(`files[${i}]`, file);
+                 /* const reader = new FileReader();
+                  reader.onload = function(event) {
+                    const imageUrl = event.target.result;
+                    const imageName = file.name;
+                    const imageSize = file.size;
+
+
+                    this.images.push({
+                      id: this.images[this.images.length - 1].id+i,
+                      name: imageName,
+                      url: imageUrl,
+                      size: imageSize
+                    });
+                  }.bind(this);
+                  reader.readAsDataURL(file); */
                 };
                 axios.post('../../addimages/' + this.idd,formData,{
                     headers: {

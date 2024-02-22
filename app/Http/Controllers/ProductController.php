@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Tag;
 use App\Models\Image;
+use App\Models\Color;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
@@ -51,11 +52,21 @@ class ProductController extends Controller
     {
         $categories = Category::all()->pluck('name', 'id')->toArray();
         $average=round($product->reviews()->latest()->get()->avg('score'), 1);
+        //multiselect Tags
         $tagNames = Tag::pluck('name')->toArray();
         $tagSelect = $product->tags()->pluck('name')->toArray();
-        $tagUnselect =array_diff($tagNames,$tagSelect);
-
-        return view('admin.product.edit', compact('product','categories','average','tagNames','tagSelect','tagUnselect'));
+        //multiselect Colors
+        $colorNames = Color::pluck('name', 'hex')->map(function ($name, $hex) {
+            return ['name' => $name, 'hex' => $hex];
+        })->values()->toArray();
+        $colorSelect = $product->colors()->pluck('name', 'hex')->map(function ($name, $hex) {
+            return ['name' => $name, 'hex' => $hex];
+        })->values()->toArray();
+        $colorUnSelect2 = array_udiff($colorNames, $colorSelect, function ($a, $b) {
+            return $a['hex'] <=> $b['hex'];
+        });
+        $colorUnSelect=array_merge($colorUnSelect2);
+        return view('admin.product.edit', compact('product','categories','average','tagNames','tagSelect','colorNames','colorSelect','colorUnSelect'));
     }
 
     /**
@@ -64,8 +75,7 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $product->my_update($request);
-
-        return redirect()->route('products.index');
+        return redirect()->back();
     }
 
     /**

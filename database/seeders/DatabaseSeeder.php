@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserTypeSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(FooterSeeder::class);
+        $this->call(ColorSeeder::class);
 
     }
     public function array($max){

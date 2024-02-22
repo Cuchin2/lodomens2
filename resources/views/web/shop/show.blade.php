@@ -33,10 +33,9 @@ $firstImage = $product->images->sortBy('order')->first();
                   class="w-full border-[2px] border-corp-50 rounded-[3px]" alt="">
                   </template>
 
-
             </div>
             <div
-                class="md:max-h-[254px] lg:max-h-[370px] flex md:block md:col-span-1 md:w-fit space-x-2 md:space-x-0 md:space-y-2 mt-2 overflow-x-auto md:overflow-x-hidden md:order-1">
+                class="md:max-h-[254px] lg:max-h-[370px] scroll-none flex md:block md:col-span-1 md:w-fit space-x-2 md:space-x-0 md:space-y-2 mt-2 overflow-x-auto md:overflow-x-hidden md:order-1">
                 @foreach ($product->images->sortBy('order') as $image)
                 @if (pathinfo(asset('storage/'.$image->url), PATHINFO_EXTENSION) === 'mp4')
                 <div @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4'">
@@ -189,36 +188,6 @@ $firstImage = $product->images->sortBy('order')->first();
     <hr class="mt-[20px] mb-[10px] border-gris-70">
     <div>
         {!! $product->long_description !!}
-       {{--   <div class="space-y-4 text-justify">
-            <h3 class="text-center">Tamaño y Materiales</h3>
-            <h4>Titulo Heading 3</h4>
-
-            <h5>Heading 4</h5>
-            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex
-                ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat
-                nulla pariatur".</p>
-            <h5>Heading 4</h5>
-            <ul class="ml-8 list-disc leading-7">
-                <li>Títutlo 1</li>
-                <li>Títutlo 2</li>
-                <li>Títutlo 3</li>
-            </ul>
-            <h5>Heading 4</h5>
-            <p>Ssed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco la "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit
-                esse cillum dolore eu fugiat nulla pariatur. Doris nisi ut aliquip ex ea commodo consequat. Duis aute
-                irure
-                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur".</p>
-            <p>
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nos".</p>
-        </div>  --}}
         <hr class="my-[40px] border-gris-70">
         <div id="second">
             <div class="mx-auto mb-4">
@@ -258,5 +227,5 @@ $firstImage = $product->images->sortBy('order')->first();
 </div>
 </div>
 </div>
-
 @endsection
+

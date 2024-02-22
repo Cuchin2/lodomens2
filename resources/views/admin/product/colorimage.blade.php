@@ -2,7 +2,7 @@
     <div x-data="colorComponent()" x-init="init()">
       <div class="flex flex-col" id="lista">
         <template x-for="(line, index) in lines" :key="index">
-          <div class="flex items-center p-4" :data-id="index">
+          <div class="flex items-center p-2" :data-id="index">
             <div class="handle cursor-move text-gris-20 p-2" x-text="index"></div>
             <template x-for="color in colors" :key="color.name">
               <div x-data="{
@@ -21,11 +21,11 @@
                     reader.onload = (e) => callback(e.target.result);
                 },
                   }" class="mr-4">
-                <div class="mr-2 p-5 border-2 h-full w-full text-gris-30" x-bind:style="`border-color: ${color.hex};  border-style:dotted;`">
+                <div class="p-2 border-2 h-full w-full text-gris-30 rounded-[6px]" x-bind:style="`border-color: ${color.hex};  border-style:dotted;`">
                   {{--  <span x-text="color.name"></span>
                   <span x-text='index'></span>  --}}
                   <label :for="color.name + index">
-                    <div class="w-full h-48 rounded  border border-gris-50 flex items-center justify-center overflow-hidden">
+                    <div class="w-[150px] h-[150px] rounded  border border-gris-50 flex items-center justify-center overflow-hidden">
 
                       <img x-show="imageUrl" :src="imageUrl" class="w-full object-cover">
                       <div x-show="!imageUrl" class="text-gray-300 flex flex-col items-center">
@@ -51,6 +51,7 @@
       </button>
     </div>
   </div>
+@push('scripts')
 
   <script>
     function colorComponent() {
@@ -77,3 +78,5 @@
       };
     }
   </script>
+
+  @endpush

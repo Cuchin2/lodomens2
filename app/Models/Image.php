@@ -9,10 +9,19 @@ class Image extends Model
 {
     protected $fillable = [
         'url',
-        'order'
+        'row_id',
+        'color_id'
         ];
     public function imageable(){
         return $this->morphTo();
+    }
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
+    }
+    public function row()
+    {
+        return $this->belongsTo(Row::class);
     }
     use HasFactory;
 }

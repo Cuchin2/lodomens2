@@ -7,10 +7,29 @@
             <template x-for="color in colors" :key="color.name">
               <div x-data="{
                 imageUrl: '',
-                fileChosen(event) {
+                fileChosen(event,index) {
                     this.fileToDataUrl(event, (src) => (this.imageUrl = src));
+                    this.sendImageDataToBackend(event.target.files[0],index);
                 },
-
+                getImage(order,color){
+                    axios.get('{{ route('getimage.product.color') }}', {
+                        params: {
+                          order: order,
+                          colorid: color,
+                          imageable_id: {{ $id }}
+                          // Agrega más parámetros según sea necesario
+                        }
+                      })
+                      .then(response => {
+                        // Manejar la respuesta del backend
+                        if(response.data.url[0]){
+                        this.imageUrl = '{{ asset('storage') }}/'+response.data.url;}
+                      })
+                      .catch(error => {
+                        // Manejar cualquier error que ocurra durante la solicitud
+                        console.error('Error al enviar la imagen al backend:', error);
+                      });
+                },
                 fileToDataUrl(event, callback) {
                     if (!event.target.files.length) return;
 
@@ -20,11 +39,26 @@
                     reader.readAsDataURL(file);
                     reader.onload = (e) => callback(e.target.result);
                 },
-                  }" class="mr-4">
+                sendImageDataToBackend(file,index) {
+                    let formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('order', index);
+                    formData.append('colorid', color.id); // Agregar el color.id al formData
+                    axios.post('{{ route('upload.product.color',$id) }}', formData)
+                      .then(response => {
+                        // Manejar la respuesta del backend
+                       // Puedes ajustar esto según la respuesta del backend
+                      })
+                      .catch(error => {
+                        // Manejar cualquier error que ocurra durante la solicitud
+                        console.error('Error al enviar la imagen al backend:', error);
+                      });
+                  }
+                  }" class="mr-4 " x-init="getImage(index,color.id)">
                 <div class="p-2 border-2 h-full w-full text-gris-30 rounded-[6px]" x-bind:style="`border-color: ${color.hex};  border-style:dotted;`">
                   {{--  <span x-text="color.name"></span>
                   <span x-text='index'></span>  --}}
-                  <label :for="color.name + index">
+                  <label :for="color.name + index" class="cursor-pointer">
                     <div class="w-[150px] h-[150px] rounded  border border-gris-50 flex items-center justify-center overflow-hidden">
 
                       <img x-show="imageUrl" :src="imageUrl" class="w-full object-cover">
@@ -39,7 +73,7 @@
                     </div>
                   </label>
 
-                  <input class="w-full cursor-pointer hidden" type="file" :name="color.name + index" :id="color.name + index" @change="fileChosen">
+                  <input class="w-full cursor-pointer hidden" type="file" :name="color.name + index" :id="color.name + index" @change="fileChosen($event, index)">
                 </div>
               </div>
             </template>
@@ -59,21 +93,33 @@
         sortableList:  document.getElementById('lista'),
         order: '',
         colors: @json($colors),
-        lines: [1], // Inicialmente, hay una línea de cuadrados de colores
+        lines: '', // Inicialmente, hay una línea de cuadrados de colores
         addLine() {
           this.lines.push(this.lines.length + 1);
         },
         init(){
-            Sortable.create(this.sortableList, {
+            this.lines = @json($numberArray);
+            const sortableConfig = {
             animation: 150,
             handle: '.handle',
             store:{
                 set: (sortable) => {
                 this.order = sortable.toArray().slice(1);
                 console.log(this.order);
+                let formData = new FormData();
+                formData.append('order', this.order);
+                axios.post('{{ route('sorting.image',$id) }}', formData)
+                  .then(response => {
+
+                  })
+                  .catch(error => {
+                    // Manejar cualquier error que ocurra durante la solicitud
+                    console.error('Error al enviar la imagen al backend:', error);
+                  });
                 }
             }
-        });
+        };
+        let sortableInstance = Sortable.create(this.sortableList,sortableConfig);
         }
       };
     }

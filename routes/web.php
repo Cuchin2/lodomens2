@@ -9,6 +9,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\WebShopController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ColorController;
 /*
 
 |--------------------------------------------------------------------------
@@ -49,6 +50,9 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified',
         Route::resource('roles', RoleController::class)->names('roles');
         Route::resource('users', UserController::class)->names('users');
         Route::resource('products', ProductController::class)->names('products');
+        Route::post('color/product/upload/{product}',[ColorController::class,'upload'])->name('upload.product.color');
+        Route::get('color/product/get',[ColorController::class,'getimage'])->name('getimage.product.color');
+        Route::post('sorting/{product}',[ColorController::class,'sorting'])->name('sorting.image');
         Route::resource('categories', CategoryController::class)->names('categories');
         Route::resource('tags', TagController::class)->except('show')->names('tags');
         Route::get('tag/{type}',[TagController::class,'type'])->name('tags.indextype');

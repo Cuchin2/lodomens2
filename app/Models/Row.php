@@ -5,18 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Color extends Model
+class Row extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'name',
-        'hex',
-        'url'
+
+    protected $fillable =[
+        'order'
     ];
-    public function products()
-    {
-        return $this->belongsToMany(Product::class);
-    }
     public function images()
     {
         return $this->hasMany(Image::class);

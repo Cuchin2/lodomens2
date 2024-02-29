@@ -189,7 +189,7 @@
 
 
                 </div>
-                @include('admin.product.colorimage',['colors'=> $colorSelect])
+                @include('admin.product.colorimage',['colors'=> $colorSelect,'id'=>$product->id,'numberArray'=>$numberArray])
                 {{-- @include('admin.product.image') --}}
 
             </div>

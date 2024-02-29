@@ -56,17 +56,25 @@ class ProductController extends Controller
         $tagNames = Tag::pluck('name')->toArray();
         $tagSelect = $product->tags()->pluck('name')->toArray();
         //multiselect Colors
-        $colorNames = Color::pluck('name', 'hex')->map(function ($name, $hex) {
-            return ['name' => $name, 'hex' => $hex];
+        $colorNames = Color::select('name', 'hex', 'colors.id')->get()->map(function ($color) {
+            return ['name' => $color->name, 'hex' => $color->hex, 'id' => $color->id];
         })->values()->toArray();
-        $colorSelect = $product->colors()->pluck('name', 'hex')->map(function ($name, $hex) {
-            return ['name' => $name, 'hex' => $hex];
+        $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')->get()->map(function ($color) {
+            return ['name' => $color->name, 'hex' => $color->hex, 'id' => $color->id];
         })->values()->toArray();
         $colorUnSelect2 = array_udiff($colorNames, $colorSelect, function ($a, $b) {
             return $a['hex'] <=> $b['hex'];
         });
         $colorUnSelect=array_merge($colorUnSelect2);
-        return view('admin.product.edit', compact('product','categories','average','tagNames','tagSelect','colorNames','colorSelect','colorUnSelect'));
+        $maxOrder = $product->images->max('order');
+        $numbers = range(0, $maxOrder);
+        $numberArray = array_values($numbers);
+        $lines = $product->images->map(function ($image) {
+            return $image->row;
+        });
+
+        /* dd($lines); */
+        return view('admin.product.edit', compact('product','categories','average','tagNames','tagSelect','colorNames','colorSelect','colorUnSelect','numberArray'));
     }
 
     /**

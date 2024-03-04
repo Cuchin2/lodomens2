@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rows', function (Blueprint $table) {
+        Schema::create('row_image', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('order')->nullable()->default(0);
+            $table->unsignedBigInteger('row_id');
+            $table->unsignedBigInteger('image_id');
+            $table->foreign('row_id')->references('id')->on('rows')->onDelete('cascade');
+            $table->foreign('image_id')->references('id')->on('images')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rows');
+        Schema::dropIfExists('row_image');
     }
 };

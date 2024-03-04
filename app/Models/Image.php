@@ -19,9 +19,9 @@ class Image extends Model
     {
         return $this->belongsTo(Color::class);
     }
-    public function row()
+    public function rows()
     {
-        return $this->belongsTo(Row::class);
+        return $this->belongsToMany(Row::class, 'row_image');
     }
     use HasFactory;
 }

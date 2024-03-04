@@ -52,6 +52,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified',
         Route::resource('products', ProductController::class)->names('products');
         Route::post('color/product/upload/{product}',[ColorController::class,'upload'])->name('upload.product.color');
         Route::get('color/product/get',[ColorController::class,'getimage'])->name('getimage.product.color');
+        Route::post('row/{product}',[ColorController::class,'addrow'])->name('row.product.image');
         Route::post('sorting/{product}',[ColorController::class,'sorting'])->name('sorting.image');
         Route::resource('categories', CategoryController::class)->names('categories');
         Route::resource('tags', TagController::class)->except('show')->names('tags');

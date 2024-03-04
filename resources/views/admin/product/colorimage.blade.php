@@ -1,9 +1,9 @@
 <div class="col-span-12 lg:col-span-12 bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg mb-4">
     <div x-data="colorComponent()" x-init="init()">
       <div class="flex flex-col" id="lista">
-        <template x-for="(line, index) in lines" :key="index">
-          <div class="flex items-center p-2" :data-id="index">
-            <div class="handle cursor-move text-gris-20 p-2" x-text="index"></div>
+        <template x-for="(line, index) in lines" :key="line.id">
+          <div class="flex items-center p-2" :data-id="line.id">
+            <div class="handle cursor-move text-gris-20 p-2" x-text="line.id"></div>
             <template x-for="color in colors" :key="color.name">
               <div x-data="{
                 imageUrl: '',
@@ -14,9 +14,8 @@
                 getImage(order,color){
                     axios.get('{{ route('getimage.product.color') }}', {
                         params: {
-                          order: order,
+                          row: line.id,
                           colorid: color,
-                          imageable_id: {{ $id }}
                           // Agrega más parámetros según sea necesario
                         }
                       })
@@ -42,7 +41,7 @@
                 sendImageDataToBackend(file,index) {
                     let formData = new FormData();
                     formData.append('file', file);
-                    formData.append('order', index);
+                    formData.append('row', index);
                     formData.append('colorid', color.id); // Agregar el color.id al formData
                     axios.post('{{ route('upload.product.color',$id) }}', formData)
                       .then(response => {
@@ -73,7 +72,7 @@
                     </div>
                   </label>
 
-                  <input class="w-full cursor-pointer hidden" type="file" :name="color.name + index" :id="color.name + index" @change="fileChosen($event, index)">
+                  <input class="w-full cursor-pointer hidden" type="file" :name="color.name + index" :id="color.name + index" @change="fileChosen($event, line.id)">
                 </div>
               </div>
             </template>
@@ -93,11 +92,25 @@
         sortableList:  document.getElementById('lista'),
         order: '',
         colors: @json($colors),
-        lines: '', // Inicialmente, hay una línea de cuadrados de colores
+        lines: @json($numberArray), // Inicialmente, hay una línea de cuadrados de colores
         addLine() {
-          this.lines.push(this.lines.length + 1);
+
+          let formData = new FormData();
+          formData.append('order', this.lines.length);
+          axios.post('{{ route('row.product.image',$id) }}', formData)
+          .then(response => {
+            this.lines.push({
+                id: response.data.row_id,
+                order: response.data.order
+              });
+          })
+          .catch(error => {
+            // Manejar cualquier error que ocurra durante la solicitud
+            console.error('Error al enviar la imagen al backend:', error);
+          });
         },
         init(){
+            console.log(this.lines);
             this.lines = @json($numberArray);
             const sortableConfig = {
             animation: 150,

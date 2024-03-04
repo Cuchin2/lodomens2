@@ -16,18 +16,15 @@ class ColorController extends Controller
         $file = $request->file('file');
         $fileName = time().'-'.$file->getClientOriginalName();
         $file->storeAs('image/lodomens/', $fileName, 'public');
-        //verificar fila
-        $hasRow = $product->images->doesntContain('row_id');
-        if ($hasRow) {
-            $row=Row::create([
-                'order' => '0',
-            ]);
-        }
+        $rowValue = $request->row;
             // Buscar y eliminar la imagen existente si los valores coinciden
-            $existingImage = $product->images()->where('row_id', $row->id)
-                                                ->where('color_id', $request->colorid)
-                                                ->where('imageable_id', $id)
-                                                ->first();
+            $existingImage = $product->images()
+            ->where('color_id', $request->colorid)
+            ->whereHas('rows', function ($query) use ($rowValue) {
+                $query->where('row_id', $rowValue);
+            })
+            ->where('imageable_id', $id)
+            ->first();
             if ($existingImage) {
                 // Eliminar la imagen existente
                 $filePath = storage_path('app/public/'.$existingImage->url);
@@ -36,33 +33,52 @@ class ColorController extends Controller
                 }
                 $existingImage->delete();
             }
-        $product->images()->create([
+        $image=$product->images()->create([
             'url' => 'image/lodomens/'. $fileName,
-            'row_id' => $row->id,
             'color_id' => $request->colorid,
             'imageable_type'=>'App\Models\Product',
             'imageable_id'=>$id,
         ]);
+                //verificar fila
+                $numberArray = $product->images->pluck('row_image.row_id')->unique()->count();
+                if ($numberArray === 0) {
+                    $row=Row::create([
+                        'order' => '0',
+                    ]);
+                } else{
+                    $row=Row::find($request->row);
+                }
+        $row->images()->attach($image->id);
     }
     public function getimage(Request $request)
     {
-        $url = Image::where('imageable_id', $request->imageable_id)
-            ->where('row_id', $request->order)
-            ->where('color_id', $request->colorid)
-            ->pluck('url');
+        $colorId = $request->colorid;
+        $rowId = $request->row;
+        $url = Image::whereHas('rows', function ($query) use ($rowId, $colorId) {
+            $query->where('row_id', $rowId)->where('color_id', $colorId);
+        })->pluck('url');
             return response()->json(['url' => $url]);
     }
     public function sorting(Request $request,$id)
     {
         $orders = explode(",", $request->order);
         $product = Product::find($id);
-        $images = $product->images->groupBy('order');
+        $rows = Row::whereHas('images', function ($query) use ($product) {
+            $query->where('imageable_id', $product->id)
+                ->where('imageable_type', get_class($product));
+        })->get()->keyBy('id');
+        // Recorre los ID en el orden proporcionado
         foreach ($orders as $key => $order) {
-            foreach ($images[$order] as $image) {
-                $image->order = $key;
-                $image->save();
-            }
+            $row = $rows[$order];
+            $row->order = $key;
+            $row->save();
         }
     }
-
+    public function addrow(Request $request)
+    {
+        $row=Row::create([
+            'order'=>$request->order,
+        ]);
+        return response()->json(['row_id'=>$row->id,'order'=>$row->order]);
+    }
 }

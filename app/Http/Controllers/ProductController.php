@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Tag;
 use App\Models\Image;
 use App\Models\Color;
+use App\Models\Row;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
@@ -66,14 +67,12 @@ class ProductController extends Controller
             return $a['hex'] <=> $b['hex'];
         });
         $colorUnSelect=array_merge($colorUnSelect2);
-        $maxOrder = $product->images->max('order');
-        $numbers = range(0, $maxOrder);
-        $numberArray = array_values($numbers);
-        $lines = $product->images->map(function ($image) {
-            return $image->row;
-        });
-
-        /* dd($lines); */
+        $imagenes = $product->images;
+        $rowIds = $imagenes->pluck('id');
+        $numberArray = Row::whereHas('images', function ($query) use ($rowIds) {
+            $query->whereIn('image_id', $rowIds);
+        })->orderBy('order', 'asc')->get();
+        /* dd($numberArray); */
         return view('admin.product.edit', compact('product','categories','average','tagNames','tagSelect','colorNames','colorSelect','colorUnSelect','numberArray'));
     }
 

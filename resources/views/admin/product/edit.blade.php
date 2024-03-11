@@ -194,7 +194,7 @@
 
             </div>
             <div class="flex">
-                <x-button.corp1 class="mx-auto" @click="$dispatch('send')">Actualizar</x-button.corp1>
+                <x-button.corp1 type="submit" class="mx-auto" @click="$dispatch('send')">Actualizar</x-button.corp1>
             </div>
         </form>
 

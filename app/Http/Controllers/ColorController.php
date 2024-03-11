@@ -5,11 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Image;
 use App\Models\Row;
+use App\Models\Color;
 use Illuminate\Http\Request;
 use LaravelLang\NativeCountryNames\Enums\SortBy;
 
 class ColorController extends Controller
 {
+    public function index()
+    {
+        return view('admin.color.index');
+    }
+    public function edit(Color $color)
+    {
+
+    }
     public function upload(Request $request,$id)
     {
         $product = Product::find($id);

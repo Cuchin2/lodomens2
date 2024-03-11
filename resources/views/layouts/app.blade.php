@@ -124,6 +124,8 @@
                             @endcan
                             <x-sidebar.ul-drop-son href="{{ route('tags.index')}}">Etiquetas
                             </x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('colors.index')}}">Colores
+                            </x-sidebar.ul-drop-son>
                         </x-sidebar.ul-drop>
                         @endcan
 

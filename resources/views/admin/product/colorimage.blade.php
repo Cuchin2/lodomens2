@@ -2,15 +2,29 @@
     <div x-data="colorComponent()" x-init="init()">
       <div class="flex flex-col" id="lista">
         <template x-for="(line, index) in lines" :key="line.id">
-          <div class="flex items-center p-2" :data-id="line.id">
-            <div class="handle cursor-move text-gris-20 p-2" x-text="line.id"></div>
+          <div class="flex items-center p-2" :data-id="line.id" x-data="{basicRowModal: false, files:[],
+            deleterow(id){
+                axios.delete('{{ route('deleterow',$id) }}', {
+                    data: {
+                        row_id: id
+                    }
+                })
+                .then(response => {
+                    // Manejar la respuesta exitosa aquí
+                    this.lines=this.lines.filter(objeto => objeto.id !== response.data.id);
+                    this.basicRowModal=false;
+                })
+                .catch(function (error) {
+                    // Manejar el error aquí
+                    console.error(error);
+                });
+            }
+            }">
+            <div class="handle cursor-move text-gris-20 p-2" x-text="index+1"></div>
             <template x-for="color in colors" :key="color.name">
               <div x-data="{
                 imageUrl: '',
-                fileChosen(event,index) {
-                    this.fileToDataUrl(event, (src) => (this.imageUrl = src));
-                    this.sendImageDataToBackend(event.target.files[0],index);
-                },
+                basicInfoModal: false,
                 getImage(order,color){
                     axios.get('{{ route('getimage.product.color') }}', {
                         params: {
@@ -22,22 +36,27 @@
                       .then(response => {
                         // Manejar la respuesta del backend
                         if(response.data.url[0]){
-                        this.imageUrl = '{{ asset('storage') }}/'+response.data.url;}
+                        this.imageUrl = '{{ asset('storage') }}/'+response.data.url;
+                        this.files.push(this.imageUrl);
+                    }
                       })
                       .catch(error => {
                         // Manejar cualquier error que ocurra durante la solicitud
                         console.error('Error al enviar la imagen al backend:', error);
                       });
                 },
-                fileToDataUrl(event, callback) {
-                    if (!event.target.files.length) return;
-
-                    let file = event.target.files[0],
-                        reader = new FileReader();
+                fileChosen(event, index) {
+                    const file = event.target.files[0];
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                      const src = e.target.result;
+                      const uniqueSrc = src + '?' + Date.now(); // Agregar un timestamp a la URL temporal
+                      this.imageUrl = uniqueSrc;
+                      this.sendImageDataToBackend(file, index);
+                    };
 
                     reader.readAsDataURL(file);
-                    reader.onload = (e) => callback(e.target.result);
-                },
+                  },
                 sendImageDataToBackend(file,index) {
                     let formData = new FormData();
                     formData.append('file', file);
@@ -46,18 +65,40 @@
                     axios.post('{{ route('upload.product.color',$id) }}', formData)
                       .then(response => {
                         // Manejar la respuesta del backend
+                        this.imageUrl= '{{ asset('storage') }}/'+response.data.url;
+                        this.files.push(this.imageUrl);
                        // Puedes ajustar esto según la respuesta del backend
                       })
                       .catch(error => {
                         // Manejar cualquier error que ocurra durante la solicitud
                         console.error('Error al enviar la imagen al backend:', error);
                       });
+                  },
+                  deleteimage(url){
+                    axios.delete('{{ route('deleteimage.color',$id) }}', {
+                        data: {
+                            url: url
+                        }
+                    })
+                    .then(response => {
+                        // Manejar la respuesta exitosa aquí
+                        console.log(response);
+                        this.basicInfoModal=false;
+                        this.imageUrl='';
+                        const index = this.files.indexOf(response.data.url);
+                        if (index !== -1) {
+                            this.files.splice(index, 1);
+                          }
+                    })
+                    .catch(function (error) {
+                        // Manejar el error aquí
+                        console.error(error);
+                    });
                   }
                   }" class="mr-4 " x-init="getImage(index,color.id)">
-                <div class="p-2 border-2 h-full w-full text-gris-30 rounded-[6px]" x-bind:style="`border-color: ${color.hex};  border-style:dotted;`">
-                  {{--  <span x-text="color.name"></span>
-                  <span x-text='index'></span>  --}}
-                  <label :for="color.name + index" class="cursor-pointer">
+                <div  class="p-2 border-2 h-full w-full  text-transparent hover:text-gris-20 rounded-[6px] relative" x-bind:style="`border-color: ${color.hex};  border-style:dotted;`">
+
+                  <label :for="color.name + index" class="cursor-cell" >
                     <div class="w-[150px] h-[150px] rounded  border border-gris-50 flex items-center justify-center overflow-hidden">
 
                       <img x-show="imageUrl" :src="imageUrl" class="w-full object-cover">
@@ -71,12 +112,70 @@
 
                     </div>
                   </label>
+                  <div class="absolute bottom-4 left-4 hover:text-red-500 cursor-pointer" x-on:click="basicInfoModal=true"><x-icons.trash class="w-5 h-5"/></div>
 
                   <input class="w-full cursor-pointer hidden" type="file" :name="color.name + index" :id="color.name + index" @change="fileChosen($event, line.id)">
+
                 </div>
+
+                {{--  modal interno --}}
+                        <div x-show="basicInfoModal" x-transition.opacity="" x-transition:enter.duration.100ms="" x-transition:leave.duration.300ms="" class="fixed top-0 left-0 z-50 dark:bg-black/40 h-screen w-full flex items-center justify-center ">
+                            <div @click.away="basicInfoModal = false" class="relative sm:w-full sm:max-w-2xl sm:mx-auto bg-white dark:bg-gris-70 rounded-lg shadow-xl dark:text-gray-400 dark:border-t-[3.5px] dark:border-corp-50">
+                                <span @click="basicInfoModal = false" class="absolute right-2 top-1 text-xl cursor-pointer hover:text-gray-600" title="Close">
+                                    ✕
+                                </span>
+                                <div class="px-6 py-4">
+                                    <div class="text-lg font-medium text-gray-900 dark:text-gris-10">
+                                        Confirmación Eliminación
+                                    </div>
+                                    <div class="mt-4 text-[15px] text-gray-600 dark:text-gray-400 flex items-center">
+                                        ¿Estás seguro de que deseas eliminar la imangen?  <img :src="imageUrl" alt="" class="w-[70px] ml-auto" >
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-row justify-end px-6 py-4 bg-gray-100 dark:bg-gris-70 text-end rounded-lg">
+                                    <x-button.corp1 @click="basicInfoModal = false">Cancelar</x-button.corp1>
+                                    <x-button.corp_secundary @click="deleteimage(imageUrl)">Eliminar</x-button.corp_secundary>
+                                </div>
+                            </div>
+                        </div>
+
               </div>
+
+
             </template>
+            <div class="flex dark:text-gris-30 cursor-pointer" @click="basicRowModal=true">
+                ✕
+              </div>
+               {{--  modal externo --}}
+               <div x-show="basicRowModal" x-transition.opacity="" x-transition:enter.duration.100ms="" x-transition:leave.duration.300ms="" class="fixed top-0 left-0 z-50 dark:bg-black/40 h-screen w-full flex items-center justify-center ">
+                <div @click.away="basicRowModal = false" class="relative sm:w-full sm:max-w-2xl sm:mx-auto bg-white dark:bg-gris-70 rounded-lg shadow-xl dark:text-gray-400 dark:border-t-[3.5px] dark:border-corp-50">
+                    <span @click="basicRowModal = false" class="absolute right-2 top-1 text-xl cursor-pointer hover:text-gray-600" title="Close">
+                        ✕
+                    </span>
+                    <div class="px-6 py-4">
+                        <div class="text-lg font-medium text-gray-900 dark:text-gris-10">
+                            Confirmación Eliminación
+                        </div>
+                        <div class="mt-4 text-[15px] text-gray-600 dark:text-gray-400 flex items-center" x-text="'¿Estás seguro de que deseas eliminar la fila N° '+(index+1) +' ?'">
+
+                        </div>
+                        <p class="mt-4"><b>Advertencia</b>: Se borrarán todas las fotos de esta fila</p>
+                        <div class="flex space-x-4 mt-2">
+                        <template x-for="item in files" :key="item">
+                                <img :src="item" alt="" class="w-[70px]">
+                        </template>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-row justify-end px-6 py-4 bg-gray-100 dark:bg-gris-70 text-end rounded-lg">
+                        <x-button.corp1 @click="basicRowModal = false">Cancelar</x-button.corp1>
+                        <x-button.corp_secundary @click="deleterow(line.id)">Eliminar</x-button.corp_secundary>
+                    </div>
+                </div>
+            </div>
           </div>
+
         </template>
       </div>
       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="addLine" type="button">
@@ -84,6 +183,8 @@
       </button>
     </div>
   </div>
+
+
 @push('scripts')
 
   <script>
@@ -110,7 +211,6 @@
           });
         },
         init(){
-            console.log(this.lines);
             this.lines = @json($numberArray);
             const sortableConfig = {
             animation: 150,
@@ -118,7 +218,6 @@
             store:{
                 set: (sortable) => {
                 this.order = sortable.toArray().slice(1);
-                console.log(this.order);
                 let formData = new FormData();
                 formData.append('order', this.order);
                 axios.post('{{ route('sorting.image',$id) }}', formData)

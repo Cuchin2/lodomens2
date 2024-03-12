@@ -58,6 +58,7 @@ class ColorController extends Controller
                     $row=Row::find($request->row);
                 }
         $row->images()->attach($image->id);
+        return response()->json(['url'=>'image/lodomens/'. $fileName]);
     }
     public function getimage(Request $request)
     {
@@ -89,5 +90,22 @@ class ColorController extends Controller
             'order'=>$request->order,
         ]);
         return response()->json(['row_id'=>$row->id,'order'=>$row->order]);
+    }
+    public function deleterow($id){
+        $row = Row::findOrFail($id);
+        // Eliminar las imágenes relacionadas a la fila
+        $row->images()->delete();
+        // Eliminar la fila
+        $row->delete();
+        return response()->json(['id'=>$row->id]);
+    }
+    public function deleteimage(Request $request,$id){
+        $parsedUrl = parse_url($request->url, PHP_URL_PATH);
+        $path = str_replace('/storage/', '', $parsedUrl);
+        $image=Image::where('url',$path)->first();
+        $image->delete();
+        $filePath = storage_path('app/public/'.$path);
+        unlink($filePath);
+        return response()->json(['url'=>$request->url]);
     }
 }

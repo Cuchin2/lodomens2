@@ -12,48 +12,69 @@
 <x-lodomens.video />
 @section('content')
 @php
-$firstImage = $product->images->sortBy('order')->first();
-
+$firstImage = $imagenes[0]->first();
 @endphp
-<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1" x-data="{ tab: 'tab1', ext:'{{ pathinfo(asset($firstImage ->url), PATHINFO_EXTENSION) }}' }">
+<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1" x-data="{ tab: 'tab1', colorselect:'0', colorid: '@json($colorSelect[0]->id)',ext:'{{ pathinfo(asset($firstImage ->url), PATHINFO_EXTENSION) }}', abc:'0', src: '{{ asset('storage/'.$firstImage->url) }}', getImage(a,b) {
+    axios.get('{{ route('getimage.product.select') }}', {
+        params: {
+          row: a,
+          colorid: b,
+          // Agrega más parámetros según sea necesario
+        }
+      })
+      .then(response => {
+        // Manejar la respuesta del backend
+        if(response.data.url){
+        this.src = '{{ asset('storage') }}/'+response.data.url;}
+      })
+      .catch(error => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error('Error al enviar la imagen al backend:', error);
+      });
+}
+ }">
     <div class="md:grid md:grid-cols-2">
-        <div class="md:grid md:grid-cols-6 mt-5" x-data="{src: '{{ asset('storage/'.$firstImage->url) }}'}">
-            <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2">
+        <div class="md:grid md:grid-cols-6 mt-5">
+            <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2" >
                 <p x-tet="ext"></p>
- {{--                 <img  :src="src"
-                class="w-full border-[2px] border-corp-50 rounded-[3px]" alt="">  --}}
                 <template x-if="ext === 'mp4'">
                     <video :src="src" controls
                   class="w-full border-[2px] border-corp-50 rounded-[3px]" :alt="ext" alt="">
                 </video>
                  </template>
 
-                  <template x-if="ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif'">
+                  <template x-if="ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif' || ext === 'svg'" >
                   <img  :src="src"
                   class="w-full border-[2px] border-corp-50 rounded-[3px]" alt="">
                   </template>
 
             </div>
+            @foreach ($imagenes as $key =>$images)
             <div
-                class="md:max-h-[254px] lg:max-h-[370px] scroll-none flex md:block md:col-span-1 md:w-fit space-x-2 md:space-x-0 md:space-y-2 mt-2 overflow-x-auto md:overflow-x-hidden md:order-1">
-                @foreach ($product->images->sortBy('order') as $image)
+                class="md:max-h-[254px] lg:max-h-[370px] scroll-none flex md:block md:col-span-1 md:w-fit space-x-2 md:space-x-0 md:space-y-2 mt-2 overflow-x-auto md:overflow-x-hidden md:order-1" @send.window="colorselect=$event.detail.parm;" x-show="colorselect === '{{ $key }}'">
+
+                @foreach ($images as $key2=>$image)
+
                 @if (pathinfo(asset('storage/'.$image->url), PATHINFO_EXTENSION) === 'mp4')
                 <div @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4'">
                 <video src="{{ asset('storage/'.$image->url) }}" muted
                 class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer" >
                 :class="{'border-gris-10': src === '{{ asset('storage/'.$image->url) }}'}"
-                @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4',alert('hola')">
+                @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4', abc='{{ $key2 }}'">
                 </video>
                  </div>
                 @else
                 <img src="{{ asset('storage/'.$image->url) }}"
                 class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer"
                 :class="{'border-gris-10': src === '{{ asset('storage/'.$image->url) }}'}"
-                @click="src='{{ asset('storage/'.$image->url) }}', ext='{{ pathinfo(asset('storage/'.$image->url), PATHINFO_EXTENSION) }}'">
+                @click="src='{{ asset('storage/'.$image->url) }}', ext='{{ pathinfo(asset('storage/'.$image->url), PATHINFO_EXTENSION) }}', abc='{{ $key2 }}'">
                 @endif
 
                 @endforeach
+
+
             </div>
+            @endforeach
         </div>
         <hr class="md:hidden mt-[20px] mb-[10px] border-gris-70 ">
         <div class="md:pt-[20px] md:ml-[20px]">
@@ -70,9 +91,12 @@ $firstImage = $product->images->sortBy('order')->first();
                 </div>
                 <p class="mt-4 text-justify">{{ $product->short_description }}</p>
                 <div class="flex my-4 space-x-1">
-                    <h5> COLOR</h5>
-                    <div>
-                        <svg width="72" height="34" viewBox="0 0 72 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <h5> {{ $colorSelect->count() === 1 ? 'COLOR: ' : 'COLORES: ' }}</h5>
+                    <div class="flex space-x-2" x-data="{active:'0'}">
+                        @foreach ($colorSelect as $key => $color )
+                            <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px]"           :class="{'border-corp-50 border-[3px]' : active === '{{ $key}}' }" style="background: {{ $color->hex }}" x-on:click="$dispatch('send',{ parm: '{{ $key }}' }); getImage(abc,{{ $color->id }}); active='{{ $key }}'"> </div>
+                        @endforeach
+                        {{--  <svg width="72" height="34" viewBox="0 0 72 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="Colores">
                                 <path id="Ellipse 16"
                                     d="M30.3631 17C30.3631 24.4715 24.5063 30.5 17.3158 30.5C10.1254 30.5 4.26855 24.4715 4.26855 17C4.26855 9.52854 10.1254 3.5 17.3158 3.5C24.5063 3.5 30.3631 9.52854 30.3631 17Z"
@@ -100,7 +124,7 @@ $firstImage = $product->images->sortBy('order')->first();
                                     <stop offset="1" stop-color="#E29E1A" stop-opacity="0" />
                                 </linearGradient>
                             </defs>
-                        </svg>
+                        </svg>  --}}
                     </div>
                 </div>
                 <div class="flex space-x-1 mb-4">

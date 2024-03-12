@@ -40,6 +40,7 @@ Route::get('tienda/{product}',[WebShopController::class,'show'])->name('web.shop
 Route::get('registro',[WebController::class,'login_register'])->name('web.login_register');
 Route::post('registro/user',[WebController::class,'register_user'])->name('web.store_register');
 Route::get('recuperar_password',[WebController::class,'recover_password'])->name('web.recover_password');
+Route::get('color/product/get',[WebShopController::class,'getimage'])->name('getimage.product.select');
 
 Route::middleware(['auth', config('jetstream.auth_session'),'verified',
 ])->group(function () {
@@ -54,7 +55,8 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified',
         Route::get('color/product/get',[ColorController::class,'getimage'])->name('getimage.product.color');
         Route::post('row/{product}',[ColorController::class,'addrow'])->name('row.product.image');
         Route::post('sorting/{product}',[ColorController::class,'sorting'])->name('sorting.image');
-        Route::resource('color',ColorController::class)->names('colors');
+        Route::delete('deleteimage/color/{product}',[ColorController::class,'deleteimage'])->name('deleteimage.color');
+        Route::delete('row/delete/{product}',[ColorController::class,'deleterow'])->name('deleterow');
         Route::resource('categories', CategoryController::class)->names('categories');
         Route::resource('tags', TagController::class)->except('show')->names('tags');
         Route::get('tag/{type}',[TagController::class,'type'])->name('tags.indextype');

@@ -132,7 +132,7 @@
                         {{-- <x-sidebar.ul-simple href="{{ route('tags.index') }}"
                             :active="request()->routeIs('tags.*')">Etiquetas</x-sidebar.ul-simple> --}}
 
-                        <x-sidebar.ul-drop name="Blog" id="4">
+{{--                          <x-sidebar.ul-drop name="Blog" id="4">
                             <x-slot name="icon">
                                 <x-icons.blog>
                                 </x-icons.blog>
@@ -147,7 +147,7 @@
                             <x-sidebar.ul-drop-son href="{{ route('tags.indextype','POST')}}">Etiquetas
                             </x-sidebar.ul-drop-son>
                             @endcan
-                        </x-sidebar.ul-drop>
+                        </x-sidebar.ul-drop>  --}}
                         @can(['products.index', 'categories.index', 'tags.index', 'brands.index'])
                         <x-sidebar.ul-drop name="eCommerce" id="5">
                             <x-slot name="icon">
@@ -160,24 +160,7 @@
                             <x-sidebar.ul-drop-son>Promociones</x-sidebar.ul-drop-son>
                         </x-sidebar.ul-drop>
                         @endcan
-                        @can(['clients.index', 'clients.create', 'clients.store', 'clients.show', 'clients.edit',
-                        'clients.update', 'clients.destroy'])
-                        <x-sidebar.ul-simple {{-- :active="request()->routeIs('users.*')" --}}
-                            href="{{ route('home') }}">
-                            <x-slot name="icon">
-                                <x-icons.clientes class="h-[20px] w-[20px]" />
-                            </x-slot> Clientes
-                        </x-sidebar.ul-simple>
-                        @endcan
-                        @can(['providers.index', 'providers.create', 'providers.store', 'providers.show',
-                        'providers.edit', 'providers.update', 'providers.destroy'])
-                        <x-sidebar.ul-simple {{-- :active="request()->routeIs('users.*')" --}}
-                            href="{{ route('home') }}">
-                            <x-slot name="icon">
-                                <x-icons.provedores class="h-[20px] w-[20px]" />
-                            </x-slot> Provedores
-                        </x-sidebar.ul-simple>
-                        @endcan
+
                         @can(['users.index', 'users.create', 'users.store', 'users.show', 'users.edit', 'users.update',
                         'users.destroy'])
                         <x-sidebar.ul-simple :active="request()->routeIs('users.*')" href="{{ route('users.index') }}">

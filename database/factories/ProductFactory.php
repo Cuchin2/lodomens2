@@ -24,7 +24,6 @@ class ProductFactory extends Factory
             'short_description'=>$this->faker->realText($maxNbChars= 360, $indexSize =2),
             'body'=>$this->faker->sentence($nbWords= 6, $variableNBWords =true),
             'sell_price'=>$this->faker->randomNumber(2),
-            'views'=>0,
             'status'=>'BOTH',
             'brand_id'=>rand(1,8),
             'category_id'=>rand(1,10),

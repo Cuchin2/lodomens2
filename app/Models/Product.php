@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Coderflex\Laravisit\Concerns\CanVisit;
+use Coderflex\Laravisit\Concerns\HasVisits;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Rating;
 use App\Models\Color;
 
-class Product extends Model
+class Product extends Model implements CanVisit
 {
     use HasFactory;
     use SoftDeletes;
-
+    use HasVisits;
     protected $fillable = [
         'code',
         'name',

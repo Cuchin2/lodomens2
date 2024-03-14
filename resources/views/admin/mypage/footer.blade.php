@@ -164,7 +164,7 @@
 
                         </div>
 
-                        <x-button.corp1 class="ml-auto">Actualizar</x-button.corp1>
+                        <x-button.corp1 type="buttom" class="ml-auto">Actualizar</x-button.corp1>
 
                     </div>
                 </div>

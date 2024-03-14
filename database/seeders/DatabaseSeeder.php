@@ -26,13 +26,13 @@ class DatabaseSeeder extends Seeder
         Provider::factory(10)->create();
         Tag::factory(10)->create();
         Promotion::factory(20)->create();
-        Product::factory(12)->create()->each(function ($product){
+        /*Product::factory(12)->create()->each(function ($product){
             $tagIds = $this->array(rand(1, 10));
             $tagIds = array_slice($tagIds, 0, 4); // Limitar a 4 tags
             $product->tags()->attach($tagIds);
             $product->promotions()->attach($this->array(rand(1, 20)));
-            $product->images()->saveMany(Image::factory(4)->make());
-        });
+             $product->images()->saveMany(Image::factory(4)->make());
+        });*/
         $this->call(UserTypeSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(FooterSeeder::class);

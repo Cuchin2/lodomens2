@@ -6,7 +6,7 @@
                 <div class="flex items-center justify-between">
                     <div class="flex w-full m-[20px]">
 
-                        <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" href="{{route('users.create')}}" wire:navigate>
+                        <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" wire:click='showCreateModal()'>
                             <div class="flex items-center justify-center mx-[10px]">
                             <x-icons.plus class="h-[12px] w-[12px] fill-white mx-[3px]" grosor="1"></x-icons.plus>
 
@@ -29,10 +29,6 @@
                             </div>
 
                         </button>
-
-
-
-
                         <div class="flex justify-center">
                             <div
                                 x-data="{
@@ -133,14 +129,25 @@
                             </tr>
                         </thead>
                         <tbody class="text-[14px] ">
-                            @foreach ($products as $product)
+                            @foreach ($products as $key0 => $product)
 
                             <tr wire:key="{{$product->id}}" class="border-b dark:border-gris-70 dark:hover:bg-gris-70 dark:hover:bg-opacity-[25%] px-[140px]">
                                 <th scope="row"
                                     class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
                                     {{$product->id}}</th>
+                                    @php
+                                    $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')->get()->map(function ($color) {
+                                        return (object) ['name' => $color->name, 'hex' => $color->hex, 'id' => $color->id];
+                                    }); $imagenes = [];
+                                    foreach ($colorSelect as $key => $color) {
+                                        $imagenes2 = $product->images()->where('color_id',$color->id)->join('row_image', 'images.id', '=', 'row_image.image_id')
+                                        ->join('rows', 'rows.id', '=', 'row_image.row_id')
+                                        ->orderBy('rows.order', 'asc')->get();
+                                    $imagenes[$key]= $imagenes2;        }
+                                    $firstImage[$key0] = $imagenes[0]->first();
+                                    @endphp
                                     <th scope="row" class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
-                                        <img src="{{ asset($product->images->sortBy('order')->first()->url) }}" class="border-[2px] border-corp-50 rounded-[3px] h-[40px] flex mx-auto" alt="">
+                                        <img src="{{ asset('storage/'.$firstImage[$key0]->url) }}" class="border-[2px] border-corp-50 rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
                                       </th>
                                 <td class="px-4 py-[13px] ">
                                     {{$product->name}}</td>
@@ -153,7 +160,7 @@
                                     <a class="text-azul-50 hover:text-azul-30" href="{{route('products.edit',$product->slug)}}">
                                         <x-icons.edit></x-icons.edit>
                                     </a>
-                                    <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal({{ $product->name }},'{{$product->slug}}')" >
+                                    <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal('{{ $product->slug }}','{{$product->name}}')" >
                                         <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                     </button>
                                 </td>
@@ -199,11 +206,43 @@
 
             <x-slot name="footer">
                 <x-button.corp1 wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp1>
-                <x-button.corp_secundary wire:click="delete({{$itemIdToDelete}})" wire:loading.attr="disabled">Eliminar</x-button.corp_secundary>
+                <x-button.corp_secundary wire:click="delete('{{$itemIdToDelete}}')" wire:loading.attr="disabled">Eliminar</x-button.corp_secundary>
 
             </x-slot>
         </x-dialog-modal>
+        <x-dialog-modal wire:model="showModalCreate">
+            <x-slot name="title">
+                Crear Producto
+            </x-slot>
 
+            <x-slot name="content">
+                <div class="grid grid-cols-2 gap-4">
+                <div class="my-3">
+                    <x-label class="mb-2">Nombre</x-label>
+                    <x-input name="stock" wire:model="productName" placeholder="Nombre del producto "></x-input>
+                    @error('productName')
+                        <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="my-3">
+                    <x-label class="mb-2">Categoría</x-label>
+                    <x-select-search2 placeholder="Selecciona la categoría"
+                        message="Ninguna categoría coincide con la búsqueda" name="category_id"
+                        :data="$categories" selected="">
+                    </x-select-search2>
+                    @error('category_id')
+                        <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-button.corp1 wire:click="$toggle('showModalCreate')" wire:loading.attr="disabled">Cancelar</x-button.corp1>
+                <x-button.corp_secundary wire:click="create('{{$productName}}')" wire:loading.attr="disabled">Crear</x-button.corp_secundary>
+
+            </x-slot>
+        </x-dialog-modal>
     </section>
 
 </div>

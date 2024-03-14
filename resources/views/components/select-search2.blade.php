@@ -5,7 +5,7 @@
         class="relative">
         <span class="inline-block w-full rounded-md shadow-sm">
             <button type="button" x-ref="button" @click="toggleListboxVisibility()" :aria-expanded="open"
-                aria-haspopup="listbox"
+                aria-haspopup="listbox" @click.away="$wire.change(value)"
                 class="relative h-[30px] z-0 w-full py-1 pl-3 pr-10 text-left transition duration-150 ease-in-out dark:bg-gris-90 border border-gray-700 rounded-md cursor-default focus:outline-none focus:shadow-outline-teal focus:border-corp-50 sm:text-sm sm:leading-5">
                 <span x-show="! open" x-text="value in options ? options[value] : placeholder"
                     :class="{ 'text-gris-30': !(value in options) }" class="block truncate dark:text-gris-30"></span>
@@ -168,4 +168,5 @@
             }
         }
     </script>
+
 </div>

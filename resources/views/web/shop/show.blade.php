@@ -11,9 +11,7 @@
 @endsection
 <x-lodomens.video />
 @section('content')
-@php
-$firstImage = $imagenes[0]->first();
-@endphp
+
 <div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1" x-data="{ tab: 'tab1', colorselect:'0', colorid: '@json($colorSelect[0]->id)',ext:'{{ pathinfo(asset($firstImage ->url), PATHINFO_EXTENSION) }}', abc:'0', src: '{{ asset('storage/'.$firstImage->url) }}', getImage(a,b) {
     axios.get('{{ route('getimage.product.select') }}', {
         params: {
@@ -91,7 +89,7 @@ $firstImage = $imagenes[0]->first();
                 </div>
                 <p class="mt-4 text-justify">{{ $product->short_description }}</p>
                 <div class="flex my-4 space-x-1">
-                    <h5> {{ $colorSelect->count() === 1 ? 'COLOR: ' : 'COLORES: ' }}</h5>
+                    <p class="font-bold"> {{ $colorSelect->count() === 1 ? 'COLOR: ' : 'COLORES: ' }}</p class="font-bold">
                     <div class="flex space-x-2" x-data="{active:'0'}">
                         @foreach ($colorSelect as $key => $color )
                             <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px]"           :class="{'border-corp-50 border-[3px]' : active === '{{ $key}}' }" style="background: {{ $color->hex }}" x-on:click="$dispatch('send',{ parm: '{{ $key }}' }); getImage(abc,{{ $color->id }}); active='{{ $key }}'"> </div>
@@ -128,45 +126,52 @@ $firstImage = $imagenes[0]->first();
                     </div>
                 </div>
                 <div class="flex space-x-1 mb-4">
-                    <h5> Disponible : {{ $product->stock }} {{ ($product->stock > 1) ? 'unidades' : 'unidad'}} </h5>
+
+                        @if($product->stock > 0)
+                        <p class="font-bold">    Disponible :  </p>
+                         <p>{{ $product->stock }} {{ ($product->stock > 1) ? 'unidades' : 'unidad'}}</p>
+                        @else
+                        <p class="font-bold"> Fuera de stock </p>
+                        @endif
+
                  </div>
 
-                <div class="flex justify-center space-x-3">
-                    <div class="flex" x-data={count:null}>
-                        <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[30px] border-[1px] text-[12px] rounded-l-[3px]  border-gris-50 w-[30px] flex items-center"
+                <div class="flex justify-left space-x-3">
+                    <div class="flex" x-data={count:0}>
+                        <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[36px] border-[1px] text-[12px] rounded-l-[3px]  border-gris-30 w-[30px] flex items-center"
                             @click="count > 0 ? count-- : null">
-                            <x-icons.chevron-left height="20px" width="20px" class="p-1 mx-auto fill-gris-30" />
+                            <x-icons.chevron-left grosor="1" height="20px" width="20px" class="p-1 mx-auto fill-gris-30" />
                         </div>
                         <div>
                             <input type="text"
-                                class="text-gris-60 bg-black h-[30px] mx-auto text-[12px] p-2 focus:ring-gris-50 focus:border-gris-50 w-[40px] border-gris-50 text-center"
-                                placeholder=" 0" required="" x-model="count">
+                                class="text-gris-10 font-bold bg-black h-[36px] mx-auto text-[14px] p-2 focus:ring-gris-50 focus:border-gris-50 w-[52px] border-gris-30 text-center border-x-0"
+                                placeholder=" " required="" x-model="count">
                         </div>
-                        <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[30px] border-[1px] text-[12px] rounded-r-[3px]  border-gris-50 w-[30px] flex items-center"
+                        <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[36px] border-[1px] text-[12px] rounded-r-[3px]  border-gris-30 w-[30px] flex items-center"
                             @click="count++">
-                            <x-icons.chevron-right height="20px" width="20px" class="p-1 mx-auto fill-gris-30" />
+                            <x-icons.chevron-right grosor="1" height="20px" width="20px" class="p-1 mx-auto fill-gris-30" />
                         </div>
                     </div>
-                    <button class="bg-corp-50 rounded-[3px] px-4">
+                    <button class="bg-corp-50 rounded-[3px] px-4 font-bold w-full h-[36px]">
                         Añadir a Carrito
                     </button>
                 </div>
                 <div class="flex my-4 space-x-2">
                     <x-icons.heart class="w-[20px]" />
-                    <p class="text-[12px]">Añadir a lista de deseos</p>
+                    <p>Añadir a lista de deseos</p>
                 </div>
                 <div class="my-4">
                     <div class="flex">
-                        <p class="text-[12px] text-white mr-1">Categorias :</p>
-                        <p class="text-[12px] text-gris-10">{{ $product->category->name }}</p>
+                        <p class=" text-gris-10 mr-1 font-bold">Categorias :</p>
+                        <p class=" text-gris-10">{{ $product->category->name }}</p>
                     </div>
                     <div class="flex">
 
                         @if($product->tags->isNotEmpty())
-                        <p class="text-[12px] text-white mr-1">Etiquetas :</p>
+                        <p class=" text-gris-10 mr-1 font-bold">Etiquetas :</p>
                         @endif
                         @foreach ($product->tags as $key => $tag)
-                        <p class="text-[12px] text-gris-10">
+                        <p class="text-gris-10">
                             {{ $tag->name }}
                             @if (!$loop->last)
                             ,
@@ -176,7 +181,7 @@ $firstImage = $imagenes[0]->first();
                     </div>
                 </div>
                 <div class="flex">
-                    <p class="text-[12px] text-white mr-2">Compartir en:</p>
+                    <p class=" text-gris-10 mr-2 font-bold">Compartir en:</p>
                     <div class="flex space-x-3 ">
                         <div
                             class="h-[24px] w-[24px] border-[1px] border-corp-50 rounded-[3px] flex justify-center items-center ">
@@ -211,7 +216,7 @@ $firstImage = $imagenes[0]->first();
     </div>
     <hr class="mt-[20px] mb-[10px] border-gris-70">
     <div>
-        {!! $product->long_description !!}
+        {!! $product->body !!}
         <hr class="my-[40px] border-gris-70">
         <div id="second">
             <div class="mx-auto mb-4">

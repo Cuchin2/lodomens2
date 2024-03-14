@@ -53,7 +53,7 @@
                         <div class="my-3">
                             <x-label class="my-2">Contenido:</x-label>
                             <textarea class="form-control" name="body" id="body" rows="10">
-                            {{ old('long_description', $product->long_description) }}
+                            {{ old('body', $product->body) }}
                             </textarea>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                         </div>
                         <div class="flex space-x-4 my-3">
                             <x-label class="mb-2">Visualizaciones:</x-label>
-                            <x-label>{{ $product->views }}</x-label>
+                            <x-label>{{ $product->withTotalVisitCount()->first()->visit_count_total }}</x-label>
                         </div>
                         <div class="my-3">
                             <x-label class="mb-2">Colores:</x-label>

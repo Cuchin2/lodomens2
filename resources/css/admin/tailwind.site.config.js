@@ -46,6 +46,7 @@ export default {
                 'corp-70':'#800303',
                 'corp-50':'#990D0D',
                 'corp-30': '#AD0D0D',
+                'corp-10': '#C61C1C',
                 'corp2-70':'#AC803D',
                 'corp2-50':'#C69B4C',
                 'corp2-30': '#F2BC5D',

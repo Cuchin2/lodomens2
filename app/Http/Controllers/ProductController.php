@@ -7,12 +7,15 @@ use App\Models\Tag;
 use App\Models\Image;
 use App\Models\Color;
 use App\Models\Row;
+use Illuminate\Support\Str;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rules\Can;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+
 class ProductController extends Controller
 {
     /**
@@ -26,9 +29,14 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $product=Product::create([
+            'name' => $request->name,
+            'slug' =>Str::slug( $request->name),
+            'category_id' => $request->category_id,
+        ]);
+        return redirect()->view('admin.product.edit',['slug'=>$product->slug]);
     }
 
     /**
@@ -82,7 +90,8 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $product->my_update($request);
-        return redirect()->back();
+
+        return redirect()->route('products.edit',$product);
     }
 
     /**

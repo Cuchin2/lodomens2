@@ -35,6 +35,7 @@ class ShopMain extends Component
             ->paginate($this->perPage),
             'categories' => Category::all(),
             'brands' => Brand::all(),
+            'productsall'=> Product::all(),
         ]);
     }
 }

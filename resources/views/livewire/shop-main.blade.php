@@ -12,8 +12,8 @@
         <div class="w-[34px] h-[34px] bg-gris-90 rounded p-1 cursor-pointer" @click="open=!open">
             <x-icons.chevron-left height="22px" width="22px" grosor="2" class="p-1" />
         </div>
-        <div class="hidden md:block w-fit mx-3 whitespace-nowrap">
-            <p>107 Resultados</p>
+        <div class="hidden md:block w-fit ml-9 mr-9 whitespace-nowrap">
+            <p>{{--  107  --}} {{ $productsall->count() }} Resultados</p>
         </div>
         <div class="mx-3 w-full">
             <div class="relative">
@@ -48,19 +48,19 @@
         </div>
     </div>
 </div>
-<div class="flex justify-center pt-[54px] bg-black/75">
+<div class="flex pt-[54px] bg-black/75">
     {{-- <div class="lg:block hidden lg:bg-red-700 w-40 h-auto m-2"> </div> --}}
     {{-- menu 1 --}}
-    <div class="fixed top-[126px] md:top-0 z-10 left-0 md:relative lg:w-[210px] w-1/2 md:w-1/4 h-full md:h-auto md:ml-[7px] pt-[4px]"
+    <div class="fixed md:min-h-[208px] xl:min-h-[304px] top-[126px] md:top-0 z-10 left-0 md:relative lg:w-[210px] w-1/2 md:w-1/4 h-full md:h-auto md:ml-[7px] pt-[4px]"
         x-data="{menu1 : 0}" x-show="open" @click.away="if (window.innerWidth < 1024) {
                 open = false;
             }" {{-- @click.away="open=false" --}}
-        x-transition:enter="transition ease-out duration-300 md:duration-0 -ml-64  " x-transition:enter-start=""
+{{--          x-transition:enter="transition ease-out duration-300 md:duration-0 -ml-64  " x-transition:enter-start=""
         x-transition:enter-end="transform translate-x-64 md:translate-x-[0px] "
         x-transition:leave="transition ease-out duration-300 md:duration-0 " x-transition:leave-start=""
-        x-transition:leave-end="transform -translate-x-64 md:-translate-x-[0px]">
-        <div class="h-full bg-gris-90 lg:w-[120px] xl:w-[210px]">
-        <ul class="md:fixed  md:w-[148px] lg:w-[120px] xl:w-[207px] ">
+        x-transition:leave-end="transform -translate-x-64 md:-translate-x-[0px]"  --}}>
+        <div class="h-full bg-gris-90 lg:w-[120px] xl:w-[205px] overflow-y-auto">
+        <ul class="md:fixed bg-gris-90 md:w-[148px] lg:w-[120px] xl:w-[200px] overflow-y-auto h-fit md:max-h-[300px]" @click.away="menu1 = 0">
             <li class="mr-6 p-2 ">
                 <a class="text-gris-10 hover:text-red-600 text-[12px]">FILTROS</a>
             </li>
@@ -103,7 +103,7 @@
         </div>
     </div>
     {{-- FIN menu 1 --}}
-    <div>
+    <div class="mx-auto " :class="{'pl-2': open === true}">
     <div :class="{
         'grid-cols-2 lg:grid-cols-5 md:grid-cols-4': !open && sort === 3,
         'grid-cols-2 lg:grid-cols-4 md:grid-cols-3': (open && sort === 3) || (!open && sort === 2),
@@ -112,11 +112,11 @@
     }" class="grid">
 
         @foreach ($products as $product )
-        <div class="px-2 mx-auto relative my-[8px]" x-data="{icon:false}">
+        <div class="px-3 mx-auto relative my-[8px]" x-data="{icon:false}">
             <a href="{{route('web.shop.show',$product)}}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex':sort===1}">
-                <img src="{{ asset('storage/'.$product->images[0]->url) }}" class="border-[2px] border-corp-50 rounded-[3px]"
-                    alt="{{ $product->name }}" :class="{'h-[210px] m-auto':sort===1}">
-                <div class="absolute right-0 top-0 p-[14px] " x-show="(icon && sort !== 1 )|| sort === 1">
+                <img src="{{ asset('storage/'.$product->images[0]->url) }}" class="w-[205px] border-[2px] border-corp-50 rounded-[3px]"
+                    alt="{{ $product->name }}" :class="{'h-[210px] w-[210px]  m-auto':sort===1}">
+                <div class="absolute right-0 top-0 py-[7px] px-[20px]" x-show="(icon && sort !== 1 )|| sort === 1">
                     <x-icons.heart class="h-[20px] w-[20px] fill-gris-10 hover:fill-white cursor-pointer mb-2" />
                     <x-icons.cart class="h-[20px] w-[20px] fill-gris-10 hover:fill-white cursor-pointer" x-show="sort !==1"/>
                 </div>
@@ -143,7 +143,7 @@
         </div>
         @endforeach
     </div>
-    {{$products->links('vendor.livewire.nubesita')}}
+    {{$products->links('vendor.livewire.lodomen')}}
     </div>
 
 </div>

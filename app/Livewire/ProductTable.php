@@ -3,16 +3,23 @@
 namespace App\Livewire;
 
 use App\Models\Product;
+use App\Models\Category;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\Attributes\Validate;
 use Livewire\WithPagination;
-
+use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 class ProductTable extends Component
 {
     use WithPagination;
-    public $showModal = false;
+    public $showModal = false; public $showModalCreate= false;
     public $itemIdToDelete;
+    #[Validate('required', message: 'Seleccione una categoría')]
+     public $category_id;
     public $itemName;
+    #[Validate('required', message: 'El nombre del producto es obligatorio')]
+    public $productName;
     public $perPage = 5;
 
     #[Url(history:true)]
@@ -37,6 +44,17 @@ class ProductTable extends Component
         $product->delete();
         $this->showModal = false;
     }
+    public function create()
+    {
+        $this->validate();
+         $product=Product::create([
+            'name' => $this->productName,
+            'slug' =>Str::slug($this->productName),
+            'category_id' => $this->category_id,
+        ]);
+        $this->showModalCreate = false;
+        $this->redirectRoute('products.edit',['product'=>$product]);
+    }
     public function setSortBy($sortByField)
     {
         if($this->sortBy === $sortByField){
@@ -54,7 +72,8 @@ class ProductTable extends Component
                 $query->where('name',$this->type);
             })
             ->orderBy($this->sortBy,$this->sortDir)
-            ->paginate($this->perPage)
+            ->paginate($this->perPage),
+            'categories'=> Category::all()->pluck('name', 'id')->toArray(),
         ]);
     }
 
@@ -65,4 +84,13 @@ class ProductTable extends Component
             $this->itemIdToDelete = $itemId;
             $this->showModal = true;
         }
+    public function showCreateModal()
+    {
+        $this->showModalCreate = true;
+    }
+
+    public function change($a)
+    {
+        $this->category_id= $a;
+    }
 }

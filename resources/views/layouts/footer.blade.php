@@ -89,7 +89,7 @@
             <div class="col-12  py-[13.4px]  mx-auto">
                 <div class="flex justify-between w-[270px]">
                     @foreach ($datos['redes'] as $red)
-                    <a href="{{$red->url }}"alt="">
+                    <a href="{{$red->url }}"alt="" target="_blank">
                         <x-dynamic-component :component="'icons.socialmedia.'.$red->name" :class="'h-[15.5px] fill-gris-10 hover:fill-corp-50'" />
                     </a>
                     @endforeach
@@ -130,7 +130,7 @@
 
                 <div class="mt-[25px] flex justify-between">
                     @foreach ($datos['redes'] as $red)
-                    <a href="{{$red->url }}"alt="">
+                    <a href="{{$red->url }}"alt="" target="_blank">
                         <x-dynamic-component :component="'icons.socialmedia.'.$red->name" :class="'h-[15.5px] fill-gris-10 hover:fill-corp-50'" />
                     </a>
                 @endforeach
@@ -193,7 +193,7 @@
     </div>
     <div class="md:flex lg:hidden justify-between  w-[280px]">
         @foreach ($datos['redes'] as $red)
-            <a href="{{$red->url }}"alt="">
+            <a href="{{$red->url }}"alt="" target="_blank">
                 <x-dynamic-component :component="'icons.socialmedia.'.$red->name" :class="'h-[15.5px] fill-gris-10 hover:fill-corp-50'" />
             </a>
         @endforeach

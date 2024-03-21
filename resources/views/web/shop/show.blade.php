@@ -78,11 +78,19 @@
         <hr class="md:hidden mt-[20px] mb-[10px] border-gris-70 ">
         <div class="md:pt-[20px] md:ml-[20px]">
             <div>
-                <h3>{{ $product->name }}</h3>
+                <div class="flex items-center justify-between"><h3>{{ $product->name }}</h3> @if($product->code)
+                    <p>SKU: {{ $product->code }}</p>
+                @endif
+            </div>
                 <div class="mb-2 cursor-pointer flex" x-data
                     x-on:click="$scroll('#second', { offset: 200 }); tab = 'tab2'">
-                   <livewire-starmain  product="{{ $product->id }}"/>
-                    <p class="text-gris-30"> - {{ $product->reviews->count() }} reseñas -</p>
+                    @if ($product->reviews->count() === 0)
+
+                    @else
+                    <livewire-starmain  product="{{ $product->id }}"/>
+                        <p class="text-gris-30"> - {{ $product->reviews->count() }} {{  $product->reviews->count() === 1 ? 'Reseña' : 'Reseñas' }} -</p>
+                    @endif
+
                 </div>
                 <div class="flex space-x-3">
                     <h4>S/. {{ $product->sell_price }}</h4>
@@ -95,35 +103,6 @@
                         @foreach ($colorSelect as $key => $color )
                             <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px]"           :class="{'border-corp-50 border-[3px]' : active === '{{ $key}}' }" style="background: {{ $color->hex }}" x-on:click="$dispatch('send',{ parm: '{{ $key }}' }); getImage(abc,{{ $color->id }}); active='{{ $key }}'"> </div>
                         @endforeach
-                        {{--  <svg width="72" height="34" viewBox="0 0 72 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g id="Colores">
-                                <path id="Ellipse 16"
-                                    d="M30.3631 17C30.3631 24.4715 24.5063 30.5 17.3158 30.5C10.1254 30.5 4.26855 24.4715 4.26855 17C4.26855 9.52854 10.1254 3.5 17.3158 3.5C24.5063 3.5 30.3631 9.52854 30.3631 17Z"
-                                    fill="url(#paint0_linear_386_4871)" stroke="#A4A4A4" />
-                                <path id="Ellipse 21"
-                                    d="M32.2662 17C32.2662 25.6073 25.5267 32.5 17.316 32.5C9.10527 32.5 2.36572 25.6073 2.36572 17C2.36572 8.39273 9.10527 1.5 17.316 1.5C25.5267 1.5 32.2662 8.39273 32.2662 17Z"
-                                    stroke="#900D0D" stroke-width="3" />
-                                <path id="Ellipse 19"
-                                    d="M71.0052 17C71.0052 24.4715 65.1483 30.5 57.9579 30.5C50.7675 30.5 44.9106 24.4715 44.9106 17C44.9106 9.52854 50.7675 3.5 57.9579 3.5C65.1483 3.5 71.0052 9.52854 71.0052 17Z"
-                                    fill="url(#paint1_linear_386_4871)" stroke="#A4A4A4" />
-                            </g>
-                            <defs>
-                                <linearGradient id="paint0_linear_386_4871" x1="1.73647" y1="6.5" x2="31.6209"
-                                    y2="30.0379" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#1E1E1E" />
-                                    <stop offset="0.46875" stop-color="#ACAAAA" />
-                                    <stop offset="0.708333" stop-color="#D9D9D9" stop-opacity="0.421569" />
-                                    <stop offset="1" stop-color="#D9D9D9" stop-opacity="0" />
-                                </linearGradient>
-                                <linearGradient id="paint1_linear_386_4871" x1="42.3786" y1="6.5" x2="72.263"
-                                    y2="30.0379" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#55410D" />
-                                    <stop offset="0.46875" stop-color="#C79719" />
-                                    <stop offset="0.708333" stop-color="#DA991B" stop-opacity="0.421569" />
-                                    <stop offset="1" stop-color="#E29E1A" stop-opacity="0" />
-                                </linearGradient>
-                            </defs>
-                        </svg>  --}}
                     </div>
                 </div>
                 <div class="flex space-x-1 mb-4">
@@ -153,7 +132,7 @@
                             <x-icons.chevron-right grosor="1" height="20px" width="20px" class="p-1 mx-auto fill-gris-30" />
                         </div>
                     </div>
-                    <button class="bg-corp-50 rounded-[3px] px-4 font-bold w-full h-[36px]">
+                    <button class="bg-gradient-to-b from-corp-20 via-corp-50 to-corp-90  text-gris-10 rounded-[3px] px-4 font-bold w-full h-[36px]">
                         Añadir a Carrito
                     </button>
                 </div>

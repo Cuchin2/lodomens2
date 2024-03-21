@@ -96,7 +96,7 @@
     <p>Inicia sesión para acceder a contenido exclusivo, o<a href="{{--  {{ route('web.login_register') }}  --}}">
             registrate</a></p>
     @endif
-    <h6 class="">{{ $total }} Reseñas</h6>
+    <h6 class="">{{ $total }} {{ $total === 1 ? 'Reseña' : 'Reseñas' }}</h6>
 
     <ul class="p-0 mb-4 mt-0 pt-[25px]">
         @foreach ($co as $com)

@@ -111,11 +111,30 @@
         'mt-1 md:mt-0': true,
     }" class="grid">
 
-        @foreach ($products as $product )
+        @foreach ($products as $key0 =>$product )
         <div class="px-3 mx-auto relative my-[8px]" x-data="{icon:false}">
             <a href="{{route('web.shop.show',$product)}}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex':sort===1}">
-                <img src="{{ asset('storage/'.$product->images[0]->url) }}" class="w-[205px] border-[2px] border-corp-50 rounded-[3px]"
-                    alt="{{ $product->name }}" :class="{'h-[210px] w-[210px]  m-auto':sort===1}">
+                <lodo class="w-fit relative items-center h-fit mx-auto">
+                    @php
+                    $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')->get()->map(function ($color) {
+                        return (object) ['name' => $color->name, 'hex' => $color->hex, 'id' => $color->id];
+                    }); $imagenes = [];
+                    foreach ($colorSelect as $key => $color) {
+                        $imagenes2 = $product->images()->where('color_id',$color->id)->join('row_image', 'images.id', '=', 'row_image.image_id')
+                        ->join('rows', 'rows.id', '=', 'row_image.row_id')
+                        ->orderBy('rows.order', 'asc')->get();
+                    $imagenes[$key]= $imagenes2;        }
+                    $firstImage[$key0] = $imagenes[0]->first();
+                    @endphp
+                <img src="{{ asset('storage/'.$firstImage[$key0]->url) }}" class="w-[400px] mx-auto border-[2px]  border-corp-50 rounded-[3px]"
+                    alt="{{ $product->name }}" >
+
+                    <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center {{ $product->stock > 0 ? '':'bg-black/80 border-[2px] border-corp-50 rounded-[3px]' }}   "> @if ($product->stock <= 1)
+                        <span class="text-gris-20 text-[14px] font-bold bg-gris-90 p-2 border-[2px]  border-corp-50 rounded-[3px]">SIN STOCK</span>  @endif
+                      </div>
+
+
+                </lodo>
                 <div class="absolute right-0 top-0 py-[7px] px-[20px]" x-show="(icon && sort !== 1 )|| sort === 1">
                     <x-icons.heart class="h-[20px] w-[20px] fill-gris-10 hover:fill-white cursor-pointer mb-2" />
                     <x-icons.cart class="h-[20px] w-[20px] fill-gris-10 hover:fill-white cursor-pointer" x-show="sort !==1"/>

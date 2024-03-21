@@ -9,6 +9,7 @@ export default {
     //    './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        './resources/views/components/**/*.blade.php',
     ],
 
     theme: {
@@ -46,10 +47,10 @@ export default {
                 'corp-20':'#C83140',
                 'corp2-70':'#AC803D',
                 'corp2-50':'#C69B4C',
-                'corp2-30': '#F2BC5D',
+                'corp2-30':'#F2BC5D',
                 'amarillo-70':'#EB9B00',
                 'amarillo-50':'#FFB21C',
-                'amarillo-30':'#FFC045',
+                'amarillo-30':'#F2BC5D',
                 'morado-70':'#802FB1',
                 'morado-50':'#963DCD',
                 'morado-30':'#AE5DE0',

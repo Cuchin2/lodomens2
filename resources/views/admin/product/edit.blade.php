@@ -61,6 +61,10 @@
                 <div class="col-span-12 lg:col-span-4 bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg: ">
                         <div class="my-3">
+                            <x-label class="mb-2">Código del producto (SKU)</x-label>
+                            <x-input name="code" value="{{ $product->code}}" placeholder="Código del prodcuto"></x-input>
+                        </div>
+                        <div class="my-3">
                             <x-label class="mb-2">Nivel de stock</x-label>
                             <x-input name="stock" value="{{ $product->stock}}" placeholder="Nivel de stock "></x-input>
                         </div>

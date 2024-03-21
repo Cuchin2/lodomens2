@@ -21,8 +21,9 @@
         <template x-for="(star, index) in ratings" :key="index">
             <button @click="rate(star.amount), $wire.rate(star.amount)" @mouseover="hoverRating = star.amount" @mouseleave="hoverRating = rating"
                 aria-hidden="true" :title="star.label"
-                class="rounded-sm text-gray-400 fill-current focus:outline-none focus:shadow-outline px-[2px] m-0 cursor-pointer"
-                :class="{'text-gray-600': hoverRating >= star.amount, 'text-[#C69B4C]': rating >= star.amount && hoverRating >= star.amount}">
+                class="rounded-sm  fill-current focus:outline-none focus:shadow-outline px-[2px] m-0 cursor-pointer"
+                :class="{'text-corp2-30': hoverRating >= star.amount, 'hover:text-corp2-30': rating >= star.amount && hoverRating >= star.amount}"
+                >
                 <svg class="w-5 transition duration-150" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                     fill="currentColor">
                     <path

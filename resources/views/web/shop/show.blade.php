@@ -17,6 +17,7 @@
         params: {
           row: a,
           colorid: b,
+          id: {{ $product->id }}
           // Agrega más parámetros según sea necesario
         }
       })

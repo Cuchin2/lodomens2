@@ -36,10 +36,12 @@ class WebShopController extends Controller
     }
     public function getimage(Request $request)
     {
+
         $image = Image::join('row_image', 'images.id', '=', 'row_image.image_id')
             ->join('rows', 'rows.id', '=', 'row_image.row_id')
             ->where('color_id', $request->colorid)
             ->where('rows.order', $request->row)
+            ->where('images.imageable_id', $request->id) // Agrega esta línea
             ->first();
 
                 return response()->json(['url'=>$image->url]);

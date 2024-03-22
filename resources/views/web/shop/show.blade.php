@@ -34,19 +34,25 @@
  }">
     <div class="md:grid md:grid-cols-2">
         <div class="md:grid md:grid-cols-6 mt-5">
-            <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2" >
-                <p x-tet="ext"></p>
+            <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2 relat" >
+                {{--  <p x-text="ext"></p>  --}}
+                <lodo class="w-fit relative items-center h-fit mx-auto">
                 <template x-if="ext === 'mp4'">
                     <video :src="src" controls
                   class="w-full border-[2px] border-corp-50 rounded-[3px]" :alt="ext" alt="">
                 </video>
+
                  </template>
 
                   <template x-if="ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif' || ext === 'svg'" >
                   <img  :src="src"
                   class="w-full border-[2px] border-corp-50 rounded-[3px]" alt="">
-                  </template>
 
+                  </template>
+                  <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center {{ $product->stock > 0 ? '':'bg-black/80 border-[2px] border-corp-50 rounded-[3px]' }}   "> @if ($product->stock <= 1)
+                    <span class="text-gris-20 text-[14px] font-bold bg-gris-90 p-2 border-[2px]  border-corp-50 rounded-[3px]">SIN STOCK</span>  @endif
+                  </div>
+                </lodo>
             </div>
             @foreach ($imagenes as $key =>$images)
             <div
@@ -132,9 +138,12 @@
                             <x-icons.chevron-right grosor="1" height="20px" width="20px" class="p-1 mx-auto fill-gris-30" />
                         </div>
                     </div>
-                    <button class="bg-gradient-to-b from-corp-20 via-corp-50 to-corp-90  text-gris-10 rounded-[3px] px-4 font-bold w-full h-[36px]">
+
+                    <x-button.webprimary class="w-full"> Añadit a Carrito</x-button.webprimary>
+
+                    {{--  <button class="bg-gradient-to-b from-corp-20 via-corp-50 to-corp-90  text-gris-10 rounded-[3px] px-4 font-bold w-full h-[36px]">
                         Añadir a Carrito
-                    </button>
+                    </button>  --}}
                 </div>
                 <div class="flex my-4 space-x-2">
                     <x-icons.heart class="w-[20px]" />

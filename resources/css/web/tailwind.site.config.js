@@ -20,7 +20,7 @@ export default {
                sans: ['Jura','sans-serif'],
             },
             colors:{
-                //'gris-100':'#0F0F0F',
+                'gris-100':'#0F0F0F',
                 'gris-90':'#1C1C1C',
                 //'gris-80':'#202020',
                 'gris-70':'#404040',

@@ -10,6 +10,7 @@ use App\Http\Controllers\WebShopController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\CartController;
 /*
 
 |--------------------------------------------------------------------------
@@ -41,6 +42,8 @@ Route::get('registro',[WebController::class,'login_register'])->name('web.login_
 Route::post('registro/user',[WebController::class,'register_user'])->name('web.store_register');
 Route::get('recuperar_password',[WebController::class,'recover_password'])->name('web.recover_password');
 Route::get('color/product/get',[WebShopController::class,'getimage'])->name('getimage.product.select');
+Route::get('cart',[CartController::class,'index'])->name('cart.index');
+Route::get('cart/store',[CartController::class,'addToCart'])->name('cart.store');
 Route::middleware(['auth', config('jetstream.auth_session'),'verified',
 ])->group(function () {
     /* Route::get('home',[HomeController::class,'index'])->name('home'); */

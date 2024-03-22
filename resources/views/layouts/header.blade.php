@@ -43,7 +43,7 @@
                 <x-icons.heart class="h-[20px] w-[20px] fill-gris-10 hover:fill-corp-50 cursor-pointer"  />
                 <x-elements.notification-icon number="1"/>
 
-                <a class="md:flex hidden items-center relative">
+                <a href="{{ route('cart.index') }}"  class="md:flex hidden items-center relative">
                     <x-icons.cart class="h-[20px] w-[20px] fill-gris-10 hover:fill-corp-50 cursor-pointer"  />
                     <x-elements.notification-icon number="7"/>
                 </a>

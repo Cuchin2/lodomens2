@@ -24,7 +24,7 @@
                     placeholder="Buscar" required="" x-cloak>
             </div>
         </div>
-        <div class="hidden md:block w-full mx-3">
+        <div class="hidden md:block w-1/3 mx-3">
             <x-select>
                 <option>Option 1</option>
                 <option>Option 2</option>
@@ -48,19 +48,14 @@
         </div>
     </div>
 </div>
-<div class="flex pt-[54px] bg-black/75">
-    {{-- <div class="lg:block hidden lg:bg-red-700 w-40 h-auto m-2"> </div> --}}
-    {{-- menu 1 --}}
-    <div class="fixed md:min-h-[208px] xl:min-h-[304px] top-[126px] md:top-0 z-10 left-0 md:relative lg:w-[210px] w-1/2 md:w-1/4 h-full md:h-auto md:ml-[7px] pt-[4px]"
+    <div class="flex pt-[54px] bg-black/75">
+        {{-- menu 1 --}}
+        <div class="fixed md:min-h-[208px] xl:min-h-[304px] top-[126px] md:top-0 z-10 left-0 md:relative lg:w-[210px] w-1/2 md:w-1/4 h-full md:h-auto md:ml-[7px] pt-[4px]"
         x-data="{menu1 : 0}" x-show="open" @click.away="if (window.innerWidth < 1024) {
                 open = false;
-            }" {{-- @click.away="open=false" --}}
-{{--          x-transition:enter="transition ease-out duration-300 md:duration-0 -ml-64  " x-transition:enter-start=""
-        x-transition:enter-end="transform translate-x-64 md:translate-x-[0px] "
-        x-transition:leave="transition ease-out duration-300 md:duration-0 " x-transition:leave-start=""
-        x-transition:leave-end="transform -translate-x-64 md:-translate-x-[0px]"  --}}>
-        <div class="h-full bg-gris-90 lg:w-[120px] xl:w-[205px] overflow-y-auto">
-        <ul class="md:fixed bg-gris-90 md:w-[148px] lg:w-[120px] xl:w-[200px] overflow-y-auto h-fit md:max-h-[300px]" @click.away="menu1 = 0">
+            }">
+        <div class="h-full bg-gris-90 lg:w-[120px] xl:w-[205px]">
+        <ul class="md:fixed bg-gris-90 md:w-[148px] lg:w-[120px] xl:w-[200px] h-fit md:max-h-[300px] overflow-hidden" @click.away="menu1 = 0">
             <li class="mr-6 p-2 ">
                 <a class="text-gris-10 hover:text-red-600 text-[12px]">FILTROS</a>
             </li>
@@ -71,12 +66,10 @@
                         <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"
                             ::class="{'rotate-90 transition-all': menu1 === 1}" />
                     </div>
-                    <ul x-show="menu1===1" x-collapse x-cloak class="w-fit text-[12px] ml-2">
+                    <ul x-show="menu1===1" x-collapse x-cloak class="w-full text-[12px] ml-2 overflow-y-auto !h-40">
                         @foreach ($categories as $category)
                         <li class="hover:text-corp-30">{{ $category->name }}</li>
                         @endforeach
-
-
                     </ul>
                 </div>
             </li>
@@ -101,7 +94,7 @@
             </li>
         </ul>
         </div>
-    </div>
+     </div>
     {{-- FIN menu 1 --}}
     <div class="mx-auto " :class="{'pl-2': open === true}">
     <div :class="{
@@ -112,8 +105,8 @@
     }" class="grid">
 
         @foreach ($products as $key0 =>$product )
-        <div class="px-3 mx-auto relative my-[8px]" x-data="{icon:false}">
-            <a href="{{route('web.shop.show',$product)}}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex':sort===1}">
+        <div class="px-3 mx-auto relative my-[8px]" x-data="{icon:false}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex':sort===1}">
+            <a href="{{route('web.shop.show',$product)}}"  >
                 <lodo class="w-fit relative items-center h-fit mx-auto">
                     @php
                     $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')->get()->map(function ($color) {
@@ -129,15 +122,21 @@
                 <img src="{{ asset('storage/'.$firstImage[$key0]->url) }}" class="w-[400px] mx-auto border-[2px]  border-corp-50 rounded-[3px]"
                     alt="{{ $product->name }}" >
 
-                    <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center {{ $product->stock > 0 ? '':'bg-black/80 border-[2px] border-corp-50 rounded-[3px]' }}   "> @if ($product->stock <= 1)
+                    <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center {{ $product->stock > 0 ? '':'bg-black/80 border-[2px] border-corp-50 rounded-[3px]' }}   "> @if ($product->stock < 1)
                         <span class="text-gris-20 text-[14px] font-bold bg-gris-90 p-2 border-[2px]  border-corp-50 rounded-[3px]">SIN STOCK</span>  @endif
                       </div>
 
 
                 </lodo>
-                <div class="absolute right-0 top-0 py-[7px] px-[20px]" x-show="(icon && sort !== 1 )|| sort === 1">
-                    <x-icons.heart class="h-[20px] w-[20px] fill-gris-10 hover:fill-white cursor-pointer mb-2" />
-                    <x-icons.cart class="h-[20px] w-[20px] fill-gris-10 hover:fill-white cursor-pointer" x-show="sort !==1"/>
+            </a>
+
+                <div class="absolute right-0 top-0 py-[7px] px-[20px] fill-white" x-show="(icon && sort !== 1 )|| sort === 1">
+
+                    <x-icons.heart class="h-[20px] w-[20px] fill-gris-10  cursor-pointer mb-2 " />
+                    <button type="button" wire:click="addToCart({{$product->id}})" class="fill-gris-10 w-fit">
+                    <x-icons.cart  class="h-[20px] w-[20px]  cursor-pointer " x-show="sort !==1" />
+                    </button>
+
                 </div>
                 <div class="m-2 leading-[1.2]" x-show="sort===3" x-cloak>
                     <p class="text-[14px] md:text-[18px] ">{{ $product->name }}</p>
@@ -158,7 +157,7 @@
                         Añadir a Carrito
                     </button>
                 </div>
-            </a>
+
         </div>
         @endforeach
     </div>

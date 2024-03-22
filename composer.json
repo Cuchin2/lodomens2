@@ -9,6 +9,7 @@
         "awssat/laravel-visits": "^6.0",
         "coderflexx/laravisit": "^1.4",
         "guzzlehttp/guzzle": "^7.2",
+        "hardevine/shoppingcart": "^3.2",
         "laravel/framework": "^10.10",
         "laravel/jetstream": "^4.1",
         "laravel/sanctum": "^3.3",

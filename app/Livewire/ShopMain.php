@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Brand;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
+use Cart;
 class ShopMain extends Component
 {
     use WithPagination;
@@ -37,5 +38,16 @@ class ShopMain extends Component
             'brands' => Brand::all(),
             'productsall'=> Product::all(),
         ]);
+    }
+    public function addToCart($id)
+    {
+        $product = Product::find($id); $qtn=1;
+        $price = $product->sell_price /* ? $product->sale_price : $product->regular_price */;
+        Cart::instance('cart')->add(
+            $product->id,
+            $product->name,
+            $qtn,
+            $price
+        )->associate('App\Models\Product');
     }
 }

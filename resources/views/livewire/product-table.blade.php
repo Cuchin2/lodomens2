@@ -130,7 +130,6 @@
                         </thead>
                         <tbody class="text-[14px] ">
                             @foreach ($products as $key0 => $product)
-
                             <tr wire:key="{{$product->id}}" class="border-b dark:border-gris-70 dark:hover:bg-gris-70 dark:hover:bg-opacity-[25%] px-[140px]">
                                 <th scope="row"
                                     class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
@@ -143,8 +142,9 @@
                                         $imagenes2 = $product->images()->where('color_id',$color->id)->join('row_image', 'images.id', '=', 'row_image.image_id')
                                         ->join('rows', 'rows.id', '=', 'row_image.row_id')
                                         ->orderBy('rows.order', 'asc')->get();
-                                    $imagenes[$key]= $imagenes2;        }
+                                    $imagenes[$key]= $imagenes2;     }
                                     $firstImage[$key0] = $imagenes[0]->first();
+
                                     @endphp
                                     <th scope="row" class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
                                         <img src="{{ asset('storage/'.$firstImage[$key0]->url) }}" class="border-[2px] border-corp-50 rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">

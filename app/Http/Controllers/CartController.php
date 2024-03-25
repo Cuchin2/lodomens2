@@ -9,8 +9,7 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cartitems = Cart::instance('cart')->content();
-        return view('web.cart.shoppingcart',compact('cartitems'));
+        return view('web.cart.shoppingcart');
     }
     public function addToCart(Request $request)
     {
@@ -23,5 +22,10 @@ class CartController extends Controller
             $price,
         )->associate('App\Models\Product');
         return redirect()->back()->with('message','Se agrego un item satisfactoriamente');
+    }
+    public function removeItemCart($rowId)
+    {
+        Cart::instance('cart')->remove($rowId);
+        return redirect()->route('cart.index');
     }
 }

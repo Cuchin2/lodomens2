@@ -116,8 +116,9 @@
                         $imagenes2 = $product->images()->where('color_id',$color->id)->join('row_image', 'images.id', '=', 'row_image.image_id')
                         ->join('rows', 'rows.id', '=', 'row_image.row_id')
                         ->orderBy('rows.order', 'asc')->get();
-                    $imagenes[$key]= $imagenes2;        }
+                    $imagenes[$key]= $imagenes2;     }
                     $firstImage[$key0] = $imagenes[0]->first();
+
                     @endphp
                 <img src="{{ asset('storage/'.$firstImage[$key0]->url) }}" class="w-[400px] mx-auto border-[2px]  border-corp-50 rounded-[3px]"
                     alt="{{ $product->name }}" >
@@ -134,7 +135,7 @@
 
                     <x-icons.heart class="h-[20px] w-[20px] fill-gris-10  cursor-pointer mb-2 " />
                     <button type="button" wire:click="addToCart({{$product->id}})" class="fill-gris-10 w-fit">
-                    <x-icons.cart  class="h-[20px] w-[20px]  cursor-pointer " x-show="sort !==1" />
+                    <x-icons.cart class="h-[20px] w-[20px] cursor-pointer" x-show="sort !==1" />
                     </button>
 
                 </div>

@@ -41,13 +41,16 @@ class ShopMain extends Component
     }
     public function addToCart($id)
     {
-        $product = Product::find($id); $qtn=1;
+        $product = Product::with('images')->find($id); $qtn=1;
+
         $price = $product->sell_price /* ? $product->sale_price : $product->regular_price */;
         Cart::instance('cart')->add(
             $product->id,
             $product->name,
             $qtn,
-            $price
+            $price,
+            ['productImage' => $product->images->first()->url]
         )->associate('App\Models\Product');
+        $this->dispatch('cart-added');
     }
 }

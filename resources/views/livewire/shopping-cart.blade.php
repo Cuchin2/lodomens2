@@ -7,7 +7,7 @@
                 <div class="flex justify-between">
                     <div class="flex justify-center items-center relative space-x-2">
                         <h5> Carrito</h5>
-                        <p>(4 productos)</p>
+                        <p>({{ $cartitems->count() }} productos)</p>
                     </div>
                     <a wire:click="clearCart" class="flex space-x-2 items-center border-[2px] rounded-[3px] border-gris-50 p-2 cursor-pointer">
                         <x-icons.trash class="w-5"/>
@@ -15,7 +15,7 @@
                     </a>
                 </div>
             </div>
-            @foreach ($cartitems as $item)
+            @foreach ($cartitems as $index => $item)
             <hr class=" border-gris-70">
             <div class="bg-gris-100 px-2 md:px-6 py-3">
                 <div class="md:flex space-x-2 md:space-x-7 md:justify-between">
@@ -38,25 +38,25 @@
 
                         <h4 class="flex justify-end md:mb-8"> S/.{{ $item->price*$item->qty }}</h4>
                         <div class="flex space-x-2 ">
-                            <div class="flex" x-data="{count: {{ $item->qty }}}">
+                            <div class="flex">
                                 <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-l-[3px]  border-gris-30 w-[30px] flex items-center"
-                                    @click="count > 0 ? count-- : null; $wire.updateCart('{{$item->rowId}}',count)">
+                                    wire:click="decreaseCount('{{ $index }}')">
                                     <x-icons.chevron-left grosor="1" height="17px" width="17px" class="p-1 mx-auto fill-gris-30" />
                                 </div>
                                 <div>
                                     <input type="text"
                                         class="text-gris-10 font-bold bg-black h-[26px] mx-auto text-[12px] p-2 focus:ring-gris-50 focus:border-gris-50 w-[47px] border-gris-30 text-center border-x-0"
-                                        placeholder=" " required="" x-model="count" @change="$wire.updateCart('{{$item->rowId}}',count)">
+                                        placeholder=" " required=""  wire:model.change="counts" @change="$wire.updateCart('{{$item->rowId}}','{{$counts[ $index ]}}')">
                                 </div>
                                 <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-r-[3px]  border-gris-30 w-[30px] flex items-center"
-                                    @click="count++, $wire.updateCart('{{$item->rowId}}',count)">
+                                wire:click="increaseCount('{{ $index }}')">
                                     <x-icons.chevron-right grosor="1" height="17px" width="17px" class="p-1 mx-auto fill-gris-30" />
                                 </div>
                             </div>
                             <div>
 
 
-                                <a  class="cursor-pointer" wire:click="removeRow('{{$item->rowId}}')">
+                                <a  class="cursor-pointer" wire:click="removeRow('{{$item->rowId}}','{{ $index }}')">
                                     <x-icons.trash class="w-5 fill-corp-30"/>
                                 <a>
 

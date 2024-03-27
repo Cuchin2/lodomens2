@@ -1,17 +1,17 @@
 <x-app-layout>
 
     <x-slot name="slot1">
-        <x-breadcrumb.title title='Lista de Categorías'/>
+        <x-breadcrumb.title title='Lista de Marcas'/>
         <x-breadcrumb.breadcrumb>
-            <x-breadcrumb.breadcrumb2 name='Categorías'/>
+            <x-breadcrumb.breadcrumb2 name='Marcas'/>
         </x-breadcrumb.breadcrumb>
     </x-slot>
 
 
     <x-slot name="slot2">
         <div class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg ">
-            <livewire:category-table/>
-            <livewire:create-category/>
+            <livewire:brand-table/>
+            <livewire:create-brand/>
         </div>
     </x-slot>
 

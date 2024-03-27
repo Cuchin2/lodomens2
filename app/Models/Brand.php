@@ -17,7 +17,7 @@ class Brand extends Model
     {
         return 'slug';
     }
-    public function image(){
+    public function images(){
         return $this->morphOne('App\Models\Image','imageable');
     }
     public function products(){
@@ -62,6 +62,12 @@ class Brand extends Model
                 ]);
         }
 
+    }
+    public function scopeSearch($query, $value)
+    {
+        $query->where('name','like',"%{$value}%")
+        ->orWhere('description','like',"%{$value}%")
+        ;
     }
     use HasFactory;
 }

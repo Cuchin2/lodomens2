@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Rating;
 use App\Models\Color;
+use App\Models\Sku;
 
 class Product extends Model implements CanVisit
 {
@@ -67,7 +68,10 @@ class Product extends Model implements CanVisit
     public function category(){
      return $this->belongsTo(Category::class);
     }
-
+    public function skus()
+    {
+        return $this->hasMany(Sku::class);
+    }
     public function provider(){
         return $this->belongsTo(Provider::class);
     }
@@ -124,13 +128,28 @@ class Product extends Model implements CanVisit
                     $colors = Color::whereIn('name', [$value])->pluck('id');
                     $b = array_merge($b, $colors->toArray());
                 }
+                $existingSkus = Sku::where('product_id', $request->id)->get();
+
                     $this->colors()->detach();
                     $this->colors()->sync($b);
+                foreach ($existingSkus as $existingSku) {
+                    if (!in_array($existingSku->color_id, $b)) {
+                        $existingSku->delete();
+                    }
+                }
+                foreach ($b as $colorId) {
+                    $sku = Sku::firstOrCreate([
+                        'product_id' => $request->id,
+                        'color_id' => $colorId,
+                        'code' => $request->id . $colorId
+                    ]);
                 }
 
+            }
                 else {
                      // Verifica si hay etiquetas asociadas antes de realizar el detach
                         $this->colors()->detach();
+                        Sku::where('product_id', $request->id)->delete();
                 }
 
             }

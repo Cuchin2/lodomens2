@@ -11,6 +11,7 @@ use App\Http\Controllers\WebController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\BrandController;
 /*
 
 |--------------------------------------------------------------------------
@@ -60,6 +61,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified',
         Route::delete('deleteimage/color/{product}',[ColorController::class,'deleteimage'])->name('deleteimage.color');
         Route::delete('row/delete/{product}',[ColorController::class,'deleterow'])->name('deleterow');
         Route::resource('color',ColorController::class)->names('colors');
+        Route::resource('brand',BrandController::class)->names('brands');
         Route::resource('categories', CategoryController::class)->names('categories');
         Route::resource('tags', TagController::class)->except('show')->names('tags');
         Route::get('tag/{type}',[TagController::class,'type'])->name('tags.indextype');

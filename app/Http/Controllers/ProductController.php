@@ -88,7 +88,7 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Product $product)
-    {
+    {   $request->merge(['id' => $product->id]);
         $product->my_update($request);
 
         return redirect()->route('products.edit',$product);

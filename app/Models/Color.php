@@ -21,6 +21,10 @@ class Color extends Model
     {
         return $this->hasMany(Image::class);
     }
+    public function skus()
+    {
+        return $this->hasMany(Sku::class);
+    }
     public function scopeSearch($query, $value)
     {
         $query->where('name','like',"%{$value}%")

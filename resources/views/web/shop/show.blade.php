@@ -49,7 +49,7 @@
                   class="w-full border-[2px] border-corp-50 rounded-[3px]" alt="">
 
                   </template>
-                  <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center {{ $product->stock > 0 ? '':'bg-black/80 border-[2px] border-corp-50 rounded-[3px]' }}   "> @if ($product->stock <= 1)
+                  <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center {{ $product->stock > 0 ? '':'bg-black/80 border-[2px] border-corp-50 rounded-[3px]' }}   "> @if ($product->stock < 1)
                     <span class="text-gris-20 text-[14px] font-bold bg-gris-90 p-2 border-[2px]  border-corp-50 rounded-[3px]">SIN STOCK</span>  @endif
                   </div>
                 </lodo>

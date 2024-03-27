@@ -120,7 +120,7 @@
                             <x-sidebar.ul-drop-son href="{{ route('categories.index')}}">Categorias</x-sidebar.ul-drop-son>
                             @endcan
                             @can('brands.index')
-                            <x-sidebar.ul-drop-son>Marcas</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('brands.index')}}">Marcas</x-sidebar.ul-drop-son>
                             @endcan
                             <x-sidebar.ul-drop-son href="{{ route('tags.index')}}">Etiquetas
                             </x-sidebar.ul-drop-son>

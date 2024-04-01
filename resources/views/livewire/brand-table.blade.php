@@ -6,7 +6,7 @@
                 <div class="flex items-center justify-between">
                     <div class="flex w-full m-[20px]">
 
-                        <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" wire:click="showDeleteModal('','','CREATE','','')">
+                        <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" wire:click="showDeleteModal('','','CREATE','','','')">
                             <div class="flex items-center justify-center mx-[10px]">
                             <x-icons.plus class="h-[12px] w-[12px] fill-white mx-[3px]" grosor="1"></x-icons.plus>
 
@@ -149,10 +149,10 @@
                                     <td class="px-4 py-[13px]">{{$brand->description}}</td>
 
                                     <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
-                                        <button type="button" class="text-azul-50 hover:text-azul-30" wire:click="showDeleteModal({{ $brand->id }},'{{$brand->name}}','{{$brand->description}}','{{ $brand->slug }}','{{ asset('storage/'.($brand->images->url ?? '')) }}')">
+                                        <button type="button" class="text-azul-50 hover:text-azul-30" wire:click="showDeleteModal({{ $brand->id }},'{{$brand->name}}','DESCRIPTION','{{$brand->description}}','{{ $brand->slug }}','{{ asset('storage/'.($brand->images->url ?? '')) }}')">
                                             <x-icons.edit></x-icons.edit>
                                         </button>
-                                        <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal('{{ $brand->id }}','{{$brand->name}}','DELETE','{{ $brand->slug }}','{{ asset('storage/'.($brand->images->url ?? '')) }}')" >
+                                        <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal2({{ $brand->id }},'{{$brand->name}}','DELETE','','','{{ asset('storage/'.($brand->images->url ?? '')) }}')" >
                                             <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                         </button>
                                     </td>
@@ -190,19 +190,17 @@
 
         <x-dialog-modal wire:model="showModal">
             <x-slot name="title">
-                {{ $which == 'DELETE' ? 'Confirmar Eliminación' : ($which == 'CREATE' ? 'Crear Marca' : 'Editar Marca') }}
+                {{  $which == 'CREATE' ? 'Crear Marca' : 'Editar Marca' }}
             </x-slot>
             <x-slot name="content">
-            @if ($which == 'DELETE')
-            ¿Estás seguro de que deseas eliminar la etiqueta "<b>{{$itemName}}</b>"?
-            @else
+
                 <div class="grid grid-cols-2">
                     <div class="m-4">
                         <x-label class="my-2">Nombre</x-label>
                         <x-input placeholder="Nombre" wire:model="itemName" name="name" value="{{$itemName}}" class="w-full"></x-imput>
                             <x-label class="my-2">Descripción</x-label>
-                    <x-input-textarea placeholder="Descripción" wire:model="which" name="description" col="4">
-                        {{$which}}
+                    <x-input-textarea placeholder="Descripción" wire:model="description" name="description" col="4">
+                        {{$description}}
                     </x-imput-textarea>
                     </div>
                     <div class="m-4">
@@ -244,7 +242,7 @@
                                    </label>
                                  </div>
 
-                                 <div class="items-center text-sm text-gray-500 mx-auto"   @notify.window="previewPhoto=$event.detail.url">
+                                 <div class="items-center text-sm text-gray-500 mx-auto"   @notify.window="previewPhoto=$event.detail.url" @notify2.window="clearPreview($refs)">
                                    <!-- Display the file name when available -->
                                    <div class=" w-fit mx-auto flex items-center">
                                    <span x-text="fileName || emptyText"></span>
@@ -269,10 +267,6 @@
                     </div>
                 </div>
 
-
-
-
-            @endif
             </x-slot>
 
             <x-slot name="footer">
@@ -280,12 +274,31 @@
                     {{ __('Cancelar') }}
                 </x-button.corp_secundary>
 
-                <x-button.corp1 class="ml-3" wire:click="delete({{$itemIdToDelete}})" wire:loading.attr="disabled">
-                    {{ $which == 'DELETE' ? 'Eliminar' : 'Actualizar'}}
+                <x-button.corp1 class="ml-3" wire:click="delete('{{$itemIdToDelete}}')" wire:loading.attr="disabled">
+                    {{ $which == 'CREATE' ? 'Crear' : 'Actualizar' }}
                 </x-button.corp1>
             </x-slot>
         </x-dialog-modal>
+        <x-dialog-modal wire:model="showModalDelete">
+            <x-slot name="title">
+                Confirmar Eliminación
+            </x-slot>
+            <x-slot name="content">
+                <div class="flex justify-between ">
+                ¿Estás seguro de que deseas eliminar la etiqueta "<b>{{$itemName}}</b>"?
+                <img src="{{ asset(($logo ?? '')) }}" alt="{{$itemName}}" class="mx-auto h-[70px]">
+                </div>
+            </x-slot>
+            <x-slot name="footer">
+                <x-button.corp_secundary  wire:click="$toggle('showModalDelete')" wire:loading.attr="disabled">
+                    {{ __('Cancelar') }}
+                </x-button.corp_secundary>
 
+                <x-button.corp1 class="ml-3" wire:click="delete('{{$itemIdToDelete}}')" wire:loading.attr="disabled">
+                    Eliminar
+                </x-button.corp1>
+            </x-slot>
+        </x-dialog-modal>
     </section>
     @push('scripts')
     <script>

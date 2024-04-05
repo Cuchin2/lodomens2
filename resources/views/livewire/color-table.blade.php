@@ -123,6 +123,7 @@
                                 <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('name')">
                                     Nombre
                                     </th>
+                                <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('code')">Código</th>
                                 <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('hex')">Color</th>
                                 <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('url')">imagen</th>
                                 <th scope="col" class="px-4 py-[13px] font-normal text-center">
@@ -139,14 +140,16 @@
                                     {{$color->id}}</th>
                                 <td class="px-4 py-[13px] ">
                                     {{$color->name}}</td>
+                                    <td class="px-4 py-[13px] ">
+                                        {{$color->code}}</td>
                                 <td class="px-4 py-[13px]"> <div class="w-10 h-10 rounded-full mx-auto" style="background: {{ $color->hex }};"></div></td>
                                 <td class="px-4 py-[13px]">{{$color->url}}
                                 </td>
                                 <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
-                                    <a class="text-azul-50 hover:text-azul-30 cursor-pointer" wire:click="showEditModal('{{ $color->id }}','{{$color->name}}','{{ $color->hex }}')">
+                                    <a class="text-azul-50 hover:text-azul-30 cursor-pointer" wire:click="showEditModal('{{ $color->id }}','{{$color->name}}','{{ $color->hex }}','{{ $color->code }}')">
                                         <x-icons.edit></x-icons.edit>
                                     </a>
-                                    <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal('{{ $color->id }}','{{$color->name}}','{{ $color->hex }}')" >
+                                    <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal('{{ $color->id }}','{{$color->name}}','{{ $color->hex }}','{{ $color->code }}')" >
                                         <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                     </button>
                                 </td>
@@ -192,8 +195,8 @@
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.corp1 wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp1>
-                <x-button.corp_secundary wire:click="delete({{$itemIdToDelete}})" wire:loading.attr="disabled">Eliminar</x-button.corp_secundary>
+                <x-button.corp_secundary wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
+                <x-button.corp1 wire:click="delete({{$itemIdToDelete}})" wire:loading.attr="disabled">Eliminar</x-button.corp1>
 
             </x-slot>
         </x-dialog-modal>
@@ -207,24 +210,37 @@
                 <div class="grid grid-cols-2 gap-4">
                 <div class="my-3">
                     <x-label class="mb-2">Nombre</x-label>
-                    <x-input name="stock" wire:model="newNameColor" placeholder="Nombre del color "></x-input>
+                    <x-input name="stock" wire:model="name" placeholder="Nombre del color "></x-input>
+                    @error('name')
+                        <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                    @enderror
                 </div>
-                <div class="my-3 mx-auto">
-                    <x-label class="mb-2">Color</x-label>
-                    <input type="color" wire:model="newHex" id="input_choose_color" class="w-16 h-10">
+                <div class="my-3 flex justify-between">
+                    <div class=" mx-auto">
+                        <x-label class="mb-2">Código</x-label>
+                        <x-input name="code" wire:model="code" placeholder="Código del color " ></x-input>
+                        @error('code')
+                        <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class=" mx-auto">
+                        <x-label class="mb-2">Color</x-label>
+                        <input type="color" wire:model="newHex" id="input_choose_color" class="w-16 h-10">
+                    </div>
+
                 </div>
                  </div>
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.corp1 wire:click="$toggle('newModal')" wire:loading.attr="disabled">Cancelar</x-button.corp1>
-                <x-button.corp_secundary wire:click="createColor('{{ $choose }}')" wire:loading.attr="disabled">
+                <x-button.corp_secundary wire:click="$toggle('newModal')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
+                <x-button.corp1 wire:click="createColor('{{ $choose }}')" wire:loading.attr="disabled">
                   @if ($choose === 0)
                   Crear
                   @else
                       Editar
                   @endif
-                </x-button.corp_secundary>
+                </x-button.corp1>
 
             </x-slot>
 

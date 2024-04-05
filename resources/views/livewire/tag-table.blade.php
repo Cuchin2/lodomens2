@@ -6,7 +6,7 @@
                 <div class="flex items-center justify-between">
                     <div class="flex w-full m-[20px]">
 
-                        <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" @click="$dispatch('tag-modal')">
+                        <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" wire:click="showDeleteModal('0','','CREATE')">
                             <div class="flex items-center justify-center mx-[10px]">
                             <x-icons.plus class="h-[12px] w-[12px] fill-white mx-[3px]" grosor="1"></x-icons.plus>
 
@@ -181,16 +181,19 @@
 
         <x-dialog-modal wire:model="showModal">
             <x-slot name="title">
-              {{$which == 'DELETE' ? 'Confirmar Eliminación' : 'Editar Etiqueta'}}
+              {{$which == 'DELETE' ? 'Confirmar Eliminación' :  ($which == 'CREATE' ? 'Crear Etiqueta' : 'Editar Etiqueta') }}
             </x-slot>
             <x-slot name="content">
             @if ($which == 'DELETE')
-            ¿Estás seguro de que deseas eliminar la etiqueta "<b>{{$itemName}}</b>"?
+            ¿Estás seguro de que deseas eliminar la etiqueta "<b>{{$name}}</b>"?
             @else
 
                 <div class="m-4">
                     <x-label class="my-2">Nombre</x-label>
-                    <x-input placeholder="Nombre" wire:model="itemName" name="name" value="{{$itemName}}" class="w-full"></x-imput>
+                    <x-input placeholder="Nombre" wire:model="name" name="name" value="{{$name}}" class="w-full"></x-imput>
+                        @error('name')
+                        <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="m-4">
                     <x-label class="my-2">Descripción</x-label>

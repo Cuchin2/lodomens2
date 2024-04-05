@@ -16,50 +16,42 @@
                 </div>
             </div>
             @foreach ($cartitems as $index => $item)
-            <hr class=" border-gris-70">
+            <hr class="border-gris-70">
             <div class="bg-gris-100 px-2 md:px-6 py-3">
                 <div class="md:flex space-x-2 md:space-x-7 md:justify-between">
                     <div class="flex justify-center space-x-5 md:w-full">
-                    <a class="flex w-max items-center" href="{{ route('web.shop.show',$item->model->slug) }}">
-                        <img src="{{ asset('storage/'.$item->options->productImage) }}" alt="{{ $item->model->name }}" class="w-[90px] md:w-[120px] border-[2px] border-corp-50 rounded-[3px]">
-                    </a>
-                    <div class="space-y-4 md:w-full">
-                        <div class="md:flex md:items-center md:justify-between">
-                        <h6 href="{{ route('web.shop.show',$item->model->slug) }}">{{ $item->model->name }}</h6>
-                        <p class="text-[13px] md:text-[15px]">SKU:14500293</p>
+                        <a class="flex w-max items-center" href="{{ route('web.shop.show',['product'=>$item->options->slug,'color'=>$item->options->color_id]) }}">
+                            <img src="{{ asset('storage/'.$item->options->productImage) }}" alt="{{ $item->name }}" class="w-[90px] md:w-[120px] border-[2px] border-corp-50 rounded-[3px]">
+                        </a>
+                        <div class="space-y-4 md:w-full">
+                            <div class="md:flex md:items-center md:justify-between">
+                                <h6 href="">{{ $item->name }}</h6>
+                                <p class="text-[13px] md:text-[15px]">SKU:{{ $item->options->sku }}</p>
+                            </div>
+                            <div class="">
+                                <p>Precio unidad: S/.{{ $item->price }}</p>
+                                <p>Color: {{ $item->options->color }}</p>
+                            </div>
                         </div>
-                        <div class="">
-                            <p>Precio unidad: S/.{{ $item->price }}</p>
-                            <p>Color: Plateado</p>
-                        </div>
-                    </div>
                     </div>
                     <div class="flex md:block justify-between mt-4 md:mt-0">
-
                         <h4 class="flex justify-end md:mb-8"> S/.{{ $item->price*$item->qty }}</h4>
-                        <div class="flex space-x-2 ">
+                        <div class="flex space-x-2">
                             <div class="flex">
-                                <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-l-[3px]  border-gris-30 w-[30px] flex items-center"
-                                    wire:click="decreaseCount('{{ $index }}')">
+                                <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-l-[3px] border-gris-30 w-[30px] flex items-center" wire:click="decreaseCount('{{$item->rowId}}','{{ $index }}')">
                                     <x-icons.chevron-left grosor="1" height="17px" width="17px" class="p-1 mx-auto fill-gris-30" />
                                 </div>
                                 <div>
-                                    <input type="text"
-                                        class="text-gris-10 font-bold bg-black h-[26px] mx-auto text-[12px] p-2 focus:ring-gris-50 focus:border-gris-50 w-[47px] border-gris-30 text-center border-x-0"
-                                        placeholder=" " required=""  wire:model.change="counts" @change="$wire.updateCart('{{$item->rowId}}','{{$counts[ $index ]}}')">
+                                    <input type="text" class="text-gris-10 font-bold bg-black h-[26px] mx-auto text-[12px] p-2 focus:ring-gris-50 focus:border-gris-50 w-[47px] border-gris-30 text-center border-x-0" placeholder=" " required=""  wire:change="updateCart('{{ $item->rowId }}','{{$index}}')" wire:model.change="counts.{{ $index }}">
                                 </div>
-                                <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-r-[3px]  border-gris-30 w-[30px] flex items-center"
-                                wire:click="increaseCount('{{ $index }}')">
+                                <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-r-[3px] border-gris-30 w-[30px] flex items-center" wire:click="increaseCount('{{$item->rowId}}','{{ $index }}')">
                                     <x-icons.chevron-right grosor="1" height="17px" width="17px" class="p-1 mx-auto fill-gris-30" />
                                 </div>
                             </div>
                             <div>
-
-
-                                <a  class="cursor-pointer" wire:click="removeRow('{{$item->rowId}}','{{ $index }}')">
+                                <a class="cursor-pointer" wire:click="removeRow('{{$item->rowId}}','{{ $index }}')">
                                     <x-icons.trash class="w-5 fill-corp-30"/>
-                                <a>
-
+                                </a>
                             </div>
                         </div>
                     </div>

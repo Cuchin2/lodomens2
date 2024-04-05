@@ -29,9 +29,6 @@
            >
             <ul class="bg-gris-90 md:hidden transition-all duration-300 ease-in-out w-0 h-screen"
                 :class="{ 'w-0': open === false, 'w-full': open === true }">
-
-
-
                     <x-menu-item2  :active="request()->routeIs('root')" href="{{route('root')}}">INICIO</x-menu-item2>
                     <x-menu-item2  :active="request()->routeIs('web.shop.*')" href="{{route('web.shop.index')}}">TIENDA</x-menu-item2>
 

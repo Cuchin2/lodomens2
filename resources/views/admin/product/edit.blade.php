@@ -65,9 +65,16 @@
                             <div class="mt-3">
                                 <x-select-search placeholder="Selecciona la marca"
                                     message="Ninguna marca coincide con la búsqueda" name="brand_id"
-                                    :data="$brands" selected="{{ $product->brands->id ?? ''}}">
+                                    :data="$brands" selected="{{ $product->brand->id ?? ''}}">
                                 </x-select-search>
                             </div>
+                        </div>
+                        <div class="my-3" x-data="{ code: '{{ $product->code }}' }">
+                            <x-label class="mb-2">Código del producto</x-label>
+                            <x-input name="code" maxlength="4" x-model="code" @change="addLeadingZeros" value="{{ old('code', $product->code) }}" placeholder="Código del producto "></x-input>
+                            @error('code')
+                            <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="my-3">
                             <x-label class="mb-2">Nivel de stock</x-label>
@@ -275,7 +282,16 @@
 
                 CKEDITOR.addCss('.cke_editable { background-color: #161616; color: white;  }');
 
+                function addLeadingZeros() {
+                    // Verificar si el valor tiene menos de 4 dígitos
+                    if (this.code.length < 4) {
+                      // Calcular la cantidad de ceros necesarios
+                      var leadingZeros = 4 - this.code.length;
 
+                      // Agregar los ceros a la izquierda del valor
+                      this.code = '0'.repeat(leadingZeros) + this.code;
+                    }
+                  }
         </script>
         @endpush
 

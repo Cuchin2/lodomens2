@@ -120,6 +120,7 @@
                                     <th scope="col" class="px-4 py-[13px] font-normal" wire:click="setSortBy('name')">
                                         Nombre
                                         </th>
+                                    <th scope="col" class="px-4 py-[13px] font-normal" wire:click="setSortBy('code')">Código</th>
                                     <th scope="col" class="px-4 py-[13px] font-normal" wire:click="setSortBy('created_at')">Descripción</th>
 
                                     <th scope="col" class="px-4 py-[13px] font-normal text-center">
@@ -137,13 +138,15 @@
 
                                     <td class="px-4 py-[13px]">
                                         {{$category->name}}</td>
+                                    <td class="px-4 py-[13px]">
+                                            {{$category->code}}</td>
                                     <td class="px-4 py-[13px]">{{$category->description}}</td>
 
                                     <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
-                                        <button type="button" class="text-azul-50 hover:text-azul-30" wire:click="showDeleteModal({{ $category->id }},'{{$category->name}}','{{$category->description}}')">
+                                        <button type="button" class="text-azul-50 hover:text-azul-30" wire:click="showDeleteModal({{ $category->id }},'{{$category->name}}','{{$category->description}}','{{ $category->code }}')">
                                             <x-icons.edit></x-icons.edit>
                                         </button>
-                                        <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal({{ $category->id }},'{{$category->name}}','DELETE')" >
+                                        <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal({{ $category->id }},'{{$category->name}}','DELETE','{{ $category->code }}')" >
                                             <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                         </button>
                                     </td>
@@ -181,16 +184,28 @@
 
         <x-dialog-modal wire:model="showModal">
             <x-slot name="title">
-              {{$which == 'DELETE' ? 'Confirmar Eliminación' : 'Editar Etiqueta'}}
+              {{$which == 'DELETE' ? 'Confirmar Eliminación' : 'Editar Categoría'}}
             </x-slot>
             <x-slot name="content">
             @if ($which == 'DELETE')
-            ¿Estás seguro de que deseas eliminar la etiqueta "<b>{{$itemName}}</b>"?
+            ¿Estás seguro de que deseas eliminar la categoría "<b>{{$name}}</b>"?
             @else
 
-                <div class="m-4">
+                <div class="m-4 flex space-x-5">
+                    <div class="w-full">
                     <x-label class="my-2">Nombre</x-label>
-                    <x-input placeholder="Nombre" wire:model="itemName" name="name" value="{{$itemName}}" class="w-full"></x-imput>
+                    <x-input placeholder="Nombre" wire:model="name" name="name" value="{{$name}}" class="w-full"></x-imput>
+                        @error('name')
+                        <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="w-full">
+                        <x-label class="my-2">Código</x-label>
+                        <x-input placeholder="Código" wire:model="code" name="code" value="{{$code}}" wire:change='codeComplete' class="w-full"></x-imput>
+                            @error('code')
+                            <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                            @enderror
+                    </div>
                 </div>
                 <div class="m-4">
                     <x-label class="my-2">Descripción</x-label>

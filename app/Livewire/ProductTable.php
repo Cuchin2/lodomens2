@@ -20,6 +20,8 @@ class ProductTable extends Component
     public $itemName;
     #[Validate('required', message: 'El nombre del producto es obligatorio')]
     public $productName;
+    #[Validate('required', message: 'El código del producto es obligatorio')]
+    public $productCode;
     public $perPage = 5;
 
     #[Url(history:true)]
@@ -49,6 +51,7 @@ class ProductTable extends Component
         $this->validate();
          $product=Product::create([
             'name' => $this->productName,
+            'code'=> $this->productCode,
             'slug' =>Str::slug($this->productName),
             'category_id' => $this->category_id,
         ]);

@@ -25,7 +25,7 @@ class Image extends Model
     }
     public function skus()
     {
-        return $this->belongsToMany(Sku::class);
+        return $this->hasMany(Sku::class, 'image_id');
     }
     use HasFactory;
 }

@@ -12,7 +12,7 @@
 <x-lodomens.video />
 @section('content')
 
-<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1" x-data="{ tab: 'tab1', colorselect:'0', colorid: '@json($colorSelect[0]->id)',ext:'{{ pathinfo(asset($firstImage ->url), PATHINFO_EXTENSION) }}', abc:'0', src: '{{ asset('storage/'.$firstImage->url) }}', getImage(a,b) {
+<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1" x-data="{ tab: 'tab1', colorselect:'{{ $indice }}', colorid: '@json($colorSelect[0]->id)',ext:'{{ pathinfo(asset($firstImage ->url), PATHINFO_EXTENSION) }}', abc:'0', src: '{{ asset('storage/'.$firstImage->url) }}', getImage(a,b) {
     axios.get('{{ route('getimage.product.select') }}', {
         params: {
           row: a,
@@ -84,10 +84,13 @@
         <hr class="md:hidden mt-[20px] mb-[10px] border-gris-70 ">
         <div class="md:pt-[20px] md:ml-[20px]">
             <div>
-                <div class="flex items-center justify-between"><h3>{{ $product->name }}</h3> @if($product->code)
-                    <p>SKU: {{ $product->code }}</p>
-                @endif
-            </div>
+                <div class="flex items-center justify-between" x-data="{skus: {{ json_encode($skus) }}, skuselect:{{ $skus[$indice]->color_id }}}"><h3>{{ $product->name }}</h3>
+                    @if($product->skus)
+                        <template x-for="sku in skus" @sku.window="skuselect=$event.detail.parm">
+                            <p x-text="'SKU : '+sku.code" x-show="skuselect === sku.color_id" x-cloak></p>
+                        </template>
+                    @endif
+                </div>
                 <div class="mb-2 cursor-pointer flex" x-data
                     x-on:click="$scroll('#second', { offset: 200 }); tab = 'tab2'">
                     @if ($product->reviews->count() === 0)
@@ -105,9 +108,9 @@
                 <p class="mt-4 text-justify">{{ $product->short_description }}</p>
                 <div class="flex my-4 space-x-1">
                     <p class="font-bold"> {{ $colorSelect->count() === 1 ? 'COLOR: ' : 'COLORES: ' }}</p class="font-bold">
-                    <div class="flex space-x-2" x-data="{active:'0'}">
+                    <div class="flex space-x-2" x-data="{active:'{{ $indice }}'}">
                         @foreach ($colorSelect as $key => $color )
-                            <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px]"           :class="{'border-corp-50 border-[3px]' : active === '{{ $key}}' }" style="background: {{ $color->hex }}" x-on:click="$dispatch('send',{ parm: '{{ $key }}' }); getImage(abc,{{ $color->id }}); active='{{ $key }}'"> </div>
+                            <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px]"           :class="{'border-corp-50 border-[3px]' : active === '{{ $key}}' }" style="background: {{ $color->hex }}" x-on:click="$dispatch('send',{ parm: '{{ $key }}' }); getImage(abc,{{ $color->id }}); active='{{ $key }}'; $dispatch('sku',{parm:{{ $color->id }}});"> </div>
                         @endforeach
                     </div>
                 </div>
@@ -121,30 +124,8 @@
                         @endif
 
                  </div>
+                <livewire:add-cart sku="{{ $product->skus[0]->id }}" product="{{$product->id}}" color="{{ $colorSelect[0]->id }}"/>
 
-                <div class="flex justify-left space-x-3">
-                    <div class="flex" x-data={count:0}>
-                        <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[36px] border-[1px] text-[12px] rounded-l-[3px]  border-gris-30 w-[30px] flex items-center"
-                            @click="count > 0 ? count-- : null">
-                            <x-icons.chevron-left grosor="1" height="20px" width="20px" class="p-1 mx-auto fill-gris-30" />
-                        </div>
-                        <div>
-                            <input type="text"
-                                class="text-gris-10 font-bold bg-black h-[36px] mx-auto text-[14px] p-2 focus:ring-gris-50 focus:border-gris-50 w-[52px] border-gris-30 text-center border-x-0"
-                                placeholder=" " required="" x-model="count">
-                        </div>
-                        <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[36px] border-[1px] text-[12px] rounded-r-[3px]  border-gris-30 w-[30px] flex items-center"
-                            @click="count++">
-                            <x-icons.chevron-right grosor="1" height="20px" width="20px" class="p-1 mx-auto fill-gris-30" />
-                        </div>
-                    </div>
-
-                    <x-button.webprimary class="w-full"> Añadit a Carrito</x-button.webprimary>
-
-                    {{--  <button class="bg-gradient-to-b from-corp-20 via-corp-50 to-corp-90  text-gris-10 rounded-[3px] px-4 font-bold w-full h-[36px]">
-                        Añadir a Carrito
-                    </button>  --}}
-                </div>
                 <div class="flex my-4 space-x-2">
                     <x-icons.heart class="w-[20px]" />
                     <p>Añadir a lista de deseos</p>

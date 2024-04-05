@@ -11,6 +11,8 @@ class Sku extends Model
     protected $fillable = [
         'product_id',
         'color_id',
+        'category_id',
+        'brand_id',
         'code',
     ];
     public function product()
@@ -22,7 +24,14 @@ class Sku extends Model
     {
         return $this->belongsTo(Color::class);
     }
-
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
     public function images(){
         return $this->morphMany('App\Models\Image','imageable');
     }

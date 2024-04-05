@@ -2,20 +2,24 @@
 
 namespace App\Livewire;
 use App\Models\Brand;
+use App\Models\Sku;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 class BrandTable extends Component
 {
     use WithPagination;
     use WithFileUploads;
-    public $showModal = false;public $showModalDelete = false;
+    public $showModal = false; public $showModalDelete = false;
 
-    public $condition;
+    public $condition;  public $brand='';
     public $itemIdToDelete;
-    public $itemName; public $itemCode;  public $logo; public $description;
+    public $name;
+    public $slug;
+     public $logo; public $description;
     public $perPage = 5;
 
     #[Url(history:true)]
@@ -30,21 +34,46 @@ class BrandTable extends Component
     #[Url(history:true)]
     public $sortDir = 'DESC';
     public $which='';
-
+    public function rules()
+    {
+        return [
+            'name' => [
+                'required',
+                Rule::unique('brands')->ignore($this->brand),
+            ],
+            'slug' => [
+                'size:2',
+                'required',
+                Rule::unique('brands')->ignore($this->brand),
+                ]
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'El nombre es requerido.',
+            'slug.size' => 'Se Requiere 2 dígitos.',
+            'slug.unique' => 'El campo código ya fue registrado'
+        ];
+    }
     public function delete($id)
     {
+        $this->brand=Brand::find($id);
         if($this->which == 'DELETE'){
             $brand=Brand::find($id);
+            if(isset($brand->images->url)){
             Storage::disk('public')->delete($brand->images->url);
             $brand->images()->delete();
+            }
             $brand->delete();
             $this->showModalDelete = false;
         }
 
         elseif ($this->which =='CREATE'){
+            $this->validate();
             $brand=Brand::create([
-                'name'=> $this->itemName,
-                'slug'=> $this->itemCode,
+                'name'=> $this->name,
+                'slug'=> $this->slug,
                 'description'=>$this->description,
                 ]);
                 if ($this->logo) {
@@ -60,14 +89,19 @@ class BrandTable extends Component
             }
         }
         else
-        {
+        {   $this->validate();
             $brand=Brand::find($id);
             $previousUrl = $brand->images()->value('url');
-            $brand->name = $this->itemName;
-            $brand->slug = $this->itemCode;
+            $brand->name = $this->name;
+            $brand->slug = $this->slug;
             $brand->description = $this->description;
             $brand->save();
-            if ($this->logo) {
+            $skus = Sku::where('brand_id',$brand->id)->get();
+            $skus->each(function ($sku) {
+                $sku->code = substr_replace($sku->code, substr($this->slug, 0, 2), 0, 2);
+                $sku->save();
+            });
+            if (is_object($this->logo)) {
                 $fileName = time() . '-' . $this->logo->getClientOriginalName();
                 $url_name = 'image/lodomens/' . $fileName;
                 $brand->images()->update([
@@ -92,26 +126,26 @@ class BrandTable extends Component
         $this->sortBy = $sortByField;
         $this->sortDir = 'DESC';
     }
-    public function showDeleteModal($itemId,$itemName,$abc,$description,$slug,$file)
-        {
+    public function showDeleteModal($itemId,$name,$abc,$description,$slug,$file)
+        { $this->resetValidation();
            if(isset($file)){
             $this->dispatch('notify',url: $file);
              }
              if( $abc === 'CREATE') { $this->dispatch('notify2'); }
                 $this->logo = $file;
-                $this->itemName = $itemName;
+                $this->name = $name;
                 $this->itemIdToDelete = $itemId;
-                $this->itemCode = $slug;
+                $this->slug = $slug;
                 $this->description = $description;
                 $this->showModal = true;
                 $this->which = $abc;
         }
-        public function showDeleteModal2($itemId,$itemName,$abc,$description,$slug,$file)
-        {
+        public function showDeleteModal2($itemId,$name,$abc,$description,$slug,$file)
+        {       $this->resetValidation();
                 $this->logo = $file;
-                $this->itemName = $itemName;
+                $this->name = $name;
                 $this->itemIdToDelete = $itemId;
-                $this->itemCode = $slug;
+                $this->slug = $slug;
                 $this->description = $description;
                 $this->showModalDelete = true;
                 $this->which = $abc;
@@ -126,5 +160,8 @@ class BrandTable extends Component
             ->orderBy($this->sortBy,$this->sortDir)
             ->paginate($this->perPage)
         ]);
+    }
+    public function codeComplete() {
+        $this->slug = strtoupper($this->slug);
     }
 }

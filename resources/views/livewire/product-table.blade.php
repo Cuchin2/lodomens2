@@ -143,11 +143,12 @@
                                         ->join('rows', 'rows.id', '=', 'row_image.row_id')
                                         ->orderBy('rows.order', 'asc')->get();
                                     $imagenes[$key]= $imagenes2;     }
-                                    $firstImage[$key0] = $imagenes[0]->first();
-
+                                    if($imagenes) {
+                                        $firstImage[$key0] = $imagenes[0]->first();
+                                    }
                                     @endphp
                                     <th scope="row" class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
-                                        <img src="{{ asset('storage/'.$firstImage[$key0]->url) }}" class="border-[2px] border-corp-50 rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
+                                        <img src="{{ asset('storage/'.($firstImage[$key0]->url ?? ''))}}" class="border-[2px] border-corp-50 rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
                                       </th>
                                 <td class="px-4 py-[13px] ">
                                     {{$product->name}}</td>
@@ -217,12 +218,21 @@
 
             <x-slot name="content">
                 <div class="grid grid-cols-2 gap-4">
-                <div class="my-3">
+                <div class="my-3 flex space-x-5">
+                    <div>
                     <x-label class="mb-2">Nombre</x-label>
-                    <x-input name="stock" wire:model="productName" placeholder="Nombre del producto "></x-input>
+                    <x-input name="name" wire:model="productName" placeholder="Nombre del producto "></x-input>
                     @error('productName')
                         <div class="text-corp-10 ml-2"> {{ $message }}</div>
                     @enderror
+                </div>
+                <div>
+                    <x-label class="mb-2">Código</x-label>
+                    <x-input name="code" wire:model="productCode" placeholder="Código del producto "></x-input>
+                    @error('productName')
+                        <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                    @enderror
+                </div>
                 </div>
                 <div class="my-3">
                     <x-label class="mb-2">Categoría</x-label>

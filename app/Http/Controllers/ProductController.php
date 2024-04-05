@@ -13,7 +13,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\File;
-use Illuminate\Validation\Rules\Can;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -90,7 +90,19 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Product $product)
-    {   $request->merge(['id' => $product->id]);
+    {
+        $request->validate([
+            'code' => ['required','numeric','max:9999',Rule::unique('products')->ignore($product->id)],
+            'sell_price' => 'required|numeric',
+            // Añade aquí otras reglas de validación según sea necesario
+        ], [
+            'code.required' => 'El campo código es obligatorio.',
+            'code.integer' => 'El campo código debe ser númerico.',
+            'code.max' => 'El campo código debe contener 4 dígitos.',
+            'code.unique' => 'El código ya está en uso.',
+            // Añade otros mensajes de error aquí
+        ]);
+        $request->merge(['id' => $product->id]);
         $product->my_update($request);
 
         return redirect()->route('products.edit',$product);

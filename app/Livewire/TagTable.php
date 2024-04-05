@@ -5,15 +5,15 @@ namespace App\Livewire;
 use App\Models\Tag;
 use Livewire\Attributes\Url;
 use Livewire\Component;
-
+use Illuminate\Validation\Rule;
 use Livewire\WithPagination;
 
 class TagTable extends Component
 {
     use WithPagination;
     public $showModal = false;
-    public $itemIdToDelete;
-    public $itemName;
+    public $itemIdToDelete; public $tag = '';
+    public $name;
     public $perPage = 5;
     public $kind;
     #[Url(history:true)]
@@ -32,14 +32,33 @@ class TagTable extends Component
     {
         $this->resetPage();
     }
-
+    public function rules()
+    {
+        return [
+            'name' => [
+                'required',
+                Rule::unique('tags')->ignore($this->tag),
+            ],
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'El nombre es requerido.',
+        ];
+    }
     public function delete($id)
-    {   $tag=Tag::find($id);
+    {
+        if($id>0) {
+        $tag=Tag::find($id);
+        $this->tag = $tag;}
+        $this->validate();
         if($this->which == 'DELETE')
         $tag->delete();
         else
         {
-            $tag->name = $this->itemName;
+
+            $tag->name = $this->name;
             $tag->description = $this->which;
             $tag->save();
         }
@@ -67,11 +86,13 @@ class TagTable extends Component
     }
 
 
-    public function showDeleteModal($itemId,$itemName,$abc)
+    public function showDeleteModal($itemId,$name,$abc)
         {
-            $this->itemName = $itemName;
+            $this->resetValidation();
+            $this->name = $name;
             $this->itemIdToDelete = $itemId;
             $this->showModal = true;
             $this->which = $abc;
+            if($abc == 'CREATE'){  $this->which ='';}
         }
 }

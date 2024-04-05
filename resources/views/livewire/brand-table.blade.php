@@ -197,7 +197,10 @@
                 <div class="grid grid-cols-2">
                     <div class="m-4">
                         <x-label class="my-2">Nombre</x-label>
-                        <x-input placeholder="Nombre" wire:model="itemName" name="name" value="{{$itemName}}" class="w-full"></x-imput>
+                        <x-input placeholder="Nombre" wire:model="name" name="name" value="{{$name}}" class="w-full"></x-imput>
+                            @error('name')
+                            <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                            @enderror
                             <x-label class="my-2">Descripción</x-label>
                     <x-input-textarea placeholder="Descripción" wire:model="description" name="description" col="4">
                         {{$description}}
@@ -205,8 +208,11 @@
                     </div>
                     <div class="m-4">
                         <x-label class="my-2">Codígo</x-label>
-                        <x-input placeholder="Nombre" wire:model="itemCode" name="name" value="{{$itemCode}}" class="w-full"></x-imput>
-                            <x-label class="mb-2">Logo:</x-label>
+                        <x-input placeholder="Nombre" wire:model="slug" name="name" value="{{$slug}}" class="w-full" wire:change='codeComplete'></x-imput>
+                            @error('slug')
+                            <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                            @enderror
+                            <x-label class="my-2">Logo:</x-label>
                             {{--  pruebas  --}}
                             <div class="py-3">
 
@@ -237,31 +243,31 @@
                                         name="photo" id="photo"
                                         class="custom">
                                     <label for="photo"
-                                          class="mx-auto py-2 px-3 border border-gris-40 rounded-md text-sm leading-4 font-medium text-gris-20 hover:text-corp-50 hover:border-corp-50 focus:outline-none focus:border-corp-30 focus:shadow-outline-indigo active:bg-gray-50 active:text-indigo-800 transition duration-150 ease-in-out cursor-pointer">
-                                     subir foto
-                                   </label>
-                                 </div>
+                                            class="mx-auto py-2 px-3 border border-gris-40 rounded-md text-sm leading-4 font-medium text-gris-20 hover:text-corp-50 hover:border-corp-50 focus:outline-none focus:border-corp-30 focus:shadow-outline-indigo active:bg-gray-50 active:text-indigo-800 transition duration-150 ease-in-out cursor-pointer">
+                                        subir foto
+                                    </label>
+                                    </div>
 
-                                 <div class="items-center text-sm text-gray-500 mx-auto"   @notify.window="previewPhoto=$event.detail.url" @notify2.window="clearPreview($refs)">
-                                   <!-- Display the file name when available -->
-                                   <div class=" w-fit mx-auto flex items-center">
-                                   <span x-text="fileName || emptyText"></span>
-                                   <!-- Removes the selected file -->
-                                   <button x-show="fileName"
-                                           @click="clearPreview($refs)"
-                                           type="button"
-                                           aria-label="Remove image"
-                                           class="mx-3 mt-1">
-                                     <svg viewBox="0 0 20 20" fill="currentColor" class="x-circle w-7 h-7"
-                                          aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
-                                   </button>
-                                      </div>
-                                 </div>
+                                    <div class="items-center text-sm text-gray-500 mx-auto"   @notify.window="previewPhoto=$event.detail.url" @notify2.window="clearPreview($refs)">
+                                    <!-- Display the file name when available -->
+                                    <div class=" w-fit mx-auto flex items-center">
+                                    <span x-text="fileName || emptyText"></span>
+                                    <!-- Removes the selected file -->
+                                    <button x-show="fileName"
+                                            @click="clearPreview($refs)"
+                                            type="button"
+                                            aria-label="Remove image"
+                                            class="mx-3 mt-1">
+                                        <svg viewBox="0 0 20 20" fill="currentColor" class="x-circle w-7 h-7"
+                                            aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                                    </button>
+                                        </div>
+                                    </div>
 
-                               </div>
+                                </div>
 
-                             </div>
-                           </div>
+                                </div>
+                            </div>
 
                             {{--  fin de pruebas  --}}
                     </div>
@@ -285,8 +291,8 @@
             </x-slot>
             <x-slot name="content">
                 <div class="flex justify-between ">
-                ¿Estás seguro de que deseas eliminar la etiqueta "<b>{{$itemName}}</b>"?
-                <img src="{{ asset(($logo ?? '')) }}" alt="{{$itemName}}" class="mx-auto h-[70px]">
+                ¿Estás seguro de que deseas eliminar la etiqueta "<b>{{$name}}</b>"?
+                <img src="{{ asset(($logo ?? '')) }}" alt="{{$name}}" class="mx-auto h-[70px]">
                 </div>
             </x-slot>
             <x-slot name="footer">

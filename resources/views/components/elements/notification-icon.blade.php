@@ -15,6 +15,6 @@
             $number = '+';
         }
 @endphp
-<span class="absolute top-[-3.5px] right-[-6px] flex  items-center justify-center">
+<span {{ $attributes->merge(['class' => 'absolute top-[-3.5px] right-[-6px] flex  items-center justify-center']) }}>
     <span class="inline-flex h-[14px] w-[14px] rounded-full bg-corp-50"><p class="text-white absolute {{ $margen }} ">{{ $number }}</p></span>
 </span>

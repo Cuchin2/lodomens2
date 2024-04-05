@@ -3,19 +3,24 @@
 namespace App\Livewire;
 
 use App\Models\Color;
+use App\Models\Sku;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-
+use Illuminate\Validation\Rule;
 class ColorTable extends Component
 {
     use WithPagination;
     public $showModal = false;
     public $newModal = false;
-    public $itemIdToDelete;
+    public $itemIdToDelete; public $color='';
+
     public $itemName;
-    public $newNameColor;
+
+    public $name;
     public $newHex;
+
+    public $code;
     public $hex; public $choose;
     public $perPage = 5;
 
@@ -31,11 +36,32 @@ class ColorTable extends Component
     #[Url(history:true)]
     public $sortDir = 'DESC';
 
+
     public function updatedSearch()
     {
         $this->resetPage();
     }
-
+    public function rules()
+    {
+        return [
+            'name' => [
+                'required',
+                Rule::unique('colors')->ignore($this->color),
+            ],
+            'code' => [
+                'size:2',
+                'required',
+                Rule::unique('colors')->ignore($this->color),
+                ]
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'El nombre es requerido.',
+            'code.size' => 'Se Requiere 2 dígitos.',
+        ];
+    }
     public function delete(Color $color)
     {
         $color->delete();
@@ -67,48 +93,65 @@ class ColorTable extends Component
     }
 
 
-    public function showDeleteModal($itemId,$itemName,$itemHex)
+    public function showDeleteModal($itemId,$itemName,$itemHex,$itemCode)
         {
+
             $this->itemName = $itemName;
             $this->itemIdToDelete = $itemId;
             $this->hex = $itemHex;
+            $this->code= $itemCode;
             $this->showModal = true;
         }
     public function showNewModal()
         {
+            $this->resetValidation();
             $this->newModal = true;
             $this->choose = 0;
-            $this->newNameColor = '';
+            $this->name = '';
             $this->newHex = '';
+            $this->code = '';
         }
-    public function showEditModal($itemId,$itemName,$itemHex)
-        {
+    public function showEditModal($itemId,$itemName,$itemHex,$itemCode)
+        {   $this->resetValidation();
             $this->newModal = true;
-            $this->newNameColor = $itemName;
+            $this->name = $itemName;
             $this->itemIdToDelete = $itemId;
             $this->newHex = $itemHex;
+            $this->code= $itemCode;
             $this->choose = 1;
         }
     public function createColor()
     {
+        $this->color= Color::find($this->itemIdToDelete);
+        $this->validate();
         if($this->choose === 0)
         {
+
             Color::create([
-                'name'=> $this->newNameColor,
+                'name'=> $this->name,
                 'hex'=> $this->newHex,
+                'code'=> $this->code,
                 'url'=> '',
             ]);
         }
         else
         {
-           $color= Color::find($this->itemIdToDelete);
-           $color->name= $this->newNameColor;
-           $color->hex= $this->newHex;
-           $color->save();
+            $color= Color::find($this->itemIdToDelete);
+            $color->name= $this->name;
+            $color->hex= $this->newHex;
+            $color->code= $this->code;
+            $color->save();
+            $skus = Sku::where('color_id',$this->itemIdToDelete)->get();
+            $skus->each(function ($sku) {
+                $codeDigits = substr($this->code,-2);
+                $sku->code = substr_replace($sku->code, $codeDigits, -2);
+                $sku->save();
+            });
         }
     $this->newModal = false;
-    $this->newNameColor='';
+    $this->name='';
     $this->itemIdToDelete ='';
     $this->newHex='';
+    $this->code='';
     }
 }

@@ -10,6 +10,7 @@ class Category extends Model
 {
     protected $fillable = [
         'name',
+        'code',
         'slug',
         'description',
     ];
@@ -90,8 +91,7 @@ class Category extends Model
     {
         $query->where('name','like',"%{$value}%")
         ->orWhere('description','like',"%{$value}%")
-        ;
-
+        ->orWhere('code','like',"%{$value}%");
     }
     use HasFactory;
 

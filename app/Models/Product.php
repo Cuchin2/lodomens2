@@ -45,7 +45,7 @@ class Product extends Model implements CanVisit
     public function subtract_stock($quantity){
         $this->decrement('stock', $quantity);
     }
-    public function brands(){
+    public function brand(){
         return $this->belongsTo(Brand::class);
        }
     public function order_details(){
@@ -137,11 +137,19 @@ class Product extends Model implements CanVisit
                         $existingSku->delete();
                     }
                 }
+                $product= Product::find($request->id);
+
                 foreach ($b as $colorId) {
-                    $sku = Sku::firstOrCreate([
+                    $colorCode = Color::find($colorId);
+                    Sku::updateOrCreate([
+                        'color_id' => $colorId,
+                        'product_id' => $request->id,
+                        ],[
                         'product_id' => $request->id,
                         'color_id' => $colorId,
-                        'code' => $request->id . $colorId
+                        'brand_id' => $product->brand->id,
+                        'category_id' => $product->category->id,
+                        'code' => $product->brand->slug.str_pad($product->category->code,2, '0', STR_PAD_LEFT).str_pad($product->code, 4, '0', STR_PAD_LEFT).str_pad($colorCode->code, 2, '0', STR_PAD_LEFT),
                     ]);
                 }
 

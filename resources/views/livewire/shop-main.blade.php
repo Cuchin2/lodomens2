@@ -106,7 +106,7 @@
 
         @foreach ($products as $key0 =>$product )
         <div class="px-3 mx-auto relative my-[8px]" x-data="{icon:false}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex':sort===1}">
-            <a href="{{route('web.shop.show',$product)}}"  >
+            <a href="{{ !empty($product->colors) && !empty($product->colors[0]->id) ? route('web.shop.show', ['product' => $product, 'color' => $product->colors[0]->id]) : '#' }}">
                 <lodo class="w-fit relative items-center h-fit mx-auto">
                     @php
                     $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')->get()->map(function ($color) {
@@ -117,10 +117,12 @@
                         ->join('rows', 'rows.id', '=', 'row_image.row_id')
                         ->orderBy('rows.order', 'asc')->get();
                     $imagenes[$key]= $imagenes2;     }
-                    $firstImage[$key0] = $imagenes[0]->first();
+                    if($imagenes) {
+                        $firstImage[$key0] = $imagenes[0]->first();
+                    }
 
                     @endphp
-                <img src="{{ asset('storage/'.$firstImage[$key0]->url) }}" class="w-[400px] mx-auto border-[2px]  border-corp-50 rounded-[3px]"
+                <img src="{{ asset('storage/'.($firstImage[$key0]->url ?? '')) }}" class="w-[400px] mx-auto border-[2px]  border-corp-50 rounded-[3px]"
                     alt="{{ $product->name }}" >
 
                     <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center {{ $product->stock > 0 ? '':'bg-black/80 border-[2px] border-corp-50 rounded-[3px]' }}   "> @if ($product->stock < 1)

@@ -31,22 +31,25 @@ class ShoppingCart extends Component
         Cart::instance('cart')->destroy();
         $this->dispatch('cart-added');
     }
-    public function updateCart($rowId,$quantity)
-    { dd($quantity);
-        Cart::instance('cart')->update($rowId,$quantity);
+    public function updateCart($rowId,$index)
+    {
+        Cart::instance('cart')->update($rowId,$this->counts[$index]);
     }
-    public function decreaseCount($index)
+    public function decreaseCount($rowId,$index)
     {
         if (isset($this->counts[$index])) {
             $this->counts[$index]--;
+            Cart::instance('cart')->update($rowId,$this->counts[$index]);
             // Lógica adicional si es necesario
         }
     }
 
-    public function increaseCount($index)
+    public function increaseCount($rowId,$index)
     {
         if (isset($this->counts[$index])) {
+
             $this->counts[$index]++;
+            Cart::instance('cart')->update($rowId,$this->counts[$index]);
             // Lógica adicional si es necesario
         }
     }

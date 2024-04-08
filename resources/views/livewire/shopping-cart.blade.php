@@ -28,9 +28,12 @@
                                 <h6 href="">{{ $item->name }}</h6>
                                 <p class="text-[13px] md:text-[15px]">SKU:{{ $item->options->sku }}</p>
                             </div>
-                            <div class="">
+                            <div>
+                            <div class="flex justify-between">
                                 <p>Precio unidad: S/.{{ $item->price }}</p>
                                 <p>Color: {{ $item->options->color }}</p>
+                            </div>
+                                <p> {{ $item->options->stock == 1 ? 'Queda 1 unidad' : 'Quedán '.$item->options->stock.' unidades' }}</p>
                             </div>
                         </div>
                     </div>

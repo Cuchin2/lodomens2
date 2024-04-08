@@ -124,8 +124,10 @@
                     @endphp
                 <img src="{{ asset('storage/'.($firstImage[$key0]->url ?? '')) }}" class="w-[400px] mx-auto border-[2px]  border-corp-50 rounded-[3px]"
                     alt="{{ $product->name }}" >
-
-                    <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center {{ $product->stock > 0 ? '':'bg-black/80 border-[2px] border-corp-50 rounded-[3px]' }}   "> @if ($product->stock < 1)
+                    @php
+                        $sku= \App\Models\Sku::where(['color_id'=>$firstImage[$key0]->color_id,'product_id'=>$product->id])->first();
+                    @endphp
+                    <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center {{ $sku->stock > 0 ? '':'bg-black/80 border-[2px] border-corp-50 rounded-[3px]' }}   "> @if ($sku->stock < 1)
                         <span class="text-gris-20 text-[14px] font-bold bg-gris-90 p-2 border-[2px]  border-corp-50 rounded-[3px]">SIN STOCK</span>  @endif
                       </div>
 
@@ -133,17 +135,17 @@
                 </lodo>
             </a>
 
-                <div class="absolute right-0 top-0 py-[7px] px-[20px] fill-white" x-show="(icon && sort !== 1 )|| sort === 1">
+                <div class="absolute right-0 top-0 py-[7px] px-[20px] " x-show="(icon && sort !== 1 )|| sort === 1">
 
-                    <x-icons.heart class="h-[20px] w-[20px] fill-gris-10  cursor-pointer mb-2 " />
-                    <button type="button" wire:click="addToCart({{$product->id}})" class="fill-gris-10 w-fit">
-                    <x-icons.cart class="h-[20px] w-[20px] cursor-pointer" x-show="sort !==1" />
+                    <x-icons.heart class="h-[20px] w-[20px] hover:fill-corp-50  cursor-pointer mb-2 " />
+                    <button type="button" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect }}')" class=" w-fit">
+                    <x-icons.cart class="h-[20px] w-[20px] cursor-pointer hover:fill-corp-50" x-show="sort !==1" />
                     </button>
 
                 </div>
                 <div class="m-2 leading-[1.2]" x-show="sort===3" x-cloak>
                     <p class="text-[14px] md:text-[18px] ">{{ $product->name }}</p>
-                    <p class="text-[18px] md:text-[22px]">S/. {{ $product->sell_price }}</p>
+                    <p class="text-[18px] md:text-[22px]">S/. {{ $sku->sell_price }}</p>
                 </div>
                 <div x-show="sort===1" x-cloak class="px-8">
                     <h3>{{ $product->name }}</h3>
@@ -152,11 +154,11 @@
                         <p class="text-gris-30"> - {{ $product->reviews->count() }} reseñas -</p>
                     </div>
                     <div class="flex space-x-3">
-                        <h4>S/. {{ $product->sell_price }}</h4>
+                        <h4>S/. {{ $sku->sell_price }}</h4>
                         <h5 class="line-through text-gris-70">S/.65 </h5>
                     </div>
                     <p class="mt-4 text-justify">{{ $product->short_description }}</p>
-                    <button class="bg-corp-50 rounded-[3px] px-4 my-4">
+                    <button class="bg-corp-50 rounded-[3px] px-4 my-4" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect }}')">
                         Añadir a Carrito
                     </button>
                 </div>
@@ -193,4 +195,83 @@
 
 
 </div>
+<x-dialog-modal wire:model="showModal">
+    <x-slot name="title">
+        Agregando al carrito
+    </x-slot>
+    <x-slot name="content">
+        <div class="bg-gris-100 px-2 md:px-6 py-3">
+            <div class="md:flex space-x-2 md:space-x-7 md:justify-between">
+                <div class="flex justify-center space-x-5 md:w-full">
+
+                    <lodo class="w-fit relative items-center h-fit m-auto">
+
+                        <img src="{{ asset('storage/'.( $image ?? '')) }}" alt="" class="w-[90px] md:w-[120px] border-[2px] border-corp-50 rounded-[3px] mx-auto">
+                         @if (isset($skus->stock) && $skus->stock < 1)
+                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/80" >
+                         <span class="text-gris-20 text-[10px] font-bold bg-gris-90 p-2 border-[2px]  border-corp-50 rounded-[3px]">SIN STOCK</span>
+                        </div>
+                         @endif
+
+
+                    </lodo>
+
+                    <div class="space-y-4 md:w-full">
+                        <div class="md:flex md:items-center md:justify-between">
+                            <h6 href="">{{ $skus->product->name ?? ''}}</h6>
+                            <p class="text-[13px] md:text-[15px]">SKU: {{ $skus->code ?? '' }}</p>
+                        </div>
+
+                            <div class="">
+                            <p>Precio unidad: S/. {{ $skus->sell_price ?? '' }}</p>
+                            <p>Color:  {{ $skus->color->name ?? ''}} </p> </div>
+                            <div>
+                                <p>@if(isset($skus->stock)) {{ $skus->stock < 2 ? ($skus->stock == 1 ? 'Queda: 1 unidad': 'Fuera de stock') : 'Quedan: '.$skus->stock.' unidades' }} @else  @endif</p>
+                            </div>
+                        <div class="flex my-4 space-x-1">
+
+                            <p class="font-bold"> {{ $colorSelect->count() === 1 ? 'COLOR: ' : 'COLORES: ' }}</p class="font-bold">
+                            <div class="flex space-x-2">
+                                @foreach ($colorSelected as $key => $color )
+                                    <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px] {{ $key == $active ? 'border-corp-50 border-[3px]' : '' }}"           style="background: {{ $color->hex }}" wire:click="changeColor({{ $key }},{{ $skus->product->id }},{{$color->id}})"> </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex md:block justify-between mt-4 md:mt-0">
+                    <h4 class="flex justify-end md:mb-8 whitespace-nowrap"> S/. {{ $price_cart ?? '' }}</h4>
+                    <div class="flex space-x-2">
+                        <div class="flex">
+                            @if(isset($skus->stock) && $skus->stock > 0)
+                            <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-l-[3px] border-gris-30 w-[30px] flex items-center" wire:click="decreaseCount('','')">
+                                <x-icons.chevron-left grosor="1" height="17px" width="17px" class="p-1 mx-auto fill-gris-30" />
+                            </div>
+                            <div>
+                                <input class="text-gris-10 font-bold bg-black h-[26px] mx-auto text-[12px] p-2 focus:ring-gris-50 focus:border-gris-50 w-[47px] border-gris-30 text-center border-x-0" placeholder=" " required="" wire:model='counts' wire:change="changePrice()">
+                            </div>
+                            <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-r-[3px] border-gris-30 w-[30px] flex items-center" wire:click="increaseCount('','')">
+                                <x-icons.chevron-right grosor="1" height="17px" width="17px" class="p-1 mx-auto fill-gris-30" />
+                            </div>
+                            @endif
+                        </div>
+                        <div>
+                            <a class="cursor-pointer" wire:click="$toggle('showModal')">
+                                <x-icons.trash class="w-5 fill-corp-30"/>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </x-slot>
+
+    <x-slot name="footer">
+        <x-button.corp_secundary wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
+        @if(isset($skus->stock) && $skus->stock > 0)
+        <x-button.corp1 wire:click="addToCart" wire:loading.attr="disabled">Agregar al carro</x-button.corp1>
+        @endif
+    </x-slot>
+</x-dialog-modal>
 </div>

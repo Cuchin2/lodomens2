@@ -14,6 +14,8 @@ class Sku extends Model
         'category_id',
         'brand_id',
         'code',
+        'stock',
+        'sell_price',
     ];
     public function product()
     {

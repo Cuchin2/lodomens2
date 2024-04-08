@@ -8,6 +8,7 @@ use App\Models\Image;
 use App\Models\Color;
 use App\Models\Brand;
 use App\Models\Row;
+use App\Models\Sku;
 use Illuminate\Support\Str;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
@@ -93,7 +94,6 @@ class ProductController extends Controller
     {
         $request->validate([
             'code' => ['required','numeric','max:9999',Rule::unique('products')->ignore($product->id)],
-            'sell_price' => 'required|numeric',
             // Añade aquí otras reglas de validación según sea necesario
         ], [
             'code.required' => 'El campo código es obligatorio.',
@@ -104,7 +104,15 @@ class ProductController extends Controller
         ]);
         $request->merge(['id' => $product->id]);
         $product->my_update($request);
+        $stock = $request->input('stock');
+        $sellPrices = $request->input('sell_price');
+        $skus= Sku::where('product_id',$product->id)->get();
+        foreach ($skus as $index => $sku) {
+            $sku->stock = $stock[$index] ?? '0';
+            $sku->sell_price = $sellPrices[$index] ?? '0';
+            $sku->save();
 
+        }
         return redirect()->route('products.edit',$product);
     }
 

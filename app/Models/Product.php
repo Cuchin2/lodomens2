@@ -21,8 +21,6 @@ class Product extends Model implements CanVisit
         'code',
         'name',
         'slug',
-        'stock',
-        'sell_price',
         'short_description',
         'body',
         'status',
@@ -90,7 +88,7 @@ class Product extends Model implements CanVisit
     public function scopeSearch($query, $value)
     {
         $query->where('name','like',"%{$value}%")
-        ->orWhere('sell_price','like',"%{$value}%");
+        /* ->orWhere('sell_price','like',"%{$value}%") */;
          /* ->orWhereHas('roles', function ($roleQuery) use ($value) {
             $roleQuery->where('name', 'like', "%{$value}%");
         });

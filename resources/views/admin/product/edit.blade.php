@@ -77,14 +77,31 @@
                             @enderror
                         </div>
                         <div class="my-3">
-                            <x-label class="mb-2">Nivel de stock</x-label>
-                            <x-input name="stock" value="{{ $product->stock}}" placeholder="Nivel de stock "></x-input>
-                        </div>
-                        <div class="my-3">
+                            <x-label class="mb-2">{{ $product->skus->count() > 1 ? 'Códigos' : 'Código' }} SKU</x-label>
+                        <div class="grid grid-cols-2 gap-4">
+                          @foreach ($product->skus->load('color') as $sku)
+                          <div x-data="{open:false}">
+                            <div class="flex cursor-pointer" x-on:click="open = ! open"><p style="color: {{ $sku->color->hex }};">{{ $sku->color->name }}</p></div>
+                            <x-label class="mb-2 ">SKU: {{ $sku->code }}</x-label>
+                            <div x-show="open" x-transition>
+                            <x-label class="mb-2" >Nivel de stock</x-label>
+                            <x-input name="stock[]" value="{{ $sku->stock }}" placeholder="Nivel de stock "></x-input>
                             <x-label class="mb-2">Precio de venta</x-label>
-                            <x-input name="sell_price" value="{{ $product->sell_price }}"
+                            <x-input name="sell_price[]" value="{{ $sku->sell_price }}"
                                 placeholder="Precio de venta "></x-input>
+                            </div>
+                            </div>
+                          @endforeach
                         </div>
+
+
+
+                        </div>
+{{--                          <div class="my-3">
+                            <x-label class="mb-2">Precio de venta</x-label>
+                            <x-input name="" value="{{ $product->sell_price }}"
+                                placeholder="Precio de venta "></x-input>
+                        </div>  --}}
                         <div class="flex space-x-4 my-3">
                             <x-label class="mb-2">Reseñas:</x-label>
                             <x-label>{{ $product->reviews->count() }}</x-label>

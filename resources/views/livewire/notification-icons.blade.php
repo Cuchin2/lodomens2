@@ -39,16 +39,16 @@
                     class="absolute font-normal bg-gris-90 shadow overflow-hidden md:w-[57px] right-0 md:top-[25.5px] top-[16.5px] z-20 rounded pb-[6px] w-[28px]" >
                     <li x-show="alt !== 'Peru'" @click="src = '{{ asset('image/flags/Bandera-PE.png') }}',isOpen = false, alt = 'Peru',lang='ES'"
                     class="flex">
-                        <img src="{{ asset('image/flags/Bandera-PE.png') }}" alt="Mexico" srcset=""
+                        <img src="{{ asset('image/flags/Bandera-PE.png') }}" alt="Peru" srcset=""
                             class="md:w-[32px] w-[20px] h-[12px] md:h-[20.61px] cursor-pointer ml-[4px] mt-[8px]">
                             <p class="text-gris-10 text-[10px] mx-auto mt-[10px] hidden md:block">ES</p>
                     </li>
-                    <li x-show="alt !== 'Mexico'" @click="src = '{{ asset('image/flags/Bandera-MX.png') }}',isOpen = false, alt = 'Mexico',lang='ES'"
+{{--                      <li x-show="alt !== 'Mexico'" @click="src = '{{ asset('image/flags/Bandera-MX.png') }}',isOpen = false, alt = 'Mexico',lang='ES'"
                     class="flex">
                         <img src="{{ asset('image/flags/Bandera-MX.png') }}" alt="Mexico" srcset=""
                             class="md:w-[32px] w-[20px] h-[12px] md:h-[20.61px] cursor-pointer ml-[4px] mt-[8px] ">
                             <p class="text-gris-10 text-[10px] mx-auto mt-[10px] hidden md:block">ES</p>
-                    </li>
+                    </li>  --}}
                     <li x-show="alt !== 'USA'" @click="src = '{{ asset('image/flags/Bandera-US.png') }}',isOpen = false, alt = 'USA', lang='EN'"
                     class="flex">
                         <img src="{{ asset('image/flags/Bandera-US.png') }}" alt="USA" srcset=""

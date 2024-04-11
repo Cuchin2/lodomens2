@@ -1,7 +1,7 @@
 <div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1 flex items-center 2xl:min-h-[374px] lg:min-h-[278px]">
     @if($cartitems->count() > 0)
 
-<div class="grid lg:grid-cols-3 w-full gap-5 my-4">
+    <div class="grid lg:grid-cols-3 w-full gap-5 my-4">
         <div class="col-span-2">
             <div class="bg-gris-100 px-6 py-3">
                 <div class="flex justify-between">
@@ -9,8 +9,9 @@
                         <h5> Carrito</h5>
                         <p>({{ $cartitems->count() }} productos)</p>
                     </div>
-                    <a wire:click="clearCart" class="flex space-x-2 items-center border-[2px] rounded-[3px] border-gris-50 p-2 cursor-pointer">
-                        <x-icons.trash class="w-5"/>
+                    <a wire:click="clearCart"
+                        class="flex space-x-2 items-center border-[2px] rounded-[3px] border-gris-50 p-2 cursor-pointer">
+                        <x-icons.trash class="w-5" />
                         <p>Eliminar todo</p>
                     </a>
                 </div>
@@ -20,8 +21,9 @@
             <div class="bg-gris-100 px-2 md:px-6 py-3">
                 <div class="md:flex space-x-2 md:space-x-7 md:justify-between">
                     <div class="flex justify-center space-x-5 md:w-full">
-                        <a class="flex w-max items-center" href="{{ route('web.shop.show',['product'=>$item->options->slug,'color'=>$item->options->color_id]) }}">
-                            <img src="{{ asset('storage/'.$item->options->productImage) }}" alt="{{ $item->name }}" class="w-[90px] md:w-[120px] border-[2px] border-corp-50 rounded-[3px]">
+                        <a class="flex w-max items-center"
+                            href="{{ route('web.shop.show',['product'=>$item->options->slug,'color'=>$item->options->color_id]) }}">
+                            <x-outstock text="text-[10px]" class="w-[90px] md:w-[120px]" url="{{ $item->options->productImage }}" name="{{ $item->name }}" stock="{{ $item->options->stock }}"/>
                         </a>
                         <div class="space-y-4 md:w-full">
                             <div class="md:flex md:items-center md:justify-between">
@@ -29,11 +31,12 @@
                                 <p class="text-[13px] md:text-[15px]">SKU:{{ $item->options->sku }}</p>
                             </div>
                             <div>
-                            <div class="flex justify-between">
-                                <p>Precio unidad: S/.{{ $item->price }}</p>
-                                <p>Color: {{ $item->options->color }}</p>
-                            </div>
-                                <p> {{ $item->options->stock == 1 ? 'Queda 1 unidad' : 'Quedán '.$item->options->stock.' unidades' }}</p>
+                                <div class="flex justify-between">
+                                    <p>Precio unidad: S/.{{ $item->price }}</p>
+                                    <p>Color: {{ $item->options->color }}</p>
+                                </div>
+                                <p> {{ $item->options->stock == 1 ? 'Queda 1 unidad' : 'Quedán '.$item->options->stock.'
+                                    unidades' }}</p>
                             </div>
                         </div>
                     </div>
@@ -41,19 +44,27 @@
                         <h4 class="flex justify-end md:mb-8"> S/.{{ $item->price*$item->qty }}</h4>
                         <div class="flex space-x-2">
                             <div class="flex">
-                                <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-l-[3px] border-gris-30 w-[30px] flex items-center" wire:click="decreaseCount('{{$item->rowId}}','{{ $index }}')">
-                                    <x-icons.chevron-left grosor="1" height="17px" width="17px" class="p-1 mx-auto fill-gris-30" />
+                                <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-l-[3px] border-gris-30 w-[30px] flex items-center"
+                                    wire:click="decreaseCount('{{$item->rowId}}','{{ $index }}','{{ $item->options->stock }}')">
+                                    <x-icons.chevron-left grosor="1" height="17px" width="17px"
+                                        class="p-1 mx-auto fill-gris-30" />
                                 </div>
                                 <div>
-                                    <input type="text" class="text-gris-10 font-bold bg-black h-[26px] mx-auto text-[12px] p-2 focus:ring-gris-50 focus:border-gris-50 w-[47px] border-gris-30 text-center border-x-0" placeholder=" " required=""  wire:change="updateCart('{{ $item->rowId }}','{{$index}}')" wire:model.change="counts.{{ $index }}">
+                                    <input type="text"
+                                        class="text-gris-10 font-bold bg-black h-[26px] mx-auto text-[12px] p-2 focus:ring-gris-50 focus:border-gris-50 w-[47px] border-gris-30 text-center border-x-0"
+                                        placeholder=" " required=""
+                                        wire:change="updateCart('{{ $item->rowId }}','{{$index}}','{{ $item->options->stock }}')"
+                                        wire:model.change="counts.{{ $index }}">
                                 </div>
-                                <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-r-[3px] border-gris-30 w-[30px] flex items-center" wire:click="increaseCount('{{$item->rowId}}','{{ $index }}')">
-                                    <x-icons.chevron-right grosor="1" height="17px" width="17px" class="p-1 mx-auto fill-gris-30" />
+                                <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-r-[3px] border-gris-30 w-[30px] flex items-center"
+                                    wire:click="increaseCount('{{$item->rowId}}','{{ $index }}','{{ $item->options->stock }}')">
+                                    <x-icons.chevron-right grosor="1" height="17px" width="17px"
+                                        class="p-1 mx-auto fill-gris-30" />
                                 </div>
                             </div>
                             <div>
                                 <a class="cursor-pointer" wire:click="removeRow('{{$item->rowId}}','{{ $index }}')">
-                                    <x-icons.trash class="w-5 fill-corp-30"/>
+                                    <x-icons.trash class="w-5 fill-corp-30" />
                                 </a>
                             </div>
                         </div>
@@ -82,15 +93,20 @@
                     <p>Subtotal(4)</p>
                     <p>S/.{{ Cart::instance('cart')->subtotal() }}</p>
                 </div>
-                <div class="flex justify-between my-2">
+                {{-- <div class="flex justify-between my-2">
                     <p>IVA</p>
                     <p>S/.{{ Cart::instance('cart')->tax() }}</p>
-                </div>
+                </div> --}}
                 <div class="flex justify-between my-2 text-white">
                     <p>Sub Total</p>
                     <p>S/.{{ Cart::instance('cart')->total() }}</p>
                 </div>
+                <div class="mt-6 mb-2">
+                    <x-button.webprimary class="w-full" {{-- x-on:click="$wire.add(count,color)" --}}> Añadir a Carrito
+                    </x-button.webprimary>
+                </div>
             </div>
+
         </div>
     </div>
     @else
@@ -109,15 +125,17 @@
 
             </div>
             <div class="my-6 mx-11 flex flex-col items-center space-y-1">
-                <a href="{{route('web.shop.index')}}" class="w-full" >
-                <x-button.webprimary class="w-full"> Añadir a Carrito</x-button.webprimary></a>
+                <a href="{{route('web.shop.index')}}" class="w-full">
+                    <x-button.webprimary class="w-full"> Añadir a Carrito</x-button.webprimary>
+                </a>
                 <div class="flex space-x-2">
                     <p>¿No tienes cuenta?</p> <a class="text-corp-30 cursor-pointer"
                         href="{{ route('web.login_register') }}">Registrarse</a>
                 </div>
-                {{--  <p class="text-corp-30">Ir a tienda</p>  --}}
+                {{-- <p class="text-corp-30">Ir a tienda</p> --}}
             </div>
         </div>
     </div>
     @endif
+
 </div>

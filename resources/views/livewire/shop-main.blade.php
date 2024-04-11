@@ -107,32 +107,21 @@
         @foreach ($products as $key0 =>$product )
         <div class="px-3 mx-auto relative my-[8px]" x-data="{icon:false}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex':sort===1}">
             <a href="{{ !empty($product->colors) && !empty($product->colors[0]->id) ? route('web.shop.show', ['product' => $product, 'color' => $product->colors[0]->id]) : '#' }}">
-                <lodo class="w-fit relative items-center h-fit mx-auto">
-                    @php
-                    $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')->get()->map(function ($color) {
-                        return (object) ['name' => $color->name, 'hex' => $color->hex, 'id' => $color->id];
-                    }); $imagenes = [];
-                    foreach ($colorSelect as $key => $color) {
-                        $imagenes2 = $product->images()->where('color_id',$color->id)->join('row_image', 'images.id', '=', 'row_image.image_id')
-                        ->join('rows', 'rows.id', '=', 'row_image.row_id')
-                        ->orderBy('rows.order', 'asc')->get();
-                    $imagenes[$key]= $imagenes2;     }
-                    if($imagenes) {
-                        $firstImage[$key0] = $imagenes[0]->first();
-                    }
-
-                    @endphp
-                <img src="{{ asset('storage/'.($firstImage[$key0]->url ?? '')) }}" class="w-[400px] mx-auto border-[2px]  border-corp-50 rounded-[3px]"
-                    alt="{{ $product->name }}" >
-                    @php
+                @php
+                        $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')->get()->map(function ($color) {
+                            return (object) ['name' => $color->name, 'hex' => $color->hex, 'id' => $color->id];
+                        }); $imagenes = [];
+                        foreach ($colorSelect as $key => $color) {
+                            $imagenes2 = $product->images()->where('color_id',$color->id)->join('row_image', 'images.id', '=', 'row_image.image_id')
+                            ->join('rows', 'rows.id', '=', 'row_image.row_id')
+                            ->orderBy('rows.order', 'asc')->get();
+                        $imagenes[$key]= $imagenes2;     }
+                        if($imagenes) {
+                            $firstImage[$key0] = $imagenes[0]->first();
+                        }
                         $sku= \App\Models\Sku::where(['color_id'=>$firstImage[$key0]->color_id,'product_id'=>$product->id])->first();
-                    @endphp
-                    <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center {{ $sku->stock > 0 ? '':'bg-black/80 border-[2px] border-corp-50 rounded-[3px]' }}   "> @if ($sku->stock < 1)
-                        <span class="text-gris-20 text-[14px] font-bold bg-gris-90 p-2 border-[2px]  border-corp-50 rounded-[3px]">SIN STOCK</span>  @endif
-                      </div>
-
-
-                </lodo>
+                        @endphp
+                <x-outstock class="w-[400px]" url="{{ $firstImage[$key0]->url }}" name="{{ $product->name }}" stock="{{ $sku->stock }}" />
             </a>
 
                 <div class="absolute right-0 top-0 py-[7px] px-[20px] " x-show="(icon && sort !== 1 )|| sort === 1">
@@ -195,7 +184,7 @@
 
 
 </div>
-<x-dialog-modal wire:model="showModal">
+<x-dialog-modal wire:model="showModal" maxWidth="fit">
     <x-slot name="title">
         Agregando al carrito
     </x-slot>
@@ -203,19 +192,7 @@
         <div class="bg-gris-100 px-2 md:px-6 py-3">
             <div class="md:flex space-x-2 md:space-x-7 md:justify-between">
                 <div class="flex justify-center space-x-5 md:w-full">
-
-                    <lodo class="w-fit relative items-center h-fit m-auto">
-
-                        <img src="{{ asset('storage/'.( $image ?? '')) }}" alt="" class="w-[90px] md:w-[120px] border-[2px] border-corp-50 rounded-[3px] mx-auto">
-                         @if (isset($skus->stock) && $skus->stock < 1)
-                         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/80" >
-                         <span class="text-gris-20 text-[10px] font-bold bg-gris-90 p-2 border-[2px]  border-corp-50 rounded-[3px]">SIN STOCK</span>
-                        </div>
-                         @endif
-
-
-                    </lodo>
-
+                    <x-outstock text="text-[10px]" class="w-[90px] md:w-[120px]" name="{{ $skus->product->name ?? ''}}" url="{{ $image ?? ''}}" stock="{{ $skus->stock ?? ''}}" />
                     <div class="space-y-4 md:w-full">
                         <div class="md:flex md:items-center md:justify-between">
                             <h6 href="">{{ $skus->product->name ?? ''}}</h6>

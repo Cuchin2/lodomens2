@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-
+use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
     /**
@@ -111,8 +111,7 @@ class ProductController extends Controller
             $sku->stock = $stock[$index] ?? '0';
             $sku->sell_price = $sellPrices[$index] ?? '0';
             $sku->save();
-
-        }
+            }
         return redirect()->route('products.edit',$product);
     }
 

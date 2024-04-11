@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
-
+use Cart;
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
@@ -35,7 +35,6 @@ class FortifyServiceProvider extends ServiceProvider
 
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
-
             return Limit::perMinute(5)->by($throttleKey);
         });
 

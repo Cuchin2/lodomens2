@@ -9,7 +9,7 @@ use App\Models\Color;
 use Cart;
 class AddCart extends Component
 {
-    public $sku;
+    public $sku; public $count = 0;
     public $product;
     public $color;
     public function render()
@@ -19,19 +19,22 @@ class AddCart extends Component
     public function add($qtn,$color)
     {
         $product = Product::with('images')->find($this->product);
-        $price = $product->sell_price; $color2=Color::find($color);
+        $sku = Sku::where(['product_id'=>$product->id, 'color_id' =>$color])->first();
         Cart::instance('cart')->add(
             $product->id,
             $product->name,
             $qtn,
-            $price,
+            $sku->sell_price,
             ['productImage' => $product->images->where('color_id',$color)->first()->url,
             'slug'=> $product->slug,
-            'sku'=>Sku::where(['product_id'=>$product->id, 'color_id' =>$color])->first()->code,
-            'color'=>$color2->name,
-            'color_id'=>$color2->id
+            'sku'=>$sku->code,
+            'color'=>$sku->color->name,
+            'color_id'=>$sku->color_id,
+            'stock'=>$sku->stock
             ]
         )->associate('App\Models\Sku');
+            if(auth()->user()){
+            Cart::instance('cart')->store(auth()->user()->id);}
         $this->dispatch('cart-added');
         $this->redirectRoute('cart.index');
     }

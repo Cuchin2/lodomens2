@@ -12,7 +12,7 @@
 <x-lodomens.video />
 @section('content')
 
-<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1" x-data="{ tab: 'tab1', colorselect:'{{ $indice }}', colorid: '@json($colorSelect[0]->id)',ext:'{{ pathinfo(asset($firstImage ->url), PATHINFO_EXTENSION) }}', abc:'0', src: '{{ asset('storage/'.$firstImage->url) }}', getImage(a,b) {
+<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1" x-data="{ tab: 'tab1', colorselect:'{{ $indice }}', colorid: '@json($colorSelect[0]->id)',ext:'{{ pathinfo(asset($firstImage ->url), PATHINFO_EXTENSION) }}', abc:'0', src: '{{ asset('storage/'.$firstImage->url) }}', skus: {{ json_encode($skus) }}, skuselect:{{ $skus[$indice]->color_id }}, getImage(a,b) {
     axios.get('{{ route('getimage.product.select') }}', {
         params: {
           row: a,
@@ -49,9 +49,15 @@
                   class="w-full border-[2px] border-corp-50 rounded-[3px]" alt="">
 
                   </template>
-                  <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center {{ $product->stock > 0 ? '':'bg-black/80 border-[2px] border-corp-50 rounded-[3px]' }}   "> @if ($product->stock < 1)
-                    <span class="text-gris-20 text-[14px] font-bold bg-gris-90 p-2 border-[2px]  border-corp-50 rounded-[3px]">SIN STOCK</span>  @endif
-                  </div>
+                  @if($product->skus)
+                  <template x-for="sku in skus" @sku.window="skuselect=$event.detail.parm">
+                    <div x-show="skuselect === sku.color_id" x-cloak class="absolute top-0 left-0 w-full h-full flex items-center justify-center" :class="{'bg-black/80 border-[2px] border-corp-50 rounded-[3px]': sku.stock == 0 }">
+                        <template x-if="sku.stock == 0" >
+                        <span class="text-gris-20 text-[14px] font-bold bg-gris-90 p-2 border-[2px]  border-corp-50 rounded-[3px]">SIN STOCK</span>
+                        </template>
+                    </div>
+                    </template>
+                    @endif
                 </lodo>
             </div>
             @foreach ($imagenes as $key =>$images)
@@ -102,7 +108,11 @@
 
                 </div>
                 <div class="flex space-x-3">
-                    <h4>S/. {{ $product->sell_price }}</h4>
+                    <div class="flex items-center justify-between">
+                        <template x-for="sku in skus" @sku.window="skuselect=$event.detail.parm">
+                            <h4 x-text="'S/. '+sku.sell_price" x-show="skuselect === sku.color_id" x-cloak></h4>
+                        </template>
+                    </div>
                     <h5 class="line-through text-gris-70">S/.65 </h5>
                 </div>
                 <p class="mt-4 text-justify">{{ $product->short_description }}</p>
@@ -115,13 +125,13 @@
                     </div>
                 </div>
                 <div class="flex space-x-1 mb-4">
+                    @if($product->skus)
+                    <template x-for="sku in skus" @sku.window="skuselect=$event.detail.parm">
 
-                        @if($product->stock > 0)
-                        <p class="font-bold">    Disponible :  </p>
-                         <p>{{ $product->stock }} {{ ($product->stock > 1) ? 'unidades' : 'unidad'}}</p>
-                        @else
-                        <p class="font-bold"> Fuera de stock </p>
-                        @endif
+                            <p  x-show="skuselect === sku.color_id" x-cloak x-text="sku.stock === 0 ? 'Fuera de stock' : (sku.stock === 1 ? 'Queda: 1 unidad' : 'Quedan: '+sku.stock+' unidades')"></p>
+                   </template>
+                    @endif
+
 
                  </div>
                 <livewire:add-cart sku="{{ $product->skus[0]->id }}" product="{{$product->id}}" color="{{ $colorSelect[0]->id }}"/>

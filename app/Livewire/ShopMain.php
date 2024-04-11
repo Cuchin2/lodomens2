@@ -93,6 +93,7 @@ class ShopMain extends Component
             {$this->counts = $this->skus->stock; }
         };
         $this->price_cart= number_format($this->counts*$this->skus->sell_price, 2, '.', '');
+
     }
     public function changeColor($key,$id,$color)
     {

@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <x-button.webprimary class="w-full" x-on:click="$wire.add(count,color)"> Añadit a Carrito</x-button.webprimary>
+    <x-button.webprimary class="w-full" x-on:click="$wire.add(count,color)"> Añadir a Carrito</x-button.webprimary>
 
     {{--  <button class="bg-gradient-to-b from-corp-20 via-corp-50 to-corp-90  text-gris-10 rounded-[3px] px-4 font-bold w-full h-[36px]">
         Añadir a Carrito

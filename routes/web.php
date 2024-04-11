@@ -12,7 +12,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\BrandController;
-use Illuminate\Support\Facades\Session;
+
 /*
 
 |--------------------------------------------------------------------------
@@ -35,48 +35,6 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-           // Recuperar los datos del carrito de la sesión
-   if(Cart::instance('cart')->content()->isEmpty()){
-    Cart::instance('cart')->restore(auth()->user()->id);
-
-} else  { $carold = Cart::instance('cart')->content();
-
-    if(isset($carold)) {
-    foreach($carold as $key=>$row )  {
-        $items[$key]=[
-            'id'=>$row->id,
-            'name'=>$row->name,
-            'qty' =>$row->qty,
-            'price' =>$row->price,
-            'options' => ['productImage' => $row->options->productImage,
-                        'slug'=> $row->options->slug,
-                        'sku'=> $row->options->sku,
-                        'color'=> $row->options->color,
-                        'color_id'=> $row->options->color_id,
-                        "stock" => $row->options->stock,
-            ]
-        ];
-    } }
-
-    Cart::instance('cart')->destroy();
-    Cart::instance('cart')->restore(auth()->user()->id);
-    foreach ($items as $item) {
-        Cart::instance('cart')->add(
-            $item['id'],
-            $item['name'],
-            $item['qty'],
-            $item['price'],
-            ['productImage' => $item['options']['productImage'],
-            'slug'=> $item['options']['slug'],
-            'sku'=> $item['options']['sku'],
-            'color'=> $item['options']['color'],
-            'color_id'=> $item['options']['color_id'],
-            'stock'=> $item['options']['stock']]
-        )->associate('App\Models\Sku');
-        /* $slug = $item['options']['slug'];
-        dd($slug); */
-    }
-    }
 
         return view('dashboard');
     })->name('dashboard');

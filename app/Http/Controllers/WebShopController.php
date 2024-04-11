@@ -11,7 +11,7 @@ use App\Models\Sku;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class WebShopController extends Controller
 {
     public function index(){

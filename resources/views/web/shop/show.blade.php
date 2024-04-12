@@ -113,7 +113,7 @@
                             <h4 x-text="'S/. '+sku.sell_price" x-show="skuselect === sku.color_id" x-cloak></h4>
                         </template>
                     </div>
-                    <h5 class="line-through text-gris-70">S/.65 </h5>
+                    <h5 class="line-through text-corp-50">S/.65 </h5>
                 </div>
                 <p class="mt-4 text-justify">{{ $product->short_description }}</p>
                 <div class="flex my-4 space-x-1">
@@ -134,7 +134,7 @@
 
 
                  </div>
-                <livewire:add-cart sku="{{ $product->skus[0]->id }}" product="{{$product->id}}" color="{{ $colorSelect[0]->id }}"/>
+                <livewire:add-cart ::sku="skuselect" product="{{$product->id}}" color="{{ $colorSelect[0]->id }}"/>
 
                 <div class="flex my-4 space-x-2">
                     <x-icons.heart class="w-[20px]" />

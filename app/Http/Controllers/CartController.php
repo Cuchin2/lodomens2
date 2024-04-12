@@ -14,10 +14,4 @@ class CartController extends Controller
     }
         return view('web.cart.shoppingcart');
     }
-
-    public function removeItemCart($rowId)
-    {
-        Cart::instance('cart')->remove($rowId);
-        return redirect()->route('cart.index');
-    }
 }

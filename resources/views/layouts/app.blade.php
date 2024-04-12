@@ -115,6 +115,7 @@
                             </x-slot>
                             @can('products.index')
                             <x-sidebar.ul-drop-son href="{{ route('products.index') }}">Productos</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('types.index')}}">Productos Especiales</x-sidebar.ul-drop-son>
                             @endcan
                             @can('categories.index')
                             <x-sidebar.ul-drop-son href="{{ route('categories.index')}}">Categorias</x-sidebar.ul-drop-son>

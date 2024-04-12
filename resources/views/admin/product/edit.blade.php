@@ -61,6 +61,15 @@
                 <div class="col-span-12 lg:col-span-4 bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg: ">
                         <div class="my-3">
+                            <x-label class="mb-2">Tipos:</x-label>
+                            <div class="mt-3">
+                                <x-select-search placeholder="Selecciona un tipo"
+                                    message="Ningun tipo coincide con la búsqueda" name="type_id"
+                                    :data="$types" selected="{{ $product->type->id ?? ''}}">
+                                </x-select-search>
+                            </div>
+                        </div>
+                        <div class="my-3">
                             <x-label class="mb-2">Marca:</x-label>
                             <div class="mt-3">
                                 <x-select-search placeholder="Selecciona la marca"
@@ -69,6 +78,7 @@
                                 </x-select-search>
                             </div>
                         </div>
+
                         <div class="my-3" x-data="{ code: '{{ $product->code }}' }">
                             <x-label class="mb-2">Código del producto</x-label>
                             <x-input name="code" maxlength="4" x-model="code" @change="addLeadingZeros" value="{{ old('code', $product->code) }}" placeholder="Código del producto "></x-input>

@@ -206,8 +206,8 @@
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.corp1 wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp1>
-                <x-button.corp_secundary wire:click="delete('{{$itemIdToDelete}}')" wire:loading.attr="disabled">Eliminar</x-button.corp_secundary>
+                <x-button.corp_secundary wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
+                <x-button.corp1 wire:click="delete('{{$itemIdToDelete}}')" wire:loading.attr="disabled">Eliminar</x-button.corp1>
 
             </x-slot>
         </x-dialog-modal>
@@ -248,8 +248,8 @@
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.corp1 wire:click="$toggle('showModalCreate')" wire:loading.attr="disabled">Cancelar</x-button.corp1>
-                <x-button.corp_secundary wire:click="create('{{$productName}}')" wire:loading.attr="disabled">Crear</x-button.corp_secundary>
+                <x-button.corp_secundary  wire:click="$toggle('showModalCreate')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
+                <x-button.corp1 wire:click="create('{{$productName}}')" wire:loading.attr="disabled">Crear</x-button.corp1>
 
             </x-slot>
         </x-dialog-modal>

@@ -18,26 +18,14 @@ class Category extends Model
     {
         return 'slug';
     }
-/*     public function posts(){
-        return $this->hasMany(Post::class);
-    } */
+
     public function products(){
         return $this->hasMany(Product::class);
     }
-/*     public function subcategories(){
-        return $this->hasMany(Category::class,'parent_id');
-    } */
+
     public function subcategoriesfather(){
         return $this->belongsTo(Category::class,'parent_id');
     }
-/*     public function has_subcategory(){
-        if ($this->subcategories()->count() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-
-    } */
     public function my_store($request, $type)
     {
         self::create($request->all()+[

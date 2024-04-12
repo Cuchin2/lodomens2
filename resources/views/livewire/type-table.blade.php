@@ -6,7 +6,7 @@
                 <div class="flex items-center justify-between">
                     <div class="flex w-full m-[20px]">
 
-                        <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" wire:click="showDeleteModal('','','CREATE','','','')">
+                        <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" wire:click="showDeleteModal('','','CREATE','','','','')">
                             <div class="flex items-center justify-center mx-[10px]">
                             <x-icons.plus class="h-[12px] w-[12px] fill-white mx-[3px]" grosor="1"></x-icons.plus>
 
@@ -121,6 +121,9 @@
                                     <th scope="col" class="px-4 py-[13px] font-normal" wire:click="setSortBy('name')">
                                         Nombre
                                         </th>
+                                        <th scope="col" class="px-4 py-[13px] font-normal" wire:click="setSortBy('hex')">
+                                            Color
+                                            </th>
                                         <th scope="col" class="px-4 py-[13px] font-normal" wire:click="setSortBy('slug')">
                                             Codígo
                                             </th>
@@ -143,16 +146,16 @@
                                     </td><td class="px-4 py-[13px]">
                                         {{$brand->name}}</td>
                                     </td>
-
+                                    <td class="px-4 py-[13px]"> <div class="w-10 h-10 rounded-full mx-auto" style="background: {{ $brand->hex }};"></div></td>
                                         <td class="px-4 py-[13px]">
                                             {{$brand->slug}}</td>
                                     <td class="px-4 py-[13px]">{{$brand->description}}</td>
 
                                     <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
-                                        <button type="button" class="text-azul-50 hover:text-azul-30" wire:click="showDeleteModal({{ $brand->id }},'{{$brand->name}}','DESCRIPTION','{{$brand->description}}','{{ $brand->slug }}','{{ asset('storage/'.($brand->images->url ?? '')) }}')">
+                                        <button type="button" class="text-azul-50 hover:text-azul-30" wire:click="showDeleteModal('{{ $brand->id }}','{{$brand->name}}','DESCRIPTION','{{$brand->description}}','{{ $brand->slug }}','{{ asset('storage/'.($brand->images->url ?? '')) }}','{{ $brand->hex }}')">
                                             <x-icons.edit></x-icons.edit>
                                         </button>
-                                        <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal2({{ $brand->id }},'{{$brand->name}}','DELETE','','','{{ asset('storage/'.($brand->images->url ?? '')) }}')" >
+                                        <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal2('{{ $brand->id }}','{{$brand->name}}','DELETE','','','{{ asset('storage/'.($brand->images->url ?? '')) }}','')" >
                                             <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                         </button>
                                     </td>
@@ -190,7 +193,7 @@
 
         <x-dialog-modal wire:model="showModal">
             <x-slot name="title">
-                {{  $which == 'CREATE' ? 'Crear Marca' : 'Editar Marca' }}
+                {{  $which == 'CREATE' ? 'Crear tipo de producto' : 'Editar tipo de producto' }}
             </x-slot>
             <x-slot name="content">
 
@@ -207,9 +210,17 @@
                     </x-imput-textarea>
                     </div>
                     <div class="m-4">
-                        <x-label class="my-2">Codígo</x-label>
+                        <x-label class="my-2">Slug</x-label>
                         <x-input placeholder="Nombre" wire:model="slug" name="name" value="{{$slug}}" class="w-full" wire:change='codeComplete'></x-imput>
                             @error('slug')
+                            <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                            @enderror
+
+                            <div class=" mx-auto my-2">
+                                <x-label class="mb-2">Color</x-label>
+                                <input type="color" wire:model="color" id="input_choose_color" class="w-16 h-10">
+                            </div>
+                            @error('color')
                             <div class="text-corp-10 ml-2"> {{ $message }}</div>
                             @enderror
                             <x-label class="my-2">Logo:</x-label>
@@ -306,7 +317,18 @@
             </x-slot>
         </x-dialog-modal>
     </section>
-
+    <style>
+        input[type="file"].custom {
+            border: 0;
+            clip: rect(0, 0, 0, 0);
+            height: 1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute !important;
+            white-space: nowrap;
+            width: 1px;
+          }
+    </style>
     @push('scripts')
     <script>
         function imageData(url) {

@@ -9,7 +9,7 @@ use App\Models\Color;
 use Cart;
 class AddCart extends Component
 {
-    public $sku; public $count = 0;
+    public $sku; public $limit;
     public $product;
     public $color;
     public function render()

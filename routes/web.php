@@ -12,7 +12,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\BrandController;
-
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\TypesController;
 /*
 
 |--------------------------------------------------------------------------
@@ -46,6 +47,7 @@ Route::post('registro/user',[WebController::class,'register_user'])->name('web.s
 Route::get('recuperar_password',[WebController::class,'recover_password'])->name('web.recover_password');
 Route::get('color/product/get',[WebShopController::class,'getimage'])->name('getimage.product.select');
 Route::get('cart',[CartController::class,'index'])->name('cart.index');
+Route::get('wishlist',[WishlistController::class,'index'])->name('wishlist.index');
 Route::middleware(['auth', config('jetstream.auth_session'),'verified',
 ])->group(function () {
     /* Route::get('home',[HomeController::class,'index'])->name('home'); */
@@ -62,6 +64,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified',
         Route::delete('deleteimage/color/{product}',[ColorController::class,'deleteimage'])->name('deleteimage.color');
         Route::delete('row/delete/{product}',[ColorController::class,'deleterow'])->name('deleterow');
         Route::resource('color',ColorController::class)->names('colors');
+        Route::resource('type',TypesController::class)->names('types');
         Route::resource('brand',BrandController::class)->names('brands');
         Route::resource('categories', CategoryController::class)->names('categories');
         Route::resource('tags', TagController::class)->except('show')->names('tags');

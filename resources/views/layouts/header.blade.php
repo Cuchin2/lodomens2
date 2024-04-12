@@ -23,7 +23,7 @@
             </ul>
         </div>
 
-        <livewire:notification-icons cart="{{ Cart::instance('cart')->content()->count() }}"/>
+        <livewire:notification-icons cart="{{ Cart::instance('cart')->content()->count() }}" wishlist="{{ Cart::instance('wishlist')->content()->count() }}"/>
         {{-- Menu Responsive --}}
         <div class="absolute top-[44px] z-10"
            >

@@ -7,7 +7,7 @@ use Cart;
 use Livewire\Attributes\On;
 class NotificationIcons extends Component
 {
-    public $cart;
+    public $cart; public $wishlist;
     public function render()
     {
         return view('livewire.notification-icons');
@@ -16,5 +16,10 @@ class NotificationIcons extends Component
     public function updateCartCount()
     {
         $this->cart= Cart::instance('cart')->content()->count();
+    }
+    #[On('wishlist-added')]
+    public function updateWishlistCount()
+    {
+        $this->cart= Cart::instance('wishlist')->content()->count();
     }
 }

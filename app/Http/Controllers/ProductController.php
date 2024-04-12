@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\Models\Image;
 use App\Models\Color;
 use App\Models\Brand;
+use App\Models\Type;
 use App\Models\Row;
 use App\Models\Sku;
 use Illuminate\Support\Str;
@@ -63,6 +64,7 @@ class ProductController extends Controller
     {
         $categories = Category::all()->pluck('name', 'id')->toArray();
         $brands = Brand::all()->pluck('name', 'id')->toArray();
+        $types = Type::all()->pluck('name', 'id')->toArray();
         $average=round($product->reviews()->latest()->get()->avg('score'), 1);
         //multiselect Tags
         $tagNames = Tag::pluck('name')->toArray();
@@ -84,7 +86,7 @@ class ProductController extends Controller
             $query->whereIn('image_id', $rowIds);
         })->orderBy('order', 'asc')->get();
         /* dd($numberArray); */
-        return view('admin.product.edit', compact('product','categories','average','tagNames','tagSelect','colorNames','colorSelect','colorUnSelect','numberArray','brands'));
+        return view('admin.product.edit', compact('product','categories','average','tagNames','tagSelect','colorNames','colorSelect','colorUnSelect','numberArray','brands','types'));
     }
 
     /**

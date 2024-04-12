@@ -96,7 +96,7 @@
         </div>
      </div>
     {{-- FIN menu 1 --}}
-    <div class="mx-auto " :class="{'pl-2': open === true}">
+    <div class="mx-left " :class="{'pl-2': open === true}">
     <div :class="{
         'grid-cols-2 lg:grid-cols-5 md:grid-cols-4': !open && sort === 3,
         'grid-cols-2 lg:grid-cols-4 md:grid-cols-3': (open && sort === 3) || (!open && sort === 2),
@@ -105,7 +105,7 @@
     }" class="grid">
 
         @foreach ($products as $key0 =>$product )
-        <div class="px-3 mx-auto relative my-[8px]" x-data="{icon:false}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex':sort===1}">
+        <div class="px-3 mx-auto relative my-[8px] items-center" x-data="{icon:false}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex':sort===1}">
             <a href="{{ !empty($product->colors) && !empty($product->colors[0]->id) ? route('web.shop.show', ['product' => $product, 'color' => $product->colors[0]->id]) : '#' }}">
                 @php
                         $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')->get()->map(function ($color) {
@@ -121,7 +121,7 @@
                         }
                         $sku= \App\Models\Sku::where(['color_id'=>$firstImage[$key0]->color_id,'product_id'=>$product->id])->first();
                         @endphp
-                <x-outstock class="w-[400px]" url="{{ $firstImage[$key0]->url }}" name="{{ $product->name }}" stock="{{ $sku->stock }}" />
+                <x-outstock class="md:max-w-[200px] max-w-[150px]" url="{{ $firstImage[$key0]->url }}" name="{{ $product->name }}" stock="{{ $sku->stock }}" />
             </a>
 
                 <div class="absolute right-0 top-0 py-[7px] px-[20px] " x-show="(icon && sort !== 1 )|| sort === 1">
@@ -147,9 +147,8 @@
                         <h5 class="line-through text-gris-70">S/.65 </h5>
                     </div>
                     <p class="mt-4 text-justify">{{ $product->short_description }}</p>
-                    <button class="bg-corp-50 rounded-[3px] px-4 my-4" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect }}')">
-                        Añadir a Carrito
-                    </button>
+                    <x-button.webprimary class="w-fit my-3 px-[50px]" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect }}')"> Añadir a Carrito
+                    </x-button.webprimary>
                 </div>
 
         </div>

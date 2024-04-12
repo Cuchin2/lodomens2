@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Rating;
 use App\Models\Color;
+use App\Models\Type;
 use App\Models\Sku;
 
 class Product extends Model implements CanVisit
@@ -29,6 +30,7 @@ class Product extends Model implements CanVisit
         'category_id',
         'brand_id',
         'provider_id',
+        'type_id',
     ];
     public function colors()
     {
@@ -66,6 +68,9 @@ class Product extends Model implements CanVisit
     public function category(){
      return $this->belongsTo(Category::class);
     }
+    public function type(){
+        return $this->belongsTo(Type::class);
+       }
     public function skus()
     {
         return $this->hasMany(Sku::class);

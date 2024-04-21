@@ -35,7 +35,7 @@
 
                 <aside
                     class="overflow-y-auto overflow-x-hidden simplebar-scrollable-y h-screen flex fixed flex-col text-gray-300 border-r dark:border-gris-70 bg-gris-90 transition-all duration-300 ease-in-out w-[200px]"
-                    :class="{ 'w-[52px] overflow-y-hidden': !isSidebarExpanded }"
+                    :class="{ sm:w-[52px] overflow-y-hidden': !isSidebarExpanded }"
                     @mouseenter="if (contract===false) isSidebarExpanded = true"
                     @mouseleave="if (contract===false) isSidebarExpanded = false">
 

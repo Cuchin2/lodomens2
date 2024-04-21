@@ -41,12 +41,12 @@ body::-webkit-scrollbar-thumb,
     scrollbar-width: thin;
     scrollbar-color: #26334D #192132;
 }
-input:checked + label > span {
+input[type="checkbox"]:checked + label > span {
 border: 8px solid #990C1A;
 animation: bounce 250ms;
 }
 
-input:checked + label > span::before {
+input[type="checkbox"]:checked + label > span::before {
 content: '';
 position: absolute;
 top: 9px;
@@ -57,7 +57,24 @@ transform: rotate(45deg);
 transform-origin: 0% 100%;
 animation: checked-box 125ms 250ms forwards;
 }
+input[type="radio"] + label span {
+    transition: background .2s,
+      transform .2s;
+}
 
+input[type="radio"] + label span:hover,
+input[type="radio"] + label:hover span{
+transform: scale(1.2);
+}
+
+input[type="radio"]:checked + label span {
+background-color: #990C1A;
+box-shadow: 0px 0px 0px 4px #1C1C1C inset;
+border-color: #990C1A;
+}
+input[type="radio"] + label span {
+    border-color: #787878;
+}
 @keyframes checked-box {
 0% {
 width: 0;
@@ -259,7 +276,7 @@ p,li{
         font-size: 20px;
     }
     h5{
-        font-size: 28px;
+        font-size: 18px;
     }
     h6{
         font-size: 16px;

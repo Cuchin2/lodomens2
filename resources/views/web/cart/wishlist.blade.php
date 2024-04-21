@@ -2,15 +2,18 @@
 
 @section('breadcrumb')
 
-<x-breadcrumb.lodomens.breadcrumb title="Favoritos">
-    <x-breadcrumb.lodomens.breadcrumb2 name='Favoritos' />
+<x-breadcrumb.lodomens.breadcrumb title="Wishlist">
+    <x-breadcrumb.lodomens.breadcrumb2 name='Wishlist' />
 </x-breadcrumb.lodomens.breadcrumb>
 
 @endsection
 
-<x-lodomens.video />
+{{--  <x-lodomens.video />  --}}
 @section('content')
 
-<livewire:wishlist-cart />
+<x-menu.sidebar>
+    <livewire:wishlist-cart />
+</x-menu.sidebar>
+
 
 @endsection

@@ -22,8 +22,13 @@ class WebShopController extends Controller
     }
     public function show(Product $product,Color $color){
         $color_name=$color->name;
-        $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')->get()->map(function ($color) {
-            return (object) ['name' => $color->name, 'hex' => $color->hex, 'id' => $color->id];
+        $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')
+        ->with('images')
+        ->get()
+        ->map(function ($color) {
+            $image = $color->images;
+            $url = $image ? $image->url : null;
+            return (object) ['name' => $color->name, 'hex' => $color->hex, 'id' => $color->id, 'url' => $url];
         });
         $imagenes = []; $skus= [];
         foreach ($colorSelect as $key => $color1) {
@@ -35,10 +40,9 @@ class WebShopController extends Controller
         }
         $indice = $colorSelect->search(function ($item) use ($color_name){
             return $item->name === $color_name;
-        });
+        }); 
         $firstImage = $imagenes[$indice]->first();
-
-
+        
         $product->visit()->withSession();
             return view('web.shop.show',compact('product','colorSelect','imagenes','firstImage','indice','skus'));
     }

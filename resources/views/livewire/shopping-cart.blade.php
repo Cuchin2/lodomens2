@@ -90,7 +90,7 @@
             <div class="bg-gris-100 p-6 py-3">
                 <h5>Resumen de pedido</h5>
                 <div class="flex justify-between my-8">
-                    <p>Subtotal(4)</p>
+                    <p>Subtotal({{ $cartitems->count() }})</p>
                     <p>S/.{{ Cart::instance('cart')->subtotal() }}</p>
                 </div>
                 {{-- <div class="flex justify-between my-2">
@@ -98,12 +98,14 @@
                     <p>S/.{{ Cart::instance('cart')->tax() }}</p>
                 </div> --}}
                 <div class="flex justify-between my-2 text-white">
-                    <p>Sub Total</p>
+                    <p>Total</p>
                     <p>S/.{{ Cart::instance('cart')->total() }}</p>
                 </div>
                 <div class="mt-6 mb-2">
-                    <x-button.webprimary class="w-full" {{-- x-on:click="$wire.add(count,color)" --}}> Añadir a Carrito
+                    <a href="{{ route('checkout.index') }}">
+                    <x-button.webprimary class="w-full" {{-- x-on:click="$wire.add(count,color)" --}}> Continuar Compra
                     </x-button.webprimary>
+                    </a>
                 </div>
             </div>
 
@@ -129,8 +131,10 @@
                     <x-button.webprimary class="w-full"> Añadir a Carrito</x-button.webprimary>
                 </a>
                 <div class="flex space-x-2">
+                   @guest
                     <p>¿No tienes cuenta?</p> <a class="text-corp-30 cursor-pointer"
-                        href="{{ route('web.login_register') }}">Registrarse</a>
+                    href="{{ route('web.login_register') }}">Registrarse</a>
+                   @endguest
                 </div>
                 {{-- <p class="text-corp-30">Ir a tienda</p> --}}
             </div>

@@ -12,6 +12,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\TypesController;
 /*
@@ -36,7 +37,6 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-
         return view('dashboard');
     })->name('dashboard');
 });
@@ -47,10 +47,12 @@ Route::post('registro/user',[WebController::class,'register_user'])->name('web.s
 Route::get('recuperar_password',[WebController::class,'recover_password'])->name('web.recover_password');
 Route::get('color/product/get',[WebShopController::class,'getimage'])->name('getimage.product.select');
 Route::get('cart',[CartController::class,'index'])->name('cart.index');
-Route::get('wishlist',[WishlistController::class,'index'])->name('wishlist.index');
+Route::get('checkout',[CheckoutController::class,'index'])->name('checkout.index');
 Route::middleware(['auth', config('jetstream.auth_session'),'verified',
 ])->group(function () {
     /* Route::get('home',[HomeController::class,'index'])->name('home'); */
+    Route::get('panel/wishlist',[WishlistController::class,'index'])->name('webdashboard.wishlist');
+    Route::get('panel/pefil',[WishlistController::class,'profile'])->name('webdashboard.profile');
     Route::prefix('admin')->group(function(){
         Route::get('footer',[FooterController::class,'edit'])->name('mypage.edit');
         Route::put('footer/{id}',[FooterController::class,'update'])->name('mypage.update');
@@ -69,19 +71,12 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified',
         Route::resource('categories', CategoryController::class)->names('categories');
         Route::resource('tags', TagController::class)->except('show')->names('tags');
         Route::get('tag/{type}',[TagController::class,'type'])->name('tags.indextype');
-        /* Route::resource('posts',PostController::class)->except('create')->names('posts'); */
         Route::get('category/product',[CategoryController::class,'index_product'])->name('categories.PRODUCT');
         Route::get('getimages/{product}',[ProductController::class,'getimages'])->name('getimages');
         Route::post('addimages/{product}',[ProductController::class,'addimages'])->name('addimages');
         Route::delete('deleteimage/{product}',[ProductController::class,'deleteimage'])->name('deleteimage');
         Route::post('handleReorder/{product}',[ProductController::class,'handleReorder'])->name('handleReorder');
-/*         Route::prefix('blog')->group(function(){
-            Route::get('category/post',[CategoryController::class,'index_post'])->name('POST.categories');
-            Route::get('category/post/create',[CategoryController::class,'create_post'])->name('POST.categories.create');
-            Route::post('upload_image/{id}',[PostController::class,'upload_image'])->name('upload.image');
-            Route::get('get_images/{id}',[PostController::class, 'get_images'])->name('get.images');
-            Route::delete('upload_image/{id}/delete',[PostController::class,'file_delete'])->name('file.delete');
-        }); */
+
     });
 
 });

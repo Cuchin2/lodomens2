@@ -7,10 +7,15 @@ use Cart;
 class WishlistController extends Controller
 {
     public function index()
-    {   if(auth()->user()){
+    {   if(auth()->user())
+        {
         Cart::instance('wishlist')->destroy();
         Cart::instance('wishlist')->restore(auth()->user()->id);
-    }
+        }
         return view('web.cart.wishlist');
+    }
+    public function profile()
+    {
+        return view('web.dashboard.profile');
     }
 }

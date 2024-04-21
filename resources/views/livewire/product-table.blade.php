@@ -221,15 +221,15 @@
                 <div class="my-3 flex space-x-5">
                     <div>
                     <x-label class="mb-2">Nombre</x-label>
-                    <x-input name="name" wire:model="productName" placeholder="Nombre del producto "></x-input>
-                    @error('productName')
+                    <x-input name="name" wire:model="name" placeholder="Nombre del producto "></x-input>
+                    @error('name')
                         <div class="text-corp-10 ml-2"> {{ $message }}</div>
                     @enderror
                 </div>
                 <div>
                     <x-label class="mb-2">Código</x-label>
-                    <x-input name="code" wire:model="productCode" placeholder="Código del producto "></x-input>
-                    @error('productName')
+                    <x-input name="code" wire:model="code" placeholder="Código del producto "></x-input>
+                    @error('code')
                         <div class="text-corp-10 ml-2"> {{ $message }}</div>
                     @enderror
                 </div>
@@ -249,7 +249,7 @@
 
             <x-slot name="footer">
                 <x-button.corp_secundary  wire:click="$toggle('showModalCreate')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
-                <x-button.corp1 wire:click="create('{{$productName}}')" wire:loading.attr="disabled">Crear</x-button.corp1>
+                <x-button.corp1 wire:click="create('{{$name}}')" wire:loading.attr="disabled">Crear</x-button.corp1>
 
             </x-slot>
         </x-dialog-modal>

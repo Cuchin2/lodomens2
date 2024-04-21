@@ -91,6 +91,7 @@
     </div>
 
     </div>
+    @livewireScripts
     </div>
 
             <script>
@@ -115,7 +116,7 @@
     @stack('modals')
 
     @stack('scripts')
-    @livewireScripts
+
 
 </body>
 

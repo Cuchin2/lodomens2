@@ -9,7 +9,7 @@ use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Livewire\WithPagination;
 use Illuminate\Support\Str;
-use Livewire\Attributes\On;
+use Illuminate\Validation\Rule;
 class ProductTable extends Component
 {
     use WithPagination;
@@ -17,11 +17,9 @@ class ProductTable extends Component
     public $itemIdToDelete;
     #[Validate('required', message: 'Seleccione una categoría')]
      public $category_id;
-    public $itemName;
-    #[Validate('required', message: 'El nombre del producto es obligatorio')]
-    public $productName;
-    #[Validate('required', message: 'El código del producto es obligatorio')]
-    public $productCode;
+    public $itemName; public $product = '';
+    public $name;
+    public $code;
     public $perPage = 5;
 
     #[Url(history:true)]
@@ -35,6 +33,28 @@ class ProductTable extends Component
 
     #[Url(history:true)]
     public $sortDir = 'DESC';
+    public function rules()
+    {
+        return [
+            'name' => [
+                'required',
+                Rule::unique('products')->ignore($this->product),
+            ],
+            'code' => [
+                'required',
+                'size:4',
+                Rule::unique('products')->ignore($this->product),
+                ]
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'El nombre es requerido.',
+            'code.required' => 'El código es requerido.',
+            'code.size' => 'Se Requiere 4 dígitos.',
+        ];
+    }
 
     public function updatedSearch()
     {
@@ -50,9 +70,9 @@ class ProductTable extends Component
     {
         $this->validate();
          $product=Product::create([
-            'name' => $this->productName,
-            'code'=> $this->productCode,
-            'slug' =>Str::slug($this->productName),
+            'name' => $this->name,
+            'code'=> $this->code,
+            'slug' =>Str::slug($this->name),
             'category_id' => $this->category_id,
         ]);
         $this->showModalCreate = false;

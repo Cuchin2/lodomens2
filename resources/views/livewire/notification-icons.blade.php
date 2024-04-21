@@ -15,9 +15,9 @@
         </div>
          </div>
 
-        <a href="{{ route('wishlist.index') }}" class=" md:flex hidden items-center relative">
+        <a @auth href="{{ route('webdashboard.wishlist') }}" @endauth  class=" md:flex hidden items-center relative">
             <x-icons.heart class="h-[20px] w-[20px] fill-gris-10 hover:fill-corp-50 cursor-pointer"  />
-            <x-elements.notification-icon number="1" number="{{ $cart }}" class="{{ $cart == 0 ? 'hidden' : '' }}"/>
+            <x-elements.notification-icon number="{{ $wishlist }}" class="{{ $wishlist == 0 ? 'hidden' : '' }}"/>
         </a>
          <a href="{{ route('cart.index') }}"  class="md:flex hidden items-center relative">
                 <x-icons.cart class="h-[20px] w-[20px] fill-gris-10 hover:fill-corp-50 cursor-pointer"  />

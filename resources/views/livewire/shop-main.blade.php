@@ -66,7 +66,7 @@
                         <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"
                             ::class="{'rotate-90 transition-all': menu1 === 1}" />
                     </div>
-                    <ul x-show="menu1===1" x-collapse x-cloak class="w-full text-[12px] ml-2 overflow-y-auto !h-40">
+                    <ul x-show="menu1===1" x-collapse x-cloak class="w-full text-[12px] ml-2 overflow-y-auto !max-h-40">
                         @foreach ($categories as $category)
                         <li class="hover:text-corp-30">{{ $category->name }}</li>
                         @endforeach
@@ -108,9 +108,14 @@
         <div class="px-3 mx-auto relative my-[8px] items-center" x-data="{icon:false}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex':sort===1}">
             <a href="{{ !empty($product->colors) && !empty($product->colors[0]->id) ? route('web.shop.show', ['product' => $product, 'color' => $product->colors[0]->id]) : '#' }}">
                 @php
-                        $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')->get()->map(function ($color) {
-                            return (object) ['name' => $color->name, 'hex' => $color->hex, 'id' => $color->id];
-                        }); $imagenes = [];
+                $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')
+                ->with('images')
+                ->get()
+                ->map(function ($color) {
+                    $image = $color->images;
+                    $url = $image ? $image->url : null;
+                    return (object) ['name' => $color->name, 'hex' => $color->hex, 'id' => $color->id, 'url' => $url];
+                }); $imagenes = [];
                         foreach ($colorSelect as $key => $color) {
                             $imagenes2 = $product->images()->where('color_id',$color->id)->join('row_image', 'images.id', '=', 'row_image.image_id')
                             ->join('rows', 'rows.id', '=', 'row_image.row_id')
@@ -124,12 +129,13 @@
                 <x-outstock class="md:max-w-[200px] max-w-[150px]" url="{{ $firstImage[$key0]->url }}" name="{{ $product->name }}" stock="{{ $sku->stock }}" />
             </a>
 
-                <div class="absolute right-0 top-0 py-[7px] px-[20px] " x-show="(icon && sort !== 1 )|| sort === 1">
-
-                    <x-icons.heart class="h-[20px] w-[20px] hover:fill-corp-50  cursor-pointer mb-2 " />
-                    <button type="button" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect }}')" class=" w-fit">
+                <div class="absolute right-0 top-0 py-[7px] px-[20px] w-[60px]" x-show="(icon && sort !== 1 )|| sort === 1">
+                <button type="button" @guest wire:click="showWishlistModal()"  @else  wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect }}','WISHLIST')" @endguest  class="h-fit w-fit">
+                    <x-icons.heart class="h-[20px] w-[20px] hover:fill-corp-50  cursor-pointer " />
+                </button>
+                <button type="button" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect }}','CART')" class=" w-fit">
                     <x-icons.cart class="h-[20px] w-[20px] cursor-pointer hover:fill-corp-50" x-show="sort !==1" />
-                    </button>
+                </button>
 
                 </div>
                 <div class="m-2 leading-[1.2]" x-show="sort===3" x-cloak>
@@ -147,7 +153,7 @@
                         <h5 class="line-through text-gris-70">S/.65 </h5>
                     </div>
                     <p class="mt-4 text-justify">{{ $product->short_description }}</p>
-                    <x-button.webprimary class="w-fit my-3 px-[50px]" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect }}')"> Añadir a Carrito
+                    <x-button.webprimary class="w-fit my-3 px-[50px]" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect }}','CART')"> Añadir a Carrito
                     </x-button.webprimary>
                 </div>
 
@@ -185,7 +191,7 @@
 </div>
 <x-dialog-modal wire:model="showModal" maxWidth="fit">
     <x-slot name="title">
-        Agregando al carrito
+        Agregando al{{ $choose === 'CART' ? ' carrito' : ' wishlist' }}
     </x-slot>
     <x-slot name="content">
         <div class="bg-gris-100 px-2 md:px-6 py-3">
@@ -209,7 +215,7 @@
                             <p class="font-bold"> {{ $colorSelect->count() === 1 ? 'COLOR: ' : 'COLORES: ' }}</p class="font-bold">
                             <div class="flex space-x-2">
                                 @foreach ($colorSelected as $key => $color )
-                                    <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px] {{ $key == $active ? 'border-corp-50 border-[3px]' : '' }}"           style="background: {{ $color->hex }}" wire:click="changeColor({{ $key }},{{ $skus->product->id }},{{$color->id}})"> </div>
+                                    <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px] {{ $key == $active ? 'border-corp-50 border-[3px]' : '' }}" style="background: {{ $color->url ? 'url('.asset('storage/'.$color->url).')' : $color->hex}} "wire:click="changeColor({{ $key }},{{ $skus->product->id }},{{$color->id}})"> </div>
                                 @endforeach
                             </div>
                         </div>
@@ -246,8 +252,54 @@
     <x-slot name="footer">
         <x-button.corp_secundary wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
         @if(isset($skus->stock) && $skus->stock > 0)
-        <x-button.corp1 wire:click="addToCart" wire:loading.attr="disabled">Agregar al carro</x-button.corp1>
+        <x-button.corp1 wire:click="addToCart" wire:loading.attr="disabled">Agregar al{{ $choose === 'CART' ? ' carrito' : ' wishlist' }}</x-button.corp1>
         @endif
     </x-slot>
 </x-dialog-modal>
+<x-dialog-modal wire:model="showCreateModal" maxWidth="fit">
+    <x-slot name="title">
+        Iniciar Sesión
+    </x-slot>
+    <x-slot name="content">
+
+        <form  action="{{ route('login') }}" method="POST">
+            @csrf
+            <div class="mb-3 text-gris-50" x-data="{ fly: false, inputValue: '' }">
+                <label class="absolute  left-[40px] pointer-events-none transition-all duration-300"
+                    :class="fly ? 'text-[10px] top-[53px] px-[3px] bg-gris-90 text-gris-10' : 'text-[14px] top-[70px]'">Correo
+                    electrónico</label>
+                <input type="email" name="email" @click=" fly=true" @input="inputValue = $event.target.value"
+                    @click.away="inputValue === null || inputValue === '' ? fly=false : null " x-on:change="fly=true"
+                    class="bg-gris-90 rounded-[3px] w-[203px] border-gris-50 focus:ring-gris-50 focus:border-gris-50 text-gris-10" autocomplete="off" placeholder=" ">
+            </div>
+            <div class="mb-2 text-center text-gris-50" x-data="{ fly: false, inputValue: '' }">
+                {{-- <label for="exampleDropdownFormPassword1" class="form-label label-eco mb0">Contraseña</label> --}}
+                <input type="password" name="password" class=" text-gris-10 bg-gris-90 rounded-[3px] w-[203px] border-gris-50 focus:ring-gris-50 focus:border-gris-50"
+                    autocomplete="off" placeholder=" " @click=" fly=true" @input="inputValue = $event.target.value"
+                    @click.away="inputValue === null || inputValue === '' ? fly=false : null " x-on:change="fly=true">
+                <label class="absolute left-[40px]  pointer-events-none transition-all"
+                    :class="fly ? 'text-[10px] top-[107px] px-[3px] bg-gris-90 text-gris-10' : 'text-[14px] top-[125px]'">Contraseña</label>
+
+
+            </div>
+            <a class="text-[14px] text-corp-50" href="{{ route('web.recover_password') }}">¿Olvidaste la contraseña?</a>
+            <div class="mt-6 text-[14px]">
+
+                <button type="submit"
+                    class="w-full rounded-[3px]  text-white bg-corp-50 h-[33px] hover:bg-corp-70 ">Iniciar
+                    sesión</button>
+                <div class="flex mt-1">
+                    <eco style="margin-right:5px">¿No tienes cuenta?</eco>
+                    <a class="text-corp-50" href="{{ route('web.login_register') }}">Registrate</a>
+                </div>
+            </div>
+
+        </form>
+
+
+    </x-slot>
+
+    <x-slot name="footer">
 </div>
+</x-slot>
+</x-dialog-modal>

@@ -12,19 +12,17 @@ class Color extends Model
         'name',
         'code',
         'hex',
-        'url'
     ];
     public function products()
     {
         return $this->belongsToMany(Product::class);
     }
-    public function images()
-    {
-        return $this->hasMany(Image::class);
-    }
     public function skus()
     {
         return $this->hasMany(Sku::class);
+    }
+    public function images(){
+        return $this->morphOne('App\Models\Image','imageable');
     }
     public function scopeSearch($query, $value)
     {

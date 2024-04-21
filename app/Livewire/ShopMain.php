@@ -17,6 +17,7 @@ class ShopMain extends Component
     use WithPagination;
     public $showModal = false; public $skus = ''; public $image=''; public $price_cart = '';
     public $perPage = 5; public $counts = '1'; public $colorSelected= []; public $active = '0';
+    public $showCreateModal = false; public $choose;
     #[Url(history:true)]
     public $search = '';
     #[Url(history:true)]
@@ -49,8 +50,8 @@ class ShopMain extends Component
         $product = $this->skus->product;
         $qtn= $this->counts;
         $price = $this->skus->sell_price;
-
-       $cart= Cart::instance('cart')->add(
+        if($this->choose === 'CART' ){
+            Cart::instance('cart')->add(
             $product->id,
             $product->name,
             $qtn,
@@ -65,13 +66,30 @@ class ShopMain extends Component
         if(auth()->user()){
         Cart::instance('cart')->store(auth()->user()->id);}
         $this->redirectRoute('cart.index');
+        } else {
+            Cart::instance('wishlist')->add(
+                $product->id,
+                $product->name,
+                $qtn,
+                $price,
+                ['productImage' => $this->image,
+                'slug'=> $product->slug,
+                'sku'=> $this->skus->code,
+                'color'=> $this->skus->color->name,
+                'color_id'=> $this->skus->color->id,
+                'stock'=> $this->skus->stock]
+            )->associate('App\Models\Sku');
+            Cart::instance('wishlist')->store(auth()->user()->id);
+            $this->redirectRoute('webdashboard.wishlist');
+        }
     }
-    public function showCartModal($id,$color,$url,$colorSelected)
+    public function showCartModal($id,$color,$url,$colorSelected,$choose)
     {   $this->counts= 1; $this->active =0;
         $this->skus= Sku::where(['product_id'=>$id,'color_id'=>$color])->first();
         $this->image= $url;
         $this->colorSelected= json_decode($colorSelected);
         $this->price_cart= $this->skus->sell_price;
+        $this->choose = $choose;
         $this->showModal = true;
     }
     public function decreaseCount($rowId,$index)
@@ -107,5 +125,8 @@ class ShopMain extends Component
         ->first()->url;
         $this->price_cart= $this->skus->sell_price;
     }
-
+    public function showWishlistModal()
+    {
+        $this->showCreateModal= true;
+    }
 }

@@ -20,6 +20,6 @@ class NotificationIcons extends Component
     #[On('wishlist-added')]
     public function updateWishlistCount()
     {
-        $this->cart= Cart::instance('wishlist')->content()->count();
+        $this->wishlist= Cart::instance('wishlist')->content()->count();
     }
 }

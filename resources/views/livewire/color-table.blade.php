@@ -6,7 +6,7 @@
                 <div class="flex items-center justify-between">
                     <div class="flex w-full m-[20px]">
 
-                        <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" wire:click='showNewModal' >
+                        <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" wire:click="showNewModal()">
                             <div class="flex items-center justify-center mx-[10px]">
                             <x-icons.plus class="h-[12px] w-[12px] fill-white mx-[3px]" grosor="1"></x-icons.plus>
 
@@ -143,13 +143,14 @@
                                     <td class="px-4 py-[13px] ">
                                         {{$color->code}}</td>
                                 <td class="px-4 py-[13px]"> <div class="w-10 h-10 rounded-full mx-auto" style="background: {{ $color->hex }};"></div></td>
-                                <td class="px-4 py-[13px]">{{$color->url}}
+                                <td class="px-4 py-[13px]">
+                                    <img src="{{ isset($color->images->url) ? asset('storage/'. $color->images->url) : '' }}" class="rounded-full mx-auto {{ isset($color->images->url) ? 'h-10 w-10' : '' }}" alt="">
                                 </td>
                                 <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
-                                    <a class="text-azul-50 hover:text-azul-30 cursor-pointer" wire:click="showEditModal('{{ $color->id }}','{{$color->name}}','{{ $color->hex }}','{{ $color->code }}')">
+                                    <a class="text-azul-50 hover:text-azul-30 cursor-pointer" wire:click="showEditModal('{{ $color->id }}','{{$color->name}}','{{ $color->hex }}','{{ $color->code }}','{{ isset($color->images->url) ? asset('storage/'. $color->images->url) : '' }}')">
                                         <x-icons.edit></x-icons.edit>
                                     </a>
-                                    <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal('{{ $color->id }}','{{$color->name}}','{{ $color->hex }}','{{ $color->code }}')" >
+                                    <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal('{{ $color->id }}','{{$color->name}}','{{ $color->hex }}','{{ $color->code }}','{{ asset('storage/'.($color->images->url ?? '')) }}')" >
                                         <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                     </button>
                                 </td>
@@ -208,25 +209,27 @@
             <form wire:submit.prevent="submit">
             <x-slot name="content">
                 <div class="grid grid-cols-2 gap-4">
-                <div class="my-3">
-                    <x-label class="mb-2">Nombre</x-label>
-                    <x-input name="stock" wire:model="name" placeholder="Nombre del color "></x-input>
-                    @error('name')
-                        <div class="text-corp-10 ml-2"> {{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="my-3 flex justify-between">
-                    <div class=" mx-auto">
-                        <x-label class="mb-2">Código</x-label>
+                    <div class="my-3">
+                        <x-label class="mb-2">Nombre</x-label>
+                        <x-input name="stock" wire:model="name" placeholder="Nombre del color "></x-input>
+                        @error('name')
+                            <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                        @enderror
+
+
+                        <x-label class="m-2">Código</x-label>
                         <x-input name="code" wire:model="code" placeholder="Código del color " ></x-input>
                         @error('code')
                         <div class="text-corp-10 ml-2"> {{ $message }}</div>
                         @enderror
-                    </div>
-                    <div class=" mx-auto">
-                        <x-label class="mb-2">Color</x-label>
+
+
+                        <x-label class="m-2">Color</x-label>
                         <input type="color" wire:model="newHex" id="input_choose_color" class="w-16 h-10">
                     </div>
+                <div class="mt-2 text-center">
+                    <x-label class="m-2">Imagen</x-label>
+                    <x-input-single-image />
 
                 </div>
                  </div>
@@ -246,5 +249,46 @@
 
         </x-dialog-modal>
     </section>
+    <style>
+        input[type="file"].custom {
+            border: 0;
+            clip: rect(0, 0, 0, 0);
+            height: 1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute !important;
+            white-space: nowrap;
+            width: 1px;
+          }
+    </style>
+    @push('scripts')
+    <script>
+        function imageData(url) {
+            const originalUrl = url || '';
+            return {
+              previewPhoto: originalUrl,
+              fileName: null,
+              emptyText: originalUrl ? 'No se ha elegido ningún archivo nuevo' : 'Ningún archivo elegido',
 
+              updatePreview($refs) {
+                console.log('hola');
+                var reader,
+                    files = $refs.input.files;
+                reader = new FileReader();
+                reader.onload = (e) => {
+                  this.previewPhoto = e.target.result;
+                  this.fileName = files[0].name;
+                };
+                reader.readAsDataURL(files[0]);
+              },
+              clearPreview($refs) {
+                $refs.input.value = null;
+                this.previewPhoto = originalUrl;
+                this.fileName = false;
+              },
+            };
+          }
+
+    </script>
+    @endpush
 </div>

@@ -131,7 +131,6 @@ class BrandTable extends Component
            if(isset($file)){
             $this->dispatch('notify',url: $file);
              }
-             if( $abc === 'CREATE') { $this->dispatch('notify2'); }
                 $this->logo = $file;
                 $this->name = $name;
                 $this->itemIdToDelete = $itemId;

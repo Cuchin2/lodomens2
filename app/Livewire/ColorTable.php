@@ -7,14 +7,17 @@ use App\Models\Sku;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 class ColorTable extends Component
 {
     use WithPagination;
+    use WithFileUploads;
     public $showModal = false;
     public $newModal = false;
     public $itemIdToDelete; public $color='';
-
+    public $logo;
     public $itemName;
 
     public $name;
@@ -110,15 +113,16 @@ class ColorTable extends Component
             $this->name = '';
             $this->newHex = '';
             $this->code = '';
+            $this->dispatch('notify2');
         }
-    public function showEditModal($itemId,$itemName,$itemHex,$itemCode)
-        {   $this->resetValidation();
+    public function showEditModal($itemId,$itemName,$itemHex,$itemCode,$file)
+        {   $this->resetValidation(); $this->dispatch('notify2');
+            if(isset($file)) {  $this->dispatch('notify',url: $file,filename:basename(parse_url($file, PHP_URL_PATH)) );  $this->choose = 1;}
             $this->newModal = true;
             $this->name = $itemName;
             $this->itemIdToDelete = $itemId;
             $this->newHex = $itemHex;
             $this->code= $itemCode;
-            $this->choose = 1;
         }
     public function createColor()
     {
@@ -127,16 +131,26 @@ class ColorTable extends Component
         if($this->choose === 0)
         {
 
-            Color::create([
+            $color=Color::create([
                 'name'=> $this->name,
                 'hex'=> $this->newHex,
                 'code'=> $this->code,
-                'url'=> '',
             ]);
+            if ($this->logo) {
+                $fileName= time().'-'. $this->logo->getClientOriginalName();
+                $url_name='image/lodomens/'.$fileName;
+                $color->images()->create([
+                'url' => $url_name,
+                'imageable_type'=>'App\Models\Color',
+                'imageable_id'=>$color->id
+            ]);
+                $this->logo->storeAs('image/lodomens/', $fileName, 'public');
+            }
         }
-        else
+        if($this->choose === 1)
         {
             $color= Color::find($this->itemIdToDelete);
+            $previousUrl = $color->images()->value('url');
             $color->name= $this->name;
             $color->hex= $this->newHex;
             $color->code= $this->code;
@@ -147,11 +161,48 @@ class ColorTable extends Component
                 $sku->code = substr_replace($sku->code, $codeDigits, -2);
                 $sku->save();
             });
+            if (is_object($this->logo) && $previousUrl) {
+                $fileName = time() . '-' . $this->logo->getClientOriginalName();
+                $url_name = 'image/lodomens/' . $fileName;
+                $color->images()->update([
+                    'url' => $url_name,
+                ]);
+                if ($previousUrl && Storage::disk('public')->exists($previousUrl)) {
+                    Storage::disk('public')->delete($previousUrl);
+                }
+                $this->logo->storeAs('image/lodomens/', $fileName, 'public');
+            }
+            else {
+                if ($this->logo) {
+                    $fileName= time().'-'. $this->logo->getClientOriginalName();
+                    $url_name='image/lodomens/'.$fileName;
+                    $color->images()->create([
+                    'url' => $url_name,
+                    'imageable_type'=>'App\Models\Color',
+                    'imageable_id'=>$color->id
+                ]);
+                    $this->logo->storeAs('image/lodomens/', $fileName, 'public');
+                }
+                else{
+                    if($previousUrl) {
+                        Storage::disk('public')->delete($previousUrl);
+                        $color->images()->delete();
+                    }
+                }
+            }
+        }
+        if($this->choose === 2)
+        {   $color= Color::find($this->itemIdToDelete);
+
         }
     $this->newModal = false;
     $this->name='';
     $this->itemIdToDelete ='';
     $this->newHex='';
     $this->code='';
+    $this->logo= null;
+    }
+    public function deletelogo(){
+        $this->logo = null;
     }
 }

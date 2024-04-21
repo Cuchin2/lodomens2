@@ -16,8 +16,8 @@ class ShoppingCart extends Component
             $image= $item->options->productImage;
             $sku= Sku::where('code',$item->options->sku)->first();
             if(isset($sku)){
-            $abc=Cart::update($item->rowId,['price'=> $sku->sell_price]);
-            $abc=Cart::update($item->rowId,[
+            $abc=Cart::instance('cart')->update($item->rowId,['price'=> $sku->sell_price]);
+            $abc=Cart::instance('cart')->update($item->rowId,[
                 'options'=> [
                     'productImage' => $image,
                     'slug'=> $sku->product->slug,
@@ -70,7 +70,9 @@ class ShoppingCart extends Component
     {
         if (isset($this->counts[$index])) {
             $this->counts[$index]--;
+            if($this->counts[$index] >= 0) {
             Cart::instance('cart')->update($rowId,$this->counts[$index]);
+            }
             // Lógica adicional si es necesario
             $this->updateDataBase();
         }

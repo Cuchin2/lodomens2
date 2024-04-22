@@ -1,4 +1,4 @@
-<div class="md:flex hidden items-center relative space-x-[15px]">
+<div class="md:flex items-center relative space-x-[15px]">
     <div class="flex space-x-[15px] md:mr-2 mr-0 pr-2 items-center" x-data="{ show: true }">
         <div class="h-[20px] w-[20px]">
         <a @click="show = !show; $nextTick(() => $refs.inputsearh.focus())"

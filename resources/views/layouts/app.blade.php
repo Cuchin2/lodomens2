@@ -31,11 +31,15 @@
 
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
 
-            <div class="flex bg-gray-300 min-h-screen" x-data="{ isSidebarExpanded: true, contract: true }">
+            <div class="flex bg-gray-300 min-h-screen" x-data="{ isSidebarExpanded: false, contract: true,
+                setSidebar() {
+                    this.isSidebarExpanded = window.innerWidth > 640;
+                }
+            }" x-on:resize.window="setSidebar()" x-init="setSidebar()" >
 
                 <aside
-                    class="overflow-y-auto overflow-x-hidden simplebar-scrollable-y h-screen flex fixed flex-col text-gray-300 border-r dark:border-gris-70 bg-gris-90 transition-all duration-300 ease-in-out w-[200px]"
-                    :class="{ sm:w-[52px] overflow-y-hidden': !isSidebarExpanded }"
+                    class="overflow-y-auto overflow-x-hidden simplebar-scrollable-y h-0 flex fixed flex-col text-gray-300 border-r dark:border-gris-70 bg-gris-90 transition-all duration-300 ease-in-out sm:w-[200px] w-52 sm:h-full"
+                    :class="{ 'sm:!w-[52px] w-0 overflow-y-hidden h-0': !isSidebarExpanded ,'h-full' : isSidebarExpanded }"
                     @mouseenter="if (contract===false) isSidebarExpanded = true"
                     @mouseleave="if (contract===false) isSidebarExpanded = false">
 
@@ -49,8 +53,9 @@
                         </span>
                     </a>
 
-                    <nav class=" {{-- space-y-2 --}} pt-20 w-[200px] text-15" x-data="{ openItem: null }">
-
+                    <nav class=" {{-- space-y-2 --}} pt-20 w-[200px] text-15 h-full" x-data="{ openItem: null }">
+                        <div class="flex flex-col justify-between h-full">
+                            <div>
                         @can('home')
                         <x-sidebar.ul-simple :active="request()->routeIs('dashboard')" href="{{ route('dashboard') }}">
                             <x-slot name="icon">
@@ -177,26 +182,25 @@
                             </x-slot> Roles
                         </x-sidebar.ul-simple>
                         @endcan
-
+                    </div>
+                    <div class="">
+                        <x-sidebar.ul-simple href="abc" class="dark:border-gris-70 border-t">
+                            <x-slot name="icon">
+                                <x-icons.setting class="h-[20px] w-[20px]" />
+                            </x-slot> Sertting
+                        </x-sidebar.ul-simple>
+                    </div>
+                    </div>
                     </nav>
-                    <a href="#"
-                        class="h-[36px] flex fixed z-10 bottom-0 w-inherit hover:bg-gris-70 border-t dark:bg-gris-90 items-center  dark:border-gris-70items-center overflow-hidden dark:border-gris-70 border-r border-b">
 
-                        <img src="{{ asset('image/SVG/iconos/setting.svg') }}"
-                            class="h-[20px] w-[20px] ml-[12px] ">
-                        <span class="font-normal text-[15px] text-gris-20 duration-300 ease-in-out ml-[9px] mr-[13px]"
-                            :class="isSidebarExpanded ? 'block' : 'hidden'">
-                            Settings
-                        </span>
-                    </a>
                 </aside>
 
-                <div :class="{ 'ml-[52px]': !isSidebarExpanded }"
-                    class="ml-[200px] flex-1 flex flex-col transition-all duration-300 ease-in-out dark:bg-gris-90">
+                <div :class="{ 'ml-[52px] sm:!ml-[52px]': !isSidebarExpanded }"
+                    class="sm:ml-[200px] ml-0 flex-1 flex flex-col transition-all duration-300 ease-in-out dark:bg-gris-90">
 
                     @livewire('navigation-menu')
 
-                    <main class="flex-1 px-6 pb-3 bg-gris-90 mt-54">
+                    <main class="flex-1 sm:px-6 px-3 pb-3 bg-gris-90 mt-54 w-screen sm:w-full">
                         <div class="flex">
                             {{ $slot1 }}
                         </div>

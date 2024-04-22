@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gris-90 transition-all duration-300 ease-in-out fixed left-0 right-0 ml-[200px] z-50" :class="{'ml-[52px]': !isSidebarExpanded }">
+<nav x-data="{ open: false }" class="bg-white dark:bg-gris-90 dark:border-gris-70 border-l transition-all duration-300 ease-in-out fixed left-0 right-0 sm:ml-[208px] ml-[52px] z-50" :class="{'sm:!ml-[52px]': !isSidebarExpanded, '!ml-[208px]': isSidebarExpanded }"
     <!-- Primary Navigation Menu -->
     <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-54">
@@ -18,7 +18,7 @@
                     </svg>
                   </button>
                 <!-- Navigation Links -->
-                <div class="relative w-[260px] ml-auto">
+                <div class="relative sm:w-[260px] w-full mr-2 ml-auto">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <x-icons.search class="w-[14px] h-[14px] text-gris-300 dark:text-gris-40" />
 

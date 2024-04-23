@@ -1,6 +1,6 @@
 @props(['name', 'id', 'icon' => ''])
 
-<div>
+<div x-data="{ open:true, go:false }" x-show="open">
     <div class="hover:bg-gris-70 my-[5px]{{-- border-l-4 border-teal-500 --}}"
         :class="{ 'bg-gris-80': openItem === {{$id}} }">
         <a href="#"

@@ -1,4 +1,11 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gris-90 dark:border-gris-70 border-l transition-all duration-300 ease-in-out fixed left-0 right-0 sm:ml-[208px] ml-[52px] z-50" :class="{'sm:!ml-[52px]': !isSidebarExpanded, '!ml-[208px]': isSidebarExpanded }"
+<nav x-data="{ open: false,
+    search: '',
+    show_item(el) {
+        let searchText = this.search.toLowerCase();
+        let elementText = el.textContent.toLowerCase();
+        return searchText === '' || elementText.includes(searchText);
+    }
+}" class="bg-white dark:bg-gris-90 transition-all duration-300 ease-in-out fixed left-0 right-0 sm:ml-[208px] ml-[52px] z-50" :class="{'sm:!ml-[52px]': !isSidebarExpanded, '!ml-[200px]': isSidebarExpanded }"
     <!-- Primary Navigation Menu -->
     <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-54">
@@ -21,11 +28,10 @@
                 <div class="relative sm:w-[260px] w-full mr-2 ml-auto">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <x-icons.search class="w-[14px] h-[14px] text-gris-300 dark:text-gris-40" />
-
                     </div>
                     <input
 
-                    type="text"
+                    type="search" x-model="search"
                     class="dark:bg-black mt-[11px] border-none h-[30px] dark:text-gris-40 text-[12px] rounded-[20px] focus:ring-gris-50 focus:border-gris-50 block w-full pl-10 p-2 "
                     placeholder="Buscar" required="">
                 </div>

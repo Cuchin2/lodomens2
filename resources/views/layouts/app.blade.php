@@ -38,13 +38,13 @@
             }" x-on:resize.window="setSidebar()" x-init="setSidebar()" >
 
                 <aside
-                    class="overflow-y-auto overflow-x-hidden simplebar-scrollable-y h-0 flex fixed flex-col text-gray-300 border-r dark:border-gris-70 bg-gris-90 transition-all duration-300 ease-in-out sm:w-[200px] w-52 sm:h-full"
+                    class="overflow-y-auto overflow-x-hidden simplebar-scrollable-y h-0 flex fixed z-10 flex-col text-gray-300 border-r dark:border-gris-70 bg-gris-90 transition-all duration-300 ease-in-out sm:w-[200px] w-52 sm:h-full"
                     :class="{ 'sm:!w-[52px] w-0 overflow-y-hidden h-0': !isSidebarExpanded ,'h-full' : isSidebarExpanded }"
                     @mouseenter="if (contract===false) isSidebarExpanded = true"
                     @mouseleave="if (contract===false) isSidebarExpanded = false">
 
                     <a href="#"
-                        class="h-[54px] flex fixed z-10 w-inherit items-center dark:bg-gris-90 overflow-hidden dark:border-gris-70 border-r border-b">
+                        class="h-[54px] flex fixed z-10 w-inherit items-center dark:bg-gris-90 overflow-hidden dark:border-gris-70 border-r sm:border-b" :class="{'dark:border-none' : !isSidebarExpanded}">
                         {{-- <x-icons.logosSvg.Logo_imag_Def width="38px"></x-icons.logosSvg.Logo_imag_Def> --}}
                         <img src="{{ asset('image/lodomens/Logo_isotipo2.svg') }}" class="h-[23.48px] w-[33px] ml-[9px]">
                         <span class="font-medium duration-300 ease-in-out ml-[13.74px] mr-[13px]"
@@ -195,12 +195,12 @@
 
                 </aside>
 
-                <div :class="{ 'ml-[52px] sm:!ml-[52px]': !isSidebarExpanded }"
+                <div :class="{ 'sm:!ml-[52px]': !isSidebarExpanded }"
                     class="sm:ml-[200px] ml-0 flex-1 flex flex-col transition-all duration-300 ease-in-out dark:bg-gris-90">
 
                     @livewire('navigation-menu')
 
-                    <main class="flex-1 sm:px-6 px-3 pb-3 bg-gris-90 mt-54 w-screen sm:w-full">
+                    <main class="flex-1  sm:px-6 px-3 pb-3 bg-gris-90 mt-54 w-screen sm:w-full">
                         <div class="flex">
                             {{ $slot1 }}
                         </div>

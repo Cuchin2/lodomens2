@@ -5,6 +5,6 @@
 </x-breadcrumb.lodomens.breadcrumb>
 @endsection
 @section('content')
-<x-lodomens.video />
+{{--  <x-lodomens.video />  --}}
 <livewire:shop-main/>
 @endsection

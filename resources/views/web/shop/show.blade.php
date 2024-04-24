@@ -9,7 +9,7 @@
 </x-breadcrumb.lodomens.breadcrumb>
 
 @endsection
-<x-lodomens.video />
+{{--  <x-lodomens.video />  --}}
 @section('content')
 
 <div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1" x-data="{ tab: 'tab1', colorselect:'{{ $indice }}', colorid: '@json($colorSelect[0]->id)',ext:'{{ pathinfo(asset($firstImage ->url), PATHINFO_EXTENSION) }}', abc:'0', src: '{{ asset('storage/'.$firstImage->url) }}', skus: {{ json_encode($skus) }}, skuselect:{{ $skus[$indice]->color_id }}, getImage(a,b) {

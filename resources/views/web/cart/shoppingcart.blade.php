@@ -8,7 +8,7 @@
 
 @endsection
 
-<x-lodomens.video />
+{{--  <x-lodomens.video />  --}}
 @section('content')
 
 <livewire:shopping-cart />

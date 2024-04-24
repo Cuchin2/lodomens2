@@ -8,7 +8,7 @@
 
 @endsection
 
-<x-lodomens.video />
+{{--  <x-lodomens.video />  --}}
 @section('content')
 
 <div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75  pb-1 2xl:min-h-[374px] lg:min-h-[278px]">

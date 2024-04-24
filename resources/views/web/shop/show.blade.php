@@ -51,7 +51,7 @@
                   </template>
                   @if($product->skus)
                   <template x-for="sku in skus" @sku.window="skuselect=$event.detail.parm">
-                    <div x-show="skuselect === sku.color_id" x-cloak class="absolute top-0 left-0 w-full h-full flex items-center justify-center" :class="{'bg-black/80 border-[2px] border-corp-50 rounded-[3px]': sku.stock == 0 }">
+                    <div x-show="skuselect === parseInt(sku.color_id)" x-cloak class="absolute top-0 left-0 w-full h-full flex items-center justify-center" :class="{'bg-black/80 border-[2px] border-corp-50 rounded-[3px]': sku.stock == 0 }">
                         <template x-if="sku.stock == 0" >
                         <span class="text-gris-20 text-[14px] font-bold bg-gris-90 p-2 border-[2px]  border-corp-50 rounded-[3px]">SIN STOCK</span>
                         </template>
@@ -92,8 +92,8 @@
             <div>
                 <div class="flex items-center justify-between" x-data="{skus: {{ json_encode($skus) }}, skuselect:{{ $skus[$indice]->color_id }}}"><h3>{{ $product->name }}</h3>
                     @if($product->skus)
-                        <template x-for="sku in skus" @sku.window="skuselect=$event.detail.parm">
-                            <p x-text="'SKU : '+sku.code" x-show="skuselect === sku.color_id" x-cloak></p>
+                        <template x-for="sku in skus" @sku.window="skuselect=$event.detail.parm;">
+                            <p x-text="'SKU : '+sku.code" x-show="skuselect === parseInt(sku.color_id)" x-cloak></p>
                         </template>
                     @endif
                 </div>
@@ -110,7 +110,7 @@
                 <div class="flex space-x-3">
                     <div class="flex items-center justify-between">
                         <template x-for="sku in skus" @sku.window="skuselect=$event.detail.parm">
-                            <h4 x-text="'S/. '+sku.sell_price" x-show="skuselect === sku.color_id" x-cloak></h4>
+                            <h4 x-text="'S/. '+sku.sell_price"x-show="skuselect === parseInt(sku.color_id)" x-cloak></h4>
                         </template>
                     </div>
                     <h5 class="line-through text-corp-50">S/.65 </h5>
@@ -128,13 +128,12 @@
                     @if($product->skus)
                     <template x-for="sku in skus" @sku.window="skuselect=$event.detail.parm">
 
-                            <p  x-show="skuselect === sku.color_id" x-cloak x-text="sku.stock === 0 ? 'Fuera de stock' : (sku.stock === 1 ? 'Queda: 1 unidad' : 'Quedan: '+sku.stock+' unidades')"></p>
+                            <p  x-show="skuselect === parseInt(sku.color_id)" x-cloak x-text="sku.stock === 0 ? 'Fuera de stock' : (sku.stock === 1 ? 'Queda: 1 unidad' : 'Quedan: '+sku.stock+' unidades')"></p>
                    </template>
                     @endif
 
-
                  </div>
-                <livewire:add-cart ::sku="skuselect" product="{{$product->id}}" color="{{ $colorSelect[0]->id }}"/>
+                <livewire:add-cart product="{{$product->id}}" color="{{ $colorSelect[0]->id }}"/>
 
                 <div class="flex my-4 space-x-2">
                     <x-icons.heart class="w-[20px]" />

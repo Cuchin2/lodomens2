@@ -10,10 +10,8 @@ limit(){
     if(this.count === 0) { this.see = false}
 }
 }"  x-show="see" x-cloak
-x-init="stock = skus.find(function (sku) {
-    return sku.color_id === color ;
-  }).stock; console.log(stock)">
-    <div class="flex" @sku.window="color=$event.detail.parm; changestock(color)">
+x-init="changestock(color)">
+    <div class="flex" @sku.window="color=$event.detail.parm; changestock(color);">
         <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[36px] border-[1px] text-[12px] rounded-l-[3px]  border-gris-30 w-[30px] flex items-center"
             @click="count > 0 ? count-- : null; limit()">
             <x-icons.chevron-left grosor="1" height="20px" width="20px" class="p-1 mx-auto fill-gris-30" />

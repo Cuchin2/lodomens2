@@ -12,6 +12,7 @@ class Type extends Model
         'slug',
         'hex',
         'description',
+        'is_default'
     ];
     public function getRouteKeyName(){
         return 'slug';

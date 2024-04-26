@@ -128,21 +128,23 @@
                                             Codígo
                                             </th>
                                     <th scope="col" class="px-4 py-[13px] font-normal" wire:click="setSortBy('created_at')">Descripción</th>
-
+                                    <th scope="col" class="px-4 py-[13px] font-normal text-center">
+                                        Por defecto
+                                    </th>
                                     <th scope="col" class="px-4 py-[13px] font-normal text-center">
                                         Acciones
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="text-[14px] ">
+                            <tbody class="text-[14px]">
                                 @foreach ($brands as $brand)
                                 <tr wire:key="{{$brand->id}}" class="border-b dark:border-gris-70 dark:hover:bg-gris-70 dark:hover:bg-opacity-[25%] px-[140px]">
                                     <td scope="row"
                                         class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
                                         {{$brand->id}}</td>
 
-                                    <td class="px-4 py-[13px]">
-                                        <img src="{{ asset('storage/'.($brand->images->url ?? '')) }}" class="border-[2px] border-corp-50 rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
+                                    <td class="px-4 py-[13px]"> 
+                                        <img src="{{ asset('storage/'.($brand->images->url ?? 'profile-photos/9chhwiACz6DcVlLIZ5vy8hJNU0C2vXOoaNLCswUH.png')) }}" class="border-[2px] border-corp-50 rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
                                     </td><td class="px-4 py-[13px]">
                                         {{$brand->name}}</td>
                                     </td>
@@ -150,6 +152,13 @@
                                         <td class="px-4 py-[13px]">
                                             {{$brand->slug}}</td>
                                     <td class="px-4 py-[13px]">{{$brand->description}}</td>
+                                    <td class="px-4 py-[13px] ">
+                                        <input wire:change="change('{{ $brand->id }}')"
+                                         id="radio{{ $brand->id }}" type="radio" name="radio" class="hidden" {{ $brand->is_default == 1 ? 'checked' :''}}/>
+                                        <label for="radio{{ $brand->id }}" class="flex items-center cursor-pointer justify-center">
+                                        <span class="w-4 h-4 inline-block mr-2 rounded-full border flex-no-shrink"></span>
+                                        </label>
+                                    </td>
 
                                     <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
                                         <button type="button" class="text-azul-50 hover:text-azul-30" wire:click="showDeleteModal('{{ $brand->id }}','{{$brand->name}}','DESCRIPTION','{{$brand->description}}','{{ $brand->slug }}','{{ asset('storage/'.($brand->images->url ?? '')) }}','{{ $brand->hex }}')">

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Product;
+use App\Models\Type;
 use App\Models\Category;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -74,6 +75,7 @@ class ProductTable extends Component
             'code'=> $this->code,
             'slug' =>Str::slug($this->name),
             'category_id' => $this->category_id,
+            'type_id' => Type::where('is_default',1)->pluck('id')->first() ?? null,
         ]);
         $this->showModalCreate = false;
         $this->redirectRoute('products.edit',['product'=>$product]);

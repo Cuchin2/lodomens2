@@ -1,14 +1,17 @@
-@props(['name', 'id', 'icon' => ''])
+@props(['name', 'id', 'icon' => '','active'=>false,])
 
-<div x-data="{ open:true, go:false }" x-show="open">
+<div x-data="{ open:true, go:false, consult:@json($active)}" x-show="open" x-init="if(consult) openItem = {{ $id }};">
     <div class="hover:bg-gris-70 my-[5px]{{-- border-l-4 border-teal-500 --}}"
         :class="{ 'bg-gris-80': openItem === {{$id}} }">
         <a href="#"
-            class="flex items-center h-[36px] pl-[10px] {{-- bg-teal-600 rounded-lg --}} transition-colors duration-300 ease-in-out focus:outline-none focus:shadow-outline justify-between "
+            class="flex items-center h-[36px] pl-[10px] {{-- bg-teal-600 rounded-lg --}} transition-colors duration-300 ease-in-out focus:outline-none focus:shadow-outline"
             @click="openItem === {{$id}} ? openItem = null : openItem = {{$id}}">
-            <span class="flex">
+            @if($active == true)
+            <div class="border-r-4 rounded-r-[4px] border-corp-30 w-[5px] h-full ml-[-9px] mr-[9px]"></div>@endif
+            <span class="flex mr-auto {{ $active ? 'text-corp-30' : '' }}">
+                
                 {{$icon}}
-                <p class="ml-2 font-normal dark:text-gris-20 duration-300 transition-none ease-in-outtransition-none w-[100px]"
+                <p class="ml-2 font-normal {{ $active ? 'text-white' : 'dark:text-gris-20' }} duration-300 transition-none ease-in-outtransition-none w-[100px]"
                     :class="isSidebarExpanded ? 'opacity-100' : 'opacity-0'">
                     {{$name}}</p>
             </span>
@@ -19,7 +22,7 @@
             </svg>
         </a>
     </div>
-    <ul x-show="openItem === {{$id}}" class="w-[186px] ml-[7px] mr-[8px] bg-gris-80 rounded-[8px]" :class="{ 'hidden': !isSidebarExpanded, 'block': isSidebarExpanded }" x-collapse.duration.400ms x-cloak>
+    <ul x-show="openItem === {{$id}}" class="w-[186px] ml-[7px] mr-[8px] bg-gris-80 rounded-[8px] " :class="{ 'hidden': !isSidebarExpanded, 'block': isSidebarExpanded }" x-collapse.duration.400ms x-cloak>
 
         {{$slot}}
     </ul>

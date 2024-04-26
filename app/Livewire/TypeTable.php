@@ -15,7 +15,7 @@ class TypeTable extends Component
     use WithFileUploads;
     public $showModal = false; public $showModalDelete = false;
 
-    public $condition;  public $brand='';
+    public $condition;  public $brand=''; public $active = 1;
     public $itemIdToDelete;
     public $name; public $color;
     public $slug;
@@ -100,7 +100,7 @@ class TypeTable extends Component
                 $sku->code = substr_replace($sku->code, substr($this->slug, 0, 2), 0, 2);
                 $sku->save();
             });
-            if (is_object($this->logo)) {
+            if (is_object($this->logo) && $previousUrl) {
                 $fileName = time() . '-' . $this->logo->getClientOriginalName();
                 $url_name = 'image/lodomens/' . $fileName;
                 $brand->images()->update([
@@ -110,6 +110,24 @@ class TypeTable extends Component
                     Storage::disk('public')->delete($previousUrl);
                 }
                 $this->logo->storeAs('image/lodomens/', $fileName, 'public');
+            }
+            else {
+                if ($this->logo) {
+                    $fileName= time().'-'. $this->logo->getClientOriginalName();
+                    $url_name='image/lodomens/'.$fileName;
+                    $brand->images()->create([
+                    'url' => $url_name,
+                    'imageable_type'=>'App\Models\Color',
+                    'imageable_id'=>$brand->id
+                ]);
+                    $this->logo->storeAs('image/lodomens/', $fileName, 'public');
+                }
+                else{
+                    if($previousUrl) {
+                        Storage::disk('public')->delete($previousUrl);
+                        $brand->images()->delete();
+                    }
+                }
             }
         }
         $this->showModal = false;
@@ -164,5 +182,11 @@ class TypeTable extends Component
     }
     public function codeComplete() {
         $this->slug = strtoupper($this->slug);
+    }
+    public function change($id){
+        $type = Type::find($id);
+        $type->is_default= 1;
+        $type->save();
+        Type::where('id', '!=', $id)->update(['is_default' => 0]);
     }
 }

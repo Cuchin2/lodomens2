@@ -56,7 +56,7 @@
                                 @yield('breadcrumb')
                                     @yield('main')
                                 <div class="container text-gris-10 mx-auto px-[5px] md:px-[20px] relative md:pt-[81px] pt-[28px]">
-                                    <x-lodomens.video wire:ignore/>
+                                    <x-lodomens.video/>
                                     @yield('content')
                                 </div>
 

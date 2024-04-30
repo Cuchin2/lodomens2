@@ -135,10 +135,10 @@
                  </div>
                 <livewire:add-cart product="{{$product->id}}" color="{{ $colorSelect[0]->id }}"/>
 
-                <div class="flex my-4 space-x-2">
+                <a class="flex my-4 space-x-2 hover:text-white cursor-pointer" @click=" $dispatch('add-wishlist',{ color: skuselect})">
                     <x-icons.heart class="w-[20px]" />
                     <p>Añadir a lista de deseos</p>
-                </div>
+                </a>
                 <div class="my-4">
                     <div class="flex">
                         <p class=" text-gris-10 mr-1 font-bold">Categorias :</p>
@@ -235,5 +235,7 @@
 </div>
 </div>
 </div>
+
+
 @endsection
 

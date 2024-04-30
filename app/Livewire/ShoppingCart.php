@@ -7,7 +7,7 @@ use App\Models\Sku;
 use Cart;
 class ShoppingCart extends Component
 {
-    public $counts = [];
+    public $counts = []; public $showModal = false; public $row = []; public $choose = 0;
     public function mount()
     {
         // Inicializar la lista de counts con los valores iniciales
@@ -46,15 +46,22 @@ class ShoppingCart extends Component
             ]);
     }
     public function removeRow($rowId,$index){
-                Cart::instance('cart')->remove($rowId);
+            $this->showModal = true; $this->choose= 0;
+            $cart=Cart::instance('cart')->get($rowId);
+                $this->row['index']=$index;
+                $this->row['rowId']= $cart->rowId;
+                $this->row['name']= $cart->name;
+                $this->row['color']= $cart->options->color;
+/*                 Cart::instance('cart')->remove($rowId);
                 unset($this->counts[$index]);
                 $this->dispatch('cart-added');
-                $this->updateDataBase();
+                $this->updateDataBase(); */
     }
     public function clearCart()
-    {
-        Cart::instance('cart')->destroy();
-        $this->dispatch('cart-added');
+    {   $this->choose = 1;
+        $this->showModal = true; 
+/*         Cart::instance('cart')->destroy();
+        $this->dispatch('cart-added'); */
         $this->updateDataBase();
     }
     public function updateCart($rowId,$index,$stock)
@@ -70,9 +77,17 @@ class ShoppingCart extends Component
     {
         if (isset($this->counts[$index])) {
             $this->counts[$index]--;
-            if($this->counts[$index] >= 0) {
-            Cart::instance('cart')->update($rowId,$this->counts[$index]);
+            if($this->counts[$index] == 0){ $this->choose= 0;
+                $this->showModal = true; $cart=Cart::instance('cart')->get($rowId);
+                $this->row['index']=$index;
+                $this->row['rowId']= $cart->rowId;
+                $this->row['name']= $cart->name;
+                $this->row['color']= $cart->options->color;
+                $this->counts[$index] = 1;
             }
+            if($this->counts[$index] > 0) {
+            Cart::instance('cart')->update($rowId,$this->counts[$index]);
+            } 
             // Lógica adicional si es necesario
             $this->updateDataBase();
         }
@@ -93,5 +108,19 @@ class ShoppingCart extends Component
     public function updateDataBase(){
         if(auth()->user()){
             Cart::instance('cart')->store(auth()->user()->id);}
+    }
+    public function erase($id,$index)
+    {
+        Cart::instance('cart')->update($id,0);
+        $this->updateDataBase();
+        unset($this->counts[$index]);
+        $this->showModal = false;
+        $this->dispatch('cart-added');
+    }
+    public function ereaseall()
+    {
+        Cart::instance('cart')->destroy();
+        $this->showModal = false;
+        $this->dispatch('cart-added');
     }
 }

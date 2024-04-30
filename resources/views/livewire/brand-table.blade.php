@@ -139,7 +139,7 @@
                                         {{$brand->id}}</td>
 
                                     <td class="px-4 py-[13px]">
-                                        <img src="{{ asset('storage/'.($brand->images->url ?? 'profile-photos/9chhwiACz6DcVlLIZ5vy8hJNU0C2vXOoaNLCswUH.png')) }}" class="border-[2px] border-corp-50 rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
+                                        <img src="{{ asset('storage/'.($brand->images->url ?? 'image/dashboard/No_image_dark.png')) }}" class="border-[1px] border-gris-50 rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
                                     </td><td class="px-4 py-[13px]">
                                         {{$brand->name}}</td>
                                     </td>

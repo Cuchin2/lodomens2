@@ -141,5 +141,29 @@
         </div>
     </div>
     @endif
-
+    <x-dialog-modal wire:model="showModal" maxWidth="fit">
+        <x-slot name="title">
+            Advertencia
+        </x-slot>
+        <x-slot name="content"> 
+            <div class="flex whitespace-pre-wrap">
+                @if( $choose == 0)
+            <p>Estas por eliminar </p><p class="text-white">{{ $row['name'] ?? '' }}</p> <p> de color </p><p class="text-white">{{ $row['color'] ?? '' }}</p>
+                @else
+            <p>Estas por eliminar todo el carrito de compras</p>
+                @endif
+        </div>
+        </x-slot>
+        <x-slot name="footer">
+            <a href=""></a>
+            
+            <x-button.corp_secundary wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
+            
+            @if( $choose == 0)
+            <x-button.corp1 wire:click="erase('{{ $row['rowId'] ?? '' }}','{{ $row['index'] ?? ''}}')">Aceptar</x-button.corp1>
+            @else
+            <x-button.corp1 wire:click="ereaseall">Aceptar</x-button.corp1>
+            @endif
+        </x-slot>
+    </x-dialog-modal>
 </div>

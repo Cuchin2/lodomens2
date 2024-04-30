@@ -116,6 +116,7 @@
                     $url = $image ? $image->url : null;
                     return (object) ['name' => $color->name, 'hex' => $color->hex, 'id' => $color->id, 'url' => $url];
                 }); $imagenes = [];
+            
                         foreach ($colorSelect as $key => $color) {
                             $imagenes2 = $product->images()->where('color_id',$color->id)->join('row_image', 'images.id', '=', 'row_image.image_id')
                             ->join('rows', 'rows.id', '=', 'row_image.row_id')
@@ -126,14 +127,14 @@
                         }
                         $sku= \App\Models\Sku::where(['color_id'=>$firstImage[$key0]->color_id,'product_id'=>$product->id])->first();
                         @endphp
-                <x-outstock class="md:max-w-[200px] max-w-[150px]" url="{{ $firstImage[$key0]->url }}" name="{{ $product->name }}" stock="{{ $sku->stock }}" />
+                <x-outstock class="md:max-w-[200px] max-w-[150px]" url="{{ $firstImage[$key0]->url ?? '' }}" name="{{ $product->name }}" stock="{{ $sku->stock }}" />
             </a>
 
                 <div class="absolute right-0 top-0 py-[7px] px-[20px] w-[60px]" x-show="(icon && sort !== 1 )|| sort === 1">
-                <button type="button" @guest wire:click="showWishlistModal()"  @else  wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect }}','WISHLIST')" @endguest  class="h-fit w-fit">
+                <button type="button" @guest wire:click="showWishlistModal()"  @else  wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url ?? ''}}','{{ $colorSelect ?? '' }}','WISHLIST')" @endguest  class="h-fit w-fit">
                     <x-icons.heart class="h-[20px] w-[20px] hover:fill-corp-50  cursor-pointer " />
                 </button>
-                <button type="button" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect }}','CART')" class=" w-fit">
+                <button type="button" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect ?? ''}}','CART')" class=" w-fit">
                     <x-icons.cart class="h-[20px] w-[20px] cursor-pointer hover:fill-corp-50" x-show="sort !==1" />
                 </button>
 
@@ -153,7 +154,7 @@
                         <h5 class="line-through text-gris-70">S/.65 </h5>
                     </div>
                     <p class="mt-4 text-justify">{{ $product->short_description }}</p>
-                    <x-button.webprimary class="w-fit my-3 px-[50px]" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect }}','CART')"> Añadir a Carrito
+                    <x-button.webprimary class="w-fit my-3 px-[50px]" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect ?? '' }}','CART')"> Añadir a Carrito
                     </x-button.webprimary>
                 </div>
 
@@ -211,8 +212,9 @@
                                 <p>@if(isset($skus->stock)) {{ $skus->stock < 2 ? ($skus->stock == 1 ? 'Queda: 1 unidad': 'Fuera de stock') : 'Quedan: '.$skus->stock.' unidades' }} @else  @endif</p>
                             </div>
                         <div class="flex my-4 space-x-1">
-
+                            @if(isset($colorSelect))
                             <p class="font-bold"> {{ $colorSelect->count() === 1 ? 'COLOR: ' : 'COLORES: ' }}</p class="font-bold">
+                            @endif
                             <div class="flex space-x-2">
                                 @foreach ($colorSelected as $key => $color )
                                     <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px] {{ $key == $active ? 'border-corp-50 border-[3px]' : '' }}" style="background: {{ $color->url ? 'url('.asset('storage/'.$color->url).')' : $color->hex}} "wire:click="changeColor({{ $key }},{{ $skus->product->id }},{{$color->id}})"> </div>
@@ -258,27 +260,27 @@
 </x-dialog-modal>
 <x-dialog-modal wire:model="showCreateModal" maxWidth="fit">
     <x-slot name="title">
-        Iniciar Sesión
+        Iniciar Sesión para agregar al Wishlist
     </x-slot>
     <x-slot name="content">
-
-        <form  action="{{ route('login') }}" method="POST">
+        <div class="flex justify-center">
+        <form  action="{{ route('login') }}" method="POST" class="w-fit">
             @csrf
-            <div class="mb-3 text-gris-50" x-data="{ fly: false, inputValue: '' }">
-                <label class="absolute  left-[40px] pointer-events-none transition-all duration-300"
-                    :class="fly ? 'text-[10px] top-[53px] px-[3px] bg-gris-90 text-gris-10' : 'text-[14px] top-[70px]'">Correo
+            <div class="relative mb-3 text-gris-50" x-data="{ fly: false, inputValue: '' }">
+                <label class="absolute  left-[10px] pointer-events-none transition-all duration-300"
+                    :class="fly ? 'text-[10px] top-[-6px] px-[3px] bg-gris-90 text-gris-10' : 'text-[14px] top-[10px]'">Correo
                     electrónico</label>
                 <input type="email" name="email" @click=" fly=true" @input="inputValue = $event.target.value"
                     @click.away="inputValue === null || inputValue === '' ? fly=false : null " x-on:change="fly=true"
-                    class="bg-gris-90 rounded-[3px] w-[203px] border-gris-50 focus:ring-gris-50 focus:border-gris-50 text-gris-10" autocomplete="off" placeholder=" ">
+                    class="bg-gris-90 rounded-[3px] w-[233px] border-gris-50 focus:ring-gris-50 focus:border-gris-50 text-gris-10" autocomplete="off" placeholder=" ">
             </div>
-            <div class="mb-2 text-center text-gris-50" x-data="{ fly: false, inputValue: '' }">
+            <div class="relative mb-2 text-center text-gris-50" x-data="{ fly: false, inputValue: '' }">
                 {{-- <label for="exampleDropdownFormPassword1" class="form-label label-eco mb0">Contraseña</label> --}}
-                <input type="password" name="password" class=" text-gris-10 bg-gris-90 rounded-[3px] w-[203px] border-gris-50 focus:ring-gris-50 focus:border-gris-50"
+                <input type="password" name="password" class=" text-gris-10 bg-gris-90 rounded-[3px] w-[233px] border-gris-50 focus:ring-gris-50 focus:border-gris-50"
                     autocomplete="off" placeholder=" " @click=" fly=true" @input="inputValue = $event.target.value"
                     @click.away="inputValue === null || inputValue === '' ? fly=false : null " x-on:change="fly=true">
-                <label class="absolute left-[40px]  pointer-events-none transition-all"
-                    :class="fly ? 'text-[10px] top-[107px] px-[3px] bg-gris-90 text-gris-10' : 'text-[14px] top-[125px]'">Contraseña</label>
+                <label class="absolute left-[10px]  pointer-events-none transition-all"
+                    :class="fly ? 'text-[10px] top-[-6px] px-[3px] bg-gris-90 text-gris-10' : 'text-[14px] top-[10px]'">Contraseña</label>
 
 
             </div>
@@ -295,11 +297,11 @@
             </div>
 
         </form>
-
+       </div>
 
     </x-slot>
 
     <x-slot name="footer">
-</div>
+
 </x-slot>
 </x-dialog-modal>

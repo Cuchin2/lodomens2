@@ -14,14 +14,14 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <!-- Styles -->
 
-
+    @vite(['resources/css/admin/app.css', 'resources/js/app.js'])
     <!-- Scripts -->
 
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
  {{--<script src="{{ asset('codemirror/lib/codemirror.js') }}" data-navigate-track></script>
     <script src="{{ asset('codemirror/mode/xml/xml.js') }}" data-navigate-track></script>  --}}
     @livewireStyles
-    @vite(['resources/css/admin/app.css', 'resources/js/app.js'])
+    
 </head>
 <body class="font-sans antialiased dark:bg-gris-90">
     <x-banner2 />
@@ -117,19 +117,19 @@
                                 <x-icons.inventario />
                             </x-slot>
                             @can('products.index')
-                            <x-sidebar.ul-drop-son href="{{ route('inventory.products.index') }}">Productos</x-sidebar.ul-drop-son>
-                            <x-sidebar.ul-drop-son href="{{ route('inventory.types.index')}}">Productos Especiales</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('inventory.products.index') }}" :active2="request()->routeIs('inventory.products.index')">Productos</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('inventory.types.index')}}" :active2="request()->routeIs('inventory.types.index')">Productos Especiales</x-sidebar.ul-drop-son>
                             @endcan
                             @can('categories.index')
-                            <x-sidebar.ul-drop-son href="{{ route('inventory.categories.index')}}">Categorias</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('inventory.categories.index')}}" :active2="request()->routeIs('inventory.categories.index')">Categorias</x-sidebar.ul-drop-son>
                             @endcan
                             @can('brands.index')
-                            <x-sidebar.ul-drop-son href="{{ route('inventory.brands.index')}}">Marcas</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('inventory.brands.index')}}" :active2="request()->routeIs('inventory.brands.index')">Marcas</x-sidebar.ul-drop-son>
                             @endcan
-                            <x-sidebar.ul-drop-son href="{{ route('inventory.tags.index')}}">Etiquetas
-                            </x-sidebar.ul-drop-son> 
+                            <x-sidebar.ul-drop-son href="{{ route('inventory.tags.index')}}" :active2="request()->routeIs('inventory.tags.index')">Etiquetas
+                            </x-sidebar.ul-drop-son>  
                             <x-sidebar.ul-drop-son href="{{ route('inventory.colors.index')}}" :active2="request()->routeIs('inventory.colors.index')">Colores
-                            </x-sidebar.ul-drop-son>
+                            </x-sidebar.ul-drop-son> 
                         </x-sidebar.ul-drop>
                         
                         @endcan

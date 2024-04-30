@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class WishlistCart extends Component
 {
-    public $counts = [];
+    public $counts = []; public $showModal = false; public $row = []; public $choose = 0;
     public function mount()
     {
         // Inicializar la lista de counts con los valores iniciales
@@ -46,15 +46,17 @@ class WishlistCart extends Component
             ]);
     }
     public function removeRow($rowId,$index){
-                Cart::instance('wishlist')->remove($rowId);
-                unset($this->counts[$index]);
-                $this->dispatch('cart-added');
-                $this->updateDataBase();
-    }
+        $this->showModal = true; $this->choose= 0;
+        $cart=Cart::instance('wishlist')->get($rowId);
+            $this->row['index']=$index;
+            $this->row['rowId']= $cart->rowId;
+            $this->row['name']= $cart->name;
+            $this->row['color']= $cart->options->color;
+}
     public function clearCart()
-    {
-        Cart::instance('wishlist')->destroy();
-        $this->dispatch('cart-added');
+    {   $this->choose = 1;
+        $this->showModal = true; 
+
         $this->updateDataBase();
     }
     public function updateCart($rowId,$index,$stock)
@@ -70,11 +72,20 @@ class WishlistCart extends Component
     {
     if (isset($this->counts[$index])) {
         $this->counts[$index]--;
-        if($this->counts[$index] >= 0) {
+        if($this->counts[$index] == 0){ $this->choose= 0;
+            $this->showModal = true; $cart=Cart::instance('wishlist')->get($rowId);
+            $this->row['index']=$index;
+            $this->row['rowId']= $cart->rowId;
+            $this->row['name']= $cart->name;
+            $this->row['color']= $cart->options->color;
+            $this->counts[$index] = 1;
+        }
+        if($this->counts[$index] > 0) {
         Cart::instance('wishlist')->update($rowId,$this->counts[$index]);
         }
         // Lógica adicional si es necesario
         $this->updateDataBase();
+        $this->dispatch('wishlist-added');
     }
     }
 
@@ -115,6 +126,20 @@ class WishlistCart extends Component
         $this->updateDataBase();
         Cart::instance('cart')->store(auth()->user()->id);
         $this->dispatch('cart-added');
+        $this->dispatch('wishlist-added');
+    }
+    public function erase($id,$index)
+    {
+        Cart::instance('wishlist')->update($id,0);
+        $this->updateDataBase();
+        unset($this->counts[$index]);
+        $this->showModal = false;
+        $this->dispatch('wishlist-added');
+    }
+    public function ereaseall()
+    {
+        Cart::instance('wishlist')->destroy();
+        $this->showModal = false;
         $this->dispatch('wishlist-added');
     }
 }

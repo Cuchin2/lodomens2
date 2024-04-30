@@ -4,10 +4,13 @@
     <div class="hover:bg-gris-70 my-[5px]{{-- border-l-4 border-teal-500 --}}"
         :class="{ 'bg-gris-80': openItem === {{$id}} }">
         <a href="#"
-            class="flex items-center h-[36px] pl-[10px] {{-- bg-teal-600 rounded-lg --}} transition-colors duration-300 ease-in-out focus:outline-none focus:shadow-outline"
-            @click="openItem === {{$id}} ? openItem = null : openItem = {{$id}}">
+            class="flex items-center h-[36px]  {{-- bg-teal-600 rounded-lg --}} transition-colors duration-300 pl-[13px] ease-in-out focus:outline-none focus:shadow-outline"
+            @click="openItem === {{$id}} ? openItem = null : openItem = {{$id}}"
+            
+            >
             @if($active == true)
-            <div class="border-r-4 rounded-r-[4px] border-corp-30 w-[5px] h-full ml-[-9px] mr-[9px]"></div>@endif
+            <div class="border-r-4 rounded-r-[4px] border-corp-30 w-[5px] h-full ml-[-9px] mr-[2px]"></div>
+            @endif
             <span class="flex mr-auto {{ $active ? 'text-corp-30' : '' }}">
                 
                 {{$icon}}

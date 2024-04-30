@@ -120,8 +120,7 @@
                                 <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('name')">
                                     Nombre
                                     </th>
-                                <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('sell_price')">Precio</th>
-                                <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('stock')">Stock</th>
+
                                 <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('status')">Estado</th>
                                 <th scope="col" class="px-4 py-[13px] font-normal text-center">
                                     Acciones
@@ -148,13 +147,10 @@
                                     }
                                     @endphp
                                     <th scope="row" class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
-                                        <img src="{{ asset('storage/'.($firstImage[$key0]->url ?? ''))}}" class="border-[2px] border-corp-50 rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
+                                        <img src="{{ asset('storage/'.($firstImage[$key0]->url ?? 'image/dashboard/No_image_dark.png'))}}" class="{{ isset($firstImage[$key0]->url) ? 'border-[2px] border-corp-50' : 'border-[1px] border-gris-50'}} rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
                                       </th>
                                 <td class="px-4 py-[13px] ">
                                     {{$product->name}}</td>
-                                <td class="px-4 py-[13px]">S/. {{$product->sell_price}}</td>
-                                <td class="px-4 py-[13px]">{{$product->stock}}
-                                </td>
                                 <td class="px-4 py-[13px]"><x-button.success class="mx-auto">{{$product->status}}</x-button.success>
                                 </td>
                                 <td class="px-4 py-[13px] flex items-center justify-center space-x-5">

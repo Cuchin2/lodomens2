@@ -3,7 +3,7 @@
     <x-slot name="slot1">
         <x-breadcrumb.title title='Editar producto "{{$product->name}}"' />
         <x-breadcrumb.breadcrumb>
-            <x-breadcrumb.breadcrumb2 href="{{route('products.index')}}" name='Productos' />
+            <x-breadcrumb.breadcrumb2 href="{{route('inventory.products.index')}}" name='Productos' />
             <x-breadcrumb.breadcrumb2 name='{{$product->name}}' />
         </x-breadcrumb.breadcrumb>
     </x-slot>
@@ -23,7 +23,7 @@
         </div>
 
         @endif
-        <form method="POST" action="{{ route('products.update', $product) }}" name="formulario"
+        <form method="POST" action="{{ route('inventory.products.update', $product) }}" name="formulario"
             enctype="multipart/form-data">
             @csrf
             @method('PUT')

@@ -3,7 +3,7 @@
     <x-slot name="slot1">
         <x-breadcrumb.title title='Crear nueva etiqueta'/>
         <x-breadcrumb.breadcrumb>
-            <x-breadcrumb.breadcrumb2 name='Tag' href="{{route('tags.index')}}"/>
+            <x-breadcrumb.breadcrumb2 name='Tag' href="{{route('inventory.tags.index')}}"/>
             <x-breadcrumb.breadcrumb2 name='Crear'/>
         </x-breadcrumb.breadcrumb>
     </x-slot>
@@ -11,7 +11,7 @@
 
     <x-slot name="slot2">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4" id="miDiv">
-            <form method="POST" action="{{ route('tags.store') }}">
+            <form method="POST" action="{{ route('inventory.tags.store') }}">
                 @csrf
                 <input hidden name="category_type" type="text" value="POST">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg ">

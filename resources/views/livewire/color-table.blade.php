@@ -142,9 +142,9 @@
                                     {{$color->name}}</td>
                                     <td class="px-4 py-[13px] ">
                                         {{$color->code}}</td>
-                                <td class="px-4 py-[13px]"> <div class="w-10 h-10 rounded-full mx-auto" style="background: {{ $color->hex }};"></div></td>
+                                <td class="px-4 py-[13px]"> <div class="w-6 h-6  rounded-full mx-auto" style="background: {{ $color->hex }};"></div></td>
                                 <td class="px-4 py-[13px]">
-                                    <img src="{{ isset($color->images->url) ? asset('storage/'. $color->images->url) : '' }}" class="rounded-full mx-auto {{ isset($color->images->url) ? 'h-10 w-10' : '' }}" alt="">
+                                    <img src="{{ isset($color->images->url) ? asset('storage/'. $color->images->url) : '' }}" class="rounded-full mx-auto {{ isset($color->images->url) ? 'w-6 h-6 ' : '' }}" alt="">
                                 </td>
                                 <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
                                     <a class="text-azul-50 hover:text-azul-30 cursor-pointer" wire:click="showEditModal('{{ $color->id }}','{{$color->name}}','{{ $color->hex }}','{{ $color->code }}','{{ isset($color->images->url) ? asset('storage/'. $color->images->url) : '' }}')">

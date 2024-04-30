@@ -122,26 +122,28 @@
                             ->join('rows', 'rows.id', '=', 'row_image.row_id')
                             ->orderBy('rows.order', 'asc')->get();
                         $imagenes[$key]= $imagenes2;     }
+                        $firstImage[$key0] =''; $sku='';
                         if($imagenes) {
                             $firstImage[$key0] = $imagenes[0]->first();
                         }
-                        $sku= \App\Models\Sku::where(['color_id'=>$firstImage[$key0]->color_id,'product_id'=>$product->id])->first();
+                        if($firstImage[$key0] !== '') {
+                        $sku= \App\Models\Sku::where(['color_id'=>$firstImage[$key0]->color_id,'product_id'=>$product->id])->first(); }
                         @endphp
-                <x-outstock class="md:max-w-[200px] max-w-[150px]" url="{{ $firstImage[$key0]->url ?? '' }}" name="{{ $product->name }}" stock="{{ $sku->stock }}" />
+                <x-outstock class="md:max-w-[200px] max-w-[150px]" url="{{ $firstImage[$key0]->url ?? '' }}" name="{{ $product->name }}" stock="{{ $sku->stock ?? '' }}" />
             </a>
 
                 <div class="absolute right-0 top-0 py-[7px] px-[20px] w-[60px]" x-show="(icon && sort !== 1 )|| sort === 1">
-                <button type="button" @guest wire:click="showWishlistModal()"  @else  wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url ?? ''}}','{{ $colorSelect ?? '' }}','WISHLIST')" @endguest  class="h-fit w-fit">
+                <button type="button" @guest wire:click="showWishlistModal()"  @else  wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id ?? ''}}','{{ $firstImage[$key0]->url ?? ''}}','{{ $colorSelect ?? '' }}','WISHLIST')" @endguest  class="h-fit w-fit">
                     <x-icons.heart class="h-[20px] w-[20px] hover:fill-corp-50  cursor-pointer " />
                 </button>
-                <button type="button" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect ?? ''}}','CART')" class=" w-fit">
+                <button type="button" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id ?? ''}}','{{ $firstImage[$key0]->url ?? '' }}','{{ $colorSelect ?? ''}}','CART')" class=" w-fit">
                     <x-icons.cart class="h-[20px] w-[20px] cursor-pointer hover:fill-corp-50" x-show="sort !==1" />
                 </button>
 
                 </div>
                 <div class="m-2 leading-[1.2]" x-show="sort===3" x-cloak>
                     <p class="text-[14px] md:text-[18px] ">{{ $product->name }}</p>
-                    <p class="text-[18px] md:text-[22px]">S/. {{ $sku->sell_price }}</p>
+                    <p class="text-[18px] md:text-[22px]">S/. {{ $sku->sell_price ?? ''}}</p>
                 </div>
                 <div x-show="sort===1" x-cloak class="px-8">
                     <h3>{{ $product->name }}</h3>
@@ -150,11 +152,11 @@
                         <p class="text-gris-30"> - {{ $product->reviews->count() }} reseñas -</p>
                     </div>
                     <div class="flex space-x-3">
-                        <h4>S/. {{ $sku->sell_price }}</h4>
+                        <h4>S/. {{ $sku->sell_price ?? ''}}</h4>
                         <h5 class="line-through text-gris-70">S/.65 </h5>
                     </div>
                     <p class="mt-4 text-justify">{{ $product->short_description }}</p>
-                    <x-button.webprimary class="w-fit my-3 px-[50px]" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id }}','{{ $firstImage[$key0]->url }}','{{ $colorSelect ?? '' }}','CART')"> Añadir a Carrito
+                    <x-button.webprimary class="w-fit my-3 px-[50px]" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id ?? ''}}','{{ $firstImage[$key0]->url ?? ''}}','{{ $colorSelect ?? '' }}','CART')"> Añadir a Carrito
                     </x-button.webprimary>
                 </div>
 

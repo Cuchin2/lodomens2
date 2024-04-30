@@ -75,12 +75,12 @@
 
                         </x-sidebar.ul-drop>
                         @endcan
-                        <x-sidebar.ul-drop name="Mi página" id="2">
+                        <x-sidebar.ul-drop name="Mi página" id="2" :active="request()->routeIs('mypage.*')">
                             <x-slot name="icon">
                                 <x-icons.planet class="h-[20px] w-[20px]" />
                             </x-slot>
                             <x-sidebar.ul-drop-son>Header</x-sidebar.ul-drop-son>
-                            <x-sidebar.ul-drop-son href="{{ route('mypage.edit') }}">Footer</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('mypage.edit') }}" :active2="request()->routeIs('mypage.edit')">Footer</x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son>Inicio</x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son>Tienda</x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son>Contacto</x-sidebar.ul-drop-son>

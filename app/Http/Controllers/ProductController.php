@@ -114,7 +114,7 @@ class ProductController extends Controller
             $sku->sell_price = $sellPrices[$index] ?? '0';
             $sku->save();
             }
-        return redirect()->route('products.edit',$product);
+        return redirect()->route('inventory.products.edit',$product);
     }
 
     /**

@@ -78,7 +78,7 @@ class ProductTable extends Component
             'type_id' => Type::where('is_default',1)->pluck('id')->first() ?? null,
         ]);
         $this->showModalCreate = false;
-        $this->redirectRoute('products.edit',['product'=>$product]);
+        $this->redirectRoute('inventory.products.edit',['product'=>$product]);
     }
     public function setSortBy($sortByField)
     {

@@ -70,7 +70,7 @@ class ColorController extends Controller
             return response()->json(['url' => $url]);
     }
     public function sorting(Request $request,$id)
-    {
+    { 
         $orders = explode(",", $request->order);
         $product = Product::find($id);
         $rows = Row::whereHas('images', function ($query) use ($product) {
@@ -91,8 +91,8 @@ class ColorController extends Controller
         ]);
         return response()->json(['row_id'=>$row->id,'order'=>$row->order]);
     }
-    public function deleterow($id){
-        $row = Row::findOrFail($id);
+    public function deleterow(Request $request){
+        $row = Row::findOrFail($request->row_id);
         // Eliminar las imágenes relacionadas a la fila
         $row->images()->delete();
         // Eliminar la fila

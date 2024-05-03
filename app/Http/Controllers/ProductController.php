@@ -19,6 +19,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 class ProductController extends Controller
 {
     /**
@@ -93,21 +94,33 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Product $product)
-    {
+    { 
         $request->validate([
             'code' => ['required','numeric','max:9999',Rule::unique('products')->ignore($product->id)],
+            'brand_id' => ['required']
             // Añade aquí otras reglas de validación según sea necesario
         ], [
             'code.required' => 'El campo código es obligatorio.',
             'code.integer' => 'El campo código debe ser númerico.',
             'code.max' => 'El campo código debe contener 4 dígitos.',
             'code.unique' => 'El código ya está en uso.',
+            'brand_id.required' => 'Seleccione una marca.',
             // Añade otros mensajes de error aquí
         ]);
         $request->merge(['id' => $product->id]);
         $product->my_update($request);
         $stock = $request->input('stock');
+        if($request->input('colors') == null){
+            Session::flash('mensaje', 'Selecione un color');
+            return redirect()->route('inventory.products.edit',$product);
+        }    
         $sellPrices = $request->input('sell_price');
+        foreach($sellPrices as $index => $price) {
+            if ($price === null || $price == 0) {
+                Session::flash('mensaje2', 'Seleccione un precio');
+                return redirect()->route('inventory.products.edit', $product);
+            }
+        }
         $skus= Sku::where('product_id',$product->id)->get();
         foreach ($skus as $index => $sku) {
             $sku->stock = $stock[$index] ?? '0';

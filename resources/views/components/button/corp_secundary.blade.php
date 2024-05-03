@@ -1,6 +1,6 @@
 @props(['href'=>'','type'=>'button'])
 
-<button {{ $attributes->merge(['class' => 'h-[30px] text-white px-1 bg-gris-60 hover:bg-gris-90 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]']) }}@if ($href)
+<button {{ $attributes->merge(['class' => 'h-[30px] text-white px-1 bg-gris-60 hover:bg-gris-90 rounded-lg overflow-hidden flex items-center justify-center']) }}@if ($href)
     href="{{$href}}"
 @endif  type="{{ $type }}">
     <div class="flex items-center justify-center mx-[10px]">

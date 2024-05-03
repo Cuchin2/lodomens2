@@ -67,7 +67,7 @@
                     <li>
                         <div
                             class=" text-gris-10 flex">
-                            <x-icons.phone class="h-[15px] mr-4 mt-1"/> <p>+51 {{ $datos['phone'] }}</p>
+                            <x-icons.phone class="h-[15px] mr-4 mt-1"/> <p> {{ $datos['phone'] }}</p>
                         </div>
                     </li>
 
@@ -86,8 +86,8 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-12  py-[13.4px]  mx-auto">
-                <div class="flex justify-between w-[270px]">
+            <div class="col-12  py-[13.4px] mx-auto">
+                <div class="flex space-x-5 w-[270px] justify-center">
                     @foreach ($datos['redes'] as $red)
                     <a href="{{$red->url }}"alt="" target="_blank">
                         <x-dynamic-component :component="'icons.socialmedia.'.$red->name" :class="'h-[15.5px] fill-gris-10 hover:fill-corp-50'" />
@@ -128,7 +128,7 @@
                     <img src="{{ asset('storage/'.$datos['logo']) }}" alt=""  class="w-auto h-[82px] mx-auto">
 
 
-                <div class="mt-[25px] flex justify-between">
+                <div class="mt-[25px] flex space-x-5 justify-center">
                     @foreach ($datos['redes'] as $red)
                     <a href="{{$red->url }}"alt="" target="_blank">
                         <x-dynamic-component :component="'icons.socialmedia.'.$red->name" :class="'h-[15.5px] fill-gris-10 hover:fill-corp-50'" />
@@ -158,7 +158,7 @@
                     <li>
                         <div
                             class="text-base text-gris-10 flex">
-                            <x-icons.phone class="h-[20px] mr-4"/> <p>+51 {{ $datos['phone'] }}</p>
+                            <x-icons.phone class="h-[20px] mr-4"/> <p> {{ $datos['phone'] }}</p>
                     </div>
                     </li>
 
@@ -191,7 +191,7 @@
 
         <p class=" lg:block md:hidden">© {{ now()->year }} </p> <p class="lg:ml-1"> Realizado por <a href="https://www.instagram.com/nubesita.estudio/" target="__blank" class="hover:text-corp-50 font-bold">Nubesita Estudio</a></p>
     </div>
-    <div class="md:flex lg:hidden justify-between  w-[280px]">
+    <div class="md:flex lg:hidden space-x-5  w-[280px] ">
         @foreach ($datos['redes'] as $red)
             <a href="{{$red->url }}"alt="" target="_blank">
                 <x-dynamic-component :component="'icons.socialmedia.'.$red->name" :class="'h-[15.5px] fill-gris-10 hover:fill-corp-50'" />

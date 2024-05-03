@@ -117,7 +117,7 @@
                                 <x-icons.inventario />
                             </x-slot>
                             @can('products.index')
-                            <x-sidebar.ul-drop-son href="{{ route('inventory.products.index') }}" :active2="request()->routeIs('inventory.products.index')">Productos</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('inventory.products.index') }}" :active2="request()->routeIs('inventory.products.*')">Productos</x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son href="{{ route('inventory.types.index')}}" :active2="request()->routeIs('inventory.types.index')">Productos Especiales</x-sidebar.ul-drop-son>
                             @endcan
                             @can('categories.index')

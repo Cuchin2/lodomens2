@@ -123,6 +123,7 @@ class ColorTable extends Component
             $this->itemIdToDelete = $itemId;
             $this->newHex = $itemHex;
             $this->code= $itemCode;
+            $this->logo= $file;
         }
     public function createColor()
     {
@@ -172,8 +173,7 @@ class ColorTable extends Component
                 }
                 $this->logo->storeAs('image/lodomens/', $fileName, 'public');
             }
-            else {
-                if ($this->logo) {
+            if (is_object($this->logo)) {
                     $fileName= time().'-'. $this->logo->getClientOriginalName();
                     $url_name='image/lodomens/'.$fileName;
                     $color->images()->create([
@@ -182,14 +182,14 @@ class ColorTable extends Component
                     'imageable_id'=>$color->id
                 ]);
                     $this->logo->storeAs('image/lodomens/', $fileName, 'public');
-                }
-                else{
-                    if($previousUrl) {
+            }
+                    if($previousUrl && $this->logo ==null) 
+                    { 
                         Storage::disk('public')->delete($previousUrl);
                         $color->images()->delete();
                     }
-                }
-            }
+                
+            
         }
         if($this->choose === 2)
         {   $color= Color::find($this->itemIdToDelete);

@@ -35,19 +35,19 @@
 
                         <div class="my-3">
                             <x-label class="mb-2">Nombre:</x-label>
-                            <x-input name="name" value="{{ $product->name }}" placeholder="Primer nombre "></x-input>
+                            <x-input name="name" value="{{ old('name',$product->name) }}" placeholder="Primer nombre "></x-input>
                         </div>
                         <div class="my-1 flex">
                             <div class="flex items-center space-x-2">
                                 <x-label class="my-2">URL:</x-label>
                                 <p class="text-gris-10 underline">ecowaste.nubesita.com/blog/</p>
                             </div>
-                            <x-input-editable name="slug" value="{{$product->slug}}"></x-input-editable>
+                            <x-input-editable name="slug" value="{{old('slug',$product->slug)}}"></x-input-editable>
                         </div>
                         <div class="my-3">
                             <x-label class="my-2">Descripción corta:</x-label>
                             <x-input-textarea placeholder="Descripción corta" name="short_description" col="3">
-                                {{ $product->short_description }}
+                                {{ old('short_description', $product->short_description) }}
                                 </x-imput-textarea>
                         </div>
                         <div class="my-3">
@@ -76,6 +76,9 @@
                                     message="Ninguna marca coincide con la búsqueda" name="brand_id"
                                     :data="$brands" selected="{{ $product->brand->id ?? ''}}">
                                 </x-select-search>
+                                @error('brand_id')
+                                <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
 
@@ -89,15 +92,15 @@
                         <div class="my-3">
                             <x-label class="mb-2">{{ $product->skus->count() > 1 ? 'Códigos' : 'Código' }} SKU</x-label>
                         <div class="grid grid-cols-2 gap-4">
-                          @foreach ($product->skus->load('color') as $sku)
+                          @foreach ($product->skus->load('color') as $index =>$sku)
                           <div x-data="{open:false}">
                             <div class="flex cursor-pointer" x-on:click="open = ! open"><p style="color: {{ $sku->color->hex }};">{{ $sku->color->name }}</p></div>
                             <x-label class="mb-2 ">SKU: {{ $sku->code }}</x-label>
                             <div x-show="open" x-transition>
                             <x-label class="mb-2" >Nivel de stock</x-label>
-                            <x-input name="stock[]" value="{{ $sku->stock }}" placeholder="Nivel de stock "></x-input>
+                            <x-input name="stock[]" value="{{ old('stock.'.$index, $sku['stock']) }}" placeholder="Nivel de stock "></x-input>
                             <x-label class="mb-2">Precio de venta</x-label>
-                            <x-input name="sell_price[]" value="{{ $sku->sell_price }}"
+                            <x-input name="sell_price[]" value="{{ old('sell_price.'.$index, $sku['sell_price']) }}"
                                 placeholder="Precio de venta "></x-input>
                             </div>
                             </div>
@@ -105,8 +108,12 @@
                         </div>
 
 
-
                         </div>
+                        @if(Session::has('mensaje2'))
+                        <div class="text-corp-10 ml-2"> 
+                                {{ Session::get('mensaje2') }}
+                            </div>
+                        @endif
 {{--                          <div class="my-3">
                             <x-label class="mb-2">Precio de venta</x-label>
                             <x-input name="" value="{{ $product->sell_price }}"
@@ -168,7 +175,12 @@
                                     </template>
                                 </ul>
                             </div>
-                        </div>
+                            @if(Session::has('mensaje'))
+                            <div class="text-corp-10 ml-2"> 
+                                    {{ Session::get('mensaje') }}
+                                </div>
+                            @endif
+                             </div>
                         <div class="my-3">
                             <x-label class="mb-2">Categoría:</x-label>
                             <div class="mt-3">
@@ -232,6 +244,7 @@
 
 
                 </div>
+                
                 @include('admin.product.colorimage',['colors'=> $colorSelect,'id'=>$product->id,'numberArray'=>$numberArray])
                 {{-- @include('admin.product.image') --}}
 

@@ -51,7 +51,7 @@
                                 </div>
                                 <div>
                                     <input type="text"
-                                        class="text-gris-10 font-bold bg-black h-[26px] mx-auto text-[12px] p-2 focus:ring-gris-50 focus:border-gris-50 w-[47px] border-gris-30 text-center border-x-0"
+                                        class="text-gris-10 font-bold bg-black h-[26px] mx-auto  p-2 focus:ring-gris-50 focus:border-gris-50 w-[47px] border-gris-30 text-center border-x-0"
                                         placeholder=" " required=""
                                         wire:change="updateCart('{{ $item->rowId }}','{{$index}}','{{ $item->options->stock }}')"
                                         wire:model.change="counts.{{ $index }}">
@@ -90,7 +90,7 @@
             <div class="bg-gris-100 p-6 py-3">
                 <h5>Resumen de pedido</h5>
                 <div class="flex justify-between my-8">
-                    <p>Subtotal({{ $cartitems->count() }})</p>
+                    <p>Subtotal ({{ $cartitems->count() }})</p>
                     <p>S/.{{ Cart::instance('cart')->subtotal() }}</p>
                 </div>
                 {{-- <div class="flex justify-between my-2">
@@ -143,7 +143,9 @@
     @endif
     <x-dialog-modal wire:model="showModal" maxWidth="fit">
         <x-slot name="title">
-            Advertencia
+            <div class="flex justify-center">
+            <h7 >Advertencia</h5>
+            </div>
         </x-slot>
         <x-slot name="content"> 
             <div class="flex whitespace-pre-wrap">

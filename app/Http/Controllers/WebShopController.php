@@ -12,6 +12,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Expr\Cast\Object_;
+
 class WebShopController extends Controller
 {
     public function index(){
@@ -42,21 +44,48 @@ class WebShopController extends Controller
             return $item->name === $color_name;
         }); 
         $firstImage = $imagenes[$indice]->first();
-        
-        $product->visit()->withSession();
+       /*  dd($imagenes); */
+       if($imagenes[$indice]->isEmpty()){
+        $firstImage = new \stdClass();
+        $firstImage->url = "image/dashboard/No_image_dark.png";
+       }
+        $product->visit()->withSession(); 
+      
+        /* foreach ($imagenes as $coleccion) {
+            if ($coleccion->isEmpty()) {
+                $imagenDefault = new \stdClass();; // Crear una nueva instancia de la clase Image
+                $imagenDefault->url = 'image/dashboard/No_image_dark.png'; // Asignar la URL por defecto
+                $coleccion->push($imagenDefault); // Agregar la imagen por defecto a la colección
+            } 
+        }  */  /* dd($imagenes); */
+/*         foreach ($imagenes as $coleccion) {
+            
+                for ($i=0; $i < $colorSelect->count()  ; $i++) { 
+                   
+            if (!isset($coleccion[$i])) {
+                $imagenDefault = new \stdClass(); // Crear una nueva instancia de la clase stdClass
+                $imagenDefault->url = 'image/dashboard/No_image_dark.png'; // Asignar la URL por defecto
+                $coleccion[$i]=$imagenDefault; // Agregar la imagen por defecto a la colección
+            } } 
+        } */ 
             return view('web.shop.show',compact('product','colorSelect','imagenes','firstImage','indice','skus'));
     }
     public function getimage(Request $request)
     {
-
         $image = Image::join('row_image', 'images.id', '=', 'row_image.image_id')
-            ->join('rows', 'rows.id', '=', 'row_image.row_id')
-            ->where('color_id', $request->colorid)
-            ->where('rows.order', $request->row)
-            ->where('images.imageable_id', $request->id) // Agrega esta línea
-            ->first();
-
-                return response()->json(['url'=>$image->url]);
+        ->join('rows', 'rows.id', '=', 'row_image.row_id')
+        ->where('color_id', $request->colorid)
+        ->where('rows.order', $request->row)
+        ->where('images.imageable_id', $request->id)
+        ->select('images.url') // Seleccionar solo la URL de la imagen
+        ->first();
+        /* dd($image); */
+    if(!$image){
+        $image = new \stdClass();
+        $image->url = "image/dashboard/No_image_dark.png";
+    }
+    
+    return response()->json(['url' => $image->url]);
     }
 
 }

@@ -56,7 +56,7 @@ class BrandTable extends Component
             'slug.unique' => 'El campo código ya fue registrado'
         ];
     }
-    public function delete($id)
+    public function deleted($id)
     {
         $this->brand=Brand::find($id);
         if($this->which == 'DELETE'){
@@ -91,7 +91,7 @@ class BrandTable extends Component
         else
         {   $this->validate();
             $brand=Brand::find($id);
-            $previousUrl = $brand->images()->value('url');
+            $previousUrl = $brand->images()->value('url'); 
             $brand->name = $this->name;
             $brand->slug = $this->slug;
             $brand->description = $this->description;
@@ -101,7 +101,7 @@ class BrandTable extends Component
                 $sku->code = substr_replace($sku->code, substr($this->slug, 0, 2), 0, 2);
                 $sku->save();
             });
-            if (is_object($this->logo)) {
+            if (is_object($this->logo) && $previousUrl) {
                 $fileName = time() . '-' . $this->logo->getClientOriginalName();
                 $url_name = 'image/lodomens/' . $fileName;
                 $brand->images()->update([
@@ -112,6 +112,25 @@ class BrandTable extends Component
                 }
                 $this->logo->storeAs('image/lodomens/', $fileName, 'public');
             }
+        
+                if (is_object($this->logo)) { 
+                    $fileName= time().'-'. $this->logo->getClientOriginalName();
+                    $url_name='image/lodomens/'.$fileName;
+                    $brand->images()->create([
+                    'url' => $url_name,
+                    'imageable_type'=>'App\Models\Color',
+                    'imageable_id'=>$brand->id
+                ]);
+                    $this->logo->storeAs('image/lodomens/', $fileName, 'public');
+                }
+           
+                if($previousUrl && $this->logo ==null) 
+                { 
+                    Storage::disk('public')->delete($previousUrl);
+                    $brand->images()->delete();
+                }
+                
+            
         }
         $this->showModal = false;
         $this->logo= null;
@@ -127,9 +146,9 @@ class BrandTable extends Component
         $this->sortDir = 'DESC';
     }
     public function showDeleteModal($itemId,$name,$abc,$description,$slug,$file)
-        { $this->resetValidation();
+        { $this->resetValidation(); $this->dispatch('notify2');
            if(isset($file)){
-            $this->dispatch('notify',url: $file);
+            $this->dispatch('notify',url: $file,filename:basename(parse_url($file, PHP_URL_PATH)) );
              }
                 $this->logo = $file;
                 $this->name = $name;
@@ -139,7 +158,7 @@ class BrandTable extends Component
                 $this->showModal = true;
                 $this->which = $abc;
         }
-        public function showDeleteModal2($itemId,$name,$abc,$description,$slug,$file)
+        public function showDeleteModal2($itemId,$name,$abc,$description,$slug,$file) 
         {       $this->resetValidation();
                 $this->logo = $file;
                 $this->name = $name;
@@ -162,5 +181,13 @@ class BrandTable extends Component
     }
     public function codeComplete() {
         $this->slug = strtoupper($this->slug);
+    }
+    public function delete(Brand $brand)
+    {
+        $brand->delete();
+        $this->showModal = false;
+    }
+    public function deletelogo(){
+        $this->logo = null;
     }
 }

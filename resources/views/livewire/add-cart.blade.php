@@ -2,7 +2,7 @@
 <div class="flex justify-left space-x-3" x-data="{count:1, color:{{ $color }}, see : true,
 changestock(a) {
     stock = skus.find(function (sku) {
-        return sku.color_id === a ;
+        return parseInt(sku.color_id) === a ;
       }).stock; this.limit();
 },
 limit(){

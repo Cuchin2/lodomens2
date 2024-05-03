@@ -122,7 +122,7 @@ class ShopMain extends Component
         ->where('color_id', $color)
         ->where('rows.order', 0)
         ->where('images.imageable_id', $id) // Agrega esta línea
-        ->first()->url;
+        ->first()->url ?? '/image/dashboard/No_image_dark.png';
         $this->price_cart= $this->skus->sell_price;
     }
     public function showWishlistModal()

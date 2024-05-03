@@ -149,10 +149,10 @@
                                     <td class="px-4 py-[13px]">{{$brand->description}}</td>
 
                                     <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
-                                        <button type="button" class="text-azul-50 hover:text-azul-30" wire:click="showDeleteModal({{ $brand->id }},'{{$brand->name}}','DESCRIPTION','{{$brand->description}}','{{ $brand->slug }}','{{ asset('storage/'.($brand->images->url ?? '')) }}')">
+                                        <button type="button" class="text-azul-50 hover:text-azul-30" wire:click="showDeleteModal({{ $brand->id }},'{{$brand->name}}','DESCRIPTION','{{$brand->description}}','{{ $brand->slug }}','{{ isset($brand->images->url) ? asset('storage/'. $brand->images->url) : '' }}')">
                                             <x-icons.edit></x-icons.edit>
                                         </button>
-                                        <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal2({{ $brand->id }},'{{$brand->name}}','DELETE','','','{{ asset('storage/'.($brand->images->url ?? '')) }}')" >
+                                        <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal2({{ $brand->id }},'{{$brand->name}}','DELETE','','','{{ isset($brand->images->url) ? asset('storage/'. $brand->images->url) : '' }}')" >
                                             <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                         </button>
                                     </td>
@@ -228,7 +228,7 @@
                     {{ __('Cancelar') }}
                 </x-button.corp_secundary>
 
-                <x-button.corp1 class="ml-3" wire:click="delete('{{$itemIdToDelete}}')" wire:loading.attr="disabled">
+                <x-button.corp1 class="ml-3" wire:click="deleted('{{$itemIdToDelete}}')" wire:loading.attr="disabled">
                     {{ $which == 'CREATE' ? 'Crear' : 'Actualizar' }}
                 </x-button.corp1>
             </x-slot>
@@ -240,7 +240,7 @@
             <x-slot name="content">
                 <div class="flex justify-between ">
                 ¿Estás seguro de que deseas eliminar la etiqueta "<b>{{$name}}</b>"?
-                <img src="{{ asset(($logo ?? '')) }}" alt="{{$name}}" class="mx-auto h-[70px]">
+                <img src="{{$logo== '' ? asset('storage/image/dashboard/No_image_dark.png') :  $logo}}" alt="{{$name}}" class="mx-auto h-[70px]">
                 </div>
             </x-slot>
             <x-slot name="footer">
@@ -248,7 +248,7 @@
                     {{ __('Cancelar') }}
                 </x-button.corp_secundary>
 
-                <x-button.corp1 class="ml-3" wire:click="delete('{{$itemIdToDelete}}')" wire:loading.attr="disabled">
+                <x-button.corp1 class="ml-3" wire:click="deleted('{{$itemIdToDelete}}')" wire:loading.attr="disabled">
                     Eliminar
                 </x-button.corp1>
             </x-slot>

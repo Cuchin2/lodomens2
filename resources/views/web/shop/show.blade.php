@@ -34,9 +34,9 @@
  }">
     <div class="md:grid md:grid-cols-2">
         <div class="md:grid md:grid-cols-6 mt-5">
-            <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2 relat" >
+            <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2 flex items-center" >
                 {{--  <p x-text="ext"></p>  --}}
-                <lodo class="w-fit relative items-center h-fit mx-auto">
+                <lodo class="w-full relative mx-auto">
                 <template x-if="ext === 'mp4'">
                     <video :src="src" controls
                   class="w-full border-[2px] border-corp-50 rounded-[3px]" :alt="ext" alt="">
@@ -44,7 +44,7 @@
 
                  </template>
 
-                  <template x-if="ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif' || ext === 'svg'" >
+                  <template x-if="ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif' || ext === 'svg' || ext === 'ico'" >
                   <img  :src="src"
                   class="w-full border-[2px] border-corp-50 rounded-[3px]" alt="">
 
@@ -68,14 +68,14 @@
 
                 @if (pathinfo(asset('storage/'.$image->url), PATHINFO_EXTENSION) === 'mp4')
                 <div @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4'">
-                <video src="{{ asset('storage/'.$image->url) }}" muted
-                class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer" >
-                :class="{'border-gris-10': src === '{{ asset('storage/'.$image->url) }}'}"
-                @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4', abc='{{ $key2 }}'">
-                </video>
+                    <video src="{{ asset('storage/'.$image->url) }}" muted
+                    class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer" >
+                    :class="{'border-gris-10': src === '{{ asset('storage/'.$image->url) }}'}"
+                    @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4', abc='{{ $key2 }}'">
+                    </video>
                  </div>
                 @else
-                <img src="{{ asset('storage/'.$image->url) }}"
+                <img src="{{ asset('storage/'.$image->url ?? 'hola')}}"
                 class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer"
                 :class="{'border-gris-10': src === '{{ asset('storage/'.$image->url) }}'}"
                 @click="src='{{ asset('storage/'.$image->url) }}', ext='{{ pathinfo(asset('storage/'.$image->url), PATHINFO_EXTENSION) }}', abc='{{ $key2 }}'">
@@ -120,7 +120,16 @@
                     <p class="font-bold"> {{ $colorSelect->count() === 1 ? 'COLOR: ' : 'COLORES: ' }}</p class="font-bold">
                     <div class="flex space-x-2" x-data="{active:'{{ $indice }}'}">
                         @foreach ($colorSelect as $key => $color )
-                            <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px]"           :class="{'border-corp-50 border-[3px]' : active === '{{ $key}}' }" style="background: {{ $color->url ? 'url('.asset('storage/'.$color->url).')' : $color->hex}} " x-on:click="$dispatch('send',{ parm: '{{ $key }}' }); getImage(abc,{{ $color->id }}); active='{{ $key }}'; $dispatch('sku',{parm:{{ $color->id }}});"> </div>
+                            <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px]"           :class="{'border-corp-50 border-[3px]' : active === '{{ $key}}' }" 
+                            @if(!$color->url)
+                            style="background:{{ $color->hex }}"
+                            @endif
+                          
+                            x-on:click="$dispatch('send',{ parm: '{{ $key }}' }); getImage(abc,{{ $color->id }}); active='{{ $key }}'; $dispatch('sku',{parm:{{ $color->id }}});"> 
+                            @if($color->url)
+                            <img src="{{ asset('storage/'.$color->url) }}"  class="rounded-full mx-auto w-full h-full" alt="">
+                            @endif
+                        </div>
                         @endforeach
                     </div>
                 </div>

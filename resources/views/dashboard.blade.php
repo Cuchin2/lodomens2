@@ -6,7 +6,7 @@
 
     <x-slot name="slot2">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg ">
-        <x-welcome />
+       {{--   <x-welcome />  --}}
      {{--     <div class="wrapper" x-data="{
             search: '',
             show_item(el) {

@@ -54,8 +54,8 @@
         x-data="{menu1 : 0}" x-show="open" @click.away="if (window.innerWidth < 1024) {
                 open = false;
             }">
-        <div class="h-full bg-gris-90 lg:w-[120px] xl:w-[205px]">
-        <ul class="md:fixed bg-gris-90 md:w-[148px] lg:w-[120px] xl:w-[200px] h-fit md:max-h-[300px] overflow-hidden" @click.away="menu1 = 0">
+        <div class="h-full bg-gris-90 lg:w-[120px] xl:w-[205px] md:relative">
+        <ul class="md:fixed bg-gris-90 md:w-[148px] lg:w-[120px] xl:w-[200px] h-fit md:max-h-full overflow-hidden" @click.away="menu1 = 0">
             <li class="mr-6 p-2 ">
                 <a class="text-gris-10 hover:text-red-600 text-[12px]">FILTROS</a>
             </li>
@@ -99,13 +99,14 @@
     <div class="mx-left w-full " :class="{'pl-2': open === true}">
     <div :class="{
         'grid-cols-2 lg:grid-cols-5 md:grid-cols-4': !open && sort === 3,
-        'grid-cols-2 lg:grid-cols-4 md:grid-cols-3': (open && sort === 3) || (!open && sort === 2),
-        'grid-cols-2 lg:grid-cols-3 md:grid-cols-2': open && sort === 2,
+        'grid-cols-2 lg:grid-cols-4 md:grid-cols-3': (open && sort === 3) {{--  || (!open && sort === 2)  --}},
+        'grid-cols-2 lg:grid-cols-4 md:grid-cols-2': open && sort === 2,
+        'grid-cols-2 lg:grid-cols-5 md:grid-cols-3': (!open && sort === 2),
         'mt-1 md:mt-0': true,
     }" class="grid w-full">
 
         @foreach ($products as $key0 =>$product )
-        <div class="px-3 mx-auto relative my-[8px] items-center w-full" x-data="{icon:false}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex':sort===1}">
+        <div class="px-3 mx-auto relative my-[8px] items-center w-fit" x-data="{icon:false}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex w-full':sort===1}">
             <a href="{{ !empty($product->colors) && !empty($product->colors[0]->id) ? route('web.shop.show', ['product' => $product, 'color' => $product->colors[0]->id]) : '#' }}">
                 @php
                 $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')
@@ -133,7 +134,7 @@
                             $sku = \App\Models\Sku::where(['color_id' => $colorSelect[0]->id, 'product_id' => $product->id])->first();
                         }
                         @endphp
-                <x-outstock class="md:max-w-[200px] max-w-[150px]" url="{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}" name="{{ $product->name }}" stock="{{ $sku->stock ?? '' }}" />
+                <x-outstock {{--  class="md:max-w-[200px] max-w-[150px]"  --}} url="{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}" name="{{ $product->name }}" stock="{{ $sku->stock ?? '' }}" />
             </a>
 
 
@@ -155,8 +156,8 @@
                 <div x-show="sort===1" x-cloak class="px-8">
                     <h3>{{ $product->name }}</h3>
                     <div class="mb-2 cursor-pointer flex">
-                        <x-star class="h-5 w-5" star=" {{ round($product->reviews->avg('score'), 1)*20 }}"/>
-                        <p class="text-gris-30"> - {{ $product->reviews->count() }} reseñas -</p>
+                        {{--  <x-star class="h-5 w-5" star=" {{ round($product->reviews->avg('score'), 1)*20 }}"/>
+                        <p class="text-gris-30"> - {{ $product->reviews->count() }} reseñas -</p>  --}}
                     </div>
                     <div class="flex space-x-3">
                         <h4>S/. {{ $sku->sell_price ?? ''}}</h4>
@@ -207,7 +208,7 @@
         <div class="bg-gris-100 px-2 md:px-6 py-3">
             <div class="md:flex space-x-2 md:space-x-7 md:justify-between">
                 <div class="flex justify-center space-x-5 md:w-full">
-                    <x-outstock text="text-[10px]" class="w-[90px] md:w-[120px]" name="{{ $skus->product->name ?? ''}}" url="{{ $image ?? ''}}" stock="{{ $skus->stock ?? ''}}" />
+                    <x-outstock text="text-[10px]" class="md:!h-[136px]" name="{{ $skus->product->name ?? ''}}" url="{{ $image ?? ''}}" stock="{{ $skus->stock ?? ''}}" />
                     <div class="space-y-4 md:w-full">
                         <div class="md:flex md:items-center md:justify-between">
                             <h6 href="">{{ $skus->product->name ?? ''}}</h6>

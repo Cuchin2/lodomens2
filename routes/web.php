@@ -13,8 +13,12 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\PaidController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\TypesController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\SaleController;
+use App\Models\Address;
 /*
 
 |--------------------------------------------------------------------------
@@ -47,12 +51,11 @@ Route::post('registro/user',[WebController::class,'register_user'])->name('web.s
 Route::get('recuperar_password',[WebController::class,'recover_password'])->name('web.recover_password');
 Route::get('color/product/get',[WebShopController::class,'getimage'])->name('getimage.product.select');
 Route::get('cart',[CartController::class,'index'])->name('cart.index');
-Route::get('checkout',[CheckoutController::class,'index'])->name('checkout.index');
-Route::middleware(['auth', config('jetstream.auth_session'),'verified',
-])->group(function () {
+
+
+Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->group(function () {
     /* Route::get('home',[HomeController::class,'index'])->name('home'); */
-    Route::get('panel/wishlist',[WishlistController::class,'index'])->name('webdashboard.wishlist');
-    Route::get('panel/pefil',[WishlistController::class,'profile'])->name('webdashboard.profile');
+
     Route::prefix('admin')->group(function(){
         Route::get('footer',[FooterController::class,'edit'])->name('mypage.edit');
         Route::put('footer/{id}',[FooterController::class,'update'])->name('mypage.update');
@@ -76,7 +79,40 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified',
         Route::post('addimages/{product}',[ProductController::class,'addimages'])->name('addimages');
         Route::delete('deleteimage/{product}',[ProductController::class,'deleteimage'])->name('deleteimage');
         Route::post('handleReorder/{product}',[ProductController::class,'handleReorder'])->name('handleReorder');
+        Route::get('sales',[SaleController::class, 'index'])->name('sale.index');
 
     });
+    Route::get('panel/wishlist',[WishlistController::class,'index'])->name('webdashboard.wishlist');
+    Route::get('panel/pefil',[WishlistController::class,'profile'])->name('webdashboard.profile');
+    Route::get('panel/direcciones',[WishlistController::class,'address'])->name('webdashboard.address');
+    
+    Route::get('checkout',[CheckoutController::class,'index'])->name('checkout.index');
+    Route::post('checkout/crear',[CheckoutController::class,'create'])->name('checkout.create');
+    Route::get('pagos',[CheckoutController::class,'pays'])->name('checkout.pay');
 
+    Route::post('paid/izipay',[PaidController::class,'izipay'])->name('paid.izipay');
+    Route::post('paid/niubiz',[PaidController::class,'niubiz'])->name('paid.niubiz');
+    Route::post('/paid/create-paypal-order',[PaidController::class,'createPaypalOrder'])->name('paid.createPaypalOrder');
+    Route::post('/paid/capture-paypal-order',[PaidController::class ,'capturePaypalOrder'])->name('paid.capturePaypalOrder');
+    Route::get('/paid/mercadopago',[PaidController::class ,'mercadopago'])->name('paid.mercadopago');
+    Route::get('/gracias', function (){
+            return view('web.cart.gracias');
+    })->name('gracias');
+    Route::get('/get/prueba/', function(){
+        $get= Address::where('user_id',auth()->user()->id)->get() ?? '';
+        $get2= Address::where(['user_id'=>auth()->user()->id,'current'=>1])->first()->name ?? '';
+        $datosCombinados = [
+            'get' => $get,
+            'get2' => $get2,
+        ];
+    
+        return response()->json($datosCombinados);
+    });
+    // API de Pais/Departamento/Ciudad/Distrito
+    Route::get('/api/countries', [LocationController::class, 'getCountries']);
+    Route::get('/api/states/{countryCode}', [LocationController::class, 'getStates']);
+    Route::get('/api/cities/{stateCode}', [LocationController::class, 'getCities']);
+    Route::get('/api/distrits/{cityCode}', [LocationController::class, 'getDistrits']);
+
+   
 });

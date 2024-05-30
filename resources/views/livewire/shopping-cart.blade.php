@@ -23,7 +23,7 @@
                     <div class="flex justify-center space-x-5 md:w-full">
                         <a class="flex w-max items-center"
                             href="{{ route('web.shop.show',['product'=>$item->options->slug,'color'=>$item->options->color_id]) }}">
-                            <x-outstock text="text-[10px]" class="w-[90px] md:w-[120px]" url="{{ $item->options->productImage }}" name="{{ $item->name }}" stock="{{ $item->options->stock }}"/>
+                            <x-outstock text="text-[10px]" class="!w-[90px] !h-[90px] md:!w-[120px] md:!h-[120px]" url="{{ $item->options->productImage }}" name="{{ $item->name }}" stock="{{ $item->options->stock }}"/>
                         </a>
                         <div class="space-y-4 md:w-full">
                             <div class="md:flex md:items-center md:justify-between">
@@ -76,7 +76,7 @@
         </div>
 
         <div class="col-span-2 md:col-span-1 space-y-4">
-            <div class="bg-gris-100 px-6 py-3">
+{{--              <div class="bg-gris-100 px-6 py-3">
                 <h5>Añadir Cupón</h5>
                 <div class="flex space-x-2 my-2">
                     <input type="text"
@@ -86,7 +86,7 @@
                         class="border-[2px] rounded-[3px] border-corp-50 w-full text-center text-corp-20 cursor-pointer">
                         Aplicar cupón </div>
                 </div>
-            </div>
+            </div>  --}}
             <div class="bg-gris-100 p-6 py-3">
                 <h5>Resumen de pedido</h5>
                 <div class="flex justify-between my-8">
@@ -102,7 +102,7 @@
                     <p>S/.{{ Cart::instance('cart')->total() }}</p>
                 </div>
                 <div class="mt-6 mb-2">
-                    <a href="{{ route('checkout.index') }}">
+                    <a wire:click='checkout()'>
                     <x-button.webprimary class="w-full" {{-- x-on:click="$wire.add(count,color)" --}}> Continuar Compra
                     </x-button.webprimary>
                     </a>

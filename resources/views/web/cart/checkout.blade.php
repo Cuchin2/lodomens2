@@ -8,86 +8,316 @@
 
 @endsection
 
-{{--  <x-lodomens.video />  --}}
 @section('content')
 
 <div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75  pb-1 2xl:min-h-[374px] lg:min-h-[278px]">
+    <form action="{{ route('checkout.create') }}" method="post">@csrf
     <div class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="col-span-1 md:col-span-2">
             <div>
                 <h5 class="p-2">DETALLES DE FACTURACIÓN</h5>
-                <div class="bg-gris-90 p-4 rounded-[3px]">
+                <div class="bg-gris-100 p-4 rounded-[3px]">
                     <div class=" grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <x-labelweb>Nombre</x-labelweb>
-                            <x-input placeholder="Ingrese su nombre"></x-input>
+                            <input name="user_id" value="{{ $user->id }}" hidden>
+                            <input name="total" value="{{ Cart::instance('cart')->total() }}" hidden>
+                            
+                            <x-labelweb>Nombre <x-required /> </x-labelweb>
+                            <x-input-web name="name"  placeholder="Ingrese su nombre" value="{{ $form1->name ?? ($user->name ?? '')}}" required></x-input-web>
                         </div>
                         <div>
-                            <x-labelweb>Apellido</x-labelweb>
-                            <x-input placeholder="Ingrese su apellido"></x-input>
+                            <x-labelweb>Apellido <x-required /></x-labelweb>
+                            <x-input-web name="last_name" placeholder="Ingrese su apellido" value="{{ $form1->last_name ?? ($user->last_name ?? '')}}" required></x-input-web>
                         </div>
                     </div>
                     <div class="mb-4">
-                        <x-labelweb>Número del a empresa (opcional)</x-labelweb>
-                        <x-input placeholder="Ingrese el número de la empresa"></x-input>
+                        <x-labelweb>Nombre de la empresa (opcional)</x-labelweb>
+                        <x-input-web name="business" placeholder="Ingrese el número de la empresa" value="{{ $form1->business ?? '' }}"></x-input-web>
                     </div>
                     <div class=" grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <x-labelweb>Documento</x-labelweb>
-                            <x-input placeholder="Ingrese su documento"></x-input>
+                            <x-labelweb>Documento <x-required /></x-labelweb>
+                            <x-select name="document_type" required>
+                                <option value="DNI" @if(old('document_type', $form1->document_type ??( $user->profile->document_type ?? '')) === 'DNI') selected @endif>DNI</option>
+                                <option value="PASS" @if(old('document_type', $form1->document_type ??( $user->profile->document_type ?? '')) === 'PASS') selected @endif>Passaporte</option>
+                                <option value="CARD" @if(old('document_type', $form1->document_type ??( $user->profile->document_type ?? '')) === 'CARD') selected @endif>Carnet de Estrangería</option>
+                                <option value="">Otros</option>           
+                            </x-select>
                         </div>
+
                         <div>
-                            <x-labelweb>N° de documento</x-labelweb>
-                            <x-input placeholder="Ingrese su N° de documento"></x-input>
+                            <x-labelweb>N° de documento <x-required /></x-labelweb>
+                            <x-input-web name="dni" placeholder="Ingrese su N° de documento" value="{{ $form1->dni ?? ($user->profile->dni ?? '')}}" required></x-input-web>
                         </div>
                     </div>
-                    <div class="mb-4">
-                        <x-labelweb>Dirección</x-labelweb>
-                        <x-input placeholder="Ingrese su dirección"></x-input>
-                    </div>
-                    <div class="mb-4">
-                        <x-labelweb>Referencia (opcional)</x-labelweb>
-                        <x-input placeholder="Ingrese su referencia"></x-input>
-                    </div>
-                    <div class=" grid grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <div class="mb-4">
-                                <x-labelweb>Ciudad</x-labelweb>
-                                <x-input placeholder="Ingrese su ciudad"></x-input>
-                            </div>
-                            <div class="mb-4">
-                                <x-labelweb>Teléfono</x-labelweb>
-                                <x-input placeholder="Ingrese su teléfono"></x-input>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="mb-4">
-                                <x-labelweb>Distrito/Provincia</x-labelweb>
-                                <x-input placeholder="Ingrese su distrito/provincia"></x-input>
-                            </div>
-                            <div class="mb-4">
-                                <x-labelweb>Código Postal</x-labelweb>
-                                <x-input placeholder="Ingrese su Código Postal"></x-input>
+                    <div x-data="{address: {{ json_encode($address)}}, open:''}" x-init="if(address.name == '') { open= false;} else {open=true;}" 
+                        @cambiazo.window="address.description=$event.detail.description; 
+                        address.reference=$event.detail.reference; address.name=$event.detail.name; open=true;
+                        ">
+                        <div class="mb-4">
+                            <div class="flex space-x-2">
+                            <x-labelweb class="mr-2" x-bind:class="open ? '!mr-0' : ''">Dirección <x-required /> <p x-text="'('+address.name+')'" x-show="open" class="text-white text-[10px] mt-[5px] ml-5"></p></x-labelweb> 
+                            <x-icons.chevron-down @click="$dispatch('modal',{ select: 'SELECT', cual:1 })" height="10px" width="10px" grosor="1" class="mt-[7px] hover:text-white cursor-pointer"/></div>
+                            <div class="relative">
+                            <x-input-web x-model="address.description" @input="open=false" name="address" placeholder="Ingrese su dirección" required />
+                            <x-icons.plus @click="$dispatch('modal',{ select: 'CREATE' })" class="h-[14px] w-[14px] cursor-pointer absolute top-[7px] right-[7px] hover:fill-white"/>
                             </div>
                         </div>
-                    </div>
-                    <div class="mb-4">
-                        <x-labelweb>Correo electrónico</x-labelweb>
-                        <x-input placeholder="Ingrese su correo"></x-input>
-                    </div>
-                    <div class=" grid grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <x-labelweb>Fecha de entrega</x-labelweb>
-                            <x-input placeholder=""></x-input>
-                        </div>
-                        <div>
-                            <x-labelweb>Rango de entrega</x-labelweb>
-                            <x-input placeholder=""></x-input>
+                        <div class="mb-4">
+                            <x-labelweb>Referencia (opcional)</x-labelweb>
+                            <x-input-web x-model="address.reference" name="reference" placeholder="Ingrese su referencia" @input="open=false"></x-input-web>
                         </div>
                     </div>
-                    <div>
+                        {{-- Pruebas --}}
+                        <div x-data="countryStateCity1()" class="grid grid-cols-2 gap-4">
+                            <div>
+                                <x-labelweb>País <x-required /> </x-labelweb>
+                                <x-select x-model="selectedCountry" @change="fetchStates" name="country" required>
+                                    <option value="" disabled selected>Selecciona el pais</option>
+                                    <template x-for="country in countries" :key="country.code">
+                                        <option :value="country.code" x-text="country.name" x-bind:selected="country.code === '{{ $form1->country ?? '' }}' ? true : false"></option>
+                                        {{--  <option :value="country.code" x-text="country.name"></option>  --}}
+                                    </template>
+                                </x-select>
+                                <x-labelweb class="mt-4">Ciudad <x-required /> </x-labelweb>
+                                <x-select x-model="selectedCity" @change="fetchDistrits" name="city" required {{--  x-show="cities.length > 0"  --}}>
+                                    <option value="" disabled selected>Selecciona la ciudad</option>
+                                    <template x-for="city in cities" :key="city.geonameId">
+                                        <option :value="city.geonameId" x-text="city.name" x-bind:selected="city.geonameId === {{ $form1->city ?? '' }} ? true : false"></option>
+                                    </template>
+                                </x-select>
+
+                            </div>
+                            <div>
+                                <x-labelweb >Estado/Provincia <x-required /> </x-labelweb>
+                                <x-select x-model="selectedState" @change="fetchCities" name="state" required {{--  x-show="states.length > 0"  --}}>
+                                    <option value="" disabled selected>Selecciona el Estado/Departamento</option>
+                                    <template x-for="state in states" :key="state.geonameId">
+                                        <option :value="state.geonameId" x-text="state.name" x-bind:selected="state.geonameId === {{ $form1->state ?? '' }} ? true : false"></option>
+                                    </template>
+                                </x-select>
+
+                                <x-labelweb class="mt-4">Distrito/Localidad <x-required /> </x-labelweb>
+                                <x-select x-model="selectedDistrit" name="district" required {{--  x-show="distrits.length > 0"  --}}>
+                                    <option value="" disabled selected>Selecciona el distrito</option>
+                                    <template x-for="distrit in distrits" :key="distrit.geonameId">
+                                        <option :value="distrit.geonameId" x-text="distrit.name" x-bind:selected="distrit.geonameId === {{ $form1->district ?? '' }} ? true : false"></option>
+                                    </template>
+                                </x-select>
+                            </div>
+                        </div>
+                        <script>
+                            function countryStateCity1() {
+                                    return {
+                                        countries: @json($getCountry),
+                                        states: @json($getState),
+                                        cities: @json($getCity),
+                                        distrits: @json($getDistrit),
+                                        selectedCountry: '{{ $form1->country ?? 'PE' }}',
+                                        selectedState: '{{ $form1->state ?? null }}',
+                                        selectedCity: '{{ $form1->city ?? null }}',
+                                        selectedDistrit : '{{ $form1->district ?? null }}',
+                                        fetchCountries() {
+                                            axios.get('/api/countries')
+                                                .then(response => {
+                                                    this.countries = response.data;
+                                                });
+                                        },
+                                        fetchStates() {
+                                            axios.get(`/api/states/${this.selectedCountry}`)
+                                                .then(response => {
+                                                    this.states = response.data;
+                                                    this.cities = [];
+                                                    this.distrits = [];
+                                                    this.selectedState = null;
+                                                    this.selectedCity = null;
+                                                    this.selectedDistrit = null;
+                                                });
+                                        },
+                                        fetchCities() {
+                                            axios.get(`/api/cities/${this.selectedState}`)
+                                                .then(response => {
+                                                    this.cities = response.data;
+                                                    this.distrits = [];
+                                                    this.selectedCity = null;
+                                                    this.selectedDistrit = null;
+                                                });
+                                        },
+                                        fetchDistrits() {
+                                            axios.get(`/api/distrits/${this.selectedCity}`)
+                                                .then(response => {
+                                                    this.distrits = response.data;
+                                                
+                                                });
+                                        },
+                                    }
+                                }
+                                document.addEventListener('alpine:init', () => {
+                                    Alpine.data('countryStateCity1', countryStateCity1);
+                                });
+                        </script>
+                        {{-- Fin de pruebas --}}
+
+
+                    <div class=" grid grid-cols-2 gap-4 my-4">
+                        <div>
+                            <x-labelweb>Código postal</x-labelweb>
+                            <x-input-web placeholder="Ingrese su código postal"  name="zip_code" value="{{ $form1->zip_code ?? '' }}"></x-input-web>
+                        </div>
+                        <div>
+                            <x-labelweb>Teléfono <x-required /> </x-labelweb>
+                            <x-input-web placeholder="Ingrese su teléfono" name="phone" value="{{ $form1->phone ?? ($user->profile->phone ?? '') }}" required></x-input-web>
+                        </div>
+                    </div>
+                    <div class=" mb-4">
+                        <x-labelweb>Correo electrónico <x-required /> </x-labelweb>
+                        <x-input-web placeholder="Ingrese su correo" name="email" value="{{ $form1->email ?? ($user->email ?? '') }}" required></x-input-web>
+                    </div>
+                    <div x-data="{open:false}" x-init="if({{ $on }} == 1){ open = true;}">
                         <h5 class="p-2">DETALLES DE ENVIO</h5>
-                        <p>¿Enviar a una dirección diferente?</p>
+                        <div class="flex space-x-3 ">
+                            <p>¿Enviar a una dirección diferente?</p> 
+                            
+                            <div class="flex items-center me-4">
+                                <x-checkbox.webcheckbox @change="open= !open" ::value="open" name="otra" />  
+                            </div>
+
+                        </div>
+                        <div x-show="open" x-cloak class="p-2 mt-4">
+                            <div class=" grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <x-labelweb>Nombre <x-required /> </x-labelweb>
+                                    <x-input-web placeholder="Ingrese su nombre" value="{{ $form2->name ?? '' }}" name="name2" x-bind:required="open ? true : false"></x-input-web>
+                                </div>
+                                <div>
+                                    <x-labelweb>Apellido <x-required /> </x-labelweb>
+                                    <x-input-web placeholder="Ingrese su apellido" value="{{ $form2->last_name ?? ''}}" name="last_name2" x-bind:required="open ? true : false"></x-input-web>
+                                </div>
+                            </div>
+                            <div x-data="{address: {{ json_encode($address2) }}, open:'' }" 
+                            x-init="if(address.name == '') { open= false;} else {open=true;}"
+                                @cambiazo2.window="address.description=$event.detail.description; 
+                                address.reference=$event.detail.reference; address.name=$event.detail.name; open=true;
+                                ">
+                                <div class="mb-4">
+                                    <div class="flex space-x-2">
+                                        <x-labelweb class="mr-2" x-bind:class="open ? '!mr-0' : ''">Dirección <x-required /> <p x-text="'('+address.name+')'" x-show="open" class="text-white text-[10px] mt-[5px] ml-5"></p></x-labelweb> 
+                                    <x-icons.chevron-down @click="$dispatch('modal',{ select: 'SELECT', cual:2  })" height="10px" width="10px" grosor="1" class="mt-[7px] hover:text-white cursor-pointer"/></div>
+                                    <div class="relative">
+                                    <x-input-web x-model="address.description" placeholder="Ingrese su dirección" name="address2" @input="open=false" x-bind:required="open ? true : false"/>
+                                
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <x-labelweb>Referencia (opcional)</x-labelweb>
+                                    <x-input-web x-model="address.reference" placeholder="Ingrese su referencia" name="reference2" @input="open=false"></x-input-web>
+                                </div>
+                             </div>
+                              {{-- Pruebas --}}
+                        <div x-data="countryStateCity()" class="grid grid-cols-2 gap-4">
+                            <div>
+                                <x-labelweb>País <x-required /> </x-labelweb>
+                                <x-select x-model="selectedCountry" @change="fetchStates" name="country2" x-bind:required="open">
+                                    <option value="" disabled selected>Selecciona el pais</option>
+                                    <template x-for="country in countries" :key="country.code">
+                                        <option :value="country.code" x-text="country.name" x-bind:selected="country.code === '{{ $form2->country ?? '' }}' ? true : false"></option>
+                                        {{--  <option :value="country.code" x-text="country.name"></option>  --}}
+                                    </template>
+                                </x-select>
+                                <x-labelweb class="mt-4">Ciudad <x-required /> </x-labelweb>
+                                <x-select x-model="selectedCity" @change="fetchDistrits" name="city2" x-bind:required="open" {{--  x-show="cities.length > 0"  --}}>
+                                    <option value="" disabled selected>Selecciona la ciudad</option>
+                                    <template x-for="city in cities" :key="city.geonameId">
+                                        <option :value="city.geonameId" x-text="city.name" x-bind:selected="city.geonameId === {{ $form2->city ?? '' }} ? true : false"></option>
+                                    </template>
+                                </x-select>
+
+                            </div>
+                            <div>
+                                <x-labelweb >Estado/Provincia <x-required /> </x-labelweb>
+                                <x-select x-model="selectedState" @change="fetchCities" name="state2" x-bind:required="open"  {{--  x-show="states.length > 0"  --}}>
+                                    <option value="" disabled selected>Selecciona el Estado/Departamento</option>
+                                    <template x-for="state in states" :key="state.geonameId">
+                                        <option :value="state.geonameId" x-text="state.name" x-bind:selected="state.geonameId === {{ $form2->state ?? '' }} ? true : false"></option>
+                                    </template>
+                                </x-select>
+
+                                <x-labelweb class="mt-4">Distrito/Localidad <x-required /> </x-labelweb>
+                                <x-select x-model="selectedDistrit" name="district2" x-bind:required="open" {{--  x-show="distrits.length > 0"  --}}>
+                                    <option value="" disabled selected>Selecciona el distrito</option>
+                                    <template x-for="distrit in distrits" :key="distrit.geonameId">
+                                        <option :value="distrit.geonameId" x-text="distrit.name"  x-bind:selected="distrit.geonameId === {{ $form2->district ?? '' }} ? true : false"></option>
+                                    </template>
+                                </x-select>
+                            </div>
+                        </div>
+                        <script>
+                            function countryStateCity() {
+                                    return {
+                                        countries: @json($getCountry),
+                                        states: @json($getState2),
+                                        cities: @json($getCity2),
+                                        distrits: @json($getDistrit2),
+                                        selectedCountry: '{{ $form2->country ?? 'PE' }}',
+                                        selectedState: '{{ $form2->state ?? null }}',
+                                        selectedCity: '{{ $form2->city ?? null }}',
+                                        selectedDistrit : '{{ $form2->district ?? null }}',
+                                        fetchCountries() {
+                                            axios.get('/api/countries')
+                                                .then(response => {
+                                                    this.countries = response.data;
+                                                });
+                                        },
+                                        fetchStates() {
+                                            axios.get(`/api/states/${this.selectedCountry}`)
+                                                .then(response => {
+                                                    this.states = response.data;
+                                                    this.cities = [];
+                                                    this.distrits = [];
+                                                    this.selectedState = null;
+                                                    this.selectedCity = null;
+                                                    this.selectedDistrit = null;
+                                                });
+                                        },
+                                        fetchCities() {
+                                            axios.get(`/api/cities/${this.selectedState}`)
+                                                .then(response => {
+                                                    this.cities = response.data;
+                                                    this.distrits = [];
+                                                    this.selectedCity = null;
+                                                    this.selectedDistrit = null;
+                                                });
+                                        },
+                                        fetchDistrits() {
+                                            axios.get(`/api/distrits/${this.selectedCity}`)
+                                                .then(response => {
+                                                    this.distrits = response.data;
+                                                
+                                                });
+                                        },
+                                        init() {
+                                            this.fetchCountries();
+                                        }
+                                    }
+                                }
+                                document.addEventListener('alpine:init', () => {
+                                    Alpine.data('countryStateCity', countryStateCity);
+                                });
+                        </script>
+                        {{-- Fin de pruebas --}}
+
+
+{{--                      <div class=" grid grid-cols-2 gap-4 my-4">
+                        <div>
+                            <x-labelweb>Código postal</x-labelweb>
+                            <x-input-web placeholder="Ingrese su código postal" value=""></x-input-web>
+                        </div>
+                        <div>
+                            <x-labelweb>Teléfono</x-labelweb>
+                            <x-input-web placeholder="Ingrese su teléfono" value="{{ $user->profile->phone ?? '' }}"></x-input-web>
+                        </div>
+                    </div>  --}}
+                        </div>
                     </div>
                 </div>
 
@@ -96,7 +326,7 @@
         <div>
             <div>
                 <h5 class="p-2">TU PEDIDO</h5>
-                <div class="bg-gris-90 p-4 rounded-[3px] mb-4">
+                <div class="bg-gris-100 p-4 rounded-[3px] mb-4">
                     <div>
                         <h5>Resumen de pedido</h5>
                         <div class="flex justify-between my-8">
@@ -114,49 +344,24 @@
                     </div>
                 </div>
             </div>
-
-            <div class="bg-gris-90 p-4 rounded-[3px]" x-data="{selectedFruit: ['izipay']}">
-                <h5 class="mb-4">Métodos de Pago</h5>
-                <div class="mb-4">
-                    <input x-model="selectedFruit"
-                    value="izipay" id="radio1" type="radio" name="radio" class="hidden" />
-                    <label for="radio1" class="flex items-center cursor-pointer">
-                    <span class="w-4 h-4 inline-block mr-2 rounded-full border flex-no-shrink"></span>
-                    Tarjeta de crédit o débito - IZIPAY</label>
-                        <div class="flex space-x-4 mt-4">
-                            <img class="h-10" src="{{ asset('image/payment/visa.png') }}" alt="">
-                            <img class="h-10" src="{{ asset('image/payment/mastercard.png') }}" alt="">
-                        </div>
-                </div>
-                <div class="mb-4">
-                    <input x-model="selectedFruit"
-                    value="paypal" id="radio2" type="radio" name="radio" class="hidden" />
-                    <label for="radio2" class="flex items-center cursor-pointer">
-                    <span class="w-4 h-4 inline-block mr-2 rounded-full border flex-no-shrink"></span>
-                    Paypal</label>
-                </div>
-                <div>
-                    <input x-model="selectedFruit"
-                    value="yape" id="radio3" type="radio" name="radio" class="hidden" />
-                    <label for="radio3" class="flex items-center cursor-pointer">
-                    <span class="w-4 h-4 inline-block mr-2 rounded-full border flex-no-shrink"></span>
-                    Yape</label>
-                    <img class="h-10 rounded-[3px] mt-2" src="{{ asset('image/payment/yape.png') }}" alt="">
-                </div>
-                <div class="my-4">
-                    <span>Sus datos personales se utilizarán para procesar su pedido, respaldar su experiencia en este sitio web y para otros fines descritos en nuestra <r class="text-corp-30 font-bold">política de privacidad</r> </span>
-                </div>
-                <div class="flex items-center">
-                    <input type="checkbox" id="check" name="terms">
-                    <label  for="check"></label><label class="form-check-label"
-                        >Al registrarte estás
-                        aceptando los<a href="#"><b class="hover:text-corp-30"> Términos y
-                            Condiciones</b></a></label>
-                </div>
-                <x-button.websecondary class="w-full mt-4">Realizar Pedido</x-button.websecondary>
+            <div class="my-4">
+                <span>Sus datos personales se utilizarán para procesar su pedido, respaldar su experiencia en este
+                    sitio web y para otros fines descritos en nuestra <r class="text-corp-30 font-bold">política de
+                        privacidad</r> </span>
             </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="check" name="terms">
+                <label for="check"></label><label class="form-check-label">Al registrarte estás
+                    aceptando los<a href="#"><b class="hover:text-corp-30"> Términos y
+                            Condiciones</b></a></label>
+            </div>
+            
+             <x-button.websecondary type="submit" class="w-full">Realizar Pedido</x-button.websecondary>
+
         </div>
     </div>
+    </form>
 </div>
+<livewire:checkout-modal />
 
 @endsection

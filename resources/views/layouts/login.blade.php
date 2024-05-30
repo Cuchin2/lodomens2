@@ -81,7 +81,7 @@ $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
                 </li>
                 @endauth
                 <li class="">
-                    <a href="#" class="flex items-center hover:text-corp-50">
+                    <a  href="{{ route('webdashboard.profile') }}" class="flex items-center hover:text-corp-50">
                         <x-icons.user class="h-4"></x-icons.user>
                         <span class="ml-3 ">Mi cuenta </span>
                     </a>

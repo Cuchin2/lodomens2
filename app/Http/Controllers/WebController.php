@@ -68,8 +68,9 @@ class WebController extends Controller
                             Storage::disk('public')->put($path, $imageData);
                 } else {
                     $path = parse_url($base64Image)['path'];
+                    $path = str_replace("/storage", "", $path);
                 }
-
+            
             $user= new User;
             $user->name = $request->input('name');
             $user->email = $request->input('email');

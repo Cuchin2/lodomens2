@@ -18,4 +18,8 @@ class WishlistController extends Controller
     {
         return view('web.dashboard.profile');
     }
+    public function address()
+    {
+        return view('web.dashboard.address');
+    }
 }

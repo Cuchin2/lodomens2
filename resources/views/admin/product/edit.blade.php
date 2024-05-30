@@ -91,19 +91,25 @@
                         </div>
                         <div class="my-3">
                             <x-label class="mb-2">{{ $product->skus->count() > 1 ? 'Códigos' : 'Código' }} SKU</x-label>
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="">
                           @foreach ($product->skus->load('color') as $index =>$sku)
-                          <div x-data="{open:false}">
-                            <div class="flex cursor-pointer" x-on:click="open = ! open"><p style="color: {{ $sku->color->hex }};">{{ $sku->color->name }}</p></div>
-                            <x-label class="mb-2 ">SKU: {{ $sku->code }}</x-label>
-                            <div x-show="open" x-transition>
-                            <x-label class="mb-2" >Nivel de stock</x-label>
-                            <x-input name="stock[]" value="{{ old('stock.'.$index, $sku['stock']) }}" placeholder="Nivel de stock "></x-input>
-                            <x-label class="mb-2">Precio de venta</x-label>
-                            <x-input name="sell_price[]" value="{{ old('sell_price.'.$index, $sku['sell_price']) }}"
-                                placeholder="Precio de venta "></x-input>
+                          <div class="mb-4">
+                            <div class="flex justify-between"><p style="color: {{ $sku->color->hex }};">{{ $sku->color->name }}</p>
+                                <x-label class="mb-2 ">SKU: {{ $sku->code }}</x-label>
                             </div>
-                            </div>
+                            
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="">
+                                        <x-label class="mb-2 " >Nivel de stock</x-label>
+                                        <x-input name="stock[]" value="{{ old('stock.'.$index, $sku['stock']) }}" placeholder="Nivel de stock "></x-input>
+                                    </div>
+                                    <div class="">
+                                        <x-label class="mb-2">Precio de venta</x-label>
+                                        <x-input name="sell_price[]" value="{{ old('sell_price.'.$index, $sku['sell_price']) }}"
+                                            placeholder="Precio de venta "></x-input>
+                                    </div>
+                                </div>
+                         </div>
                           @endforeach
                         </div>
 

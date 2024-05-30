@@ -18,11 +18,10 @@
     <!-- Scripts -->
     @yield('styles')
     @stack('styles')
-
-
-    @livewireStyles
+    @stack('head')
     @vite(['resources/css/web/app.css', 'resources/js/app.js'])
-
+    @livewireStyles
+    
 </head>
 
 <body class="font-sans antialiased bg-black" x-data="{show_backToTop: false}"
@@ -55,7 +54,7 @@
                             <div class=" md:mt-[81px] mt-[44px]">
                                 @yield('breadcrumb')
                                     @yield('main')
-                                <div class="container text-gris-10 mx-auto px-[5px] md:px-[20px] relative md:pt-[81px] pt-[28px]">
+                                <div class="container text-gris-10 mx-auto px-[5px] md:px-[20px] relative md:pt-[81px] pt-[28px]" >
                                     {{--  <x-lodomens.video/>  --}}
                                     <x-lodomens.background/>
                                     @yield('content')
@@ -68,7 +67,7 @@
                             <button id="topButton"
                                         x-ref="backTotop"
                                         @click="window.scrollTo({top: 0, behavior: 'smooth'})"
-                                        class="z-30 scrollTop fixed bottom-[6px] right-[6px] md:bottom-[9px] md:right-[9px] lg:bottom-[18px] lg:right-[20px] bg-corp-50 p-2 hidden"
+                                        class="z-30 scrollTop fixed bottom-[6px] rounded-[3px] right-[6px] md:bottom-[9px] md:right-[9px] lg:bottom-[18px] lg:right-[20px] bg-corp-50 p-2 hidden"
                                 >
 
                                 <svg  xmlns="http://www.w3.org/2000/svg" class="h-[15px] w-[15px] rotate-180" fill="none" viewBox="0 0 24 24" stroke="white">
@@ -116,8 +115,6 @@
     @stack('scripts')
 
     @stack('modals')
-
-    @stack('scripts')
 
 
 </body>

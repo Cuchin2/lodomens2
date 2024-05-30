@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Livewire;
-
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use App\Models\Sku;
 use Cart;
@@ -120,7 +120,16 @@ class ShoppingCart extends Component
     public function ereaseall()
     {
         Cart::instance('cart')->destroy();
+        $this->updateDataBase();
         $this->showModal = false;
         $this->dispatch('cart-added');
+    }
+    public function reloadd(){
+        $this->showModal = false;
+    }
+    public function checkout()
+    {
+        Session::put('can_checkout', true);
+        $this->redirectRoute('checkout.index');
     }
 }

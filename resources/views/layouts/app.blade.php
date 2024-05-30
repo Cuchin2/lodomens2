@@ -96,8 +96,8 @@
                         </x-sidebar.ul-simple>
                         @endcan
                         @can('sales.index')
-                        <x-sidebar.ul-simple {{-- :active="request()->routeIs('home')" --}}
-                            href="{{ route('dashboard') }}">
+                        <x-sidebar.ul-simple :active="request()->routeIs('sale.index')"
+                            href="{{ route('sale.index') }}">
                             <x-slot name="icon">
                                 <x-icons.cart class="h-[20px] w-[20px]" />
                             </x-slot> Ventas
@@ -118,7 +118,7 @@
                             </x-slot>
                             @can('products.index')
                             <x-sidebar.ul-drop-son href="{{ route('inventory.products.index') }}" :active2="request()->routeIs('inventory.products.*')">Productos</x-sidebar.ul-drop-son>
-                            <x-sidebar.ul-drop-son href="{{ route('inventory.types.index')}}" :active2="request()->routeIs('inventory.types.index')">Productos Especiales</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('inventory.types.index')}}" :active2="request()->routeIs('inventory.types.index')">Especiales</x-sidebar.ul-drop-son>
                             @endcan
                             @can('categories.index')
                             <x-sidebar.ul-drop-son href="{{ route('inventory.categories.index')}}" :active2="request()->routeIs('inventory.categories.index')">Categorias</x-sidebar.ul-drop-son>

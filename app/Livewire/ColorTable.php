@@ -25,7 +25,7 @@ class ColorTable extends Component
 
     public $code;
     public $hex; public $choose;
-    public $perPage = 5;
+    public $perPage = 10;
 
     #[Url(history:true)]
     public $search = '';

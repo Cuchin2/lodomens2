@@ -6,33 +6,13 @@
     <li class="flex justify-center space-x-4">
         <div class="item__avatar w-[70px]"><img style="border-radius: 50%!important"
                 src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" /></div>
-        <div class="w-full" x-data="{ count: 0 }" x-init="count = $refs.countme.value.length">
+        <div class="w-full">
             <div class="flex ml-1 space-x-2">
             <p class="font-bold">{{ auth()->user()->name }}</p>
             <p>{{ Carbon\Carbon::now()->isoformat('DD MMM YYYY, h:mm a') }}</p>
             </div>
             {{--  <x-rating />  --}}
-            <textarea wire:model="comment" type="text"
-                class="w-full border-gray-300 dark:border-gray-700 mt-2 dark:bg-black dark:text-gris-30 focus:border-gris-50 dark:focus:border-gris-50 focus:ring-gris-50 dark:focus:ring-gris-50 rounded-lg shadow-sm text-[12px]"
-                placeholder="Dejanos un comentario" rows="3" maxlength="225" x-ref="countme"
-                x-on:keyup="count = $refs.countme.value.length">{{ $comment }}</textarea>
-
-            <div class="d-inline-flex ml-2">
-                <template x-if="count < 20">
-                    <small id="helpId" class="text-corp-30 font-bold" x-html="count">
-                        /</small>
-
-                </template>
-                <template x-if="count >= 20">
-                    <small id="helpId" class="font-bold" x-html="count"></small>
-                </template> <small id="helpId" class="form-text text-muted" style="margin: auto 5px;">/</small>
-                <small id="helpId" class="form-text text-muted" x-html="$refs.countme.maxLength"></small>
-
-            </div>
-            <button wire:click="save" type="button" class=" mt-3 float-right bg-corp-50 rounded-[3px]"
-                style="font-size:14px; width:90px; order: 1;">Comentar</button>
-            <button type="button" class="btn  gris2  hv-turkey mt-3 float-right br-20"
-                style="border-radius:8px;font-size:14px; width:90px; order: 2;">Cancelar</button>
+            <x-text-area comment="comment" save='save'/>
         </div>
     </li>
     @else
@@ -44,7 +24,7 @@
 
     <ul class="p-0 mb-4 mt-0 pt-[25px]">
         @foreach ($co as $com)
-        <li class="w-full flex  px-0 space-x-5" x-data="{ abc: false }">
+        <li class="w-full flex mb-2 px-0 space-x-5" x-data="{ abc: false }">
             <div class="flex-none w-[50px]"><img style="border-radius: 50%!important"
                     src="{{ asset('storage/'.$com->user->profile_photo_path) }}" alt="" /></div>
             <div class="w-full">
@@ -104,39 +84,15 @@
                             <div class="flex-none w-[50px]"><img style="border-radius: 50%!important"
                                     src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                             </div>
-                            <div class="w-full" x-data="{ count: 0 }" x-init="count = $refs.countme.value.length">
-                                <textarea wire:model="comment2" type="text"
-                                    class="w-full border-gray-300 dark:border-gray-700 dark:bg-black dark:text-gris-30 focus:border-gris-50 dark:focus:border-gris-50 focus:ring-gris-50 dark:focus:ring-gris-50 rounded-lg shadow-sm text-[12px]"
-                                    placeholder="Dejanos un comentario" rows="3" maxlength="225" x-ref="countme"
-                                    x-on:keyup="count = $refs.countme.value.length">{{ $comment }}</textarea>
-
-                                <div class="d-inline-flex ml-2">
-                                    <template x-if="count < 20">
-                                        <small id="helpId" class="form-text text-muted text-corp-30" x-html="count">
-                                            /</small>
-
-                                    </template>
-                                    <template x-if="count >= 20">
-                                        <small id="helpId" class="form-text text-muted" x-html="count"></small>
-                                    </template> <small id="helpId" class="form-text text-muted"
-                                        style="margin: auto 5px;">/</small>
-                                    <small id="helpId" class="form-text text-muted"
-                                        x-html="$refs.countme.maxLength"></small>
-
-                                </div>
-                                <button wire:click="save2({{ $com->id }})" @click="abc = !abc" type="button"
-                                    class="bg-corp-50 rounded-[3px] mt-3 float-right "
-                                    style="border-radius:8px;font-size:14px; width:90px; order: 1;">Comentar</button>
-                                <button @click="abc = !abc" type="button" wire:click="clean"
-                                    class="btn  gris2  hv-turkey mt-3 float-right br-20"
-                                    style="border-radius:8px;font-size:14px; width:90px; order: 2;">Cancelar</button>
+                            <div class="w-full">
+                                <x-text-area comment="comment2" save="save2({{ $com->id }})" cancel="clean" click="abc = !abc"/>
                             </div>
                         </li>
                     </ul>
                     @endif
                     @if ($com->replies->count() > 0)
                     @foreach ($com->replies->reverse() as $reply)
-                    @include('livewire.comment-partial', ['replies' => $com->replies])
+                        @include('livewire.comment-partial', ['replies' => $com->replies])
                     @endforeach
                     @endif
 

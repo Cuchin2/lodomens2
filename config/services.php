@@ -30,5 +30,31 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
+    'izipay' =>[
+        'url' => env('IZIPAY_URL'),
+        'client_id' => env('IZIPAY_CLIENT_ID'),
+        'secret' => env('IZIPAY_CLIENT_SECRET'),
+        'public_key' => env('IZIPAY_PUBLIC_KEY'),
+        'hash_key' => env('IZIPAY_HASH_KEY'),
+    ],
+    'niubiz' => [
+        'merchant_id' => env('NIUBIZ_MERCHANT_ID'),
+        'user' => env('NIUBIZ_USER'),
+        'password' => env('NIUBIZ_PASSWORD'),
+        'currency'=> env('NIUBIZ_CURRENCY'),
+        'url_api' => env('NIUBIZ_URL_API'),
+        'url_js' => env('NIUBIZ_URL_JS'),
+    ],
+    'paypal' => [
+        'url'=> env('PAYPAL_URL'),
+        'client_id'=>env('PAYPAL_CLIENT_ID'),
+        'secret'=>env('PAYPAL_SECRET'),
+    ],
+    'mercadopago'=>[
+        'key'=> env('MP_PUBLIC_KEY'),
+        'token'=> env('MP_ACCESS_TOKEN'),
+    ],
+    'geonames' => [
+        'username' => env('GEONAMES_USERNAME'),
+    ],
 ];

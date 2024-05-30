@@ -11,7 +11,7 @@
                             <x-icons.plus class="h-[12px] w-[12px] fill-white mx-[3px]" grosor="1"></x-icons.plus>
 
                             <div class="text-center text-[12px] font-inter font-normal leading-4 whitespace-normal my-[4px] mx-[10px]">
-                                Nueva
+                                NUEVO
                             </div>
                           </div>
                         </button>

@@ -2,18 +2,15 @@
     <div class="flex mb-4 gap-2">
         @foreach ($socials as $social)
         <button type="button" wire:click="add('{{$social}}')" onclick="this.disabled = true;">
-            <img class="h-8 mx-0.5 cursor-pointer filterit"
-                src="{{asset('image/SVG/iconos/socialmedia/'.$social.'.svg')}}" alt="">
+            <x-dynamic-component :component="'icons.socialmedia.'.$social" class="mt-4 w-7 h-7 fill-corp-50 hover:fill-corp-70" />
         </button>
-
 
         @endforeach
     </div>
     @if (!empty($newsocials))
     @foreach ($newsocials as $key => $social)
     <div class="flex items-center mb-[10px]" x-data x-init="$refs.answer.focus()">
-        <img class="h-8 mx-1 filterit" src="{{asset('image/SVG/iconos/socialmedia/'.$social['name'].'.svg')}}"
-            alt="">
+        <x-dynamic-component :component="'icons.socialmedia.'.$social['name']" class="w-7 h-7 mr-2 fill-corp-50 hover:fill-corp-70" />
         <x-input type="text" x-ref="answer" name="redes[{{$key}}]['url']" value="{{$social['url']}}" id="{{$social['name']}}"
             placeholder="Red social {{$social['name']}}" class="w-full"> </x-input>
         <input type="text" name="redes[{{$key}}]['name']" value="{{$social['name']}}" hidden>

@@ -12,7 +12,7 @@
 @section('content')
 
 <x-menu.sidebar>
-    {{--  <livewire:wishlist-cart />  --}}
+    <livewire:personal-data />
 </x-menu.sidebar>
 
 

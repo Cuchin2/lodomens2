@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class WishlistCart extends Component
 {
-    public $counts = []; public $showModal = false; public $row = []; public $choose = 0;
+    public $counts = []; public $showModal = false; public $row = []; public $choose = 1;
     public function mount()
     {
         // Inicializar la lista de counts con los valores iniciales
@@ -83,7 +83,7 @@ class WishlistCart extends Component
         if($this->counts[$index] > 0) {
         Cart::instance('wishlist')->update($rowId,$this->counts[$index]);
         }
-        // Lógica adicional si es necesario
+        // L贸gica adicional si es necesario
         $this->updateDataBase();
         $this->dispatch('wishlist-added');
     }
@@ -97,7 +97,7 @@ class WishlistCart extends Component
         }
 
         Cart::instance('wishlist')->update($rowId,$this->counts[$index]);
-        // Lógica adicional si es necesario
+        // L贸gica adicional si es necesario
         $this->updateDataBase();
     }
     }
@@ -141,5 +141,8 @@ class WishlistCart extends Component
         Cart::instance('wishlist')->destroy();
         $this->showModal = false;
         $this->dispatch('wishlist-added');
+    }
+    public function reloadd(){
+        $this->showModal = false;
     }
 }

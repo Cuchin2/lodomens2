@@ -62,29 +62,13 @@
     <li class="flex justify-center space-x-4 border-gris-70 border-[1px] p-4 mb-4">
         <div class="item__avatar w-[70px]"><img style="border-radius: 50%!important"
                 src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" /></div>
-        <div class="w-full" x-data="{ count: 0 }" x-init="count = $refs.countme.value.length">
+        <div class="w-full">
             <div class="flex ml-1 space-x-2">
             <p class="font-bold">{{ auth()->user()->name }}</p>
             <p>{{ Carbon\Carbon::now()->isoformat('DD MMM YYYY, h:mm a') }}</p>
             </div>
             <x-rating />
-            <textarea wire:model="review" type="text"
-                class="w-full border-gray-300 dark:border-gray-700 mt-2 dark:bg-black dark:text-gris-30 focus:border-gris-50 dark:focus:border-gris-50 focus:ring-gris-50 dark:focus:ring-gris-50 rounded-lg shadow-sm text-[12px]"
-                placeholder="Dejanos un comentario" rows="3" maxlength="225" x-ref="countme"
-                x-on:keyup="count = $refs.countme.value.length">{{ $review }}</textarea>
-
-            <div class="d-inline-flex ml-2">
-                <template x-if="count < 20">
-                    <small id="helpId" class="text-corp-30 font-bold" x-html="count">
-                        /</small>
-
-                </template>
-                <template x-if="count >= 20">
-                    <small id="helpId" class="font-bold" x-html="count"></small>
-                </template> <small id="helpId" class="form-text text-muted" style="margin: auto 5px;">/</small>
-                <small id="helpId" class="form-text text-muted" x-html="$refs.countme.maxLength"></small>
-
-            </div>
+            <x-text-area comment="review"/>
             <button wire:click="save" type="button" class=" mt-3 float-right bg-corp-50 rounded-[3px]" @click="$dispatch('star-rating')"
                 style="font-size:14px; width:90px; order: 1;">Comentar</button>
             <button type="button" class="btn  gris2  hv-turkey mt-3 float-right br-20"

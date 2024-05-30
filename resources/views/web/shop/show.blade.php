@@ -12,7 +12,7 @@
 {{--  <x-lodomens.video />  --}}
 @section('content')
 
-<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1" x-data="{ tab: 'tab1', colorselect:'{{ $indice }}', colorid: '@json($colorSelect[0]->id)',ext:'{{ pathinfo(asset($firstImage ->url), PATHINFO_EXTENSION) }}', abc:'0', src: '{{ asset('storage/'.$firstImage->url) }}', skus: {{ json_encode($skus) }}, skuselect:{{ $skus[$indice]->color_id }}, getImage(a,b) {
+<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 md:px-16 px-2 pb-1" x-data="{ tab: 'tab1', colorselect:'{{ $indice }}', colorid: '@json($colorSelect[0]->id)',ext:'{{ pathinfo(asset($firstImage ->url), PATHINFO_EXTENSION) }}', abc:'0', src: '{{ asset('storage/'.$firstImage->url) }}', skus: {{ json_encode($skus) }}, skuselect:{{ $skus[$indice]->color_id }}, getImage(a,b) {
     axios.get('{{ route('getimage.product.select') }}', {
         params: {
           row: a,
@@ -34,24 +34,25 @@
  }">
     <div class="md:grid md:grid-cols-2">
         <div class="md:grid md:grid-cols-6 mt-5">
-            <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2 flex items-center" >
+            <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2 flex items-start" >
                 {{--  <p x-text="ext"></p>  --}}
-                <lodo class="w-full relative mx-auto">
-                <template x-if="ext === 'mp4'">
+                <lodo class="md:w-[338px] lg:h-[338px] md:h-[217px] min-w-[318px] relative mx-auto border-[2px] border-corp-50 rounded-[3px] flex items-center {{--  h-full items-center  --}}">
+                <template x-if="ext === 'mp4'">       
                     <video :src="src" controls
-                  class="w-full border-[2px] border-corp-50 rounded-[3px]" :alt="ext" alt="">
+                  class="w-full " :alt="ext" alt="">
+                </div>
                 </video>
 
                  </template>
 
                   <template x-if="ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif' || ext === 'svg' || ext === 'ico'" >
                   <img  :src="src"
-                  class="w-full border-[2px] border-corp-50 rounded-[3px]" alt="">
+                  class="w-full h-full" alt="">
 
                   </template>
                   @if($product->skus)
                   <template x-for="sku in skus" @sku.window="skuselect=$event.detail.parm">
-                    <div x-show="skuselect === parseInt(sku.color_id)" x-cloak class="absolute top-0 left-0 w-full h-full flex items-center justify-center" :class="{'bg-black/80 border-[2px] border-corp-50 rounded-[3px]': sku.stock == 0 }">
+                    <div x-show="skuselect === parseInt(sku.color_id)" x-cloak class="absolute top-0 left-0 w-full h-full flex items-center justify-center" :class="{'bg-black/80 ': sku.stock == 0 }">
                         <template x-if="sku.stock == 0" >
                         <span class="text-gris-20 text-[14px] font-bold bg-gris-90 p-2 border-[2px]  border-corp-50 rounded-[3px]">SIN STOCK</span>
                         </template>
@@ -90,13 +91,16 @@
         <hr class="md:hidden mt-[20px] mb-[10px] border-gris-70 ">
         <div class="md:pt-[20px] md:ml-[20px]">
             <div>
-                <div class="flex items-center justify-between" x-data="{skus: {{ json_encode($skus) }}, skuselect:{{ $skus[$indice]->color_id }}}"><h3>{{ $product->name }}</h3>
+                <div class="flex" x-data="{skus: {{ json_encode($skus) }}, skuselect:{{ $skus[$indice]->color_id }}}">
+                    <p class="mr-1 text-corp-30">{{ $product->brand->name }}</p>
                     @if($product->skus)
                         <template x-for="sku in skus" @sku.window="skuselect=$event.detail.parm;">
-                            <p x-text="'SKU : '+sku.code" x-show="skuselect === parseInt(sku.color_id)" x-cloak></p>
+                            <p x-text="'| SKU : '+sku.code" x-show="skuselect === parseInt(sku.color_id)" x-cloak></p>
                         </template>
                     @endif
+                    
                 </div>
+                <h3>{{ $product->name }}</h3>
                 <div class="mb-2 cursor-pointer flex" x-data
                     x-on:click="$scroll('#second', { offset: 200 }); tab = 'tab2'">
                     @if ($product->reviews->count() === 0)
@@ -144,7 +148,7 @@
                  </div>
                 <livewire:add-cart product="{{$product->id}}" color="{{ $colorSelect[0]->id }}"/>
 
-                <a class="flex my-4 space-x-2 hover:text-white cursor-pointer" @click=" $dispatch('add-wishlist',{ color: skuselect})">
+                <a class="flex my-4 space-x-2 hover:text-white cursor-pointer w-fit" @click=" $dispatch('add-wishlist',{ color: skuselect})">
                     <x-icons.heart class="w-[20px]" />
                     <p>Añadir a lista de deseos</p>
                 </a>
@@ -206,7 +210,7 @@
     <div>
         {!! $product->body !!}
         <hr class="my-[40px] border-gris-70">
-        <div id="second">
+        <div id="second" class="md:mx-16">
             <div class="mx-auto mb-4">
                 <ul class="flex mb-6">
                     <li class="-mb-px mr-1">

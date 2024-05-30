@@ -28,7 +28,7 @@ x-init="changestock(color)">
         </div>
     </div>
 
-    <x-button.webprimary class="w-full" x-on:click="$wire.add(count,color)"> Añadir a Carrito</x-button.webprimary>
+    <x-button.webprimary class="w-full !md:mr-[65px]" x-on:click="$wire.add(count,color)"> Añadir a Carrito</x-button.webprimary>
 
 
 </div>

@@ -6,7 +6,7 @@
 [x-cloak] {
     display: none;
 }
-body::-webkit-scrollbar,
+/* body::-webkit-scrollbar,
 .simplebar-scrollable-y::-webkit-scrollbar {
     width: 3px;
     background: #202020;
@@ -15,12 +15,8 @@ body::-webkit-scrollbar-thumb,
 .simplebar-scrollable-y::-webkit-scrollbar-thumb {
     background: #393939;
     border-radius: 5px;
-}
+} */
 
-* {
-    scrollbar-width: thin;
-    scrollbar-color: #26334D #192132;
-}
 select{
     background-position: right 0.1rem center;
 
@@ -52,6 +48,7 @@ select{
 }
 
 .filterit {
+    
     filter: invert(12%) sepia(93%) saturate(3489%) hue-rotate(344deg) brightness(86%) contrast(103%);
 }
 .filterit:hover{
@@ -63,21 +60,37 @@ select{
 
 body::-webkit-scrollbar,
 .simplebar-scrollable-y::-webkit-scrollbar {
-    width: 3px;
-    background: #202020;
+    width: 10px;
+    @apply bg-gris-90;
 }
 
 
 body::-webkit-scrollbar-thumb,
 .simplebar-scrollable-y::-webkit-scrollbar-thumb {
-    background: #393939;
+    @apply bg-gris-70;
     border-radius: 5px;
 }
-
-* {
-    scrollbar-width: thin;
-    scrollbar-color: #26334D #192132;
+aside::-webkit-scrollbar,
+.simplebar-scrollable-y::-webkit-scrollbar {
+    width: 3px;
+    @apply bg-gris-90;
+    /* background: red; */
 }
+
+
+aside::-webkit-scrollbar-thumb,
+.simplebar-scrollable-y::-webkit-scrollbar-thumb {
+    @apply bg-gris-60;
+    border-radius: 5px;
+}
+/* * {
+    scrollbar-width: thin;
+    scrollbar-color: yellow blue;
+} */
+/* aside {
+    scrollbar-width: thin;
+    scrollbar-color: red blue;
+} */
 input:checked + label > span {
 border: 8px solid #990C1A;
 animation: bounce 250ms;

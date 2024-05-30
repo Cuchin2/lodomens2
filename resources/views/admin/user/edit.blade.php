@@ -44,19 +44,32 @@
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-12 ">
 
                         <div class="my-3">
-                            <x-label class="mb-2">Primer nombre</x-label>
+                            <x-label class="mb-2">Nombre</x-label>
                             <x-input name="name" value="{{ $user->name }}" placeholder="Primer nombre "></x-input>
                         </div>
-                        <div class="my-3">
+{{--                          <div class="my-3">
                             <x-label class="mb-2">Segundo nombre</x-label>
                             <x-input name="middle_name" value="{{ optional($user->profile)->midle_name }}" placeholder="Segundo nombre "></x-input>
-                        </div>
+                        </div>  --}}
                         <div class="my-3">
-                            <x-label class="mb-2">Apellidos</x-label>
+                            <x-label class="mb-2">Apellido</x-label>
                             <x-input name="last_name" value="{{ optional($user->profile)->last_name }}" placeholder="Apellidos "></x-input>
                         </div>
                         <div class="my-3">
-                            <x-label class="mb-2">DNI/Carmet de extrangería</x-label>
+                            <x-label class="mb-2">Segundo Apellido</x-label>
+                            <x-input name="last_name_two" value="{{ optional($user->profile)->last_name_two }}" placeholder="Apellidos "></x-input>
+                        </div>
+                        <div class="my-3">
+                            <x-label class="mb-2">Tipo de documento</x-label>
+                            <x-select name='doc_type'>
+                                <option value="DNI">DNI</option>
+                                <option value="PASSPORT">Pasaporte</option>
+                                <option value="CARNET">Carnet de extranjería</option>
+                            </x-select>  
+                           {{--   <x-input name="middle_name" value="{{ optional($user->profile)->midle_name }}" placeholder="Segundo nombre "></x-input>  --}}
+                        </div>
+                        <div class="my-3">
+                            <x-label class="mb-2">N° de documento</x-label>
                             <x-input name="dni" value="{{ optional($user->profile)->dni }}" placeholder="DNI/Carmet de extrangería"></x-input>
                         </div>
                         <div class="my-3">
@@ -74,6 +87,22 @@
                             <x-label class="mb-2">Dirección</x-label>
                             <x-input name="address" value="{{ optional($user->profile)->address }}" placeholder="Dirección "></x-input>
                             <span class="dark:text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
+                        </div>
+                        <div class="my-3">
+                            <x-label class="mb-2">Pais</x-label>
+                            <x-select name='doc_type'>
+                                <option value="DNI">Perú</option>
+                                <option value="PASSPORT">México</option>
+                                <option value="CARNET">Estados Unidos</option>
+                            </x-select>  
+                        </div>
+                        <div class="my-3">
+                            <x-label class="mb-2">Ciudad</x-label>
+                            <x-select name='doc_type'>
+                                <option value="DNI">Lima</option>
+                                <option value="PASSPORT">México DF</option>
+                                <option value="CARNET">Whashintgon DC</option>
+                            </x-select>  
                         </div>
                         <div class="my-3">
                             <x-label class="mb-2">Teléfono / Celular</x-label>
@@ -170,7 +199,7 @@
                             @endforeach
                         </div>
 
-                        <x-button.corp1 class="ml-auto">Actualizar</x-button.corp1>
+                        <x-button.corp1 type="submit" class="ml-auto">Actualizar</x-button.corp1>
 
                     </div>
                 </div>

@@ -103,16 +103,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="relative w-[260px] ml-auto">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <x-icons.search class="w-[14px] h-[14px] text-gris-300 dark:text-gris-40" />
-                            </div>
-                            <input
-                                wire:model.live.debounce.300ms="search"
-                                type="text"
-                                class="dark:bg-gris-90  border-none h-[30px] dark:text-gris-40 text-[12px] rounded-[20px] focus:ring-gris-50 focus:border-gris-50 block w-full pl-10 p-2 "
-                                placeholder="Buscar" required="">
-                        </div>
+                        <x-specials.search />
                     </div>
                 </div>
                 <div class="overflow-x-auto">
@@ -161,25 +152,7 @@
                 </div>
                 <div class="py-[20px] mx-[20px]">
                     <div class="flex ">
-                        <div class="flex space-x-2 items-center">
-                            <div class="text-[#7A7A7A] text-[12.07px] font-inter font-normal leading-20.12">
-                                Mostrar
-                            </div>
-                            <div class="flex items-center gap-7">
-                                <select
-                                wire:model.live='perPage'
-                                class="bg-gris-90 border border-gris-70 text-gris-20 text-[12px] rounded-lg focus:ring-gris-50 focus:border-gris-50 block w-[44px] pl-[3px] pr-[2px] py-[2px] ">
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                            </div>
-                            <div class="text-[#7A7A7A] text-[12.07px] font-inter font-normal leading-20.12">
-                                entradas
-                            </div>
-                        </div>
+                        <x-specials.select perPage="{{ $perPage }}"/>
                         {{$colors->links('vendor.livewire.nubesita')}}
                     </div>
                 </div>
@@ -229,7 +202,7 @@
                     </div>
                 <div class="mt-2 text-center">
                     <x-label class="m-2">Imagen</x-label>
-                    <x-input-single-image />
+                    <x-specials.upload-file livewire="true" />
 
                 </div>
                  </div>
@@ -249,46 +222,5 @@
 
         </x-dialog-modal>
     </section>
-    <style>
-        input[type="file"].custom {
-            border: 0;
-            clip: rect(0, 0, 0, 0);
-            height: 1px;
-            overflow: hidden;
-            padding: 0;
-            position: absolute !important;
-            white-space: nowrap;
-            width: 1px;
-          }
-    </style>
-    @push('scripts')
-    <script>
-        function imageData(url) {
-            const originalUrl = url || '';
-            return {
-              previewPhoto: originalUrl,
-              fileName: null,
-              emptyText: originalUrl ? 'No se ha elegido ningún archivo nuevo' : 'Ningún archivo elegido',
 
-              updatePreview($refs) {
-                console.log('hola');
-                var reader,
-                    files = $refs.input.files;
-                reader = new FileReader();
-                reader.onload = (e) => {
-                  this.previewPhoto = e.target.result;
-                  this.fileName = files[0].name;
-                };
-                reader.readAsDataURL(files[0]);
-              },
-              clearPreview($refs) {
-                $refs.input.value = null;
-                this.previewPhoto = originalUrl;
-                this.fileName = false;
-              },
-            };
-          }
-
-    </script>
-    @endpush
 </div>

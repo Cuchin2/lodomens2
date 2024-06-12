@@ -91,15 +91,16 @@ aside::-webkit-scrollbar-thumb,
     scrollbar-width: thin;
     scrollbar-color: red blue;
 } */
-input:checked + label > span {
-border: 8px solid #990C1A;
+input:checked + label > span.pan {
+    @apply border-[8px] border-gris-50;
+/* border: 8px solid #990C1A; */
 animation: bounce 250ms;
 }
 
-input:checked + label > span::before {
+input:checked + label > span.pan::before {
 content: '';
 position: absolute;
-top: 9px;
+top: 7px;
 left: 3px;
 border-right: 2px solid transparent;
 border-bottom: 2px solid transparent;
@@ -212,7 +213,7 @@ transform: scale(1.2);
 
 input[type="radio"]:checked + label span {
 background-color: #990C1A;
-box-shadow: 0px 0px 0px 4px #1C1C1C inset;
+box-shadow: 0px 0px 0px 4px #292929 inset;
 border-color: #990C1A;
 }
 input[type="radio"] + label span {
@@ -221,3 +222,37 @@ input[type="radio"] + label span {
 input[type="radio"]:checked + label > span::before {
     display: none;
 }
+.cke_top, .cke_bottom {
+    @apply !bg-gris-90 !rounded-md;
+    
+}
+
+#cke_1_path a{
+    @apply text-gris-30 hover:bg-gris-10 hover:text-gris-90;
+}
+#cke_body {
+    @apply !border-gris-70 !rounded-md;
+}
+.cke_inner{
+    background: none!important;
+}
+
+
+/* 
+
+/* Ejemplo de estilo personalizado para iconos en los botones */
+.cke_button_icon {
+    filter: invert(61%) sepia(9%) saturate(0%) hue-rotate(170deg) brightness(92%) contrast(89%)!important; /* Cambia el color del icono invirtiendo sus colores */
+}
+
+/* Para cambiar el color de iconos específicos, puedes dirigirte a sus clases específicas */
+.cke_button__bold_icon {
+    filter: invert(61%) sepia(9%) saturate(0%) hue-rotate(170deg) brightness(92%) contrast(89%)!important; /* Ejemplo: Cambia el color del icono de negrita */
+}
+
+.cke_button__italic_icon {
+    filter: invert(61%) sepia(9%) saturate(0%) hue-rotate(170deg) brightness(92%) contrast(89%)!important;  /* Ejemplo: Cambia el color del icono de cursiva */
+}
+input[type="date"] {
+    color-scheme: dark;
+  }

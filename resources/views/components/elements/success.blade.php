@@ -235,7 +235,7 @@
     padding:0;
     position:relative;
     box-sizing:content-box;
-    margin:20px auto
+    margin:0px auto
 }
 .reduced {
     transform: scale({{ $scale }});

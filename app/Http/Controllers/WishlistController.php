@@ -22,4 +22,8 @@ class WishlistController extends Controller
     {
         return view('web.dashboard.address');
     }
+    public function purchase()
+    {
+        return view('web.dashboard.purchase');
+    }
 }

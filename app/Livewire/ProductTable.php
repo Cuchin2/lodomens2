@@ -14,14 +14,14 @@ use Illuminate\Validation\Rule;
 class ProductTable extends Component
 {
     use WithPagination;
-    public $showModal = false; public $showModalCreate= false;
+    public $showModal = false; public $showModalCreate= false; 
     public $itemIdToDelete;
     #[Validate('required', message: 'Seleccione una categoría')]
-     public $category_id;
-    public $itemName; public $product = '';
+     public $category_id; public $color1='inherit';
+    public $itemName; public $product = ''; public $state = ''; public $id=''; public $status= ''; public $color2='inherit'; public $change2=''; public $status2= '';
     public $name;
     public $code;
-    public $perPage = 5;
+    public $perPage = 10;
 
     #[Url(history:true)]
     public $search = '';
@@ -62,10 +62,23 @@ class ProductTable extends Component
         $this->resetPage();
     }
 
-    public function delete(Product $product)
-    {
-        $product->delete();
-        $this->showModal = false;
+    public function delete($id)
+    {   $product=Product::find($id);
+        if($this->change2 ==='STATUS') {
+            if($product->colors->isEmpty() && $this->state == 'SHOP')
+            {
+                $this->change2 = 'STOP';
+            } else{
+                $product->status=$this->state;
+                $product->save(); 
+                $this->dispatch('state',state:$this->traslate($this->state),id:$id); 
+                $this->showModal = false;
+            }                      
+        }
+        else{
+            $product->delete(); $this->showModal = false;
+        }
+             
     }
     public function create()
     {
@@ -104,7 +117,8 @@ class ProductTable extends Component
 
 
     public function showDeleteModal($itemId,$itemName)
-        {
+        {   
+            $this->change2='';
             $this->itemName = $itemName;
             $this->itemIdToDelete = $itemId;
             $this->showModal = true;
@@ -117,5 +131,48 @@ class ProductTable extends Component
     public function change($a)
     {
         $this->category_id= $a;
+    }
+    public function estado($state,$id,$status,$color,$name){
+        $this->showModal = true;
+        $this->itemName = $name;
+        $this->status = $status;
+        $this->status2 = $this->traslate($state);
+        $this->itemIdToDelete = $id;
+        $this->state= $state;
+        $this->color2=$color;
+        $this->color1=$this->traslateColor($this->status);
+        $this->change2='STATUS';
+    }
+    public function reloadd()
+    {
+        $this->showModal=false;
+    }
+    public function traslate($a){
+        switch ($a) {
+            case 'DRAFT':
+                return 'Borrador';
+            case 'SHOP':
+                return 'Publicado';
+            case 'POS':
+                return 'Programado';
+            default:
+                return 'Cancelado';
+        }
+    }
+    public function traslateColor($b){
+        switch ($b) {
+            case 'Borrador':
+                return 'amarillo';
+            case 'Publicado':
+                return 'verde';
+            case 'Programado':
+                return 'morado';
+            default:
+                return 'rojo';
+        }
+    }
+    public function page($page)
+    {
+        $this->perPage = $page;
     }
 }

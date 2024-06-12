@@ -1,6 +1,6 @@
-@props(['height', 'width', 'fill' => 'currentColor', 'grosor' => '0'])
+@props(['fill' => 'currentColor', 'grosor' => '0'])
 
-<svg version="1.1" height="{{ $height }}" width="{{ $width }}" fill="{{ $fill }}"
+<svg version="1.1" fill="{{ $fill }}"
     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" {{ $attributes->merge(['class' => '']) }}
     xml:space="preserve">
     <g id="ico-chevron-left">

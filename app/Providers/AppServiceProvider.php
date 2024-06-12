@@ -5,10 +5,13 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Footer;
 use App\Models\User;
+use Carbon\Carbon;
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
+     *     protected $listen = [
+
      */
     public function register(): void
     {
@@ -19,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
+    {   
         view()->composer('layouts.footer', function ($view) {
             $footer=Footer::find(1);
             $user=User::find(1);

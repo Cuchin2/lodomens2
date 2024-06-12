@@ -15,7 +15,11 @@
                 
                 {{$icon}}
                 <p class="ml-2 font-normal {{ $active ? 'text-white' : 'dark:text-gris-20' }} duration-300 transition-none ease-in-outtransition-none w-[100px]"
-                    :class="isSidebarExpanded ? 'opacity-100' : 'opacity-0'">
+                :class="{
+                    'opacity-100': isSidebarExpanded,
+                    'opacity-0': !isSidebarExpanded,
+                    '!text-white': openItem === {{$id}}
+                }">
                     {{$name}}</p>
             </span>
             <svg :class="{ 'rotate-90': openItem === {{$id}} }" xmlns="http://www.w3.org/2000/svg"

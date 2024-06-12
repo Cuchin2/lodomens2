@@ -86,8 +86,13 @@ class ProductController extends Controller
         $numberArray = Row::whereHas('images', function ($query) use ($rowIds) {
             $query->whereIn('image_id', $rowIds);
         })->orderBy('order', 'asc')->get();
-        /* dd($numberArray); */
-        return view('admin.product.edit', compact('product','categories','average','tagNames','tagSelect','colorNames','colorSelect','colorUnSelect','numberArray','brands','types'));
+        $status= [
+            'DRAFT' => 'Borrador',
+            'SHOP' => 'Publicado',
+            'POS' =>  'Programado',
+            'DISABLED' => 'Cancelado'
+        ];
+        return view('admin.product.edit', compact('status','product','categories','average','tagNames','tagSelect','colorNames','colorSelect','colorUnSelect','numberArray','brands','types'));
     }
 
     /**
@@ -113,14 +118,16 @@ class ProductController extends Controller
         if($request->input('colors') == null){
             Session::flash('mensaje', 'Selecione un color');
             return redirect()->route('inventory.products.edit',$product);
-        }    
+        } 
+    
         $sellPrices = $request->input('sell_price');
+        if($sellPrices){
         foreach($sellPrices as $index => $price) {
             if ($price === null || $price == 0) {
                 Session::flash('mensaje2', 'Seleccione un precio');
                 return redirect()->route('inventory.products.edit', $product);
             }
-        }
+        }}
         $skus= Sku::where('product_id',$product->id)->get();
         foreach ($skus as $index => $sku) {
             $sku->stock = $stock[$index] ?? '0';

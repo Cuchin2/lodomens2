@@ -1,15 +1,43 @@
 <?php
 use App\Models\SaleDetail;
 use App\Models\SaleOrder;
+use Illuminate\Support\Facades\Http;
      function checkoutPay(){
         $user=auth()->user();
         $cartItems = Cart::instance('cart')->content();
         $order = SaleOrder::where(['user_id'=>$user->id,'status'=>'CREATE'])->first();
+        $district = $order->district;
+        //cambiar datos de API de ubicaciones a strings
+                $username = config('services.geonames.username');
+                $lugar = Http::get("http://api.geonames.org/get?geonameId=$district&lang=es&username=$username");
+                $lugar= $lugar->body();
+                $xml = new \SimpleXMLElement($lugar);
+               /* dd((string) $xml->adminName3); */
+                    $order->country = (string) $xml->countryName;
+                    $order->state =(string) $xml->adminName1;
+                    $order->city=(string) $xml->adminName2;
+                    $order->district=(string) $xml->name;
+                    $order->save();
+        if($order->deliveryOrders){
+                $deliverOrder=$order->deliveryOrders;
+                $district2= $deliverOrder->district;
+                $lugar2 = Http::get("http://api.geonames.org/get?geonameId=$district2&lang=es&username=$username");
+                $lugar2= $lugar2->body();
+                $xml2 = new \SimpleXMLElement($lugar2);
+                $deliverOrder->country = (string) $xml2->countryName;
+                $deliverOrder->state =(string) $xml2->adminName1;
+                $deliverOrder->city=(string) $xml2->adminName2;
+                $deliverOrder->district=(string) $xml2->name;
+                $deliverOrder->save();
+                // fin de pruebas   
+            }       
+        //fin de cambias ubicaciones
         foreach ($cartItems as $item) {
             SaleDetail::create([
                 'order_id' => $order->id, // Reemplaza 'orderId' con el ID de la orden correspondiente
                 'name'=>$item->name,
-                'slug'=> $item->options->sku,
+                'brand'=>$item->options->brand,
+                'slug'=> $item->options->slug,
                 'qtn'=>$item->qty,
                 'sell_price'=>$item->price,
                 'sku'=>$item->options->sku,

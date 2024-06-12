@@ -43,18 +43,18 @@
                             <p>Configurar mi cuenta</p>
                             <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"/>
                         </li>
-                        <li  class="flex items-center pl-6 pr-3 py-2">
+                        <a  href="{{ route('webdashboard.purchase') }}" class="flex items-center pl-6 pr-3 py-2 {{ request()->routeIs('webdashboard.purchase') ? 'text-white bg-gris-100' : '' }}" wire:navigate
                             <p>Mis compras</p>
                             <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"/>
-                        </li>
+                        </a>
                         <a  href="{{ route('webdashboard.address') }}"  class="flex items-center pl-6 pr-3 py-2 {{ request()->routeIs('webdashboard.address') ? 'text-white bg-gris-100' : '' }}" wire:navigate>
                             <p>Direcciones</p>
                             <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"/>
                         </a>
-                        <li  class="flex items-center pl-6 pr-3 py-2">
+{{--                          <li  class="flex items-center pl-6 pr-3 py-2">
                             <p>Métodos de pago</p>
                             <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"/>
-                        </li>
+                        </li>  --}}
                         <a href="{{ route('webdashboard.wishlist') }}"  class="flex items-center pl-6 pr-3 py-2 {{ request()->routeIs('webdashboard.wishlist') ? 'text-white bg-gris-100' : '' }}" wire:navigate>
                             <p>Wishlist</p>
                             <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"/>

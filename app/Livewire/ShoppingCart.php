@@ -19,7 +19,8 @@ class ShoppingCart extends Component
             $abc=Cart::instance('cart')->update($item->rowId,['price'=> $sku->sell_price]);
             $abc=Cart::instance('cart')->update($item->rowId,[
                 'options'=> [
-                    'productImage' => $image,
+                    'productImage' => $image ?? 'image/dashboard/No_image_dark.png',
+                    'brand'=>$sku->product->brand->name,
                     'slug'=> $sku->product->slug,
                     'sku'=> $sku->code,
                     'color'=> $sku->color->name,

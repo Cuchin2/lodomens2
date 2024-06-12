@@ -78,7 +78,7 @@ class WebController extends Controller
             $user->last_name = $request->input('last_name');
             $user->profile_photo_path = $path;
             $user->user_type_id = 3;
-            $user->save();
+            $user->assignRole('Client')->save();
             $profile = new Profile;
             $profile->user_id = $user->id;
             $profile->save();

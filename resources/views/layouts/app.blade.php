@@ -21,7 +21,7 @@
  {{--<script src="{{ asset('codemirror/lib/codemirror.js') }}" data-navigate-track></script>
     <script src="{{ asset('codemirror/mode/xml/xml.js') }}" data-navigate-track></script>  --}}
     @livewireStyles
-    
+    @stack('styles')
 </head>
 <body class="font-sans antialiased dark:bg-gris-90">
     <x-banner2 />
@@ -62,7 +62,7 @@
                             </x-slot> Dashboard
                         </x-sidebar.ul-simple>
                         @endcan
-                        @can(['reports.day', 'reports.date', 'report.results'])
+{{--                          @can(['reports.day', 'reports.date', 'report.results'])
                         <x-sidebar.ul-drop name="Reportes" id="1">
                             <x-slot name="icon">
                                 <x-icons.reportesBarra class="h-[20px] w-[20px]" />
@@ -74,27 +74,27 @@
 
 
                         </x-sidebar.ul-drop>
-                        @endcan
+                        @endcan  --}}
                         <x-sidebar.ul-drop name="Mi página" id="2" :active="request()->routeIs('mypage.*')">
                             <x-slot name="icon">
                                 <x-icons.planet class="h-[20px] w-[20px]" />
                             </x-slot>
-                            <x-sidebar.ul-drop-son>Header</x-sidebar.ul-drop-son>
-                            <x-sidebar.ul-drop-son href="{{ route('mypage.edit') }}" :active2="request()->routeIs('mypage.edit')">Footer</x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son>Inicio</x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son>Tienda</x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son>Contacto</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son>Header</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('mypage.edit') }}" :active2="request()->routeIs('mypage.edit')">Footer</x-sidebar.ul-drop-son>
 
                         </x-sidebar.ul-drop>
 
-                        @can('purchases.index')
-                        <x-sidebar.ul-simple {{-- :active="request()->routeIs('home')" --}}
+{{--                          @can('purchases.index')
+                        <x-sidebar.ul-simple :active="request()->routeIs('home')" 
                             href="{{ route('dashboard') }}">
                             <x-slot name="icon">
                                 <x-icons.cart-plus class="h-[20px] w-[20px]" />
                             </x-slot> Compras
                         </x-sidebar.ul-simple>
-                        @endcan
+                        @endcan  --}}
                         @can('sales.index')
                         <x-sidebar.ul-simple :active="request()->routeIs('sale.index')"
                             href="{{ route('sale.index') }}">
@@ -103,14 +103,14 @@
                             </x-slot> Ventas
                         </x-sidebar.ul-simple>
                         @endcan
-                        @can('orders.index')
-                        <x-sidebar.ul-simple {{-- :active="request()->routeIs('home')" --}}
+{{--                          @can('orders.index')
+                        <x-sidebar.ul-simple :active="request()->routeIs('home')" 
                             href="{{ route('dashboard') }}">
                             <x-slot name="icon">
                                 <x-icons.pedidos class="h-[20px] w-[20px]" />
                             </x-slot> Pedidos
                         </x-sidebar.ul-simple>
-                        @endcan
+                        @endcan  --}}
                         @can(['products.index', 'categories.index', 'tags.index', 'brands.index'])
                         <x-sidebar.ul-drop name="Inventario" id="3" :active="request()->routeIs('inventory.*')">
                             <x-slot name="icon">
@@ -153,7 +153,7 @@
                             </x-sidebar.ul-drop-son>
                             @endcan
                         </x-sidebar.ul-drop>  --}}
-                        @can(['products.index', 'categories.index', 'tags.index', 'brands.index'])
+{{--                          @can(['products.index', 'categories.index', 'tags.index', 'brands.index'])
                         <x-sidebar.ul-drop name="eCommerce" id="5">
                             <x-slot name="icon">
                                 <x-icons.eCommerce>
@@ -164,7 +164,7 @@
                             <x-sidebar.ul-drop-son>Suscriptores</x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son>Promociones</x-sidebar.ul-drop-son>
                         </x-sidebar.ul-drop>
-                        @endcan
+                        @endcan  --}}
 
                         @can(['users.index', 'users.create', 'users.store', 'users.show', 'users.edit', 'users.update',
                         'users.destroy'])
@@ -183,10 +183,10 @@
                         @endcan
                     </div>
                     <div class="">
-                        <x-sidebar.ul-simple href="abc" class="dark:border-gris-70 border-t">
+                        <x-sidebar.ul-simple href="{{ route('dashboard') }}" class="dark:border-gris-70 border-t">
                             <x-slot name="icon">
                                 <x-icons.setting class="h-[20px] w-[20px]" />
-                            </x-slot> Sertting
+                            </x-slot> Setting
                         </x-sidebar.ul-simple>
                     </div>
                     </div>

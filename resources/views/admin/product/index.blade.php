@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <x-slot name="slot1">
-        <x-breadcrumb.title title='Lista de productos'/>
+        <x-breadcrumb.title title='Lista de Productos'/>
         <x-breadcrumb.breadcrumb>
 
             <x-breadcrumb.breadcrumb2 name='Productos'/>

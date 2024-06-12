@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Permission;
 
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Profile;
 
 class RoleSeeder extends Seeder
 {
@@ -336,7 +337,8 @@ class RoleSeeder extends Seeder
             'name'=>'Admin',
             'email'=>'admin@gmail.com',
             'password'=> Hash::make('lalala123123'),
-            'user_type_id'=> 1
+            'user_type_id'=> 1,
+            'email_verified_at'=>now()
         ]);
 
        /*  $admin_user->profile()->create([
@@ -347,7 +349,8 @@ class RoleSeeder extends Seeder
             'name'=>'Cashier',
             'email'=>'Cashier@gmail.com',
             'password'=> Hash::make('lalala123123'),
-            'user_type_id'=> 3
+            'user_type_id'=> 3,
+            'email_verified_at'=>now()
         ]);
        /*  $cashier_user->profile()->create([
             'first_name'=>$cashier_user->name,
@@ -357,11 +360,17 @@ class RoleSeeder extends Seeder
             'name'=>'Client',
             'email'=>'Client@gmail.com',
             'password'=> Hash::make('lalala123123'),
-            'user_type_id'=> 2
+            'user_type_id'=> 2,
+            'email_verified_at'=>now()
         ]);
         /* $client_user->profile()->create([
             'first_name'=>$client_user->name,
         ]); */
         $client_user->assignRole('Client')->save();
+        for ($i=1; $i <4 ; $i++) { 
+            Profile::create([
+                'user_id'=>$i,
+            ]);
+        }
     }
 }

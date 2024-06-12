@@ -43,14 +43,14 @@
 
                         </div>
 
-                        <div class=" mx-auto"  x-data="{preloader: true}" x-init="preloader = false">
+                        <div class=" mx-auto"  {{--  x-data="{preloader: true}" x-init="preloader = false"  --}}>
                             {{--  contenido principal  --}}
 
-                            <div id="preloader">
+{{--                              <div id="preloader">
                             <div id="loader" x-show="preloader"
 
                             ></div>
-                            </div>
+                            </div>  --}}
                             <div class=" md:mt-[81px] mt-[44px]">
                                 @yield('breadcrumb')
                                     @yield('main')
@@ -81,7 +81,7 @@
 
                     </main>
                            {{--   footer  --}}
-                           <div class="relative">
+                           <div class="relative z-10">
                             @include('layouts.footer')
                               </div>
                             {{--  fin  footer  --}}

@@ -11,7 +11,7 @@ if ($circle == 0){
 }
 @endphp
 <li
-    class="flex text-[12px] h-[27px] pl-[10px] {{ $active2 ? 'bg-gris-70 text-white' : 'dark:text-gris-20'}} items-center hover:bg-gris-70  transition-colors duration-300 ease-in-out"><div class="{{$circle2}} rounded-[50%] shadow-[1px] "></div>
+    class="flex text-[12px] h-[27px] pl-[10px] {{ $active2 ? 'bg-gris-70 text-white' : 'dark:text-gris-20'}} items-center hover:bg-gris-70 hover:text-gris-5 transition-colors duration-300 ease-in-out"><div class="{{$circle2}} rounded-[50%] shadow-[1px] "></div>
     <a @click="{{$function}}" class="w-full cursor-pointer" @unless($function) href="{{ $href }}" wire:navigate @endunless >{{$slot}}</a>
 </li>
 

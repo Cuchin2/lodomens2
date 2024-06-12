@@ -48,28 +48,8 @@
                 <div class="flex justify-between mt-4 md:mt-0">
                     <div>
                     <h4 class="flex justify-center md:mb-8"> S/.{{ $item->price*$item->qty }}</h4>
-                    <div class="flex space-x-2">
-                        <div class="flex">
-                            <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-l-[3px] border-gris-30 w-[30px] flex items-center"
-                                wire:click="decreaseCount('{{$item->rowId}}','{{ $index }}','{{ $item->options->stock }}')">
-                                <x-icons.chevron-left grosor="1" height="17px" width="17px"
-                                    class="p-1 mx-auto fill-gris-30" />
-                            </div>
-                            <div>
-                                <input type="text"
-                                    class="text-gris-10 font-bold bg-black h-[26px] mx-auto p-2 focus:ring-gris-50 focus:border-gris-50 w-[47px] border-gris-30 text-center border-x-0"
-                                    placeholder=" " required=""
-                                    wire:change="updateCart('{{ $item->rowId }}','{{$index}}','{{ $item->options->stock }}')"
-                                    wire:model.change="counts.{{ $index }}">
-                            </div>
-                            <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-r-[3px] border-gris-30 w-[30px] flex items-center"
-                                wire:click="increaseCount('{{$item->rowId}}','{{ $index }}','{{ $item->options->stock }}')">
-                                <x-icons.chevron-right grosor="1" height="17px" width="17px"
-                                    class="p-1 mx-auto fill-gris-30" />
-                            </div>
-                        </div>
-
-                    </div>
+                    <x-specials.input-cart :item="$item" index="{{ $index }}" />
+                  
                 </div>
                 <div class="flex items-center space-x-4 ml-2">
                     <a class="cursor-pointer" wire:click="moveToCart('{{$item->rowId}}','{{ $index }}')">

@@ -23,7 +23,7 @@ export default {
                 sans: ['Inter', ...defaultTheme.fontFamily.sans],
             },
             colors:{
-                'gris-100':'#0E0E0E',
+                'gris-100':'#171717',
                 'gris-90':'#1C1C1C',
                 'gris-80':'#292929',
                 'gris-70':'#363636',

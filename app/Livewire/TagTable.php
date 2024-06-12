@@ -14,7 +14,7 @@ class TagTable extends Component
     public $showModal = false;
     public $itemIdToDelete; public $tag = '';
     public $name;
-    public $perPage = 5;
+    public $perPage = 10;
     public $kind;
     #[Url(history:true)]
     public $search = '';
@@ -95,4 +95,8 @@ class TagTable extends Component
             $this->which = $abc;
             if($abc == 'CREATE'){  $this->which ='';}
         }
+    public function page($page)
+    {
+        $this->perPage = $page;
+    }
 }

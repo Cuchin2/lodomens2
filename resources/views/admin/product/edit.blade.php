@@ -38,9 +38,9 @@
                             <x-input name="name" value="{{ old('name',$product->name) }}" placeholder="Primer nombre "></x-input>
                         </div>
                         <div class="my-1 flex">
-                            <div class="flex items-center space-x-2">
+                            <div class="flex items-center space-x-2 mr-1">
                                 <x-label class="my-2">URL:</x-label>
-                                <p class="text-gris-10 underline">ecowaste.nubesita.com/blog/</p>
+                                <p class="text-gris-40 text-[14px]">ecowaste.nubesita.com/blog/</p>
                             </div>
                             <x-input-editable name="slug" value="{{old('slug',$product->slug)}}"></x-input-editable>
                         </div>
@@ -60,6 +60,15 @@
                 </div>
                 <div class="col-span-12 lg:col-span-4 bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg: ">
+                        <div class="my-3">
+                            <x-label class="mb-2">Estados:</x-label>
+                            <div class="mt-3">
+                                <x-select-search placeholder="Selecciona un estado"
+                                    message="Ningun tipo coincide con la búsqueda" name="status"
+                                    :data="$status" selected="{{ $product->status ?? ''}}">
+                                </x-select-search>
+                            </div>
+                        </div>
                         <div class="my-3">
                             <x-label class="mb-2">Tipos:</x-label>
                             <div class="mt-3">
@@ -90,7 +99,7 @@
                             @enderror
                         </div>
                         <div class="my-3">
-                            <x-label class="mb-2">{{ $product->skus->count() > 1 ? 'Códigos' : 'Código' }} SKU</x-label>
+                            {{--  <x-label class="mb-2">{{ $product->skus->count() > 1 ? 'Códigos' : 'Código' }} SKU</x-label>  --}}
                         <div class="">
                           @foreach ($product->skus->load('color') as $index =>$sku)
                           <div class="mb-4">
@@ -142,45 +151,13 @@
                             <x-label class="mb-2">Colores:</x-label>
                         </div>
                         <div class=" mb-4">
-                            <div class="msa-wrapper border-gray-700 border-[1px] dark:border-gray-700 dark:bg-gris-90 dark:text-gray-300 w-full focus:border-corp-50 dark:focus:border-corp-50 focus:ring-corp-50 dark:focus:ring-corp-50 rounded-lg shadow-sm"
-                                x-data="multiselectComponent2()" x-init="
-                                selectedString = selected.map(item => item.name);
-                                $watch('selected', value => selectedString = value.map(item => item.name)); init();"
-                                @send.window="selected = send"
-                                >
-                                <input x-model="selectedString" name="colors" type="text" id="msa-input2"
-                                    aria-hidden="true" x-bind:aria-expanded="listActive.toString()"
-                                    aria-haspopup="tag-list" hidden>
-                                <div class="input-presentation" @click="listActive = !listActive"
-                                    @click.away="listActive = false" x-bind:class="{ 'active': listActive }">
-                                    <span class="placeholder" x-show="selected.length == 0">Selecciona los
-                                        colores</span>
-                                    <div id="gallery"
-                                        class="flex flex-wrap gap-[6px] items-center relative cursor-pointer">
-                                        <template x-for="(tag, index) in selected">
-                                            <div class="tag-badge" :data-id="index"
-                                                x-bind:style="`background: ${tag.hex};`">
-                                                <span x-text="tag.name"></span>
-                                                <button type="button" x-bind:data-index="index"
-                                                    @click.stop="removeMe($event)">x</button>
-                                            </div>
-                                        </template>
-                                    </div>
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-4 w-4 dark:text-gray-500  rotate-90 ml-auto " fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                </div>
-                                <ul id="tag-list" x-show.transition="listActive" role="listbox">
-                                    <template x-for="(tag, index, collection) in unselected">
-                                        <li x-show="!selected.includes(tag.name)" x-bind:value="tag.name"
-                                            x-text="tag.name" aria-role="button" @click.stop="addMe($event)"
-                                            x-bind:data-index="index" role="option"></li>
-                                    </template>
-                                </ul>
-                            </div>
+                            <x-dashboard.multipleselect
+                            id="1"
+                            name="colors"    
+                            placeholder="Selccione los colores" 
+                            :colorSelect="$colorSelect" 
+                            :colorUnSelect="$colorUnSelect" />
+
                             @if(Session::has('mensaje'))
                             <div class="text-corp-10 ml-2"> 
                                     {{ Session::get('mensaje') }}
@@ -195,53 +172,22 @@
                                     :data="$categories" selected="{{ $product->category->id }}">
                                 </x-select-search>
                             </div>
-                            {{-- <x-input name="ruc" placeholder="RUC " value="{{ optional($product->profile)->ruc }}">
-                            </x-input>
-                            <span class="dark:text-gris-50 text-[12px] flex m-1">Este campo es opcional</span> --}}
+                          
                         </div>
                         <div class="my-3">
                             <x-label class="mb-2">Etiquetas:</x-label>
                         </div>
 
                         <div class=" mb-4">
-                            <div class="msa-wrapper border-gray-700 border-[1px] dark:border-gray-700 dark:bg-gris-90 dark:text-gray-300 w-full focus:border-corp-50 dark:focus:border-corp-50 focus:ring-corp-50 dark:focus:ring-corp-50 rounded-lg shadow-sm"
-                                x-data="multiselectComponent()"
-                                x-init="$watch('selected', value => selectedString = value.join(','))">
-
-                                <input x-model="selectedString" name="tags" type="text" id="msa-input"
-                                    aria-hidden="true" x-bind:aria-expanded="listActive.toString()"
-                                    aria-haspopup="tag-list" hidden>
-                                <div class="input-presentation" @click="listActive = !listActive"
-                                    @click.away="listActive = false" x-bind:class="{ 'active': listActive }">
-                                    <span class="placeholder" x-show="selected.length == 0">Selecciona las
-                                        etiquetas</span>
-                                    <template x-for="(tag, index) in selected">
-                                        <div class="tag-badge" x-bind:class="{
-                                                'bg-teal-600': index % 4 === 0,
-                                                'bg-gray-600': index % 4 ===1,
-                                                'bg-green-600': index % 4 === 2,
-                                                'bg-sky-600': index % 4 === 3
-                                            }">
-                                            <span x-text="tag"></span>
-                                            <button type="button" x-bind:data-index="index"
-                                                @click.stop="removeMe($event)">x</button>
-                                        </div>
-                                    </template>
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-4 w-4 dark:text-gray-500  rotate-90 ml-auto " fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                </div>
-                                <ul id="tag-list" x-show.transition="listActive" role="listbox">
-                                    <template x-for="(tag, index, collection) in unselected">
-                                        <li x-show="!selected.includes(tag)" x-bind:value="tag" x-text="tag"
-                                            aria-role="button" @click.stop="addMe($event)" x-bind:data-index="index"
-                                            role="option"></li>
-                                    </template>
-                                </ul>
-                            </div>
+                            <x-dashboard.multipleselectsimple 
+                            id="2"
+                            name="tags"
+                            placeholder="Seleccione las etiquetas" 
+                            :selected="$tagSelect" 
+                            :unselected="$tagNames"
+                             param="0"
+                            />
+                           
                         </div>
 
 
@@ -263,59 +209,6 @@
         @push('scripts')
         <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
         <script data-navigate-once>
-            function multiselectComponent() {
-
-                return {
-                    listActive: false,
-                    selectedString: @json($tagSelect),
-                    selected: @json($tagSelect),
-                    unselected: @json($tagNames),
-                    addMe(e) {
-                        const index = e.target.dataset.index;
-                        const extracted = this.unselected.splice(index, 1);
-                        this.selected.push(extracted[0]);
-                    },
-                    removeMe(e) {
-                        const index = e.target.dataset.index;
-                        const extracted = this.selected.splice(index, 1);
-                        this.unselected.push(extracted[0]);
-                    }
-
-                };
-            }
-            function multiselectComponent2() {
-                return {
-                    sortableList:  document.getElementById('gallery'),
-                    listActive: false,
-                    selectedString: @json($colorSelect),
-                    selected: @json($colorSelect),
-                    unselected: @json($colorUnSelect),
-                    order: [],
-                    send: '',
-                    addMe(e) {
-                        const index = e.target.dataset.index;
-                        const extracted = this.unselected.splice(index, 1);
-                        this.selected.push(extracted[0]);
-                    },
-                    removeMe(e) {
-                        const index = e.target.dataset.index;
-                        const extracted = this.selected.splice(index, 1);
-                        this.unselected.push(extracted[0]);
-                    },
-                    init(){
-                        Sortable.create(this.sortableList, {
-                        animation: 150,
-                        store:{
-                            set: (sortable) => {
-                            this.order = sortable.toArray().slice(1);
-                                const elementos = this.selected;
-                                this.send = this.order.map(index => elementos[index]);
-                            }
-                        }
-                    });
-                    },
-                };
-            }
 
 
                 CKEDITOR.replace('body', {
@@ -326,7 +219,7 @@
                     skin: 'prestige',
                 });
 
-                CKEDITOR.addCss('.cke_editable { background-color: #161616; color: white;  }');
+                CKEDITOR.addCss('.cke_editable { background-color: #0E0E0E; color: white;  }');
 
                 function addLeadingZeros() {
                     // Verificar si el valor tiene menos de 4 dígitos
@@ -348,101 +241,6 @@
 
             [hidden] {
                 display: none !important;
-            }
-
-            .msa-wrapper {
-
-
-                &:focus-within {
-                    .input-presentation {
-                        border-bottom-right-radius: 0;
-                        border-bottom-left-radius: 0;
-                    }
-                }
-
-                &>* {
-                    display: block;
-                    width: 100%;
-                }
-
-                .input-presentation {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 6px;
-                    align-items: center;
-                    min-height: 40px;
-                    padding: 6px 10px 6px 12px;
-                    border-radius: 10px;
-                    position: relative;
-                    cursor: pointer;
-
-
-                    &.active {
-                        border-bottom-left-radius: 0;
-                        border-bottom-right-radius: 0;
-                        border-color: #16AC9F;
-                    }
-
-                    .tag-badge {
-
-                        padding-left: 14px;
-                        padding-right: 28px;
-                        color: white;
-                        border-radius: 14px;
-                        position: relative;
-
-                        span {
-                            font-size: 16px;
-                            line-height: 27px;
-                        }
-
-                        button {
-                            display: inline-block;
-                            padding: 0;
-                            -webkit-appearance: none;
-                            appearance: none;
-                            background: transparent;
-                            border: none;
-                            color: rgba(255, 255, 255, .8);
-                            font-size: 12px;
-                            position: absolute;
-                            right: 0px;
-                            padding-right: 10px;
-                            padding-left: 5px;
-                            cursor: pointer;
-                            line-height: 26px;
-                            height: 26px;
-                            font-weight: 600;
-
-                            &:hover {
-                                background-color: rgba(255, 255, 255, .2);
-                                color: white;
-                            }
-                        }
-                    }
-                }
-
-                ul {
-                    border: 1px solid rgba(0, 0, 0, 0.3);
-                    font-size: 1rem;
-                    margin: 0;
-                    padding: 0;
-                    border-top: none;
-                    list-style: none;
-                    border-bottom-right-radius: 10px;
-                    border-bottom-left-radius: 10px;
-
-                    li {
-                        padding: 6px 12px;
-                        text-transform: capitalize;
-                        cursor: pointer;
-
-                        &:hover {
-                            background: #16AC9F;
-                            color: white;
-                        }
-                    }
-                }
             }
 
             .CodeMirror {

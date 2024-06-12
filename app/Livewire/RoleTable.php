@@ -12,7 +12,7 @@ class RoleTable extends Component
     public $showModal = false;
     public $itemIdToDelete;
     public $itemName;
-    public $perPage = 5;
+    public $perPage = 10;
 
     #[Url(history:true)]
     public $search = '';
@@ -63,5 +63,9 @@ class RoleTable extends Component
             $this->itemName = $itemName;
             $this->itemIdToDelete = $itemId;
             $this->showModal = true;
+        }
+        public function page($page)
+        {
+            $this->perPage = $page;
         }
 }

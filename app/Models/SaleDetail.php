@@ -9,7 +9,8 @@ class SaleDetail extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',   		
+        'name',
+        'brand', 		
         'slug',	
         'qtn',
         'sell_price',

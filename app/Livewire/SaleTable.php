@@ -41,7 +41,6 @@ class SaleTable extends Component
         $this->state_name = $name;
         $this->id=$id;
         $this->state= $state;
-
     }
     public function update_state(){
         $sale = SaleOrder::find($this->id);
@@ -64,5 +63,9 @@ class SaleTable extends Component
     public function reloadd()
     {
         $this->showModal=false;
+    }
+    public function page($page)
+    {
+        $this->perPage = $page;
     }
 }

@@ -12,8 +12,8 @@ limit(){
 }
 }"  x-show="see" x-cloak
 x-init="changestock(color)">
-    <div class="flex" @sku.window="color=$event.detail.parm; changestock(color);">
-        <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[36px] border-[1px] text-[12px] rounded-l-[3px]  border-gris-30 w-[30px] flex items-center"
+    <div class="flex scale-90" @sku.window="color=$event.detail.parm; changestock(color);">
+        <div class="cursor-pointer hover:text-gris-10 hover:border-gris-10 text-gris-60 bg-black h-[36px] border-[1px] text-[12px] rounded-l-[3px]  border-gris-30 w-[30px] flex items-center"
             @click="count > 0 ? count-- : null; limit()">
             <x-icons.chevron-left grosor="1" height="20px" width="20px" class="p-1 mx-auto fill-gris-30" />
         </div>
@@ -22,13 +22,13 @@ x-init="changestock(color)">
                 class="text-gris-10 font-bold bg-black h-[36px] mx-auto text-[14px] p-2 focus:ring-gris-50 focus:border-gris-50 w-[52px] border-gris-30 text-center border-x-0"
                 placeholder=" " required="" x-model="count" x-on:change="limit()">
         </div>
-        <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[36px] border-[1px] text-[12px] rounded-r-[3px]  border-gris-30 w-[30px] flex items-center"
+        <div class="cursor-pointer hover:text-gris-10 hover:border-gris-10 text-gris-60 bg-black h-[36px] border-[1px] text-[12px] rounded-r-[3px]  border-gris-30 w-[30px] flex items-center"
             @click="count++;  limit()">
             <x-icons.chevron-right grosor="1" height="20px" width="20px" class="p-1 mx-auto fill-gris-30" />
         </div>
     </div>
 
-    <x-button.webprimary class="w-full !md:mr-[65px]" x-on:click="$wire.add(count,color)"> Añadir a Carrito</x-button.webprimary>
+    <x-button.webprimary class="w-full !md:mr-[65px] scale-90" x-on:click="$wire.add(count,color)"> Añadir a Carrito</x-button.webprimary>
 
 
 </div>

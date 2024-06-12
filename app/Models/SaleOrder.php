@@ -30,7 +30,7 @@ class SaleOrder extends Model
     ];
     public function deliveryOrders(): HasOne {
     
-        return $this->hasOne(DeliveryOrder::class);
+        return $this->hasOne(DeliveryOrder::class,'order_id');
     }
     public function saleDetails()
     {
@@ -60,6 +60,22 @@ class SaleOrder extends Model
                         return 'Sin pagar';
             default:
                 return 'En proceso';
+        }
+    }
+    public function paso(){
+        switch ($this->attributes['status']) {
+            case 'PAID':
+                return '1';
+            case 'TRACKING':
+                return '2';
+            case 'CANCEL':
+                return '3';
+            case 'DONE':
+                    return '4';
+            case 'CREATE':
+                        return '0';
+            default:
+                return '6';
         }
     }
 }

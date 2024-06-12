@@ -14,7 +14,7 @@ class CategoryTable extends Component
     public $itemIdToDelete; public $category= '';
     public $name;
     public $code;
-    public $perPage = 5;
+    public $perPage = 10;
 
     #[Url(history:true)]
     public $search = '';
@@ -106,5 +106,12 @@ class CategoryTable extends Component
     }
     public function codeComplete() {
         $this->code = strtoupper($this->code);
+    }
+    public function reloadd(){
+        $this->showModal = false;
+    }
+    public function page($page)
+    {
+        $this->perPage = $page;
     }
 }

@@ -12,5 +12,5 @@
 @section('content')
 
 <livewire:shopping-cart />
-
+<x-preloader.heart />
 @endsection

@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <x-slot name="slot1">
-        <x-breadcrumb.title title='Lista de colores'/>
+        <x-breadcrumb.title title='Lista de Colores'/>
         <x-breadcrumb.breadcrumb>
 
             <x-breadcrumb.breadcrumb2 name='Colores'/>

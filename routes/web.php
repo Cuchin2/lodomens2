@@ -85,7 +85,8 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
     Route::get('panel/wishlist',[WishlistController::class,'index'])->name('webdashboard.wishlist');
     Route::get('panel/pefil',[WishlistController::class,'profile'])->name('webdashboard.profile');
     Route::get('panel/direcciones',[WishlistController::class,'address'])->name('webdashboard.address');
-    
+    Route::get('panel/compras',[WishlistController::class,'purchase'])->name('webdashboard.purchase');
+
     Route::get('checkout',[CheckoutController::class,'index'])->name('checkout.index');
     Route::post('checkout/crear',[CheckoutController::class,'create'])->name('checkout.create');
     Route::get('pagos',[CheckoutController::class,'pays'])->name('checkout.pay');

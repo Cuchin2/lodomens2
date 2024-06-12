@@ -164,6 +164,20 @@ class Product extends Model implements CanVisit
                 }
 
             }
+            public function status(){
+                switch ($this->attributes['status']) {
+                    case 'DRAFT  ':
+                        return 'Borrador';
+                    case 'SHOP':
+                        return 'Publicado';
+                    case 'DISABLED':
+                        return 'Cancelado';
+                    case 'POS':
+                            return 'Programado';
+                    default:
+                        return 'Borrador';
+                }
+            }
     /*
     public function my_store($request)
     {

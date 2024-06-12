@@ -20,7 +20,7 @@ class BrandTable extends Component
     public $name;
     public $slug;
      public $logo; public $description;
-    public $perPage = 5;
+    public $perPage = 10;
 
     #[Url(history:true)]
     public $search = '';
@@ -154,7 +154,7 @@ class BrandTable extends Component
                 $this->name = $name;
                 $this->itemIdToDelete = $itemId;
                 $this->slug = $slug;
-                $this->description = $description;
+                $this->description = Brand::find($itemId)->description ?? '';
                 $this->showModal = true;
                 $this->which = $abc;
         }
@@ -164,7 +164,7 @@ class BrandTable extends Component
                 $this->name = $name;
                 $this->itemIdToDelete = $itemId;
                 $this->slug = $slug;
-                $this->description = $description;
+                $this->description = Brand::find($itemId)->description ?? '';
                 $this->showModalDelete = true;
                 $this->which = $abc;
         }
@@ -189,5 +189,9 @@ class BrandTable extends Component
     }
     public function deletelogo(){
         $this->logo = null;
+    }
+    public function page($page)
+    {
+        $this->perPage = $page;
     }
 }

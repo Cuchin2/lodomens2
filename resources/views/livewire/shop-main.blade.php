@@ -13,23 +13,23 @@
             <x-icons.chevron-left height="22px" width="22px" grosor="2" class="p-1" />
         </div>
         <div class="hidden md:block w-fit ml-9 mr-9 whitespace-nowrap">
-            <p>{{--  107  --}} {{ $productsall->count() }} Resultados</p>
+            <p>{{--  107  --}} {{ $products->count() }} {{ $products->count() == 1 ? 'Resultado' : 'Resultados' }}</p>
         </div>
         <div class="mx-3 w-full">
             <div class="relative">
                 <x-icons.search class="absolute right-1 top-1 h-[20px] w-[20px] fill-gris-10" />
                 <input type="text"
                     wire:model.live.debounce.300ms="search"
-                    class="text-gris-60 bg-black h-[30px]  text-[12px] pr-[26px] rounded-[3px] focus:ring-gris-50 focus:border-gris-50 w-full "
+                    class="text-gris-20 bg-black h-[30px]  text-[12px] pr-[26px] rounded-[3px] focus:ring-gris-50 focus:border-gris-50 w-full "
                     placeholder="Buscar" required="" x-cloak>
             </div>
         </div>
         <div class="hidden md:block w-1/3 mx-3">
-            <x-select>
+            <x-select-web>
                 <option>Option 1</option>
                 <option>Option 2</option>
                 <option>Option 3</option>
-            </x-select>
+            </x-select-web>
         </div>
         <div class="flex my-auto">
             <div class="w-fit bg-gris-90 rounded p-1 ml-auto cursor-pointer md:hidden block"
@@ -55,7 +55,7 @@
                 open = false;
             }">
         <div class="h-full bg-gris-90 lg:w-[120px] xl:w-[205px] md:relative">
-        <ul class="md:fixed bg-gris-90 md:w-[148px] lg:w-[120px] xl:w-[200px] h-fit md:max-h-full overflow-hidden" @click.away="menu1 = 0">
+        <ul class="md:fixed bg-gris-90 md:w-[148px] lg:w-[120px] xl:w-[205px] h-fit md:max-h-full overflow-hidden" @click.away="menu1 = 0">
             <li class="mr-6 p-2 ">
                 <a class="text-gris-10 hover:text-red-600 text-[12px]">FILTROS</a>
             </li>

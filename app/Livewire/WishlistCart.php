@@ -19,7 +19,8 @@ class WishlistCart extends Component
             $abc=Cart::instance('wishlist')->update($item->rowId,['price'=> $sku->sell_price]);
             $abc=Cart::instance('wishlist')->update($item->rowId,[
                 'options'=> [
-                    'productImage' => $image,
+                    'productImage' => $image ?? 'image/dashboard/No_image_dark.png',
+                    'brand'=>$sku->product->brand->name,
                     'slug'=> $sku->product->slug,
                     'sku'=> $sku->code,
                     'color'=> $sku->color->name,
@@ -115,7 +116,8 @@ class WishlistCart extends Component
             $item->name,
             $item->qty,
             $item->price,
-            ['productImage' => $item->options->productImage,
+            ['productImage' => $item->options->productImage ?? 'image/dashboard/No_image_dark.png',
+            'brand'=> $item->options->brand,
             'slug'=> $item->options->slug,
             'sku'=> $item->options->sku,
             'color'=> $item->options->color,

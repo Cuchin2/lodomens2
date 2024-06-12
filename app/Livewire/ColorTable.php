@@ -205,4 +205,8 @@ class ColorTable extends Component
     public function deletelogo(){
         $this->logo = null;
     }
+    public function page($page)
+    {
+        $this->perPage = $page;
+    }
 }

@@ -32,7 +32,7 @@
                     <input
 
                     type="search" x-model="search"
-                    class="dark:bg-black mt-[11px] border-none h-[30px] dark:text-gris-40 text-[12px] rounded-[20px] focus:ring-gris-50 focus:border-gris-50 block w-full pl-10 p-2 "
+                    class="dark:bg-gris-100 border dark:border-gris-80 mt-[11px] h-[30px] dark:text-gris-40 text-[12px] rounded-[20px] focus:ring-gris-70 focus:border-gris-70 block w-full pl-10 p-2 "
                     placeholder="Buscar" required="">
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -137,8 +137,12 @@
 
                         <x-slot name="content">
                             <!-- Account Management -->
-                            <div class="block px-4 py-2 text-xs text-gray-400">
-                                {{ __('Manage Account') }}
+                            <div class="block px-4 py-1 text-[14px] text-gris-30">
+                                @php
+                                $usuario=auth()->user();
+                                @endphp
+                                {{ $usuario->name }} {{ $usuario->last_name }}
+                                {{--  {{ __('Manage Account') }}  --}}
                             </div>
 
                             <x-dropdown-link href="{{ route('profile.show') }}" wire:navigate >
@@ -151,7 +155,7 @@
                                 </x-dropdown-link>
                             @endif
 
-                            <div class="border-t border-gray-200 dark:border-gray-600"></div>
+                            {{--  <div class="border-t border-gray-200 dark:border-gris-50"></div>  --}}
 
                             <!-- Authentication -->
                             <form  action="{{ route('logout') }}" method="POST" x-data>
@@ -159,7 +163,7 @@
 
                                 <x-dropdown-link href="{{ route('logout') }}"
                                          @click.prevent="$root.submit();">
-                                    {{ __('Cerrar sesión') }}
+                                    {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
                         </x-slot>

@@ -64,16 +64,18 @@
                 </div>
 
                 <div class="w-1/2 flex justify-end relative {{ $step == 4 ? 'bg-gris-10 h-1 items-center ' : ''}}">
+                    @if($step < 4)
                     <div class="absolute bg-white dark:bg-gray-800 shadow-lg px-2 py-1 rounded mt-[32px] right-[-48px]">
                         <p tabindex="0" class="focus:outline-none text-gris-10 dark:text-indigo-400 text-xs font-bold whitespace-nowrap">4: Entregado</p>               
                     </div>
+                    @endif
                     @if ($step == 4)
-                    <div class="bg-white dark:bg-gray-700 h-6 w-6 rounded-full shadow flex items-center justify-center -mr-3 relative">
-                        <div class="h-3 w-3 bg-gris-10 rounded-full"></div>
+                    <div class="bg-white dark:bg-gris-10 h-6 w-6 rounded-full shadow flex items-center justify-center -mr-3 relative">
+                        {{--  <div class="h-3 w-3 bg-gris-10 rounded-full"></div>  --}}
                     </div>
-{{--                      <div class="absolute bg-white dark:bg-gray-800 shadow-lg px-2 py-1 rounded mt-[68px] mr-[-15px]">
+                    <div class="absolute bg-white dark:bg-gray-800 shadow-lg px-2 py-1 rounded mt-[68px] mr-[-15px]">
                         <p tabindex="0" class="focus:outline-none text-gris-10 dark:text-indigo-400 text-xs font-bold">4: Entregado</p>               
-                    </div>  --}}
+                    </div>
                     @else
                     <div class="bg-white dark:bg-gray-700 h-6 w-6 rounded-full shadow"></div>
                     @endif

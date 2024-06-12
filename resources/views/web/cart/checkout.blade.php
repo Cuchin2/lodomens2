@@ -11,7 +11,7 @@
 @section('content')
 
 <div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75  pb-1 2xl:min-h-[374px] lg:min-h-[278px]">
-    <form action="{{ route('checkout.create') }}" method="post">@csrf
+    <form action="{{ route('checkout.create') }}" method="post" onsubmit="handleSubmit(event)">@csrf
     <div class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="col-span-1 md:col-span-2">
             <div>
@@ -37,12 +37,12 @@
                     <div class=" grid grid-cols-2 gap-4 mb-4">
                         <div>
                             <x-labelweb>Documento <x-required /></x-labelweb>
-                            <x-select name="document_type" required>
+                            <x-select-web name="document_type" required>
                                 <option value="DNI" @if(old('document_type', $form1->document_type ??( $user->profile->document_type ?? '')) === 'DNI') selected @endif>DNI</option>
                                 <option value="PASS" @if(old('document_type', $form1->document_type ??( $user->profile->document_type ?? '')) === 'PASS') selected @endif>Passaporte</option>
                                 <option value="CARD" @if(old('document_type', $form1->document_type ??( $user->profile->document_type ?? '')) === 'CARD') selected @endif>Carnet de Estrangería</option>
                                 <option value="">Otros</option>           
-                            </x-select>
+                            </x-select-web>
                         </div>
 
                         <div>
@@ -50,7 +50,7 @@
                             <x-input-web name="dni" placeholder="Ingrese su N° de documento" value="{{ $form1->dni ?? ($user->profile->dni ?? '')}}" required></x-input-web>
                         </div>
                     </div>
-                    <div x-data="{address: {{ json_encode($address)}}, open:''}" x-init="if(address.name == '') { open= false;} else {open=true;}" 
+                    <div x-data="{address: {{ json_encode($address)}}, open:''}" x-init="if(address.name == '') { open= false;} else { open=true;}" 
                         @cambiazo.window="address.description=$event.detail.description; 
                         address.reference=$event.detail.reference; address.name=$event.detail.name; open=true;
                         ">
@@ -72,38 +72,38 @@
                         <div x-data="countryStateCity1()" class="grid grid-cols-2 gap-4">
                             <div>
                                 <x-labelweb>País <x-required /> </x-labelweb>
-                                <x-select x-model="selectedCountry" @change="fetchStates" name="country" required>
+                                <x-select-web x-model="selectedCountry" @change="fetchStates" name="country" required>
                                     <option value="" disabled selected>Selecciona el pais</option>
                                     <template x-for="country in countries" :key="country.code">
                                         <option :value="country.code" x-text="country.name" x-bind:selected="country.code === '{{ $form1->country ?? '' }}' ? true : false"></option>
                                         {{--  <option :value="country.code" x-text="country.name"></option>  --}}
                                     </template>
-                                </x-select>
+                                </x-select-web>
                                 <x-labelweb class="mt-4">Ciudad <x-required /> </x-labelweb>
-                                <x-select x-model="selectedCity" @change="fetchDistrits" name="city" required {{--  x-show="cities.length > 0"  --}}>
+                                <x-select-web x-model="selectedCity" @change="fetchDistrits" name="city" required {{--  x-show="cities.length > 0"  --}}>
                                     <option value="" disabled selected>Selecciona la ciudad</option>
                                     <template x-for="city in cities" :key="city.geonameId">
                                         <option :value="city.geonameId" x-text="city.name" x-bind:selected="city.geonameId === {{ $form1->city ?? '' }} ? true : false"></option>
                                     </template>
-                                </x-select>
+                                </x-select-web>
 
                             </div>
                             <div>
                                 <x-labelweb >Estado/Provincia <x-required /> </x-labelweb>
-                                <x-select x-model="selectedState" @change="fetchCities" name="state" required {{--  x-show="states.length > 0"  --}}>
+                                <x-select-web x-model="selectedState" @change="fetchCities" name="state" required {{--  x-show="states.length > 0"  --}}>
                                     <option value="" disabled selected>Selecciona el Estado/Departamento</option>
                                     <template x-for="state in states" :key="state.geonameId">
                                         <option :value="state.geonameId" x-text="state.name" x-bind:selected="state.geonameId === {{ $form1->state ?? '' }} ? true : false"></option>
                                     </template>
-                                </x-select>
+                                </x-select-web>
 
                                 <x-labelweb class="mt-4">Distrito/Localidad <x-required /> </x-labelweb>
-                                <x-select x-model="selectedDistrit" name="district" required {{--  x-show="distrits.length > 0"  --}}>
+                                <x-select-web x-model="selectedDistrit" name="district" required {{--  x-show="distrits.length > 0"  --}}>
                                     <option value="" disabled selected>Selecciona el distrito</option>
                                     <template x-for="distrit in distrits" :key="distrit.geonameId">
                                         <option :value="distrit.geonameId" x-text="distrit.name" x-bind:selected="distrit.geonameId === {{ $form1->district ?? '' }} ? true : false"></option>
                                     </template>
-                                </x-select>
+                                </x-select-web>
                             </div>
                         </div>
                         <script>
@@ -217,38 +217,38 @@
                         <div x-data="countryStateCity()" class="grid grid-cols-2 gap-4">
                             <div>
                                 <x-labelweb>País <x-required /> </x-labelweb>
-                                <x-select x-model="selectedCountry" @change="fetchStates" name="country2" x-bind:required="open">
+                                <x-select-web x-model="selectedCountry" @change="fetchStates" name="country2" x-bind:required="open">
                                     <option value="" disabled selected>Selecciona el pais</option>
                                     <template x-for="country in countries" :key="country.code">
                                         <option :value="country.code" x-text="country.name" x-bind:selected="country.code === '{{ $form2->country ?? '' }}' ? true : false"></option>
                                         {{--  <option :value="country.code" x-text="country.name"></option>  --}}
                                     </template>
-                                </x-select>
+                                </x-select-web>
                                 <x-labelweb class="mt-4">Ciudad <x-required /> </x-labelweb>
-                                <x-select x-model="selectedCity" @change="fetchDistrits" name="city2" x-bind:required="open" {{--  x-show="cities.length > 0"  --}}>
+                                <x-select-web x-model="selectedCity" @change="fetchDistrits" name="city2" x-bind:required="open" {{--  x-show="cities.length > 0"  --}}>
                                     <option value="" disabled selected>Selecciona la ciudad</option>
                                     <template x-for="city in cities" :key="city.geonameId">
                                         <option :value="city.geonameId" x-text="city.name" x-bind:selected="city.geonameId === {{ $form2->city ?? '' }} ? true : false"></option>
                                     </template>
-                                </x-select>
+                                </x-select-web>
 
                             </div>
                             <div>
                                 <x-labelweb >Estado/Provincia <x-required /> </x-labelweb>
-                                <x-select x-model="selectedState" @change="fetchCities" name="state2" x-bind:required="open"  {{--  x-show="states.length > 0"  --}}>
+                                <x-select-web x-model="selectedState" @change="fetchCities" name="state2" x-bind:required="open"  {{--  x-show="states.length > 0"  --}}>
                                     <option value="" disabled selected>Selecciona el Estado/Departamento</option>
                                     <template x-for="state in states" :key="state.geonameId">
                                         <option :value="state.geonameId" x-text="state.name" x-bind:selected="state.geonameId === {{ $form2->state ?? '' }} ? true : false"></option>
                                     </template>
-                                </x-select>
+                                </x-select-web>
 
                                 <x-labelweb class="mt-4">Distrito/Localidad <x-required /> </x-labelweb>
-                                <x-select x-model="selectedDistrit" name="district2" x-bind:required="open" {{--  x-show="distrits.length > 0"  --}}>
+                                <x-select-web x-model="selectedDistrit" name="district2" x-bind:required="open" {{--  x-show="distrits.length > 0"  --}}>
                                     <option value="" disabled selected>Selecciona el distrito</option>
                                     <template x-for="distrit in distrits" :key="distrit.geonameId">
                                         <option :value="distrit.geonameId" x-text="distrit.name"  x-bind:selected="distrit.geonameId === {{ $form2->district ?? '' }} ? true : false"></option>
                                     </template>
-                                </x-select>
+                                </x-select-web>
                             </div>
                         </div>
                         <script>
@@ -323,10 +323,10 @@
 
             </div>
         </div>
-        <div>
+        <div x-data="{check: false}">
             <div>
                 <h5 class="p-2">TU PEDIDO</h5>
-                <div class="bg-gris-100 p-4 rounded-[3px] mb-4">
+                <div class="bg-gris-100 p-4 rounded-[3px]">
                     <div>
                         <h5>Resumen de pedido</h5>
                         <div class="flex justify-between my-8">
@@ -344,24 +344,71 @@
                     </div>
                 </div>
             </div>
-            <div class="my-4">
-                <span>Sus datos personales se utilizarán para procesar su pedido, respaldar su experiencia en este
-                    sitio web y para otros fines descritos en nuestra <r class="text-corp-30 font-bold">política de
-                        privacidad</r> </span>
-            </div>
-            <div class="flex items-center">
-                <input type="checkbox" id="check" name="terms">
-                <label for="check"></label><label class="form-check-label">Al registrarte estás
-                    aceptando los<a href="#"><b class="hover:text-corp-30"> Términos y
-                            Condiciones</b></a></label>
-            </div>
-            
-             <x-button.websecondary type="submit" class="w-full">Realizar Pedido</x-button.websecondary>
+            <div class="my-2 p-4">
+                @foreach (Cart::instance('cart')->content() as $item)
+                <div class="mb-4">
+                  <div class="flex justify-between mb-1">
+                    <p class="font-bold">{{ $item->name }}</p> <p class="font-bold">S/. {{ $item->qty*$item->price }}</p>
+                  </div> 
+                  <div class="grid grid-cols-3 gap-4">
+                    <div class="col-span-1">
+                        <a class="flex w-max items-center"
+                        href="{{ route('web.shop.show',['product'=>$item->options->slug,'color'=>$item->options->color_id]) }}">
+                        <x-outstock text="text-[10px]" class="!w-[35px] !h-[35px] md:!w-[65px] md:!h-[65px]" url="{{ $item->options->productImage }}" name="{{ $item->name }}" stock="{{ $item->options->stock }}"/>
+                    </a>
+                    </div>
+                    <div class="col-span-2">
+                        <p1>Precio unidad: S/.{{ $item->price }}</p1>
+                        <p1>Color: {{ $item->options->color }}</p1>
+                        <p1> {{ $item->qty == 1 ? '1 unidad' : $item->qty.' unidades' }}</p1>
+                    </div>
+                  </div> 
+                </div>
+                @endforeach
+                
 
+            </div>
+            <div class="flex items-center space-x-4">
+                <div>
+                    <x-checkbox.webcheckbox  @change="check= !check" ::value="check" />
+                </div>
+            <p1>  Al registrarte estás aceptando los <p1/>
+                    <a href="#" class="text-[14px]"><b class="hover:text-corp-30"> Términos y Condiciones</b></a></label>
+            </div>
+            <div class="mt-4 select-none" :class="check ? '' : 'opacity-40 '">
+             <x-button.websecondary type="submit" class="w-full " ::class="check ? '' :'cursor-not-allowed'" ::disabled="!check"  {{--  @click="$dispatch('heart')"  --}}>Realizar Pedido</x-button.websecondary>
+            </div>
         </div>
     </div>
     </form>
 </div>
 <livewire:checkout-modal />
-
+<x-preloader.heart />
 @endsection
+
+@push('scripts')
+<script>
+    function handleSubmit(event) {
+        event.preventDefault();
+        // Validación HTML5 se realiza automáticamente con el submit
+
+        const form = event.target;
+
+        if (form.checkValidity()) {
+            // Si la validación HTML5 es exitosa, envía el formulario
+            window.dispatchEvent(new CustomEvent('heart'));
+            form.submit();
+            // Ejecuta tu función adicional aquí después de enviar el formulario
+            additionalFunction();
+        } else {
+            // Si hay errores de validación, se pueden manejar aquí (opcional)
+            alert("Por favor, complete todos los campos requeridos.");
+        }
+    }
+
+    function additionalFunction() {
+        // Tu lógica adicional aquí
+        console.log("Formulario enviado y lógica adicional ejecutada.");
+    }
+</script>
+@endpush

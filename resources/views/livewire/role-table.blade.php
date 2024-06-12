@@ -103,21 +103,7 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-                        <div class="relative w-[260px] ml-auto">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <x-icons.search class="w-[14px] h-[14px] text-gris-300 dark:text-gris-40" />
-                            </div>
-                            <input
-                                wire:model.live.debounce.300ms="search"
-                                type="text"
-                                class="dark:bg-gris-90  border-none h-[30px] dark:text-gris-40 text-[12px] rounded-[20px] focus:ring-gris-50 focus:border-gris-50 block w-full pl-10 p-2 "
-                                placeholder="Buscar" required="">
-                        </div>
+                        <x-specials.search />
                     </div>
 
 
@@ -168,26 +154,7 @@
 
                 <div class="py-[20px] mx-[20px]">
                     <div class="flex ">
-                        <div class="flex space-x-2 items-center">
-                            <div class="text-[#7A7A7A] text-[12.07px] font-inter font-normal leading-20.12">
-                                Mostrar
-                            </div>
-                            <div class="flex items-center gap-7">
-                                <select
-                                wire:model.live='perPage'
-                                class="bg-gris-90 border border-gris-70 text-gris-20 text-[12px] rounded-lg focus:ring-gris-50 focus:border-gris-50 block w-[44px] pl-[3px] pr-[2px] py-[2px] ">
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                            </div>
-                            <div class="text-[#7A7A7A] text-[12.07px] font-inter font-normal leading-20.12">
-                                entradas
-                            </div>
-
-                        </div>
+                    <x-specials.select perPage="{{ $perPage }}"/>
 
                         {{$roles->links('vendor.livewire.nubesita')}}
                     </div>

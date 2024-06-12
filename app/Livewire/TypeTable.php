@@ -20,7 +20,7 @@ class TypeTable extends Component
     public $name; public $color;
     public $slug;
     public $logo; public $description;
-    public $perPage = 5;
+    public $perPage = 10;
 
     #[Url(history:true)]
     public $search = '';
@@ -112,7 +112,7 @@ class TypeTable extends Component
                 $this->logo->storeAs('image/lodomens/', $fileName, 'public');
             }
             else {
-                if ($this->logo) {
+                if (is_object($this->logo)) {
                     $fileName= time().'-'. $this->logo->getClientOriginalName();
                     $url_name='image/lodomens/'.$fileName;
                     $brand->images()->create([
@@ -146,7 +146,7 @@ class TypeTable extends Component
     public function showDeleteModal($itemId,$name,$abc,$description,$slug,$file,$color)
         { $this->resetValidation();
            if(isset($file)){
-            $this->dispatch('notify',url: $file);
+            $this->dispatch('notify',url: $file,filename:basename(parse_url($file, PHP_URL_PATH)) );
              }
              if( $abc === 'CREATE') { $this->dispatch('notify2'); }
                 $this->logo = $file;
@@ -188,5 +188,12 @@ class TypeTable extends Component
         $type->is_default= 1;
         $type->save();
         Type::where('id', '!=', $id)->update(['is_default' => 0]);
+    }
+    public function deletelogo(){
+        $this->logo = null;
+    }
+    public function page($page)
+    {
+        $this->perPage = $page;
     }
 }

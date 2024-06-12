@@ -12,7 +12,7 @@ class BrandFactory extends Factory
     {   $name= $this->faker->unique()->word();
         return [
             'name' => $name,
-            'slug' => Str::slug($name),
+            'slug' => Str::slug(substr($name, 0, 2)),
             'description' => $this-> faker->sentence($nbWords= 6, $variableNBWords =true),
         ];
     }

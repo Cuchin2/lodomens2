@@ -134,9 +134,7 @@
                         <div class="my-3">
                             <x-label for="password_confirmation" value="{{ __('Nueva contraseña') }}" />
                             <div class="mt-1 items-center password-input" x-data="{ show: true }">
-                                <input class="w-full border-gray-300 h-[30px] dark:border-gray-700 dark:bg-gris-90 dark:text-gris-30 focus:border-cop-50 dark:focus:border-corp-70 focus:ring-corp-50 dark:focus:ring-corp-70 rounded-md shadow-sm text-[12px] pr-[30px]
-
-                                " :type="show ? 'password' : 'text'" placeholder="Contraseña" name="password" >
+                                <input class="w-full border dark:border-gris-70 dark:bg-gris-90 dark:text-gris-30 dark:focus:border-gris-50 dark:focus:ring-gris-50 dark:placeholder-gris-50 height: 30px rounded-md text-[12px] h-[30px] pr-[30px]" :type="show ? 'password' : 'text'" placeholder="Contraseña" name="password" >
 
                                 <div class="password-icon dark:text-gray-400  px-1  text-sm leading-5">
                                     <x-icons.eye_open x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': show, 'block': !show }"/>
@@ -154,9 +152,7 @@
                         <div class="my-3">
                             <x-label for="password_confirmation" value="{{ __('Confirmar nueva Contraseña') }}" />
                             <div class="mt-1 items-center password-input" x-data="{ show: true }">
-                                <input class="w-full border-gray-300 h-[30px] dark:border-gray-700 dark:bg-gris-90 dark:text-gris-30 focus:border-cop-50 dark:focus:border-corp-70 focus:ring-corp-50 dark:focus:ring-corp-70 rounded-md shadow-sm text-[12px] pr-[30px]
-
-                                " :type="show ? 'password' : 'text'" placeholder="Repetir contraseña"  name="password_confirmation">
+                                <input class="w-full border dark:border-gris-70 dark:bg-gris-90 dark:text-gris-30 dark:focus:border-gris-50 dark:focus:ring-gris-50 dark:placeholder-gris-50 height: 30px rounded-md text-[12px] h-[30px] pr-[30px]" :type="show ? 'password' : 'text'" placeholder="Repetir contraseña"  name="password_confirmation">
 
                                 <div class="password-icon dark:text-gray-400  px-1  text-sm leading-5">
                                     <x-icons.eye_open x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': show, 'block': !show }"/>
@@ -179,28 +175,17 @@
                         <div class="my-3">
                             <x-label class="mb-2">Fecha de nacimiento</x-label>
                             <input type="date"
-                                class="border-gray-300 dark:border-gris-60 dark:bg-gris-90 dark:text-gris-30 focus:border-corp-50 dark:focus:border-corp-50 focus:ring-corp-50 dark:focus:ring-corp-60 rounded-lg shadow-sm text-[12px] h-[30px]
-                                block"
+                                class="border dark:border-gris-70 dark:bg-gris-90 dark:text-gris-30 dark:focus:border-gris-50 dark:focus:ring-gris-50 dark:placeholder-gris-50 height: 30px rounded-md text-[12px] h-[30px] block"
                                 name="birthday" id="birthday">
                             <span class="dark:text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
                         </div>
                         <div class="mt-4 dark:text-gray-300">
                             <x-label class="mb-2">Listado de roles</x-label>
                             @foreach ($roles as $role)
-
-                                <input class="hidden" type="checkbox"  name="roles[]" {{ $user->roles->contains($role) ? 'checked' : '' }} value="{{ $role->id }}" id="{{$role->id}}">
-                                <label class="flex text-[12px] items-center relative mb-[5px]" for="{{$role->id}}">
-                                <span class="pan"></span>
-                                {{ $role->name }}
-                                </label>
-
-
-
+                            <x-checkbox id="{{$role->id}}" rule="{{ $user->roles->contains($role) }}" value="{{ $role->id }}" name="roles[]">{{ $role->name }}</x-checkbox>
                             @endforeach
                         </div>
-
                         <x-button.corp1 type="submit" class="ml-auto">Actualizar</x-button.corp1>
-
                     </div>
                 </div>
             </div>
@@ -209,7 +194,7 @@
             .password-input {
           position: relative;
         }
-
+ 
         .password-input input[type="password"] {
           padding-right: 40px; /* Espacio para el icono */
         }

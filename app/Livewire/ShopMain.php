@@ -35,6 +35,7 @@ class ShopMain extends Component
     {
         return view('livewire.shop-main',[
             'products' => Product::search($this->search)
+            ->where('status','SHOP')
             ->when($this->type !== '',function($query){
                 $query->where('name',$this->type);
             })
@@ -42,7 +43,6 @@ class ShopMain extends Component
             ->paginate($this->perPage),
             'categories' => Category::all(),
             'brands' => Brand::all(),
-            'productsall'=> Product::all(),
         ]);
     }
     public function addToCart()
@@ -56,7 +56,8 @@ class ShopMain extends Component
             $product->name,
             $qtn,
             $price,
-            ['productImage' => $this->image,
+            ['productImage' => $this->image ?? 'image/dashboard/No_image_dark.png',
+            'brand'=>$product->brand->name,
             'slug'=> $product->slug,
             'sku'=> $this->skus->code,
             'color'=> $this->skus->color->name,
@@ -72,7 +73,8 @@ class ShopMain extends Component
                 $product->name,
                 $qtn,
                 $price,
-                ['productImage' => $this->image,
+                ['productImage' => $this->image ?? 'image/dashboard/No_image_dark.png',
+                'brand'=>$product->brand->name,
                 'slug'=> $product->slug,
                 'sku'=> $this->skus->code,
                 'color'=> $this->skus->color->name,

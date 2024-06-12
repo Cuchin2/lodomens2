@@ -2,9 +2,10 @@
 
 @section('main')
 <div class=" text-gris-90 md:mt-[84px] mt-[44px]">
-    <div class="">
+    <x-carrusel />
+{{--      <div class="">
         <img src="{{ asset('image/lodomens/Banner_Carrusel_1.png') }}" class="w-full" alt="Lodomens">
-    </div>
+    </div>  --}}
     <div class="grid grid-cols-2 col-span-1">
         <div class="col-6">
             <a href="https://www.youtube.com/watch?v=SI841UoThPM" target="__blank"> <img

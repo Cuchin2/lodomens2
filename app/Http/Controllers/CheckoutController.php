@@ -20,7 +20,7 @@ class CheckoutController extends Controller
             }
             // Elimina la variable de sesión para evitar reutilización
             session()->forget('can_checkout');
-
+         
         $user = auth()->user(); $form1= null ; $form2 = null;  $on = null;
         $getCity= null;   $getCity2= null;
         $getDistrit= null;        $getDistrit2= null;
@@ -35,17 +35,17 @@ class CheckoutController extends Controller
             ];
         });
         $form1= SaleOrder::where(['user_id'=>$user->id,'status'=>'CREATE'])->first();
+    
         if($form1){
         $address = collect(['name'=>'', 'description'=>$form1->address, 'reference'=> $form1->reference]);
 
-
         $response = Http::get("http:/api.geonames.org/searchJSON?country=$form1->country&lang=es&username=$username");
         $countryId=$response->json()['geonames'][0]['countryId'];
-
         $getState = Http::get("http:/api.geonames.org/childrenJSON?geonameId=$countryId&lang=es&username=$username")->json()['geonames'];
         $getCity = Http::get("http:/api.geonames.org/childrenJSON?geonameId=$form1->state&lang=es&username=$username")->json()['geonames'];
         $getDistrit = Http::get("http:/api.geonames.org/childrenJSON?geonameId=$form1->city&lang=es&username=$username")->json()['geonames'];
-        $form2= DeliveryOrder::where('order_id',$form1->id)->first();
+        
+        $form2= $form1->deliveryOrders;
         } else {
             $address = Address::where(['user_id'=>$user->id,'current'=>1])->first();
         }
@@ -71,7 +71,7 @@ class CheckoutController extends Controller
         $formToken = $this->generateFormToken();  
         $sessionToken = $this->generateSessionToken();
         $preferenceId = $this->generatePreferenceId();
-        return view('web.cart.pay',compact('formToken','sessionToken','preferenceId',));
+        return view('web.cart.pay',compact('formToken','sessionToken','preferenceId'));
     }
     private function generateFormToken(){
         $auth= base64_encode(config('services.izipay.client_id').':'.config('services.izipay.secret'));
@@ -137,7 +137,7 @@ class CheckoutController extends Controller
         return $preference->id;
     }
     public function create(Request $request){
-        /* dd($request->all()); */
+       // formulario #1
         $saleOrder = SaleOrder::updateOrCreate(
             ['status' => 'CREATE', 'user_id' => $request->user_id],
             [
@@ -172,7 +172,7 @@ class CheckoutController extends Controller
                    'state' => $request->state2,
                    'district' => $request->district2,
                ]
-           ); 
+           );  
              }
         } else{
             DeliveryOrder::where('order_id', $saleOrder->id)->delete();

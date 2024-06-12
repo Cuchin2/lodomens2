@@ -63,66 +63,100 @@
     {{-- fin de error de pago --}}
 
 
-    <div class="bg-gris-100 p-4 rounded-[3px]" x-data="{selectedFruit: ['']}">
-        <h5 class="mb-4">Métodos de Pago</h5>
-        <div class="mb-4">
-            <input x-model="selectedFruit" value="izipay" id="radio1" type="radio" name="radio"
-                class="hidden" />
-            <label for="radio1" class="flex items-center cursor-pointer">
-                <span class="w-4 h-4 inline-block mr-2 rounded-full border flex-no-shrink"></span>
-                <img src="{{ asset('storage/image/logos_pasarela/Logo_Izipay.svg') }}" alt="izipay" width="70px">
-            </label>
-        </div>
-        <div x-show="selectedFruit === 'izipay'" class="flex justify-center">
-            {{-- formulario de izipay --}}
-
-            <div class="kr-embedded" kr-form-token="{{ $formToken }}">
-
-            </div>
-
-        </div>
-        <div class="mb-4" @click="VisanetCheckout.open()">
-            <input x-model="selectedFruit" value="niubiz" id="radio2" type="radio" name="radio"
-                class="hidden" />
-            <label for="radio2" class="flex items-center cursor-pointer">
-                <span class="w-4 h-4 inline-block mr-2 rounded-full border flex-no-shrink"></span>
-                <img src="{{ asset('storage/image/logos_pasarela/Logo_Niubiz.svg') }}" alt="izipay" width="75px">
-            </label>
-        </div>
-        <div class="mb-4">
-            <input x-model="selectedFruit" value="paypal" id="radio3" type="radio" name="radio"
-                class="hidden" />
-            <label for="radio3" class="flex items-center cursor-pointer">
-                <span class="w-4 h-4 inline-block mr-2 rounded-full border flex-no-shrink"></span>
-                <img src="{{ asset('storage/image/logos_pasarela/Logo_Paypal.svg') }}" alt="izipay" width="75px">
-            </label>
-            <div id="paypal-button-container" x-show="selectedFruit == 'paypal'" x-cloak></div>
-            
-        </div>
-        <div class="mb-4">
-            <input x-model="selectedFruit" value="mercadopago" id="radio4" type="radio" name="radio"
-                class="hidden" />
-            <label for="radio4" class="flex items-center cursor-pointer">
-                <span class="w-4 h-4 inline-block mr-2 rounded-full border flex-no-shrink"></span>
-                <img src="{{ asset('storage/image/logos_pasarela/Logo_MercadoPago.svg') }}" alt="izipay" width="75px">
-            </label>
-            <div id="wallet_container" x-show="selectedFruit == 'mercadopago'" x-cloak></div>
-        </div>
-
+    <div class="flex flex-col text-center bg-gris-90 h-full p-3 rounded-[5px] border-[1px] border-gris-70 w-1/3 min-w-fit my-6 mx-auto">
         
-       {{--   <div class="my-4">
-            <span>Sus datos personales se utilizarán para procesar su pedido, respaldar su experiencia en este
-                sitio web y para otros fines descritos en nuestra <r class="text-corp-30 font-bold">política de
-                    privacidad</r> </span>
-        </div>
-        <div class="flex items-center">
-            <input type="checkbox" id="check" name="terms">
-            <label for="check"></label><label class="form-check-label">Al registrarte estás
-                aceptando los<a href="#"><b class="hover:text-corp-30"> Términos y
-                        Condiciones</b></a></label>
-        </div>
-         <x-button.websecondary class="w-full">Realizar Pedido</x-button.websecondary>    --}}
+        <h5 class="mb-4">Métodos de Pago</h5>
+        <div class="flex flex-col mx-auto w-[280px] space-y-4">
+
+            {{--  izipay  --}}
+            <div x-data="{open:false}">
+                <button x-on:click="open = !open" class="flex justify-center w-full bg-gray-100 py-2 rounded-lg shadow" x-on:click="open = !open">
+                    <img src="{{ asset('storage/image/logos_pasarela/izipay2.png') }}" class="h-8" alt="Logo Izipay">
+                </button>
+                <div class="flex justify-center mt-4" x-show="open" x-cloak>
+                <div class="kr-embedded" kr-form-token="{{ $formToken }}" ></div>
+                </div>
+            </div>
+            {{--  Niubiz  --}}
+            <div>
+                <button onclick="VisanetCheckout.open()" class="flex justify-center w-full bg-gray-100 py-2 rounded-lg shadow">
+                    <img src="https://codersfree.com/img/payments/niubiz.png" class="h-8" alt="Logo Niubiz">
+                </button>
+            </div>
+            {{--  Paypal  --}}
+            <div x-data="{ open: false }">
+                <button x-on:click="open = true" x-show="!open" class="flex justify-center w-full bg-gray-100 py-2 rounded-lg shadow">
+                    <img src="https://codersfree.com/img/payments/paypal.png" class="h-8" alt="Logo Niubiz">
+                </button>
+
+                <div x-show="open" style="display: none" @click.away="open = false;">
+                    <div id="paypal-button-container"><div id="zoid-paypal-buttons-uid_e778a56623_mde6mji6ntg" class="paypal-buttons paypal-buttons-context-iframe paypal-buttons-label-unknown paypal-buttons-layout-vertical" data-paypal-smart-button-version="5.0.440" style="height: 0px; transition: all 0.2s ease-in-out 0s;"><style nonce="">
+                            <style>
+
+                            #zoid-paypal-buttons-uid_e778a56623_mde6mji6ntg {
+                                position: relative;
+                                display: inline-block;
+                                width: 100%;
+                                min-height: 35px;
+                                min-width: 200px;
+                                font-size: 0;
+                            }
+
+                            #zoid-paypal-buttons-uid_e778a56623_mde6mji6ntg > iframe {
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                height: 100%;
+                            }
+
+                            #zoid-paypal-buttons-uid_e778a56623_mde6mji6ntg > iframe.component-frame {
+                                z-index: 100;
+                            }
+
+                            #zoid-paypal-buttons-uid_e778a56623_mde6mji6ntg > iframe.prerender-frame {
+                                transition: opacity .2s linear;
+                                z-index: 200;
+                            }
+
+                            #zoid-paypal-buttons-uid_e778a56623_mde6mji6ntg > iframe.visible {
+                                opacity: 1;
+                            }
+
+                            #zoid-paypal-buttons-uid_e778a56623_mde6mji6ntg > iframe.invisible {
+                                opacity: 0;
+                                pointer-events: none;
+                            }
+
+                            #zoid-paypal-buttons-uid_e778a56623_mde6mji6ntg > .smart-menu {
+                                position: absolute;
+                                z-index: 300;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                            }
+                        </style> 
+                        </div>
+                    </div>
+                </div>
+            </div>  
+
+
+            {{--  Mercado pago  --}}
+            <div  x-data="{ open: false }">
+                <button x-on:click="open = true" x-show="!open" class="flex justify-center w-full bg-gray-100 py-2 rounded-lg shadow">
+                    <img src="{{ asset('storage/image/logos_pasarela/Logo_MercadoPago.png') }}" class="h-8" alt="Logo Niubiz">
+                </button>
+                <div id="wallet_container" x-show="open" x-cloak></div>
+            </div>
+        <style>
+        #wallet_container > div > div > div > div {
+            margin: 0 !important;
+        }
+        </style>
+   
     </div>
+</div>
 @endsection
 
 
@@ -145,13 +179,13 @@
                 expirationminutes:'20',
                 timeouturl:"{{ route('checkout.index') }}",
                 merchantlogo: "https://pruebas.nubesita.com/storage/662851f44f745.png",
-                formbuttoncolor:'#000000',
+                formbuttoncolor:'#900D0D',
                 action:"{{ route('paid.niubiz') }}"+'?purchasenumber='+purchasenumber+'&amount='+amount,
                 complete: function(params) {
                 alert(JSON.stringify(params));
                 }
             });
-        });
+        });  
 </script>
 //paypal
 <script>
@@ -185,6 +219,7 @@
 </script>
 //mercadopago
 <script>
+
     const mp = new MercadoPago("{{ config('services.mercadopago.key') }}");
     const bricksBuilder = mp.bricks();
     mp.bricks().create("wallet", "wallet_container", {
@@ -198,7 +233,7 @@
       },
       },
      });
-     
+
 </script>
 @endpush
 

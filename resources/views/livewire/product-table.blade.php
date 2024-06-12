@@ -2,7 +2,7 @@
     <section >
         <div class="w-full">
             <!-- Start coding here -->
-            <div class="relative shadow-md sm:rounded-lg overflow-hidden">
+            <div class="relative shadow-md sm:rounded-lg overflow-auto bar">
                 <div class="flex items-center justify-between">
                     <div class="flex w-full m-[20px]">
 
@@ -99,19 +99,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="relative w-[260px] ml-auto">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <x-icons.search class="w-[14px] h-[14px] text-gris-300 dark:text-gris-40" />
-                            </div>
-                            <input
-                                wire:model.live.debounce.300ms="search"
-                                type="text"
-                                class="dark:bg-gris-90  border-none h-[30px] dark:text-gris-40 text-[12px] rounded-[20px] focus:ring-gris-50 focus:border-gris-50 block w-full pl-10 p-2 "
-                                placeholder="Buscar" required="">
-                        </div>
+                        <x-specials.search />
                     </div>
                 </div>
-                <div class="overflow-x-auto">
+                <div>
                     <table class="w-full text-center   dark:text-gris-30">
                         <thead class="text-[16px] text-gris-20  bg-gris-70 ">
                             <tr>
@@ -121,7 +112,7 @@
                                     Nombre
                                     </th>
 
-                                <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('status')">Estado</th>
+                                <th scope="col" class="px-4 w-[123px] py-[13px] font-normal cursor-pointer" wire:click="setSortBy('status')">Estado</th>
                                 <th scope="col" class="px-4 py-[13px] font-normal text-center">
                                     Acciones
                                 </th>
@@ -147,19 +138,24 @@
                                     }
                                     @endphp
                                     <th scope="row" class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
-                                        <img src="{{ asset('storage/'.($firstImage[$key0]->url ?? 'image/dashboard/No_image_dark.png'))}}" class="{{ isset($firstImage[$key0]->url) ? 'border-[2px] border-corp-50' : 'border-[1px] border-gris-50'}} rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
+                                        <img src="{{ asset('storage/'.($firstImage[$key0]->url ?? 'image/dashboard/No_image_dark.png'))}}" class="{{ isset($firstImage[$key0]->url) ? 'border-[1px] border-gris-50' : 'border-[1px] border-gris-50'}} rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
                                       </th>
                                 <td class="px-4 py-[13px] ">
                                     {{$product->name}}</td>
-                                <td class="px-4 py-[13px]"><x-button.success class="mx-auto">{{$product->status}}</x-button.success>
+                                    <td class="px-4 py-[13px]" wire:ignore>   
+
+                                        <x-dropdown.dropdownproduct status="{{ $product->status() }}" id="{{ $product->id }}" name="{{$product->name}}"/>
+                                     </td>
                                 </td>
-                                <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
+                                <td class="px-4 py-[13px] flex items-center justify-center space-x-5 h-[63px]">
+                                   
                                     <a class="text-azul-50 hover:text-azul-30" href="{{route('inventory.products.edit',$product->slug)}}">
                                         <x-icons.edit></x-icons.edit>
                                     </a>
-                                    <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal('{{ $product->slug }}','{{$product->name}}')" >
+                                    <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal('{{ $product->id }}','{{$product->name}}')" >
                                         <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                     </button>
+                               
                                 </td>
                             </tr>
                             @endforeach
@@ -168,25 +164,7 @@
                 </div>
                 <div class="py-[20px] mx-[20px]">
                     <div class="flex ">
-                        <div class="flex space-x-2 items-center">
-                            <div class="text-[#7A7A7A] text-[12.07px] font-inter font-normal leading-20.12">
-                                Mostrar
-                            </div>
-                            <div class="flex items-center gap-7">
-                                <select
-                                wire:model.live='perPage'
-                                class="bg-gris-90 border border-gris-70 text-gris-20 text-[12px] rounded-lg focus:ring-gris-50 focus:border-gris-50 block w-[44px] pl-[3px] pr-[2px] py-[2px] ">
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                            </div>
-                            <div class="text-[#7A7A7A] text-[12.07px] font-inter font-normal leading-20.12">
-                                entradas
-                            </div>
-                        </div>
+                        <x-specials.select perPage="{{ $perPage }}"/>
                         {{$products->links('vendor.livewire.nubesita')}}
                     </div>
                 </div>
@@ -194,17 +172,26 @@
         </div>
         <x-dialog-modal wire:model="showModal">
             <x-slot name="title">
-                Confirmar Eliminación
+                {{ $change2 == 'STATUS' ? 'Confirmar cambio de estado': ( $change2 == 'STOP'? 'Advertencia' : 'Confirmar Eliminación')  }}
             </x-slot>
 
             <x-slot name="content">
-                ¿Estás seguro de que deseas eliminar el producto "<b>{{$itemName}}</b>"?
+               
+               @if($change2 == 'STATUS')  
+               ¿Estás seguto de cambiar el estado del producto "<b>{{$itemName}}</b>" <br>
+               <div class="flex space-x-1 mt-2"><p>De</p> <p class="text-{{ $color1 }}-10">{{ $status }}</p> <p>a</p> <p class='text-{{ $color2 }}'>{{ $status2 }}</p></div>
+               @elseif ($change2 == 'STOP')
+               No es posible cambiar al estado <b class="text-verde-10">Publicado</b> un producto que no tenga definido sus parámetos.
+               @else ¿Estás seguro de que deseas eliminar el producto "<b>{{$itemName}}</b>"? @endif
+               
+               
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.corp_secundary wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
-                <x-button.corp1 wire:click="delete('{{$itemIdToDelete}}')" wire:loading.attr="disabled">Eliminar</x-button.corp1>
-
+                <x-button.corp_secundary wire:click="$toggle('showModal')" wire:loading.attr="disabled">{{ $change2 == 'STOP' ? 'Ok' : 'Cancelar'}}</x-button.corp_secundary>
+                @if($change2 !== 'STOP')
+                <x-button.corp1 wire:click="delete('{{$itemIdToDelete}}')" wire:loading.attr="disabled">Aceptar</x-button.corp1>
+                @endif
             </x-slot>
         </x-dialog-modal>
         <x-dialog-modal wire:model="showModalCreate">

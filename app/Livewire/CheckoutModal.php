@@ -16,42 +16,62 @@ class CheckoutModal extends Component
     }
     #[On('modal')]
     public function modal(Request $request)
-    {  
+    {
         $this->showModal=true;
         $this->select = $request->input('components.0.calls.0.params.1.select');
         $this->cual =  $request->input('components.0.calls.0.params.1.cual');
     }
-    public function hola(){ 
+    public function hola(){
         if($this->select == 'SELECT')
         {
-        $address = Address::find($this->id);
-/*         Address::where('id', '!=', $this->id)->where('user_id',auth()->user()->id)->update(['current' => false]);
-        $address->current = true;
-        $address->save(); */
-        $this->showModal=false;
-        if($this->cual == 1) {
-        $this->dispatch('cambiazo',description:$address->description, reference:$address->reference, name:$address->name);}
-        else{
-            $this->dispatch('cambiazo2',description:$address->description, reference:$address->reference, name:$address->name);
-        }
+            $address = Address::find($this->id);
+
+    /*         Address::where('id', '!=', $this->id)->where('user_id',auth()->user()->id)->update(['current' => false]);
+            $address->current = true;
+            $address->save(); */
+            $this->showModal=false;
+            if($this->cual == 1) {
+            $this->dispatch('cambiazo',description:$address->description, reference:$address->reference, name:$address->name);}
+            else{
+                $this->dispatch('cambiazo2',description:$address->description, reference:$address->reference, name:$address->name);
+            }
         }
         else {
-            Address::create([
-                'name'=> $this->name,
-                'description'=> $this->description,
-                'reference'=> $this->reference,
-                'user_id'=> auth()->user()->id,
-            ]);
-        } 
+                       /*  Address::create([
+                            'name'=> $this->name,
+                            'description'=> $this->description,
+                            'reference'=> $this->reference,
+                            'user_id'=> auth()->user()->id,
+                        ]); */
+                        // Verificar si no hay elementos en la tabla
+                if (Address::all()->isEmpty()) {
+                    // Es el primer elemento creado, asignar 'current' => 1
+                    $a=Address::create([
+                        'name'=> $this->name,
+                        'description'=> $this->description,
+                        'reference'=> $this->reference,
+                        'user_id'=> auth()->user()->id,
+                        'current' => 1, // Asignar el valor 'current' => 1
+                    ]); $this->redirectRoute('web.shop.checkout.index',navigate:true);
+                } else {
+                    // Si ya hay elementos en la tabla, crear el elemento normalmente sin 'current' => 1
+                    Address::create([
+                        'name'=> $this->name,
+                        'description'=> $this->description,
+                        'reference'=> $this->reference,
+                        'user_id'=> auth()->user()->id,
+                    ]);
+                }
+        }
         $this->reset('name','description','reference');
-        $this->select='SELECT';   
+        $this->select='SELECT';
     }
         public function reloadd(){
             $this->dispatch('ad');
     }
     public function cambio($id){
         $this->id=$id;
-        
+
     }
     public function type($a){
         $this->select = $a;

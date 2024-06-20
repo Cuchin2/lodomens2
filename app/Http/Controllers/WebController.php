@@ -29,10 +29,9 @@ class WebController extends Controller
     {
         return view('web.cart');
     }
-    public function contact_us()
+    public function contact()
     {
-
-        return view('client.contact');
+        return view('web.contact.index');
     }
     public function login_register()
     {
@@ -70,7 +69,7 @@ class WebController extends Controller
                     $path = parse_url($base64Image)['path'];
                     $path = str_replace("/storage", "", $path);
                 }
-            
+
             $user= new User;
             $user->name = $request->input('name');
             $user->email = $request->input('email');

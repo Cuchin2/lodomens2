@@ -400,19 +400,26 @@ input[type="checkbox"]:checked + label:before {
 .bar::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    @apply bg-gris-70;
+    @apply bg-gris-80;
 	/* background-color: red; */
 }
 
 .bar::-webkit-scrollbar
 {
-    width: 8px;
+    width: 4px;
     background: blue;
 }
 
 .bar::-webkit-scrollbar-thumb
 {
     /* background:  green; */
-    @apply bg-gris-50;
+    @apply bg-gris-70;
     border-radius: 5px;
 }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip{
+    @apply !text-gris-10 !bg-gris-90 border !border-gris-50 !font-sans !text-center;
+}
+.leaflet-popup-close-button{
+    @apply !text-gris-10 hover:!text-gris-5;
+}
+

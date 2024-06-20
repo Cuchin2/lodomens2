@@ -21,7 +21,7 @@
     @stack('head')
     @vite(['resources/css/web/app.css', 'resources/js/app.js'])
     @livewireStyles
-    
+
 </head>
 
 <body class="font-sans antialiased bg-black" x-data="{show_backToTop: false}"
@@ -54,11 +54,18 @@
                             <div class=" md:mt-[81px] mt-[44px]">
                                 @yield('breadcrumb')
                                     @yield('main')
-                                <div class="container text-gris-10 mx-auto px-[5px] md:px-[20px] relative md:pt-[81px] pt-[28px]" >
+{{--                                  <div class="container text-gris-10 mx-auto px-[5px] md:px-[20px] relative md:pt-[81px] pt-[28px]" >
+                                </div>  --}}
                                     {{--  <x-lodomens.video/>  --}}
-                                    <x-lodomens.background/>
+                                        @php
+                                        if(!isset($fondo) || $fondo !== false )
+                                           { $fondo = true;}
+                                        @endphp
+                                        @if($fondo)
+                                            <x-lodomens.background/>
+                                         @endif
                                     @yield('content')
-                                </div>
+
 
                             </div>
 
@@ -110,7 +117,11 @@
                     }
                 }
             </script>
-
+            <script>
+                function stopPropagation(event) {
+                  event.stopPropagation();
+                }
+            </script>
     @yield('scripts')
     @stack('scripts')
 

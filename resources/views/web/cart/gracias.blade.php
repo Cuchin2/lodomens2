@@ -15,21 +15,21 @@
 
         <div class="flex flex-col text-center bg-gris-90 h-full p-3 rounded-[5px] border-[1px] border-gris-70 w-2/3 my-6">
             {{--  check  --}}
-          
-            <x-elements.success scale="0.75" />      
-    
+
+            <x-elements.success scale="0.75" />
+
             {{--  fin de check  --}}
             <h2>Gracias por su compra</h2>
          <p>Te envíamos los detalles de tu compra a <b>{{ auth()->user()->email }} </b></p>
          <x-elements.progress-web-bar pay_date="{{ now()->format('d/m/Y H:i:s')}}"/>
             <div class="w-11/12 mx-auto mt-6 mb-3">
-                <a href="{{ route('webdashboard.purchase') }}" >
+                <a href="{{ route('web.shop.webdashboard.purchase') }}" >
                     <x-button.webprimary >Ir a mis compras</x-button.webprimary>
                 </a>
-           
+
             </div>
         </div>
-      
+
         {{--  niubiz --}}
 
         @if(session('niubiz'))

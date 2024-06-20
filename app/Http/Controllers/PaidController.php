@@ -23,7 +23,7 @@ class PaidController extends Controller
         }
 
         //puedes realizar la acción que requiera la compra
-        return /* "OK" */ redirect()->route('gracias');
+        return /* "OK" */ redirect()->route('web.shop.gracias');
     }
     public function niubiz(Request $request){
         $auth= base64_encode(config('services.niubiz.user').':'.config('services.niubiz.password'));
@@ -53,12 +53,12 @@ class PaidController extends Controller
         ]);
         if(isset($response['dataMap']) && $response['dataMap']['ACTION_CODE'] === '000'){
             checkoutPay();
-            return redirect()->route('gracias');
+            return redirect()->route('web.shop.gracias');
         }
         else {
             return redirect()->route('checkout.index');
         }
-        
+
     }
     public function createPaypalOrder(Request $request){
         $access_token = $this->generateAccessTokenPaypal();
@@ -72,7 +72,7 @@ class PaidController extends Controller
                     'amount' => [
                         'currency_code' => 'USD',
                         'value'=> $request->amount,
-                    ],       
+                    ],
                 ]
             ]
         ])->json();
@@ -95,14 +95,14 @@ class PaidController extends Controller
     }
     private function generateAccessTokenPaypal(){
         $auth = base64_encode(config('services.paypal.client_id').':'.config('services.paypal.secret'));
-        
+
         $response = Http::asForm()->withHeaders([
             'Authorization' => "Basic $auth",
         ])
         ->post(config('services.paypal.url').'/v1/oauth2/token',[
             'grant_type'=> 'client_credentials',
         ])->json();
-        
+
         return $response['access_token'];
     }
     public function mercadopago(Request $request)
@@ -112,7 +112,7 @@ class PaidController extends Controller
         /* $merchantOrderId = $request->input('merchant_order_id'); */
         $merchantOrderId = $request->input('id');
         $merchant_order = $merchantOrderClient->get(intval($merchantOrderId));
-        
+
         $paid_amount = 0;
 
         foreach($merchant_order->payments as $payment){
@@ -125,7 +125,7 @@ class PaidController extends Controller
             //Pago se realizo satisfactoriamente
             //Ejecutamos cualquier action
 
-            /* return redirect()->route('gracias'); */
+            /* return redirect()->route('web.shop.gracias'); */
         }
     }
 }

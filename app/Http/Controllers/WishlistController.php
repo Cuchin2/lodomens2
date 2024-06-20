@@ -26,4 +26,11 @@ class WishlistController extends Controller
     {
         return view('web.dashboard.purchase');
     }
+    public function account(Request $request)
+    {
+        return view('web.dashboard.account',[
+            'request' => $request,
+            'user' => $request->user(),
+        ]);
+    }
 }

@@ -60,7 +60,7 @@ class ShoppingCart extends Component
     }
     public function clearCart()
     {   $this->choose = 1;
-        $this->showModal = true; 
+        $this->showModal = true;
 /*         Cart::instance('cart')->destroy();
         $this->dispatch('cart-added'); */
         $this->updateDataBase();
@@ -88,7 +88,7 @@ class ShoppingCart extends Component
             }
             if($this->counts[$index] > 0) {
             Cart::instance('cart')->update($rowId,$this->counts[$index]);
-            } 
+            }
             // Lógica adicional si es necesario
             $this->updateDataBase();
         }
@@ -131,6 +131,6 @@ class ShoppingCart extends Component
     public function checkout()
     {
         Session::put('can_checkout', true);
-        $this->redirectRoute('checkout.index');
+        $this->redirectRoute('web.shop.checkout.index');
     }
 }

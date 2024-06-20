@@ -21,7 +21,7 @@
                         <div>
                             <input name="user_id" value="{{ $user->id }}" hidden>
                             <input name="total" value="{{ Cart::instance('cart')->total() }}" hidden>
-                            
+
                             <x-labelweb>Nombre <x-required /> </x-labelweb>
                             <x-input-web name="name"  placeholder="Ingrese su nombre" value="{{ $form1->name ?? ($user->name ?? '')}}" required></x-input-web>
                         </div>
@@ -41,7 +41,7 @@
                                 <option value="DNI" @if(old('document_type', $form1->document_type ??( $user->profile->document_type ?? '')) === 'DNI') selected @endif>DNI</option>
                                 <option value="PASS" @if(old('document_type', $form1->document_type ??( $user->profile->document_type ?? '')) === 'PASS') selected @endif>Passaporte</option>
                                 <option value="CARD" @if(old('document_type', $form1->document_type ??( $user->profile->document_type ?? '')) === 'CARD') selected @endif>Carnet de Estrangería</option>
-                                <option value="">Otros</option>           
+                                <option value="">Otros</option>
                             </x-select-web>
                         </div>
 
@@ -50,13 +50,13 @@
                             <x-input-web name="dni" placeholder="Ingrese su N° de documento" value="{{ $form1->dni ?? ($user->profile->dni ?? '')}}" required></x-input-web>
                         </div>
                     </div>
-                    <div x-data="{address: {{ json_encode($address)}}, open:''}" x-init="if(address.name == '') { open= false;} else { open=true;}" 
-                        @cambiazo.window="address.description=$event.detail.description; 
+                    <div x-data="{address: {{ json_encode($address)}}, open:''}" x-init="if(address.name == '') { open= false;} else { open=true;}"
+                        @cambiazo.window="address.description=$event.detail.description;
                         address.reference=$event.detail.reference; address.name=$event.detail.name; open=true;
                         ">
                         <div class="mb-4">
                             <div class="flex space-x-2">
-                            <x-labelweb class="mr-2" x-bind:class="open ? '!mr-0' : ''">Dirección <x-required /> <p x-text="'('+address.name+')'" x-show="open" class="text-white text-[10px] mt-[5px] ml-5"></p></x-labelweb> 
+                            <x-labelweb class="mr-2" x-bind:class="open ? '!mr-0' : ''">Dirección <x-required /> <p x-text="'('+address.name+')'" x-show="open" class="text-white text-[10px] mt-[5px] ml-5"></p></x-labelweb>
                             <x-icons.chevron-down @click="$dispatch('modal',{ select: 'SELECT', cual:1 })" height="10px" width="10px" grosor="1" class="mt-[7px] hover:text-white cursor-pointer"/></div>
                             <div class="relative">
                             <x-input-web x-model="address.description" @input="open=false" name="address" placeholder="Ingrese su dirección" required />
@@ -147,7 +147,7 @@
                                             axios.get(`/api/distrits/${this.selectedCity}`)
                                                 .then(response => {
                                                     this.distrits = response.data;
-                                                
+
                                                 });
                                         },
                                     }
@@ -176,10 +176,10 @@
                     <div x-data="{open:false}" x-init="if({{ $on }} == 1){ open = true;}">
                         <h5 class="p-2">DETALLES DE ENVIO</h5>
                         <div class="flex space-x-3 ">
-                            <p>¿Enviar a una dirección diferente?</p> 
-                            
+                            <p>¿Enviar a una dirección diferente?</p>
+
                             <div class="flex items-center me-4">
-                                <x-checkbox.webcheckbox @change="open= !open" ::value="open" name="otra" />  
+                                <x-checkbox.webcheckbox @change="open= !open" ::value="open" name="otra" />
                             </div>
 
                         </div>
@@ -194,18 +194,18 @@
                                     <x-input-web placeholder="Ingrese su apellido" value="{{ $form2->last_name ?? ''}}" name="last_name2" x-bind:required="open ? true : false"></x-input-web>
                                 </div>
                             </div>
-                            <div x-data="{address: {{ json_encode($address2) }}, open:'' }" 
+                            <div x-data="{address: {{ json_encode($address2) }}, open:'' }"
                             x-init="if(address.name == '') { open= false;} else {open=true;}"
-                                @cambiazo2.window="address.description=$event.detail.description; 
+                                @cambiazo2.window="address.description=$event.detail.description;
                                 address.reference=$event.detail.reference; address.name=$event.detail.name; open=true;
                                 ">
                                 <div class="mb-4">
                                     <div class="flex space-x-2">
-                                        <x-labelweb class="mr-2" x-bind:class="open ? '!mr-0' : ''">Dirección <x-required /> <p x-text="'('+address.name+')'" x-show="open" class="text-white text-[10px] mt-[5px] ml-5"></p></x-labelweb> 
+                                        <x-labelweb class="mr-2" x-bind:class="open ? '!mr-0' : ''">Dirección <x-required /> <p x-text="'('+address.name+')'" x-show="open" class="text-white text-[10px] mt-[5px] ml-5"></p></x-labelweb>
                                     <x-icons.chevron-down @click="$dispatch('modal',{ select: 'SELECT', cual:2  })" height="10px" width="10px" grosor="1" class="mt-[7px] hover:text-white cursor-pointer"/></div>
                                     <div class="relative">
                                     <x-input-web x-model="address.description" placeholder="Ingrese su dirección" name="address2" @input="open=false" x-bind:required="open ? true : false"/>
-                                
+
                                     </div>
                                 </div>
                                 <div class="mb-4">
@@ -292,7 +292,7 @@
                                             axios.get(`/api/distrits/${this.selectedCity}`)
                                                 .then(response => {
                                                     this.distrits = response.data;
-                                                
+
                                                 });
                                         },
                                         init() {
@@ -304,19 +304,7 @@
                                     Alpine.data('countryStateCity', countryStateCity);
                                 });
                         </script>
-                        {{-- Fin de pruebas --}}
 
-
-{{--                      <div class=" grid grid-cols-2 gap-4 my-4">
-                        <div>
-                            <x-labelweb>Código postal</x-labelweb>
-                            <x-input-web placeholder="Ingrese su código postal" value=""></x-input-web>
-                        </div>
-                        <div>
-                            <x-labelweb>Teléfono</x-labelweb>
-                            <x-input-web placeholder="Ingrese su teléfono" value="{{ $user->profile->phone ?? '' }}"></x-input-web>
-                        </div>
-                    </div>  --}}
                         </div>
                     </div>
                 </div>
@@ -333,10 +321,6 @@
                             <p>Subtotal({{ Cart::instance('cart')->content()->count() }})</p>
                             <p>S/.{{ Cart::instance('cart')->subtotal() }}</p>
                         </div>
-                        {{-- <div class="flex justify-between my-2">
-                            <p>IVA</p>
-                            <p>S/.{{ Cart::instance('cart')->tax() }}</p>
-                        </div> --}}
                         <div class="flex justify-between my-2 text-white">
                             <p>Total</p>
                             <p>S/.{{ Cart::instance('cart')->total() }}</p>
@@ -349,12 +333,12 @@
                 <div class="mb-4">
                   <div class="flex justify-between mb-1">
                     <p class="font-bold">{{ $item->name }}</p> <p class="font-bold">S/. {{ $item->qty*$item->price }}</p>
-                  </div> 
+                  </div>
                   <div class="grid grid-cols-3 gap-4">
                     <div class="col-span-1">
                         <a class="flex w-max items-center"
                         href="{{ route('web.shop.show',['product'=>$item->options->slug,'color'=>$item->options->color_id]) }}">
-                        <x-outstock text="text-[10px]" class="!w-[35px] !h-[35px] md:!w-[65px] md:!h-[65px]" url="{{ $item->options->productImage }}" name="{{ $item->name }}" stock="{{ $item->options->stock }}"/>
+                        <x-outstock text="text-[10px]" class="!w-[50px] !h-[50px] md:!w-[65px] md:!h-[65px]" url="{{ $item->options->productImage }}" name="{{ $item->name }}" stock="{{ $item->options->stock }}"/>
                     </a>
                     </div>
                     <div class="col-span-2">
@@ -362,10 +346,10 @@
                         <p1>Color: {{ $item->options->color }}</p1>
                         <p1> {{ $item->qty == 1 ? '1 unidad' : $item->qty.' unidades' }}</p1>
                     </div>
-                  </div> 
+                  </div>
                 </div>
                 @endforeach
-                
+
 
             </div>
             <div class="flex items-center space-x-4">

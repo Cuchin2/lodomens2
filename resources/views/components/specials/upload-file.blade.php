@@ -1,6 +1,6 @@
- @props(['url'=>'','livewire'=>false])
+ @props(['url'=>'','livewire'=>false,'id'=>''])
 
-<div x-data="imageData('{{ $url }}')" class="file-input items-center">
+<div x-data="imageData{{ $id }}('{{ $url }}')" class="file-input items-center">
 
     <!-- Preview Image -->
     <div class=" bg-gray-100 w-fit mx-auto">
@@ -9,7 +9,7 @@
 
       </div>
       <!-- Show a preview of the photo -->
-      <div x-show="previewPhoto" class=" overflow-hidden bg-gris-90">
+      <div x-show="previewPhoto" class=" overflow-hidden bg-gris-80">
         <img :src="previewPhoto" width="75%" height="75%"
              alt=""
              class=" object-cover mx-auto">
@@ -23,15 +23,15 @@
         <input @change="updatePreview($refs)" x-ref="input"
                type="file" @if($livewire)  wire:model='logo' @endif
                accept="image/*,capture=camera"
-               name="photo" id="photo"
+               name="photo" id="photo{{ $id }}"
                class="custom">
-        <label for="photo"
+        <label for="photo{{ $id }}"
                class="mx-auto py-2 px-3 border border-gris-40 rounded-md text-sm leading-4 font-medium text-gris-20 hover:text-gris-10 hover:border-gris-10 focus:outline-none focus:border-gris-5 focus:shadow-outline-indigo active:bg-gris-30 active:text-gris-80 transition duration-150 ease-in-out cursor-pointer select-none">
           subir foto
         </label>
       </div>
 
-      <div class="items-center text-sm text-gray-500 mx-auto" @notify.window="previewPhoto=$event.detail.url; fileName=$event.detail.filename;" @notify2.window="clearPreview($refs)">
+      <div class="items-center text-sm text-gray-500 mx-auto" @notify{{ $id }}.window="previewPhoto=$event.detail.url; fileName=$event.detail.filename;" @notify2{{ $id }}.window="clearPreview($refs)">
         <!-- Display the file name when available -->
         <div class=" w-fit mx-auto flex items-center">
         <span x-text="fileName || emptyText" class="text-[12px] text-gris-40 text-center"></span>
@@ -63,15 +63,15 @@
         white-space: nowrap;
         width: 1px;
       }
-</style> 
+</style>
 @endpush
 @push('scripts')
 <script>
-    function imageData(url) {
+    function imageData{{ $id }}(url) {
         const originalUrl = url || '';
         return {
           previewPhoto: originalUrl,
-          fileName: null,
+          fileName: originalUrl,
           emptyText: originalUrl ? 'No se ha elegido ningún archivo nuevo' : 'Ningún archivo elegido',
           updatePreview($refs) {
             var reader,
@@ -85,8 +85,12 @@
           },
           clearPreview($refs) {
             $refs.input.value = null;
-            this.previewPhoto = originalUrl;
-            this.fileName = false;
+            if(this.previewPhoto !== originalUrl)
+            {
+                this.previewPhoto = originalUrl; this.fileName=originalUrl;
+            } else { this.previewPhoto =''; this.fileName = false; }
+
+
           }
         };
       }

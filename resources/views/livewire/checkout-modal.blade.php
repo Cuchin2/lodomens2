@@ -5,15 +5,16 @@
         </x-slot>
 
         <x-slot name="content">
-            
+            @php
+            $get= App\Models\Address::where('user_id',auth()->user()->id)->get() ?? '';
+            $get2= App\Models\Address::where(['user_id'=>auth()->user()->id,'current'=>1])->first()->name ?? '';
+            @endphp
             <div> @if($select == 'SELECT')
+                @if($get->isNotEmpty())
                 <p1 class="mb-2">Mis Direcciones</p1>
-               
+
                 <div class="rounded-[3px] border-gris-50 border-[1px] px-3 pb-3">
-                    @php
-                    $get= App\Models\Address::where('user_id',auth()->user()->id)->get() ?? '';
-                    $get2= App\Models\Address::where(['user_id'=>auth()->user()->id,'current'=>1])->first()->name ?? '';
-                    @endphp
+
                     <div x-data="{check:'{{ $get2 }}', open:'', address: {{ $get }}, getdata(){
                         axios.get('/get/prueba/')
                     .then(response => {
@@ -37,9 +38,9 @@
 
                             </div>
                         </template>
-                    </div> 
+                    </div>
                 </div>
-                
+                @endif
                 <div class="flex space-x-3 items-center mt-2 cursor-pointer hover:text-white" @click="$wire.type('CREATE')">
                     <x-icons.plus  class="h-[12px] w-[12px]  hover:fill-white"/>
                     <p1>Crear una dirección nueva</p1>
@@ -60,7 +61,7 @@
                     </div>
                 @endif
             </div>
-         
+
         </x-slot>
 
         <x-slot name="footer">
@@ -69,5 +70,5 @@
                     Enviar
             </x-button.corp1>
         </x-slot>
-    </x-dialog-modal-web>  
+    </x-dialog-modal-web>
 </div>

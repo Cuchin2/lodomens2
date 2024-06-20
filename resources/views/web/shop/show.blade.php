@@ -37,7 +37,7 @@
             <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2 flex items-start" >
                 {{--  <p x-text="ext"></p>  --}}
                 <lodo class="md:w-[338px] lg:h-[338px] md:h-[217px] min-w-[318px] relative mx-auto border-[2px] border-corp-50 rounded-[3px] flex items-center {{--  h-full items-center  --}}">
-                <template x-if="ext === 'mp4'">       
+                <template x-if="ext === 'mp4'">
                     <video :src="src" controls
                   class="w-full " :alt="ext" alt="">
                 </div>
@@ -98,7 +98,7 @@
                             <p x-text="'| SKU : '+sku.code" x-show="skuselect === parseInt(sku.color_id)" x-cloak></p>
                         </template>
                     @endif
-                    
+
                 </div>
                 <h3>{{ $product->name }}</h3>
                 <div class="mb-2 cursor-pointer flex" x-data
@@ -124,12 +124,12 @@
                     <p class="font-bold"> {{ $colorSelect->count() === 1 ? 'COLOR: ' : 'COLORES: ' }}</p class="font-bold">
                     <div class="flex space-x-2" x-data="{active:'{{ $indice }}'}">
                         @foreach ($colorSelect as $key => $color )
-                            <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px]"           :class="{'border-corp-50 border-[3px]' : active === '{{ $key}}' }" 
+                            <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px]"           :class="{'border-corp-50 border-[3px]' : active === '{{ $key}}' }"
                             @if(!$color->url)
                             style="background:{{ $color->hex }}"
                             @endif
-                          
-                            x-on:click="$dispatch('send',{ parm: '{{ $key }}' }); getImage(abc,{{ $color->id }}); active='{{ $key }}'; $dispatch('sku',{parm:{{ $color->id }}});"> 
+
+                            x-on:click="$dispatch('send',{ parm: '{{ $key }}' }); getImage(abc,{{ $color->id }}); active='{{ $key }}'; $dispatch('sku',{parm:{{ $color->id }}});">
                             @if($color->url)
                             <img src="{{ asset('storage/'.$color->url) }}"  class="rounded-full mx-auto w-full h-full" alt="">
                             @endif
@@ -178,25 +178,27 @@
                         <div
                             class="h-[24px] w-[24px] border-[1px] border-corp-50 rounded-[3px] flex justify-center items-center ">
                             <a href="https://www.instagram.com/lodo.mens" target="_blank">
-                                <x-icons.socialmedia.instagram class="h-[15px] fill-corp-50 hover:fill-corp-30" />
+                                <x-icons.socialmedia.simple.instagram class="h-[15px] fill-corp-50 hover:fill-corp-30" />
                             </a>
                         </div>
                         <div
                             class="h-[24px] w-[24px] border-[1px] border-corp-50 rounded-[3px] flex justify-center items-center ">
                             <a href="https://www.tiktok.com/@lodo.mens" target="_blank">
-                                <x-icons.socialmedia.tiktok class="h-[15px] fill-corp-50 hover:fill-corp-30" />
+                                <x-icons.socialmedia.simple.tiktok class="h-[15px] fill-corp-50 hover:fill-corp-30" />
                             </a>
                         </div>
                         <div
                             class="h-[24px] w-[24px] border-[1px] border-corp-50 rounded-[3px] flex justify-center items-center ">
-                            <a href="https://www.facebook.com/profile.php?id=100077757468220" target="_blank">
-                                <x-icons.socialmedia.facebook class="h-[15px] fill-corp-50 hover:fill-corp-30" />
+                            <a {{--  href="https://www.facebook.com/profile.php?id=100077757468220"  --}} target="_blank"
+                            href="https://www.facebook.com/sharer/sharer.php?u={{ URL::current() }}"  rel="noopener noreferrer"
+                            >
+                                <x-icons.socialmedia.simple.facebook class="h-[15px] fill-corp-50 hover:fill-corp-30" />
                             </a>
                         </div>
                         <div
                             class="h-[24px] w-[24px] border-[1px] border-corp-50 rounded-[3px] flex justify-center items-center ">
                             <a href="https://www.youtube.com/@Lodomens" target="_blank">
-                                <x-icons.socialmedia.youtube class="h-[15px] fill-corp-50 hover:fill-corp-30" />
+                                <x-icons.socialmedia.simple.youtube class="h-[15px] fill-corp-50 hover:fill-corp-30" />
                             </a>
                         </div>
 

@@ -66,7 +66,7 @@ class ShopMain extends Component
         )->associate('App\Models\Sku');
         if(auth()->user()){
         Cart::instance('cart')->store(auth()->user()->id);}
-        $this->redirectRoute('cart.index');
+        $this->redirectRoute('web.shop.cart.index');
         } else {
             Cart::instance('wishlist')->add(
                 $product->id,
@@ -82,7 +82,7 @@ class ShopMain extends Component
                 'stock'=> $this->skus->stock]
             )->associate('App\Models\Sku');
             Cart::instance('wishlist')->store(auth()->user()->id);
-            $this->redirectRoute('webdashboard.wishlist');
+            $this->redirectRoute('web.shop.webdashboard.wishlist');
         }
     }
     public function showCartModal($id,$color,$url,$colorSelected,$choose)

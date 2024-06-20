@@ -20,7 +20,7 @@ class CheckoutController extends Controller
             }
             // Elimina la variable de sesión para evitar reutilización
             session()->forget('can_checkout');
-         
+
         $user = auth()->user(); $form1= null ; $form2 = null;  $on = null;
         $getCity= null;   $getCity2= null;
         $getDistrit= null;        $getDistrit2= null;
@@ -35,7 +35,7 @@ class CheckoutController extends Controller
             ];
         });
         $form1= SaleOrder::where(['user_id'=>$user->id,'status'=>'CREATE'])->first();
-    
+
         if($form1){
         $address = collect(['name'=>'', 'description'=>$form1->address, 'reference'=> $form1->reference]);
 
@@ -44,12 +44,12 @@ class CheckoutController extends Controller
         $getState = Http::get("http:/api.geonames.org/childrenJSON?geonameId=$countryId&lang=es&username=$username")->json()['geonames'];
         $getCity = Http::get("http:/api.geonames.org/childrenJSON?geonameId=$form1->state&lang=es&username=$username")->json()['geonames'];
         $getDistrit = Http::get("http:/api.geonames.org/childrenJSON?geonameId=$form1->city&lang=es&username=$username")->json()['geonames'];
-        
+
         $form2= $form1->deliveryOrders;
         } else {
             $address = Address::where(['user_id'=>$user->id,'current'=>1])->first();
         }
-        
+
         if($form2)
         {   $on = 1; $address2 = collect(['name'=>'', 'description'=>$form2->address, 'reference'=> $form2->reference]);
             $response2 = Http::get("http:/api.geonames.org/searchJSON?country=$form2->country&lang=es&username=$username");
@@ -64,11 +64,11 @@ class CheckoutController extends Controller
     }
     public function pays(){
         if (!session('can_checkout')) {
-            return redirect()->route('cart.index');
+            return redirect()->route('web.shop.cart.index');
         }
         // Elimina la variable de sesión para evitar reutilización
         session()->forget('can_checkout');
-        $formToken = $this->generateFormToken();  
+        $formToken = $this->generateFormToken();
         $sessionToken = $this->generateSessionToken();
         $preferenceId = $this->generatePreferenceId();
         return view('web.cart.pay',compact('formToken','sessionToken','preferenceId'));
@@ -96,7 +96,7 @@ class CheckoutController extends Controller
             'Authorization' => "Basic $auth",
         ])->get(config('services.niubiz.url_api').'/api.security/v1/security')
         ->body();
-      
+
         $sessionToken=Http::withHeaders([
             'Authorization' => $accessToken,
             'Content-Type' => 'application/json',
@@ -130,7 +130,7 @@ class CheckoutController extends Controller
                 ]
                 ],
             "back_urls" => [
-                'success' =>/*  route("paid.mercadopago") */ route('gracias'),
+                'success' =>/*  route("paid.mercadopago") */ route('web.shop.gracias'),
             ],
             "notification_url" => 'https://webhook.site/07ad52bf-6f41-459d-a4d5-feeff2a26f80' /* route('notifications.mercadopago') */,
             ]);
@@ -157,7 +157,7 @@ class CheckoutController extends Controller
                 'zip_code' => $request->zip_code,
                 'total' => $request->total,
             ]
-        ); 
+        );
         if($request->otra == 'on'){
             if($saleOrder->status == 'CREATE'){
                 DeliveryOrder::updateOrCreate(
@@ -172,13 +172,13 @@ class CheckoutController extends Controller
                    'state' => $request->state2,
                    'district' => $request->district2,
                ]
-           );  
+           );
              }
         } else{
             DeliveryOrder::where('order_id', $saleOrder->id)->delete();
         }
-     
+
         /* return redirect()->back(); */
-    return redirect()->route('checkout.pay');
+    return redirect()->route('web.shop.checkout.pay');
     }
 }

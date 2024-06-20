@@ -35,19 +35,19 @@
             <div class="col-span-1 bg-gris-100 rounded-[3px]">
                 <div class="py-3 ">
                     <ul >
-                        <a  href="{{ route('webdashboard.profile') }}"  class="flex items-center pl-6 pr-3 py-2 {{ request()->routeIs('webdashboard.profile') ? 'text-white bg-gris-100' : '' }}" wire:navigate>
+                        <a  href="{{ route('web.shop.webdashboard.profile') }}"  class="flex items-center pl-6 pr-3 py-2 {{ request()->routeIs('web.shop.webdashboard.profile') ? 'text-white bg-gris-100' : '' }}" wire:navigate>
                             <p>Datos personales</p>
                             <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"/>
                         </a>
-                        <li  class="flex items-center pl-6 pr-3 py-2">
+                        <a  href="{{ route('web.shop.webdashboard.account') }}" class="flex items-center pl-6 pr-3 py-2 {{ request()->routeIs('web.shop.webdashboard.account') ? 'text-white bg-gris-100' : '' }}" wire:navigate>
                             <p>Configurar mi cuenta</p>
                             <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"/>
-                        </li>
-                        <a  href="{{ route('webdashboard.purchase') }}" class="flex items-center pl-6 pr-3 py-2 {{ request()->routeIs('webdashboard.purchase') ? 'text-white bg-gris-100' : '' }}" wire:navigate
+                        </a>
+                        <a  href="{{ route('web.shop.webdashboard.purchase') }}" class="flex items-center pl-6 pr-3 py-2 {{ request()->routeIs('web.shop.webdashboard.purchase') ? 'text-white bg-gris-100' : '' }}" wire:navigate>
                             <p>Mis compras</p>
                             <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"/>
                         </a>
-                        <a  href="{{ route('webdashboard.address') }}"  class="flex items-center pl-6 pr-3 py-2 {{ request()->routeIs('webdashboard.address') ? 'text-white bg-gris-100' : '' }}" wire:navigate>
+                        <a  href="{{ route('web.shop.webdashboard.address') }}"  class="flex items-center pl-6 pr-3 py-2 {{ request()->routeIs('web.shop.webdashboard.address') ? 'text-white bg-gris-100' : '' }}" wire:navigate>
                             <p>Direcciones</p>
                             <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"/>
                         </a>
@@ -55,13 +55,13 @@
                             <p>Métodos de pago</p>
                             <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"/>
                         </li>  --}}
-                        <a href="{{ route('webdashboard.wishlist') }}"  class="flex items-center pl-6 pr-3 py-2 {{ request()->routeIs('webdashboard.wishlist') ? 'text-white bg-gris-100' : '' }}" wire:navigate>
+                        <a href="{{ route('web.shop.webdashboard.wishlist') }}"  class="flex items-center pl-6 pr-3 py-2 {{ request()->routeIs('web.shop.webdashboard.wishlist') ? 'text-white bg-gris-100' : '' }}" wire:navigate>
                             <p>Wishlist</p>
                             <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"/>
                         </a>
-                       
+
                         <li class="pl-6 pr-3 py-2">
-                            <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                            <a @click="$dispatch('fire')" {{--  onclick="event.preventDefault(); document.getElementById('logout-form').submit();"  --}}
                             type="submit" class="hover:text-white cursor-pointer">Cerrar Sesión</a>
                         </li>
                     </ul>
@@ -75,8 +75,17 @@
 
         </div>
 
-
-
+        {{--  modal.js  --}}
+        <x-web.modal.modal maxWidth="sm">
+            <x-slot name="title">
+                Confirmación
+            </x-slot>
+            <p>Estás seguro de cerrar sesión</p>
+            <x-slot name="footer">
+                <x-button.corp_secundary @click="show = false" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
+                <x-button.corp1  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">aceptar</x-button.corp1>
+            </x-slot>
+        </x-web.modal.modal>
 
     </div>
     </div>

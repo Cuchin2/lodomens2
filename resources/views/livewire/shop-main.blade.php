@@ -48,49 +48,49 @@
         </div>
     </div>
 </div>
-    <div class="flex pt-[54px] bg-black/75">
+    <div class="flex pt-[50px] bg-black/75">
         {{-- menu 1 --}}
         <div class="fixed md:min-h-[208px] xl:min-h-[304px] top-[126px] md:top-0 z-10 left-0 md:relative lg:w-[210px] w-1/2 md:w-1/4 h-full md:h-auto md:ml-[7px] pt-[4px]"
         x-data="{menu1 : 0}" x-show="open" @click.away="if (window.innerWidth < 1024) {
                 open = false;
             }">
-        <div class="h-full bg-gris-90 lg:w-[120px] xl:w-[205px] md:relative">
-        <ul class="md:fixed bg-gris-90 md:w-[148px] lg:w-[120px] xl:w-[205px] h-fit md:max-h-full overflow-hidden" @click.away="menu1 = 0">
+        <div class="h-full bg-gris-90 lg:w-[120px] xl:w-[205px] md:relative rounded-[3px]">
+        <ul class="md:fixed bg-gris-90 md:w-[148px] lg:w-[120px] xl:w-[205px] rounded-[3px] h-fit md:max-h-full overflow-hidden xl:px-3" @click.away="menu1 = 0">
             <li class="mr-6 p-2 ">
-                <a class="text-gris-10 hover:text-red-600 text-[12px]">FILTROS</a>
+                <p1 class="text-gris-10 hover:text-white">Filtros</p1>
             </li>
-            <li class="border-[1px] border-gris-70"></li>
+            <hr class="border-t border-gris-70">
             <li class=" p-2" @click="menu1 = (menu1 === 1) ? 0 : 1">
                 <div class="text-gris-10  cursor-pointer">
-                    <div class="hover:text-red-600 text-[12px] text-gris-10 flex items-center">CATEGORIAS
+                    <p1 class="hover:text-white text-gris-10 flex items-center">Categorías
                         <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"
                             ::class="{'rotate-90 transition-all': menu1 === 1}" />
-                    </div>
-                    <ul x-show="menu1===1" x-collapse x-cloak class="w-full text-[12px] ml-2 overflow-y-auto !max-h-40">
+                    </p1>
+                    <ul x-show="menu1===1" x-collapse x-cloak class="w-full text-[12px] ml-2 overflow-y-auto !max-h-40 bar mt-2">
                         @foreach ($categories as $category)
-                        <li class="hover:text-corp-30">{{ $category->name }}</li>
+                        <p2 class="hover:text-white">{{ $category->name }}</p2>
                         @endforeach
                     </ul>
                 </div>
             </li>
             <li class=" p-2" @click="menu1 = (menu1 === 2) ? 0 : 2">
-                <dis class="text-gris-10  cursor-pointer">
-                    <div class="hover:text-red-600 text-[12px] text-gris-10 flex items-center">MARCAS
+                <div class="text-gris-10  cursor-pointer">
+                    <p1 class="hover:text-white text-gris-10 flex items-center">Marcas
                         <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"
                             ::class="{'rotate-90 transition-all': menu1 === 2}" />
-                    </div>
-                    <ul x-show="menu1===2" x-collapse x-cloak class="w-fit text-[12px] ml-2">
+                    </p1>
+                    <ul x-show="menu1===2" x-collapse x-cloak class="w-fit text-[12px] ml-2 mt-2">
                         @foreach ($brands as $brand)
-                        <li class="hover:text-corp-30">{{ $brand->name }}</li>
+                        <p2 class="hover:text-white">{{ $brand->name }}</p2>
                         @endforeach
                     </ul>
-                </dis>
+                </div>
             </li>
             <li class="mr-6 p-2">
-                <a class="text-gris-10 hover:text-red-600 text-[12px]">COLOR</a>
+                <p1 class="text-gris-10 hover:text-white">Color</p1>
             </li>
             <li class="mr-6 p-2">
-                <a class="text-gris-10 hover:text-red-600 text-[12px]">CALIFICACIONES</a>
+                <p1 class="text-gris-10 hover:text-white">Calificaciones</p1>
             </li>
         </ul>
         </div>
@@ -117,7 +117,7 @@
                     $url = $image ? $image->url : null;
                     return (object) ['name' => $color->name, 'hex' => $color->hex, 'id' => $color->id, 'url' => $url];
                 }); $imagenes = [];
-            
+
                         foreach ($colorSelect as $key => $color) {
                             $imagenes2 = $product->images()->where('color_id',$color->id)->join('row_image', 'images.id', '=', 'row_image.image_id')
                             ->join('rows', 'rows.id', '=', 'row_image.row_id')
@@ -145,8 +145,8 @@
                     <button type="button" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id ?? ''}}','{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}','{{ $colorSelect ?? ''}}','CART')" class=" w-fit">
                         <x-icons.cart class="h-[20px] w-[20px] cursor-pointer hover:fill-corp-50" x-show="sort !==1" />
                     </button>
-    
-                </div> 
+
+                </div>
 
 
                 <div class="m-2 leading-[1.2]" x-show="sort===3" x-cloak>
@@ -205,7 +205,7 @@
         Agregando al{{ $choose === 'CART' ? ' carrito' : ' wishlist' }}
     </x-slot>
     <x-slot name="content">
-        <div class="bg-gris-100 px-2 md:px-6 py-3">
+        <div class="bg-gris-90 px-2 md:px-6 py-3">
             <div class="md:flex space-x-2 md:space-x-7 md:justify-between">
                 <div class="flex justify-center space-x-5 md:w-full">
                     <x-outstock text="text-[10px]" class="md:!h-[136px]" name="{{ $skus->product->name ?? ''}}" url="{{ $image ?? ''}}" stock="{{ $skus->stock ?? ''}}" />
@@ -236,19 +236,8 @@
                 <div class="flex md:block justify-between mt-4 md:mt-0">
                     <h4 class="flex justify-end md:mb-8 whitespace-nowrap"> S/. {{ $price_cart ?? '' }}</h4>
                     <div class="flex space-x-2">
-                        <div class="flex">
-                            @if(isset($skus->stock) && $skus->stock > 0)
-                            <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-l-[3px] border-gris-30 w-[30px] flex items-center" wire:click="decreaseCount('','')">
-                                <x-icons.chevron-left grosor="1" height="17px" width="17px" class="p-1 mx-auto fill-gris-30" />
-                            </div>
-                            <div>
-                                <input class="text-gris-10 font-bold bg-black h-[26px] mx-auto text-[12px] p-2 focus:ring-gris-50 focus:border-gris-50 w-[47px] border-gris-30 text-center border-x-0" placeholder=" " required="" wire:model='counts' wire:change="changePrice()">
-                            </div>
-                            <div class="cursor-pointer hover:border-gris-10 text-gris-60 bg-black h-[26px] border-[1px] text-[12px] rounded-r-[3px] border-gris-30 w-[30px] flex items-center" wire:click="increaseCount('','')">
-                                <x-icons.chevron-right grosor="1" height="17px" width="17px" class="p-1 mx-auto fill-gris-30" />
-                            </div>
-                            @endif
-                        </div>
+
+                        <x-specials.input-cart-main stock="{{ $skus->stock ?? ''}}"/>
                         <div>
                             <a class="cursor-pointer" wire:click="$toggle('showModal')">
                                 <x-icons.trash class="w-5 fill-corp-30"/>
@@ -268,42 +257,32 @@
         @endif
     </x-slot>
 </x-dialog-modal>
-<x-dialog-modal wire:model="showCreateModal" maxWidth="fit">
+<x-dialog-modal wire:model="showCreateModal" maxWidth="xs" >
     <x-slot name="title">
-        Iniciar Sesión para agregar al Wishlist
+        Iniciar Sesión
     </x-slot>
     <x-slot name="content">
         <div class="flex justify-center">
         <form  action="{{ route('login') }}" method="POST" class="w-fit">
             @csrf
-            <div class="relative mb-3 text-gris-50" x-data="{ fly: false, inputValue: '' }">
-                <label class="absolute  left-[10px] pointer-events-none transition-all duration-300"
-                    :class="fly ? 'text-[10px] top-[-6px] px-[3px] bg-gris-90 text-gris-10' : 'text-[14px] top-[10px]'">Correo
-                    electrónico</label>
-                <input type="email" name="email" @click=" fly=true" @input="inputValue = $event.target.value"
-                    @click.away="inputValue === null || inputValue === '' ? fly=false : null " x-on:change="fly=true"
-                    class="bg-gris-90 rounded-[3px] w-[233px] border-gris-50 focus:ring-gris-50 focus:border-gris-50 text-gris-10" autocomplete="off" placeholder=" ">
+            <div class="mb-3 text-gris-50 relative">
+                <input autocomplete="off" id="email" name="email" type="text" class="peer rounded-[3px] placeholder-transparent bg-gris-90 text-gris-10 h-10 w-full border-gris-50 focus:ring-gris-50 focus:border-gris-50 focus:outline-none" placeholder="" />
+                <label for="email" class="absolute left-[12px] top-[-8px] text-gris-30 peer-placeholder-shown:text-[14px] text-[10px] bg-gris-90  rounded-[3px] peer-placeholder-shown:text-gris-50 peer-placeholder-shown:top-[9px] px-[3px] transition-all peer-focus:top-[-8px] peer-focus:text-gris-10 peer-focus:text-[10px]">Correo electrónico</label>
+
             </div>
-            <div class="relative mb-2 text-center text-gris-50" x-data="{ fly: false, inputValue: '' }">
-                {{-- <label for="exampleDropdownFormPassword1" class="form-label label-eco mb0">Contraseña</label> --}}
-                <input type="password" name="password" class=" text-gris-10 bg-gris-90 rounded-[3px] w-[233px] border-gris-50 focus:ring-gris-50 focus:border-gris-50"
-                    autocomplete="off" placeholder=" " @click=" fly=true" @input="inputValue = $event.target.value"
-                    @click.away="inputValue === null || inputValue === '' ? fly=false : null " x-on:change="fly=true">
-                <label class="absolute left-[10px]  pointer-events-none transition-all"
-                    :class="fly ? 'text-[10px] top-[-6px] px-[3px] bg-gris-90 text-gris-10' : 'text-[14px] top-[10px]'">Contraseña</label>
+            <div class="mb-2 text-center text-gris-50 relative">
+                <input autocomplete="off" id="password" name="password" type="password" class="peer rounded-[3px] placeholder-transparent bg-gris-90 text-gris-10 h-10 w-full border-gris-50 focus:ring-gris-50 focus:border-gris-50 focus:outline-none" placeholder="" />
+                <label for="password" class="absolute left-[12px] top-[-8px] text-gris-30 peer-placeholder-shown:text-[14px] text-[10px] bg-gris-90  rounded-[3px] peer-placeholder-shown:text-gris-50 peer-placeholder-shown:top-[9px] px-[3px] transition-all peer-focus:top-[-8px] peer-focus:text-gris-10 peer-focus:text-[10px]">Contraseña</label>
 
 
             </div>
-            <a class="text-[14px] text-corp-50" href="{{ route('web.recover_password') }}">¿Olvidaste la contraseña?</a>
+            <a class="text-[14px] text-corp-50 hover:text-corp-30" href="{{ route('web.recover_password') }}">¿Olvidaste la contraseña?</a>
             <div class="mt-6 text-[14px]">
 
                 <button type="submit"
                     class="w-full rounded-[3px]  text-white bg-corp-50 h-[33px] hover:bg-corp-70 ">Iniciar
                     sesión</button>
-                <div class="flex mt-1">
-                    <eco style="margin-right:5px">¿No tienes cuenta?</eco>
-                    <a class="text-corp-50" href="{{ route('web.login_register') }}">Registrate</a>
-                </div>
+
             </div>
 
         </form>
@@ -312,6 +291,10 @@
     </x-slot>
 
     <x-slot name="footer">
+        <div class="flex text-[14px] mx-auto">
+            <eco style="margin-right:5px">¿No tienes cuenta?</eco>
+            <a class="text-corp-50 hover:text-corp-30" href="{{ route('web.login_register') }}">Registrate</a>
+        </div>
+    </x-slot>
 
-</x-slot>
 </x-dialog-modal>

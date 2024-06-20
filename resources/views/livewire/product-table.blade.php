@@ -142,20 +142,20 @@
                                       </th>
                                 <td class="px-4 py-[13px] ">
                                     {{$product->name}}</td>
-                                    <td class="px-4 py-[13px]" wire:ignore>   
+                                    <td class="px-4 py-[13px]" wire:ignore>
 
                                         <x-dropdown.dropdownproduct status="{{ $product->status() }}" id="{{ $product->id }}" name="{{$product->name}}"/>
                                      </td>
                                 </td>
                                 <td class="px-4 py-[13px] flex items-center justify-center space-x-5 h-[63px]">
-                                   
+
                                     <a class="text-azul-50 hover:text-azul-30" href="{{route('inventory.products.edit',$product->slug)}}">
                                         <x-icons.edit></x-icons.edit>
                                     </a>
                                     <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal('{{ $product->id }}','{{$product->name}}')" >
                                         <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                     </button>
-                               
+
                                 </td>
                             </tr>
                             @endforeach
@@ -176,15 +176,15 @@
             </x-slot>
 
             <x-slot name="content">
-               
-               @if($change2 == 'STATUS')  
+
+               @if($change2 == 'STATUS')
                ¿Estás seguto de cambiar el estado del producto "<b>{{$itemName}}</b>" <br>
                <div class="flex space-x-1 mt-2"><p>De</p> <p class="text-{{ $color1 }}-10">{{ $status }}</p> <p>a</p> <p class='text-{{ $color2 }}'>{{ $status2 }}</p></div>
                @elseif ($change2 == 'STOP')
                No es posible cambiar al estado <b class="text-verde-10">Publicado</b> un producto que no tenga definido sus parámetos.
                @else ¿Estás seguro de que deseas eliminar el producto "<b>{{$itemName}}</b>"? @endif
-               
-               
+
+
             </x-slot>
 
             <x-slot name="footer">

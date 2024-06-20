@@ -1,6 +1,6 @@
-
+@props(['sliders','time'=>'8000'])
       <div
-        x-data="{ activeSlide: 1, slideCount: 4 }"
+        x-data="{ activeSlide: 1, slideCount: {{ $sliders->count() }} , time:'{{ $time }}'}"
         class="overflow-hidden relative"
       >
         <!-- Slider -->
@@ -8,9 +8,9 @@
           <div
             class="whitespace-nowrap transition-transform duration-700 ease-in-out"
             :style="'transform: translateX(-' + (activeSlide - 1) * 100.5 + '%)'"
-            x-init="setInterval(() => { activeSlide = activeSlide < slideCount ? activeSlide + 1 : 1 }, 8000)"
+            x-init="setInterval(() => { activeSlide = activeSlide < slideCount ? activeSlide + 1 : 1 }, time )"
           >
-            <!-- Item 1 -->
+{{--              <!-- Item 1 -->
             <div class="inline-block w-full relative ">
               <img width="100%" height="50%" src="{{ asset('image/lodomens/Banner_Carrusel_1.png') }}" alt="" />
               <div class="absolute inset-0 flex items-center justify-center text-white">
@@ -21,31 +21,25 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- Item 2 -->
+            </div>  --}}
+            @foreach ($sliders as $slider )
+            <div class="inline-block w-full">
+                <a href="{{ $slider->href }}">
+                <img width="100%" class="max-h-[547px]"
+                  src="{{ asset('storage/'.$slider->url) }}"
+                  alt="{{ $slider->name }}"
+                /></a>
+              </div>
+            @endforeach
+{{--              <!-- Item 3 -->
             <div class="inline-block w-full">
                 <img width="100%" height="50%"
                   src="{{ asset('image/lodomens/Banner_Carrusel_1.png') }}"
                   alt=""
                 />
-              </div>
-            <!-- Item 3 -->
-            <div class="inline-block w-full">
-                <img width="100%" height="50%"
-                  src="{{ asset('image/lodomens/Banner_Carrusel_1.png') }}"
-                  alt=""
-                />
-              </div>
-            <!-- Item 4 -->
-            <div class="inline-block w-full">
-              <img width="100%" height="50%"
-                src="{{ asset('image/lodomens/Banner_Carrusel_1.png') }}"
-                alt=""
-              />
-            </div>
-            
+             </div>  --}}
           </div>
-  
+
         <!-- Prev/Next Arrows -->
         <div class="absolute inset-y-1/2  flex items-center justify-between px-4 w-full">
           <button
@@ -61,7 +55,7 @@
             <x-icons.chevron-right  grosor="2" class=" w-[12px] h-[12px]"/>
           </button>
         </div>
-  
+
         <!-- Dots Navigation -->
         <div
           class="absolute bottom-0 left-0 right-0 flex justify-center space-x-2 p-4"

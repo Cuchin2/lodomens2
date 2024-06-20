@@ -8,8 +8,8 @@
                         <p>({{ $cartitems->count() == 1 ? '1 producto' : $cartitems->count().' productos'}} )</p>
                     </div>
                     <a wire:click="clearCart"
-                        class="flex space-x-2 items-center border-[2px] rounded-[3px] border-gris-50 p-2 cursor-pointer">
-                        <x-icons.trash class="w-5" />
+                        class="flex space-x-2 items-center border-[1px] rounded-[3px] border-gris-30 p-1.5 text-gris-30 cursor-pointer hover:border-gris-10 hover:text-gris-10 active:border-gris-5 active:text-gris-5">
+                        <x-icons.trash class="w-4" />
                         <p class="text-[14px]">Eliminar todo</p>
                     </a>
                 </div>
@@ -49,7 +49,7 @@
                     <div>
                     <h4 class="flex justify-center md:mb-8"> S/.{{ $item->price*$item->qty }}</h4>
                     <x-specials.input-cart :item="$item" index="{{ $index }}" />
-                  
+
                 </div>
                 <div class="flex items-center space-x-4 ml-2">
                     <a class="cursor-pointer" wire:click="moveToCart('{{$item->rowId}}','{{ $index }}')">
@@ -68,7 +68,7 @@
                         <h7 >Advertencia</h5>
                     </div>
                 </x-slot>
-                <x-slot name="content"> 
+                <x-slot name="content">
                     <div class="flex whitespace-pre-wrap">
                         @if( $choose == 0)
                     <p>Estas por eliminar </p><p class="text-white">{{ $row['name'] ?? '' }}</p> <p> de color </p><p class="text-white">{{ $row['color'] ?? '' }}</p>
@@ -79,9 +79,9 @@
                 </x-slot>
                 <x-slot name="footer">
                     <a href=""></a>
-                    
+
                     <x-button.corp_secundary wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
-                    
+
                     @if( $choose == 0)
                     <x-button.corp1 wire:click="erase('{{ $row['rowId'] ?? '' }}','{{ $row['index'] ?? ''}}')">Aceptar</x-button.corp1>
                     @else

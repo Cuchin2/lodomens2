@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FooterController;
+use App\Http\Controllers\InicioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
@@ -18,6 +19,8 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\TypesController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\MainController;
 use App\Models\Address;
 /*
 
@@ -32,8 +35,10 @@ use App\Models\Address;
 */
 
 Route::get('/', function () {
-    return view('web.index');
-})->name('root');
+    return view('layouts.proximamente');
+});
+
+Route::get('inicio',[MainController::class,'index'])->name('root');
 
 Route::middleware([
     'auth:sanctum',
@@ -50,13 +55,20 @@ Route::get('registro',[WebController::class,'login_register'])->name('web.login_
 Route::post('registro/user',[WebController::class,'register_user'])->name('web.store_register');
 Route::get('recuperar_password',[WebController::class,'recover_password'])->name('web.recover_password');
 Route::get('color/product/get',[WebShopController::class,'getimage'])->name('getimage.product.select');
-Route::get('cart',[CartController::class,'index'])->name('cart.index');
+Route::get('cart',[CartController::class,'index'])->name('web.shop.cart.index');
+Route::get('contacto',[WebController::class,'contact'])->name('web.contact.index');
+Route::post('email',[MailController::class, 'index'])->name('email');
+
 
 
 Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->group(function () {
     /* Route::get('home',[HomeController::class,'index'])->name('home'); */
 
     Route::prefix('admin')->group(function(){
+        Route::get('slider',[InicioController::class,'index'])->name('mypage.main');
+        Route::put('banner/update/{id}',[InicioController::class,'update'])->name('banner.update');
+        Route::put('banner/update/sort/{id}',[InicioController::class,'sort'])->name('banner.sort');
+        Route::put('about/update/{id}',[InicioController::class,'about'])->name('about.update');
         Route::get('footer',[FooterController::class,'edit'])->name('mypage.edit');
         Route::put('footer/{id}',[FooterController::class,'update'])->name('mypage.update');
         Route::resource('roles', RoleController::class)->names('roles');
@@ -82,14 +94,15 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
         Route::get('sales',[SaleController::class, 'index'])->name('sale.index');
 
     });
-    Route::get('panel/wishlist',[WishlistController::class,'index'])->name('webdashboard.wishlist');
-    Route::get('panel/pefil',[WishlistController::class,'profile'])->name('webdashboard.profile');
-    Route::get('panel/direcciones',[WishlistController::class,'address'])->name('webdashboard.address');
-    Route::get('panel/compras',[WishlistController::class,'purchase'])->name('webdashboard.purchase');
+    Route::get('panel/wishlist',[WishlistController::class,'index'])->name('web.shop.webdashboard.wishlist');
+    Route::get('panel/pefil',[WishlistController::class,'profile'])->name('web.shop.webdashboard.profile');
+    Route::get('panel/direcciones',[WishlistController::class,'address'])->name('web.shop.webdashboard.address');
+    Route::get('panel/compras',[WishlistController::class,'purchase'])->name('web.shop.webdashboard.purchase');
+    Route::get('panel/account',[WishlistController::class,'account'])->name('web.shop.webdashboard.account');
 
-    Route::get('checkout',[CheckoutController::class,'index'])->name('checkout.index');
+    Route::get('checkout',[CheckoutController::class,'index'])->name('web.shop.checkout.index');
     Route::post('checkout/crear',[CheckoutController::class,'create'])->name('checkout.create');
-    Route::get('pagos',[CheckoutController::class,'pays'])->name('checkout.pay');
+    Route::get('pagos',[CheckoutController::class,'pays'])->name('web.shop.checkout.pay');
 
     Route::post('paid/izipay',[PaidController::class,'izipay'])->name('paid.izipay');
     Route::post('paid/niubiz',[PaidController::class,'niubiz'])->name('paid.niubiz');
@@ -98,7 +111,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
     Route::get('/paid/mercadopago',[PaidController::class ,'mercadopago'])->name('paid.mercadopago');
     Route::get('/gracias', function (){
             return view('web.cart.gracias');
-    })->name('gracias');
+    })->name('web.shop.gracias');
     Route::get('/get/prueba/', function(){
         $get= Address::where('user_id',auth()->user()->id)->get() ?? '';
         $get2= Address::where(['user_id'=>auth()->user()->id,'current'=>1])->first()->name ?? '';
@@ -106,7 +119,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
             'get' => $get,
             'get2' => $get2,
         ];
-    
+
         return response()->json($datosCombinados);
     });
     // API de Pais/Departamento/Ciudad/Distrito
@@ -115,5 +128,5 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
     Route::get('/api/cities/{stateCode}', [LocationController::class, 'getCities']);
     Route::get('/api/distrits/{cityCode}', [LocationController::class, 'getDistrits']);
 
-   
+
 });

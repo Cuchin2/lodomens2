@@ -1,6 +1,6 @@
 @props(['title'])
 <div class="fixed w-full z-40">
-<div class="bg-gris-90 py-[3px]
+<div class="bg-gris-90 py-[3px] border-b-[1px] border-gris-80
 text-gris-10 md:py-[10px] text-center">
 
     <h3 class="font-bold hidden md:block" >{{ $title }}</h3>

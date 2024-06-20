@@ -40,7 +40,7 @@
                         <div class="my-1 flex">
                             <div class="flex items-center space-x-2 mr-1">
                                 <x-label class="my-2">URL:</x-label>
-                                <p class="text-gris-40 text-[14px]">ecowaste.nubesita.com/blog/</p>
+                                <p class="text-gris-40 text-[14px]">https://lodomens.com/blog/</p>
                             </div>
                             <x-input-editable name="slug" value="{{old('slug',$product->slug)}}"></x-input-editable>
                         </div>
@@ -106,7 +106,7 @@
                             <div class="flex justify-between"><p style="color: {{ $sku->color->hex }};">{{ $sku->color->name }}</p>
                                 <x-label class="mb-2 ">SKU: {{ $sku->code }}</x-label>
                             </div>
-                            
+
                                 <div class="grid grid-cols-2 gap-4">
                                     <div class="">
                                         <x-label class="mb-2 " >Nivel de stock</x-label>
@@ -125,7 +125,7 @@
 
                         </div>
                         @if(Session::has('mensaje2'))
-                        <div class="text-corp-10 ml-2"> 
+                        <div class="text-corp-10 ml-2">
                                 {{ Session::get('mensaje2') }}
                             </div>
                         @endif
@@ -153,13 +153,13 @@
                         <div class=" mb-4">
                             <x-dashboard.multipleselect
                             id="1"
-                            name="colors"    
-                            placeholder="Selccione los colores" 
-                            :colorSelect="$colorSelect" 
+                            name="colors"
+                            placeholder="Selccione los colores"
+                            :colorSelect="$colorSelect"
                             :colorUnSelect="$colorUnSelect" />
 
                             @if(Session::has('mensaje'))
-                            <div class="text-corp-10 ml-2"> 
+                            <div class="text-corp-10 ml-2">
                                     {{ Session::get('mensaje') }}
                                 </div>
                             @endif
@@ -172,22 +172,22 @@
                                     :data="$categories" selected="{{ $product->category->id }}">
                                 </x-select-search>
                             </div>
-                          
+
                         </div>
                         <div class="my-3">
                             <x-label class="mb-2">Etiquetas:</x-label>
                         </div>
 
                         <div class=" mb-4">
-                            <x-dashboard.multipleselectsimple 
+                            <x-dashboard.multipleselectsimple
                             id="2"
                             name="tags"
-                            placeholder="Seleccione las etiquetas" 
-                            :selected="$tagSelect" 
+                            placeholder="Seleccione las etiquetas"
+                            :selected="$tagSelect"
                             :unselected="$tagNames"
                              param="0"
                             />
-                           
+
                         </div>
 
 
@@ -196,7 +196,7 @@
 
 
                 </div>
-                
+
                 @include('admin.product.colorimage',['colors'=> $colorSelect,'id'=>$product->id,'numberArray'=>$numberArray])
                 {{-- @include('admin.product.image') --}}
 

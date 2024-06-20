@@ -12,7 +12,7 @@
 @section('breadcrumb')
 
 <x-breadcrumb.lodomens.breadcrumb title="Checkout">
-    <x-breadcrumb.lodomens.breadcrumb2 name='Checkout' href="{{ route('checkout.index') }}"/>
+    <x-breadcrumb.lodomens.breadcrumb2 name='Checkout' href="{{ route('web.shop.checkout.index') }}"/>
     <x-breadcrumb.lodomens.breadcrumb2 name='Métodos de pago' />
 </x-breadcrumb.lodomens.breadcrumb>
 
@@ -64,7 +64,7 @@
 
 
     <div class="flex flex-col text-center bg-gris-90 h-full p-3 rounded-[5px] border-[1px] border-gris-70 w-1/3 min-w-fit my-6 mx-auto">
-        
+
         <h5 class="mb-4">Métodos de Pago</h5>
         <div class="flex flex-col mx-auto w-[280px] space-y-4">
 
@@ -135,11 +135,14 @@
                                 left: 0;
                                 width: 100%;
                             }
-                        </style> 
+                            .header-logoImage {
+                                width: auto!important;
+                            }
+                        </style>
                         </div>
                     </div>
                 </div>
-            </div>  
+            </div>
 
 
             {{--  Mercado pago  --}}
@@ -154,7 +157,7 @@
             margin: 0 !important;
         }
         </style>
-   
+
     </div>
 </div>
 @endsection
@@ -177,7 +180,7 @@
                 purchasenumber: purchasenumber,
                 amount:amount,
                 expirationminutes:'20',
-                timeouturl:"{{ route('checkout.index') }}",
+                timeouturl:"{{ route('web.shop.checkout.index') }}",
                 merchantlogo: "https://pruebas.nubesita.com/storage/662851f44f745.png",
                 formbuttoncolor:'#900D0D',
                 action:"{{ route('paid.niubiz') }}"+'?purchasenumber='+purchasenumber+'&amount='+amount,
@@ -185,7 +188,7 @@
                 alert(JSON.stringify(params));
                 }
             });
-        });  
+        });
 </script>
 //paypal
 <script>
@@ -203,14 +206,14 @@
                 return axios.post('/paid/capture-paypal-order', {
                         orderID : data.orderID
                 }).then(function(response){
-                  window.location.href= "{{ route('gracias') }}";
+                  window.location.href= "{{ route('web.shop.gracias') }}";
                 }).catch(function(error){
                     console.log(error)
                 });
             },
         })
         .render("#paypal-button-container");
-        
+
         // Example function to show a result to the user. Your site's UI library can be used instead.
         function resultMessage(message) {
         const container = document.querySelector("#result-message");

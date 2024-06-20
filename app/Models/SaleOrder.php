@@ -29,7 +29,7 @@ class SaleOrder extends Model
         'zip_code'
     ];
     public function deliveryOrders(): HasOne {
-    
+
         return $this->hasOne(DeliveryOrder::class,'order_id');
     }
     public function saleDetails()
@@ -44,7 +44,7 @@ class SaleOrder extends Model
          /* ->orWhereHas('roles', function ($roleQuery) use ($value) {
             $roleQuery->where('name', 'like', "%{$value}%");
         });*/
-       ->orWhere('created_at','like',"%{$value}%"); 
+       ->orWhere('created_at','like',"%{$value}%");
     }
     public function convert(){
         switch ($this->attributes['status']) {
@@ -67,15 +67,15 @@ class SaleOrder extends Model
             case 'PAID':
                 return '1';
             case 'TRACKING':
-                return '2';
-            case 'CANCEL':
                 return '3';
+            case 'CANCEL':
+                return '6';
             case 'DONE':
                     return '4';
             case 'CREATE':
                         return '0';
             default:
-                return '6';
+                return '2';
         }
     }
 }

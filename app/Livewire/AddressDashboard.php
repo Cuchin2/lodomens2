@@ -31,21 +31,21 @@ class AddressDashboard extends Component
         }
     }
     public function send(){
-        
+
         if($this->choise == 'DELETE') {
             $address= Address::find($this->address_id);
             $address->delete();
             $this->reloadd();
         }
-    
+
         if($this->choise == 'CREATE')
             {
                 Address::create([
-                    'name' => $this->name, 
+                    'name' => $this->name,
                      'description' => $this->description,
                      'reference' => $this->reference,
                      'user_id' => auth()->user()->id,
-                 ]);  $this->redirectRoute('webdashboard.address',navigate:true);
+                 ]);  $this->redirectRoute('web.shop.webdashboard.address',navigate:true);
             }
             if($this->choise == 'EDIT')
             {
@@ -55,11 +55,11 @@ class AddressDashboard extends Component
                 $address->reference= $this->reference;
                 $address->save();
             }
-            $this->redirectRoute('webdashboard.address',navigate:true);
-            /*         $this->reloadd();      
+            $this->redirectRoute('web.shop.webdashboard.address',navigate:true);
+            /*         $this->reloadd();
                     $this->reset(); */
     }
-    public function hola($id){ 
+    public function hola($id){
         $address = Address::find($id);
         Address::where('id', '!=', $id)->where('user_id',auth()->user()->id)->update(['current' => false]);
         $address->current = true;

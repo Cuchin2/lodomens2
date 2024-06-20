@@ -1,5 +1,5 @@
 {{--   Responsive  --}}
-<footer class=" bg-gris-90 md:hidden border-t-[1px] border-t-gris-70 z-20" aria-labelledby="footer-heading">
+<footer class=" bg-gris-90 md:hidden border-t-[1px] border-t-gris-80 z-20" aria-labelledby="footer-heading">
     <h2 id="footer-heading" class="sr-only">Footer</h2>
     <div class="max-w-7xl mx-auto">
 
@@ -90,7 +90,7 @@
                 <div class="flex space-x-5 w-[270px] justify-center">
                     @foreach ($datos['redes'] as $red)
                     <a href="{{$red->url }}"alt="" target="_blank">
-                        <x-dynamic-component :component="'icons.socialmedia.'.$red->name" :class="'h-[15.5px] fill-gris-10 hover:fill-corp-50'" />
+                        <x-dynamic-component :component="'icons.socialmedia.'.$red->name" :class="'h-[20px] fill-gris-10 hover:fill-corp-50'" />
                     </a>
                     @endforeach
                 </div>
@@ -102,7 +102,7 @@
     </div>
 </footer>
  {{--  normal  --}}
-<footer class="bg-gris-90 hidden md:flex h-[182px]  border-t-[1px] border-t-gris-70 " aria-labelledby="footer-heading">
+<footer class="bg-gris-90 hidden md:flex h-[182px]  border-t-[1px] border-t-gris-80 " aria-labelledby="footer-heading">
 
     <div class=" mx-auto mt-[20px] px-4  lg:px-8">
 
@@ -131,7 +131,7 @@
                 <div class="mt-[25px] flex space-x-5 justify-center">
                     @foreach ($datos['redes'] as $red)
                     <a href="{{$red->url }}"alt="" target="_blank">
-                        <x-dynamic-component :component="'icons.socialmedia.'.$red->name" :class="'h-[15.5px] fill-gris-10 hover:fill-corp-50'" />
+                        <x-dynamic-component :component="'icons.socialmedia.'.$red->name" :class="'h-[25px] fill-gris-10 hover:fill-corp-50'" />
                     </a>
                 @endforeach
 {{--                      <a href="https://www.instagram.com/lodo.mens" target="_blank"><x-icons.socialmedia.instagram class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>
@@ -194,7 +194,7 @@
     <div class="md:flex lg:hidden space-x-5  w-[280px] ">
         @foreach ($datos['redes'] as $red)
             <a href="{{$red->url }}"alt="" target="_blank">
-                <x-dynamic-component :component="'icons.socialmedia.'.$red->name" :class="'h-[15.5px] fill-gris-10 hover:fill-corp-50'" />
+                <x-dynamic-component :component="'icons.socialmedia.'.$red->name" :class="'h-[20px] fill-gris-10 hover:fill-corp-50'" />
             </a>
         @endforeach
 {{--          <a href="https://www.instagram.com/lodo.mens" target="_blank"><x-icons.socialmedia.instagram class="h-[15.5px] fill-gris-10 hover:fill-corp-50"/></a>

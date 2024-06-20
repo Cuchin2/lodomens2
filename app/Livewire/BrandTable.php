@@ -91,7 +91,7 @@ class BrandTable extends Component
         else
         {   $this->validate();
             $brand=Brand::find($id);
-            $previousUrl = $brand->images()->value('url'); 
+            $previousUrl = $brand->images()->value('url');
             $brand->name = $this->name;
             $brand->slug = $this->slug;
             $brand->description = $this->description;
@@ -112,8 +112,8 @@ class BrandTable extends Component
                 }
                 $this->logo->storeAs('image/lodomens/', $fileName, 'public');
             }
-        
-                if (is_object($this->logo)) { 
+
+                if (is_object($this->logo)) {
                     $fileName= time().'-'. $this->logo->getClientOriginalName();
                     $url_name='image/lodomens/'.$fileName;
                     $brand->images()->create([
@@ -123,14 +123,14 @@ class BrandTable extends Component
                 ]);
                     $this->logo->storeAs('image/lodomens/', $fileName, 'public');
                 }
-           
-                if($previousUrl && $this->logo ==null) 
-                { 
+
+                if($previousUrl && $this->logo ==null)
+                {
                     Storage::disk('public')->delete($previousUrl);
                     $brand->images()->delete();
                 }
-                
-            
+
+
         }
         $this->showModal = false;
         $this->logo= null;
@@ -158,7 +158,7 @@ class BrandTable extends Component
                 $this->showModal = true;
                 $this->which = $abc;
         }
-        public function showDeleteModal2($itemId,$name,$abc,$description,$slug,$file) 
+        public function showDeleteModal2($itemId,$name,$abc,$description,$slug,$file)
         {       $this->resetValidation();
                 $this->logo = $file;
                 $this->name = $name;

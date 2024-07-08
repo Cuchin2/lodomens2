@@ -129,9 +129,14 @@
                         }
                         if (!empty($firstImage[$key0]) && is_object($firstImage[$key0])) {
                             $sku = \App\Models\Sku::where(['color_id' => $firstImage[$key0]->color_id, 'product_id' => $product->id])->first();
+                                if(session('location') !== 'PE')
+                                { $sku->sell_price = $sku->usd; }
+
                         }
                         else{
                             $sku = \App\Models\Sku::where(['color_id' => $colorSelect[0]->id, 'product_id' => $product->id])->first();
+                            if(session('location') !== 'PE')
+                            { $sku->sell_price = $sku->usd; }
                         }
                         @endphp
                 <x-outstock {{--  class="md:max-w-[200px] max-w-[150px]"  --}} url="{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}" name="{{ $product->name }}" stock="{{ $sku->stock ?? '' }}" />
@@ -151,7 +156,7 @@
 
                 <div class="m-2 leading-[1.2]" x-show="sort===3" x-cloak>
                     <p class="text-[14px] md:text-[18px] ">{{ $product->name }}</p>
-                    <p class="text-[18px] md:text-[22px]"> {{ $sku->sell_price == 0 ? '' : ('S/.'.$sku->sell_price ?? '')}}</p>
+                    <p class="text-[18px] md:text-[22px]"> {{ $sku->sell_price == 0 ? '' : (session('currency').$sku->sell_price ?? '')}}</p>
                 </div>
                 <div x-show="sort===1" x-cloak class="px-8">
                     <h3>{{ $product->name }}</h3>
@@ -160,7 +165,7 @@
                         <p class="text-gris-30"> - {{ $product->reviews->count() }} reseñas -</p>  --}}
                     </div>
                     <div class="flex space-x-3">
-                        <h4>S/. {{ $sku->sell_price ?? ''}}</h4>
+                        <h4>{{ session('currency') }} {{ $sku->sell_price ?? ''}}</h4>
                         <h5 class="line-through text-gris-70">S/.65 </h5>
                     </div>
                     <p class="mt-4 text-justify">{{ $product->short_description }}</p>
@@ -216,7 +221,7 @@
                         </div>
 
                             <div class="">
-                            <p>Precio unidad: S/. {{ $skus->sell_price ?? '' }}</p>
+                            <p>Precio unidad: {{ session('currency') }} {{ $skus->sell_price ?? '' }}</p>
                             <p>Color:  {{ $skus->color->name ?? ''}} </p> </div>
                             <div>
                                 <p>@if(isset($skus->stock)) {{ $skus->stock < 2 ? ($skus->stock == 1 ? 'Queda: 1 unidad': 'Fuera de stock') : 'Quedan: '.$skus->stock.' unidades' }} @else  @endif</p>
@@ -234,7 +239,7 @@
                     </div>
                 </div>
                 <div class="flex md:block justify-between mt-4 md:mt-0">
-                    <h4 class="flex justify-end md:mb-8 whitespace-nowrap"> S/. {{ $price_cart ?? '' }}</h4>
+                    <h4 class="flex justify-end md:mb-8 whitespace-nowrap"> {{ session('currency') }} {{ $price_cart ?? '' }}</h4>
                     <div class="flex space-x-2">
 
                         <x-specials.input-cart-main stock="{{ $skus->stock ?? ''}}"/>

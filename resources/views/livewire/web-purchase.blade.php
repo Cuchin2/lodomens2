@@ -35,7 +35,7 @@
 
 
         <div x-show="open" x-cloak x-collapse x-on:click.away="open = false">
-            <hr class="border-gris-70 border-[1px]">
+            <hr class="border-gris-70">
             <div  class="px-4 py-2">
                 <p>Seguimiento del pedido</p>
             </div>
@@ -45,7 +45,7 @@
 
 
             @foreach ($order->saleDetails as $detail)
-            <hr class="border-gris-70 border-[1px] ">
+            <hr class="border-gris-70">
 
             <div  class="px-4 py-2 flex items-center">
                 <a class="flex w-max items-center p-2 r"
@@ -71,7 +71,7 @@
             @endforeach
         </div>
         <div  x-show="open" x-cloak>
-            <hr class="border-gris-70 border-[1px]">
+            <hr class="border-gris-70">
             <div  class="px-4 py-2">
                 <p class="mb-2"><b>Envio a domicilio</b></p>
                 @if ($order->deliveryOrders)

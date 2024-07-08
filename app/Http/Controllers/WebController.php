@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSubscriptionRequest;
 use App\Http\Requests\User\StoreRequest;
-use App\Models\Category;
+use App\Models\Contact;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Profile;
@@ -31,7 +31,8 @@ class WebController extends Controller
     }
     public function contact()
     {
-        return view('web.contact.index');
+        $contacts=Contact::orderBy('order','asc')->get();
+        return view('web.contact.index',compact('contacts'));
     }
     public function login_register()
     {

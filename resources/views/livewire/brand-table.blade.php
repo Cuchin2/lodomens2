@@ -131,7 +131,8 @@
 
                                     <td class="px-4 py-[13px]">
                                         <img src="{{ asset('storage/'.($brand->images->url ?? 'image/dashboard/No_image_dark.png')) }}" class="border-[1px] border-gris-50 rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
-                                    </td><td class="px-4 py-[13px]">
+                                    </td>
+                                    <td class="px-4 py-[13px]">
                                         {{$brand->name}}</td>
                                     </td>
 

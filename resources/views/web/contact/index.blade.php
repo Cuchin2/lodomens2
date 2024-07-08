@@ -16,7 +16,7 @@
 </style>
 @endsection
 @section('content')
-{{--  <x-lodomens.video />  --}}
+
 <div class="lg:grid lg:grid-cols-3 xl:w-3/4 lg:w-full lg:gap-4 mx-auto lg:px-20 px-4">
     <div class="lg:col-span-2" x-data="{
      email : '',
@@ -118,37 +118,21 @@
     </div>
     <div class="lg:col-span-1">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4 mx-auto my-4 w-full">
-                <x-web.card.contact title="DIRECCIÓN">
-                    <x-slot name="icon">
-                        <x-icons.address class="w-6 h-6 mx-auto"/>
-                    </x-slot>
+            @foreach ($contacts as $contact )
+            <x-web.card.contact title="{{ $contact->name }}">
+                <x-slot name="icon">
+                    @if($contact->icon)
+                    <x-dynamic-component :component="'icons.'.$contact->icon" class="w-6 h-6 mx-auto"/>
+                    @endif
 
-                    <div class="flex flex-col space-y-3">
+                </x-slot>
 
-                        <div>
-                        <p class="text-[14px]">Jr. Nelson Queirolo, 15056</p>
-                        <p class="text-[14px]">Sanatiago de Surco, Lima</p>
-                        </div>
-                        <div>
-                            <p class="text-[14px]">Av. Arnaldo Marquez 1165</p>
-                            <p class="text-[14px]">Jesús María, Lima</p>
-                         </div>
-                     </div>
-                </x-web.card.contact >
-                <x-web.card.contact title="CORREO">
-                    <x-slot name="icon">
-                        <x-icons.mail class="w-6 h-6 mx-auto"/>
-                    </x-slot>
-                    <p class="text-[14px]">contacto@lodomens.com</p>
-                    {{--  <p class="text-[16px]">ventas@lodomens.com</p>  --}}
-                </x-web.card.contact>
-                <x-web.card.contact title="TELÉFONOS">
-                    <x-slot name="icon">
-                        <x-icons.phone class="w-6 h-6 mx-auto"/>
-                    </x-slot>
-                    <p class="text-[14px]">+51 927 093 258</p>
-                    {{--  <p class="text-[16px]">+51 915 941 398</p>  --}}
-                </x-web.card.contact>
+                <div>
+                        {!! nl2br(e($contact->description)) !!}
+                </div>
+            </x-web.card.contact>
+            @endforeach
+
                 <div class="bg-gris-90 border-[2px] border-corp-70 shadow rounded-[3px] p-4 text-center">
                     <h6 class="mb-6">AGENDA CITAS</h6>
                     <p class="text-[14px]">Santiago de Surco, 15056</p>

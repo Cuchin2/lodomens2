@@ -12,9 +12,7 @@
         <div x-data="{ open: true }" x-show="open" x-init="setTimeout(() => open = false, 2000)"
             :class="!open" x-collapse
             class="mb-[20px]">
-            <div
-    class="items-center flex rounded-lg border border-green-600 bg-green-900 bg-opacity-20 py-2 px-2 text-green-600 sm:px-5 text-[12px]"
-  >
+            <div class="items-center flex rounded-lg border border-green-600 bg-green-900 bg-opacity-20 py-2 px-2 text-green-600 sm:px-5 text-[12px]">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="h-5 w-5"
@@ -40,7 +38,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 " id="miDiv">
 
                 <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
-                    <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-12 ">
+                    <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-6 ">
 
                         <div class="my-3">
                             <x-label class="mb-2">Título:</x-label>
@@ -58,7 +56,7 @@
                     </div>
                 </div>
                 <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
-                    <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-12 ">
+                    <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-6 ">
                         <div class="my-3">
                             <x-label class="mb-2">Logo:</x-label>
                            {{--  pruebas  --}}
@@ -82,7 +80,7 @@
                     </div>
                 </div>
                 <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
-                    <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-12 ">
+                    <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-6 h-full">
                         <div class="my-3">
                         <x-label  value="{{ __('Información:') }}" />
                     </div>
@@ -115,7 +113,7 @@
 
                         </div>
 
-                        <x-button.corp1 type="buttom" class="ml-auto">Actualizar</x-button.corp1>
+                        <x-button.corp1 type="buttom" class="ml-auto mt-auto">Actualizar</x-button.corp1>
 
                     </div>
                 </div>

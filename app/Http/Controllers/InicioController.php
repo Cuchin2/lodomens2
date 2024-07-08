@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
+use App\Models\Shipping;
 use App\Models\Setting;
 
 use Illuminate\Http\Request;
@@ -44,6 +45,11 @@ class InicioController extends Controller
     public function update(Request $request, $id)
     {
         $banner = Banner::where('order',$id)->first();
+        $banner->title = $request->title;
+        $banner->href = $request->href;
+
+        // Guardar los cambios en la base de datos
+        $banner->save();
         //Actualizando la foto
         if ($request->hasFile('photo')) {
             // Lógica para guardar la nueva foto
@@ -61,20 +67,17 @@ class InicioController extends Controller
         }
 
         // Actualizar los datos del modelo Footer con la data del request
-        $banner->title = $request->input('title');
-        $banner->href = $request->input('href');
 
-        // Guardar los cambios en la base de datos
-        $banner->save();
         return redirect()->route('mypage.main')->with('info','Se actualizarón los datos de los banners');
     }
 
     public function sort(Request $request,$id)
     {
-        $old= Banner::where('order',$request->position+1)->first();
+        $old= Banner::where('order',$request->position)->first();
         $new= Banner::find($id);  $new_order= $new->order;
-        $new->order=$request->position+1;  $new->save();
+        $new->order=$request->position;  $new->save();
         $old->order= $new_order;   $old->save();
+
     }
     public function about(Request $request)
     {
@@ -86,5 +89,9 @@ class InicioController extends Controller
             ] // Valores a actualizar o crear
         );
         return redirect()->route('mypage.main')->with('info','Se actualizarón los datos sobe nosotros');
+    }
+    public function shipping()
+    {
+        return view('admin.mypage.shipping');
     }
 }

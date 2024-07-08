@@ -80,6 +80,6 @@ class FooterController extends Controller
             } else {
                 $user->socialMedia()->delete(); }
 
-                return redirect()->route('mypage.edit')->with('info','Se actualizarón los datos del usuario');
+                return redirect()->route('mypage.edit')->with('info','Se actualizarón los datos del footer');
             }
         }

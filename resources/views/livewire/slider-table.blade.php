@@ -101,7 +101,7 @@
                             </div>
                         </div>
                         <div class="ml-2 w-fit flex space-x-2">
-                            <p class="text-gris-30">Tiempo</p>
+                            <p class="text-gris-30">Velocidad</p>
                             <x-input  class="!w-12 " wire:change="timing"
                             wire:model.live.debounce.300ms="time" type="number" step="0.1"/>
                             <p class="text-gris-30">(seg.)</p>
@@ -127,6 +127,7 @@
                                     <th scope="col" class="px-4 py-[13px] font-normal" wire:click="setSortBy('order')">N°</th>
                                     <th scope="col" class="px-4 py-[13px] font-normal w-[100px]" >Imagen</th>
                                     <th scope="col" class="px-4 py-[13px] font-normal" wire:click="setSortBy('name')">Título</th>
+                                    <th scope="col" class="px-4 py-[13px] font-normal w-[100px]" >Enlace</th>
                                     <th scope="col" class="px-4 w-[123px] py-[13px] font-normal cursor-pointer" wire:click="setSortBy('state')">Estado</th>
                                     <th scope="col" class="px-4 py-[13px] font-normal text-center">
                                         Acciones
@@ -144,6 +145,9 @@
                                         <img src="{{ asset('storage/'.($slider->url ?? 'image/dashboard/No_image_dark.png')) }}" class="border-[1px] border-gris-50 rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
                                     </td><td class="px-4 py-[13px]">
                                         {{$slider->name}}</td>
+                                    </td>
+                                    </td><td class="px-4 py-[13px]">
+                                        <a href="{{$slider->link}}">{{$slider->link}}</a></td>
                                     </td>
                                     <td class="px-4 py-[13px]" wire:ignore>
 

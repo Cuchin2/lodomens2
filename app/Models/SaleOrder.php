@@ -10,9 +10,9 @@ class SaleOrder extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
+        'shipping_id',
         'status',
         'total',
-
         'name',
         'last_name',
         'business',
@@ -35,6 +35,10 @@ class SaleOrder extends Model
     public function saleDetails()
     {
         return $this->hasMany(SaleDetail::class,'order_id');
+    }
+    public function shipping()
+    {
+        return $this->belongsTo(Shipping::class, 'shipping_id');
     }
     public function scopeSearch($query, $value)
     {

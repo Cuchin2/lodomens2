@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0c3772999460e3182a315574e380e4b8",
+    "content-hash": "6473bd3545a898b88d4f4545853a252b",
     "packages": [
         {
             "name": "awssat/laravel-visits",
@@ -4545,22 +4545,23 @@
         },
         {
             "name": "stevebauman/location",
-            "version": "v7.2.1",
+            "version": "v7.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stevebauman/location.git",
-                "reference": "c95c397bf54a109f9cdb335377887047408dc8bc"
+                "reference": "f565e2badaa764f90fd5b9199ca152eb7b76ff2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stevebauman/location/zipball/c95c397bf54a109f9cdb335377887047408dc8bc",
-                "reference": "c95c397bf54a109f9cdb335377887047408dc8bc",
+                "url": "https://api.github.com/repos/stevebauman/location/zipball/f565e2badaa764f90fd5b9199ca152eb7b76ff2a",
+                "reference": "f565e2badaa764f90fd5b9199ca152eb7b76ff2a",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
                 "geoip2/geoip2": "^2.0",
+                "guzzlehttp/guzzle": "^7.0",
                 "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
                 "php": ">=8.1"
             },
@@ -4607,9 +4608,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stevebauman/location/issues",
-                "source": "https://github.com/stevebauman/location/tree/v7.2.1"
+                "source": "https://github.com/stevebauman/location/tree/v7.3.1"
             },
-            "time": "2024-04-09T17:05:20+00:00"
+            "time": "2024-06-20T13:59:02+00:00"
         },
         {
             "name": "symfony/console",

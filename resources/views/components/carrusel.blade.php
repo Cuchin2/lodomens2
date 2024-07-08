@@ -24,7 +24,7 @@
             </div>  --}}
             @foreach ($sliders as $slider )
             <div class="inline-block w-full">
-                <a href="{{ $slider->href }}">
+                <a href="{{ $slider->link }}" target="_blank">
                 <img width="100%" class="max-h-[547px]"
                   src="{{ asset('storage/'.$slider->url) }}"
                   alt="{{ $slider->name }}"

@@ -16,6 +16,8 @@ class WishlistCart extends Component
             $image= $item->options->productImage;
             $sku= Sku::where('code',$item->options->sku)->first();
             if(isset($sku)){
+                if(session('location') !== 'PE')
+                { $sku->sell_price = $sku->usd; }
             $abc=Cart::instance('wishlist')->update($item->rowId,['price'=> $sku->sell_price]);
             $abc=Cart::instance('wishlist')->update($item->rowId,[
                 'options'=> [
@@ -56,7 +58,7 @@ class WishlistCart extends Component
 }
     public function clearCart()
     {   $this->choose = 1;
-        $this->showModal = true; 
+        $this->showModal = true;
 
         $this->updateDataBase();
     }

@@ -114,10 +114,10 @@
                 <div class="flex space-x-3">
                     <div class="flex items-center justify-between">
                         <template x-for="sku in skus" @sku.window="skuselect=$event.detail.parm">
-                            <h4 x-text="'S/. '+sku.sell_price"x-show="skuselect === parseInt(sku.color_id)" x-cloak></h4>
+                            <h4 x-text="'{{ session('currency') }} '+sku.sell_price"x-show="skuselect === parseInt(sku.color_id)" x-cloak></h4>
                         </template>
                     </div>
-                    <h5 class="line-through text-corp-50">S/.65 </h5>
+                    <h5 class="line-through text-corp-50">{{ session('currency') }}65 </h5>
                 </div>
                 <p class="mt-4 text-justify">{{ $product->short_description }}</p>
                 <div class="flex my-4 space-x-1">

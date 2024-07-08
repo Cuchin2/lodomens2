@@ -54,8 +54,8 @@
                             <div class=" md:mt-[81px] mt-[44px]">
                                 @yield('breadcrumb')
                                     @yield('main')
-{{--                                  <div class="container text-gris-10 mx-auto px-[5px] md:px-[20px] relative md:pt-[81px] pt-[28px]" >
-                                </div>  --}}
+                                <div class="container text-gris-10 mx-auto px-[5px] md:px-[20px] relative md:pt-[81px] pt-[28px]" >
+
                                     {{--  <x-lodomens.video/>  --}}
                                         @php
                                         if(!isset($fondo) || $fondo !== false )
@@ -65,7 +65,7 @@
                                             <x-lodomens.background/>
                                          @endif
                                     @yield('content')
-
+                                </div>
 
                             </div>
 

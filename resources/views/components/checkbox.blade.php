@@ -2,7 +2,7 @@
 --}}
 @props(['name'=>'','id'=>'','value'=>'','rule'=>false, 'onchange'=>''])
 
-<input class="hidden" type="checkbox" name="{{$name}}" value="{{ $value }}" id="{{$id}}" {{ $rule ? 'checked' : '' }} onchange="{{$onchange}}">
+<input class="hidden" type="checkbox" name="{{$name}}" value="{{ $value }}" id="{{$id}}" {{ $rule ? 'checked' : '' }} onchange="{{$onchange}}" {{ $attributes }}>
 <label class="flex text-[12px] relative mb-[5px]" for="{{$id}}">
 <span class="pan" x-cloak></span>
 {{ $slot }}

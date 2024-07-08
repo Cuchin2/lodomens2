@@ -1,7 +1,10 @@
-@props(['placeholder','message','name','selected','data'])
+@props(['placeholder','message','name'=>'','selected','data', 'livewire'=>false, 'set'=>''])
 
 <div >
-    <div x-data="select({ data: {{ json_encode($data) }}, emptyOptionsMessage: '{{$message}}', name: 'country', placeholder: '{{$placeholder}}',value:'{{$selected}}' })" x-init="init()" @click.away="closeListbox()" @keydown.escape="closeListbox()"
+    <div x-data="select{{ $set }}({
+    data: {{ json_encode($data) }}, emptyOptionsMessage: '{{$message}}', name: 'country',
+    placeholder: '{{$placeholder}}',value:'{{$selected}}'
+    })" x-init="init();" @click.away="closeListbox()" @keydown.escape="closeListbox()"
         class="relative">
         <span class="inline-block w-full rounded-md shadow-sm">
             <button type="button" x-ref="button" @click="toggleListboxVisibility()" :aria-expanded="open"
@@ -9,8 +12,9 @@
                 class="relative h-[30px] z-0 w-full py-1 pl-3 pr-10 text-left transition duration-150 ease-in-out dark:bg-gris-90 border dark:focus:ring-gris-50 dark:border-gris-70 rounded-md cursor-default focus:outline-none focus:shadow-outline-teal dark:focus:border-gris-50 text-[12px]">
                 <span x-show="! open" x-text="value in options ? options[value] : placeholder"
                     :class="{ 'text-gris-30': !(value in options) }" class="block truncate dark:text-gris-30"></span>
-                <input type="hidden" name="{{$name}}" x-model="value">
-                <input x-ref="search" x-show="open" x-model="search"  @keydown.enter.stop.prevent="selectOption()"
+                <input type="hidden"  x-model="value"  name="{{$name}}" >
+
+                <input x-ref="search" x-show="open" x-model="search"  @keydown.enter.stop.prevent="selectOption();"
                     @keydown.arrow-up.prevent="focusPreviousOption()" @keydown.arrow-down.prevent="focusNextOption()"
                     type="search"
                     class="w-full border-gris-30 h-[20px] dark:border-gray-700 dark:bg-gris-90 dark:text-gris-30 focus:border-gris-90 dark:focus:border-gris-90 focus:ring-gris-90 dark:focus:ring-gris-90 rounded-md shadow-sm text-[12px]"
@@ -65,10 +69,11 @@
                     class="px-3 py-1 text-gris-20 cursor-default select-none text-[12px]"></div>
             </ul>
         </div>
+        <button @click="$wire.selection(value,{{ $set }})" id="btn{{ $set }}" class="hidden" type="submit"></button>
     </div>
 
     <script>
-        function select(config) {
+        function select{{ $set }}(config) {
             return {
                 data: config.data,
 
@@ -86,7 +91,7 @@
 
                 search: '',
 
-                value: config.value,
+                value: config.value, livewire: '{{ $livewire }}',
 
                 closeListbox: function() {
                     this.open = false
@@ -142,7 +147,11 @@
                     if (!this.open) return this.toggleListboxVisibility()
 
                     this.value = Object.keys(this.options)[this.focusedOptionIndex]
-
+                        if(this.livewire == 'true') {
+                            set = 'btn'+'{{ $set }}';
+                            const miBoton = document.getElementById(set);
+                            miBoton.click();
+                        }
                     this.closeListbox()
                 },
 
@@ -167,5 +176,6 @@
                 },
             }
         }
+
     </script>
 </div>

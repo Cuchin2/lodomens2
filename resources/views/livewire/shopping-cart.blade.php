@@ -32,7 +32,7 @@
                             </div>
                             <div>
                                 <div class="flex justify-between">
-                                    <p>Precio unidad: S/.{{ $item->price }}</p>
+                                    <p>Precio unidad: {{session('currency')}}{{ $item->price }}</p>
                                     <p>Color: {{ $item->options->color }}</p>
                                 </div>
                                 <p> {{ $item->options->stock == 1 ? 'Queda 1 unidad' : 'Quedán '.$item->options->stock.'
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <div class="flex md:block justify-between mt-4 md:mt-0">
-                        <h4 class="flex justify-end md:mb-8"> S/.{{ $item->price*$item->qty }}</h4>
+                        <h4 class="flex justify-end md:mb-8"> {{session('currency')}}{{ $item->price*$item->qty }}</h4>
                         <x-specials.input-cart :item="$item" index="{{ $index }}">
                             <div>
                                 <a class="cursor-pointer" wire:click="removeRow('{{$item->rowId}}','{{ $index }}')">
@@ -72,15 +72,15 @@
                 <h5>Resumen de pedido</h5>
                 <div class="flex justify-between my-8">
                     <p>Subtotal ({{ $cartitems->count() }})</p>
-                    <p>S/.{{ Cart::instance('cart')->subtotal() }}</p>
+                    <p>{{session('currency')}}{{ Cart::instance('cart')->subtotal() }}</p>
                 </div>
                 {{-- <div class="flex justify-between my-2">
                     <p>IVA</p>
-                    <p>S/.{{ Cart::instance('cart')->tax() }}</p>
+                    <p>{{session('currency')}}{{ Cart::instance('cart')->tax() }}</p>
                 </div> --}}
                 <div class="flex justify-between my-2 text-white">
                     <p>Total</p>
-                    <p>S/.{{ Cart::instance('cart')->total() }}</p>
+                    <p>{{session('currency')}}{{ Cart::instance('cart')->total() }}</p>
                 </div>
                 <div class="mt-6 mb-2">
                     <a wire:click="checkout(); " @click="$dispatch('heart')" >

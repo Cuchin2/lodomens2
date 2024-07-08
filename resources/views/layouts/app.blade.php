@@ -81,9 +81,10 @@
                             </x-slot>
                             <x-sidebar.ul-drop-son href="{{ route('mypage.main') }}" :active2="request()->routeIs('mypage.main')">Inicio</x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son>Tienda</x-sidebar.ul-drop-son>
-                            <x-sidebar.ul-drop-son>Contacto</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('mypage.contact.index') }}" :active2="request()->routeIs('mypage.contact.*')">Contacto</x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son>Header</x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son href="{{ route('mypage.edit') }}" :active2="request()->routeIs('mypage.edit')">Footer</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son href="{{ route('mypage.shipping') }}" :active2="request()->routeIs('mypage.shipping')">Envios</x-sidebar.ul-drop-son>
 
                         </x-sidebar.ul-drop>
 

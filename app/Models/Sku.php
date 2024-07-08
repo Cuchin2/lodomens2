@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Stevebauman\Location\Facades\Location;
 class Sku extends Model
 {
     use HasFactory;
@@ -16,6 +15,7 @@ class Sku extends Model
         'code',
         'stock',
         'sell_price',
+        'usd',
     ];
     public function product()
     {

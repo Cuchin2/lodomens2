@@ -9,13 +9,9 @@
 <script type="text/javascript" src="https://static.micuentaweb.pe/static/js/krypton-client/V4.0/ext/classic.js">
 </script>
 @endpush
+
 @section('breadcrumb')
-
-<x-breadcrumb.lodomens.breadcrumb title="Checkout">
-    <x-breadcrumb.lodomens.breadcrumb2 name='Checkout' href="{{ route('web.shop.checkout.index') }}"/>
-    <x-breadcrumb.lodomens.breadcrumb2 name='Métodos de pago' />
-</x-breadcrumb.lodomens.breadcrumb>
-
+ <x-breadcrumb.progress />
 @endsection
 
 
@@ -148,7 +144,7 @@
             {{--  Mercado pago  --}}
             <div  x-data="{ open: false }">
                 <button x-on:click="open = true" x-show="!open" class="flex justify-center w-full bg-gray-100 py-2 rounded-lg shadow">
-                    <img src="{{ asset('storage/image/logos_pasarela/Logo_MercadoPago.png') }}" class="h-8" alt="Logo Niubiz">
+                    <img src="{{ asset('storage/image/logos_pasarela/Logo_MercadoPago.png') }}" class="h-8" alt="Logo MercadoPago">
                 </button>
                 <div id="wallet_container" x-show="open" x-cloak></div>
             </div>
@@ -172,7 +168,7 @@
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function(event){
             let purchasenumber=Math.floor(Math.random() * 1000000000) +1;
-            let amount = {{ Cart::instance('cart')->total() }};
+            let amount = {{ session('totality') }};
             VisanetCheckout.configure({
                 sessiontoken:'{{ $sessionToken }}',
                 channel:'web',
@@ -195,7 +191,7 @@
     paypal.Buttons({
             createOrder() {
                 return axios.post('/paid/create-paypal-order', {
-                    amount : "{{ Cart::instance('cart')->total() }}"
+                    amount : "{{ session('totality') }}"
                 }).then(function(response){
                     return response.data.id
                 }).catch(function(error){

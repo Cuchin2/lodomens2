@@ -3,13 +3,13 @@
 <div x-data="imageData{{ $id }}('{{ $url }}')" class="file-input items-center">
 
     <!-- Preview Image -->
-    <div class=" bg-gray-100 w-fit mx-auto">
+    <div class="w-fit mx-auto">
       <!-- Placeholder image -->
       <div x-show="!previewPhoto" >
 
       </div>
       <!-- Show a preview of the photo -->
-      <div x-show="previewPhoto" class=" overflow-hidden bg-gris-80">
+      <div x-show="previewPhoto" class=" overflow-hidden bg-gris-transparent">
         <img :src="previewPhoto" width="75%" height="75%"
              alt=""
              class=" object-cover mx-auto">
@@ -33,8 +33,8 @@
 
       <div class="items-center text-sm text-gray-500 mx-auto" @notify{{ $id }}.window="previewPhoto=$event.detail.url; fileName=$event.detail.filename;" @notify2{{ $id }}.window="clearPreview($refs)">
         <!-- Display the file name when available -->
-        <div class=" w-fit mx-auto flex items-center">
-        <span x-text="fileName || emptyText" class="text-[12px] text-gris-40 text-center"></span>
+        <div class=" w-full mx-auto flex items-center">
+        <span x-text="fileName || emptyText" class="text-[12px] text-gris-40 text-center overflow-hidden"></span>
         <!-- Removes the selected file -->
         <button x-show="fileName"
                 @click="clearPreview($refs); @if($livewire) $wire.deletelogo(); @endif "

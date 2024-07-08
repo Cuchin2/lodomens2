@@ -34,7 +34,7 @@
                             </div>
                             <div>
                                 <div class="flex justify-between">
-                                    <p>Precio unidad: S/.{{ $item->price }}</p>
+                                    <p>Precio unidad: {{session('currency')}}{{ $item->price }}</p>
 
                                 </div>
                                 {{--  <p> {{ $item->options->stock == 1 ? 'Queda 1 unidad' : 'Quedán '.$item->options->stock.'
@@ -47,7 +47,7 @@
                 <div>
                 <div class="flex justify-between mt-4 md:mt-0">
                     <div>
-                    <h4 class="flex justify-center md:mb-8"> S/.{{ $item->price*$item->qty }}</h4>
+                    <h4 class="flex justify-center md:mb-8"> {{session('currency')}}{{ $item->price*$item->qty }}</h4>
                     <x-specials.input-cart :item="$item" index="{{ $index }}" />
 
                 </div>

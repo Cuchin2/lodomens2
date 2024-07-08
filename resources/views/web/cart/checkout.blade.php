@@ -1,18 +1,14 @@
 @extends('layouts.web')
 
 @section('breadcrumb')
-
-<x-breadcrumb.lodomens.breadcrumb title="Checkout">
-    <x-breadcrumb.lodomens.breadcrumb2 name='Checkout' />
-</x-breadcrumb.lodomens.breadcrumb>
-
+ <x-breadcrumb.progress />
 @endsection
 
 @section('content')
 
 <div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75  pb-1 2xl:min-h-[374px] lg:min-h-[278px]">
     <form action="{{ route('checkout.create') }}" method="post" onsubmit="handleSubmit(event)">@csrf
-    <div class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="px-4 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="col-span-1 md:col-span-2">
             <div>
                 <h5 class="p-2">DETALLES DE FACTURACIÓN</h5>
@@ -311,7 +307,7 @@
 
             </div>
         </div>
-        <div x-data="{check: false}">
+        <div>
             <div>
                 <h5 class="p-2">TU PEDIDO</h5>
                 <div class="bg-gris-100 p-4 rounded-[3px]">
@@ -319,11 +315,11 @@
                         <h5>Resumen de pedido</h5>
                         <div class="flex justify-between my-8">
                             <p>Subtotal({{ Cart::instance('cart')->content()->count() }})</p>
-                            <p>S/.{{ Cart::instance('cart')->subtotal() }}</p>
+                            <p>{{session('currency')}}{{ Cart::instance('cart')->subtotal() }}</p>
                         </div>
                         <div class="flex justify-between my-2 text-white">
                             <p>Total</p>
-                            <p>S/.{{ Cart::instance('cart')->total() }}</p>
+                            <p>{{session('currency')}}{{ Cart::instance('cart')->total() }}</p>
                         </div>
                     </div>
                 </div>
@@ -332,7 +328,7 @@
                 @foreach (Cart::instance('cart')->content() as $item)
                 <div class="mb-4">
                   <div class="flex justify-between mb-1">
-                    <p class="font-bold">{{ $item->name }}</p> <p class="font-bold">S/. {{ $item->qty*$item->price }}</p>
+                    <p class="font-bold">{{ $item->name }}</p> <p class="font-bold">{{session('currency')}} {{ $item->qty*$item->price }}</p>
                   </div>
                   <div class="grid grid-cols-3 gap-4">
                     <div class="col-span-1">
@@ -342,7 +338,7 @@
                     </a>
                     </div>
                     <div class="col-span-2">
-                        <p1>Precio unidad: S/.{{ $item->price }}</p1>
+                        <p1>Precio unidad: {{session('currency')}}{{ $item->price }}</p1>
                         <p1>Color: {{ $item->options->color }}</p1>
                         <p1> {{ $item->qty == 1 ? '1 unidad' : $item->qty.' unidades' }}</p1>
                     </div>
@@ -352,15 +348,9 @@
 
 
             </div>
-            <div class="flex items-center space-x-4">
-                <div>
-                    <x-checkbox.webcheckbox  @change="check= !check" ::value="check" />
-                </div>
-            <p1>  Al registrarte estás aceptando los <p1/>
-                    <a href="#" class="text-[14px]"><b class="hover:text-corp-30"> Términos y Condiciones</b></a></label>
-            </div>
-            <div class="mt-4 select-none" :class="check ? '' : 'opacity-40 '">
-             <x-button.websecondary type="submit" class="w-full " ::class="check ? '' :'cursor-not-allowed'" ::disabled="!check"  {{--  @click="$dispatch('heart')"  --}}>Realizar Pedido</x-button.websecondary>
+
+            <div class="my-4 select-none flex justify-center">
+             <x-button.webprimary type="submit" class="w-[90%]" @click="$dispatch('heart')">Continuar</x-button.webprimary>
             </div>
         </div>
     </div>

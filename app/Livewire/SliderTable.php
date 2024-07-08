@@ -73,7 +73,9 @@ class SliderTable extends Component
                 Storage::disk('public')->delete($slider->url);
                 $slider->url= null; $slider->save();
                 }
+                $deletedOrder = $slider->order;
                 $slider->delete();
+                Slider::where('order', '>', $deletedOrder)->decrement('order');
                 $this->showModalDelete = false;
             }
 

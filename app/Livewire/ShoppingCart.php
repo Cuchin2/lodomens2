@@ -16,6 +16,8 @@ class ShoppingCart extends Component
             $image= $item->options->productImage;
             $sku= Sku::where('code',$item->options->sku)->first();
             if(isset($sku)){
+                if(session('location') !== 'PE')
+                { $sku->sell_price = $sku->usd; }
             $abc=Cart::instance('cart')->update($item->rowId,['price'=> $sku->sell_price]);
             $abc=Cart::instance('cart')->update($item->rowId,[
                 'options'=> [

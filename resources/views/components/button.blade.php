@@ -9,6 +9,6 @@
     {{ $slot }}
 </button>  --}}
 
-<button  class="text-gris-10 bg-gradient-to-b from-corp-20 via-corp-50 to-corp-90 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-gris-20 dark:focus:ring-corp-90 font-bold rounded-lg text-sm px-4 py-2 text-center me-2 mb-2">{{ $slot }}
+<button {{ $attributes }} class="text-gris-10 bg-gradient-to-b from-corp-20 via-corp-50 to-corp-90 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-gris-20 dark:focus:ring-corp-90 font-bold rounded-lg text-sm px-4 py-2 text-center me-2 mb-2">{{ $slot }}
 
 </button>

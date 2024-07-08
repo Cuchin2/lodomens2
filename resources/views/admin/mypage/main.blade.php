@@ -29,6 +29,8 @@
         </div>
         <div class="grid md:grid-cols-2 grid-cols-1 gap-4 mt-4" x-data="
         {
+        pos0 : '{{ route('banner.update',0) }}', po3:'',
+        pos1 : '{{ route('banner.update',1) }}',
         change(item,position){
 
                 const requestData = {
@@ -40,6 +42,9 @@
                 axios.put(url, requestData)
                     .then(response => {
                         console.log('Petición exitosa. Respuesta recibida:', response.data);
+                        this.pos3 = this.pos0;
+                        this.pos0 = this.pos1;
+                        this.pos1 = this.pos3;
                         // Puedes agregar aquí el código para manejar la respuesta de la petición
                     })
                     .catch(error => {
@@ -50,9 +55,9 @@
 
         }"
          x-sort="change($item, $position)">
-            <div x-sort:item="{{ $banners[0]->id }}" class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg px-2 py-4">
+            <div x-sort:item="{{ $banners[0]->id ?? ''}}" class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg px-2 py-4">
 
-                <form method="POST" action="{{ route('banner.update',0) }}" name="formulario"
+                <form method="POST" :action="pos0" name="formulario"
                     enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -73,7 +78,7 @@
             </div>
             <div x-sort:item="{{ $banners[1]->id }}" class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg px-2 py-4">
 
-                <form method="POST" action="{{ route('banner.update',1) }}" name="formulario2"
+                <form method="POST" :action="pos1" name="formulario2"
                     enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -108,7 +113,7 @@
             <div class="my-3 px-4 xl:w-1/2 lg:w-2/3 md:w-4/5 w-full mx-auto">
                 <x-label class="mb-2">Descripción:</x-label>
                 <x-input-textarea placeholder="Descripción" name="description" col="10">
-                    {{ old('short_description', $about->description) }}
+                    {{ old('short_description', $about->description ?? '')  }}
                     </x-imput-textarea>
             </div>
             <x-button.corp1 type="buttom" class="mx-auto my-4">Actualizar</x-button.corp1>

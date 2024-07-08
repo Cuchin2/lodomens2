@@ -101,17 +101,17 @@ class BrandTable extends Component
                 $sku->code = substr_replace($sku->code, substr($this->slug, 0, 2), 0, 2);
                 $sku->save();
             });
-            if (is_object($this->logo) && $previousUrl) {
-                $fileName = time() . '-' . $this->logo->getClientOriginalName();
-                $url_name = 'image/lodomens/' . $fileName;
-                $brand->images()->update([
-                    'url' => $url_name,
-                ]);
-                if ($previousUrl && Storage::disk('public')->exists($previousUrl)) {
-                    Storage::disk('public')->delete($previousUrl);
+                if (is_object($this->logo) && $previousUrl) {
+                    $fileName = time() . '-' . $this->logo->getClientOriginalName();
+                    $url_name = 'image/lodomens/' . $fileName;
+                    $brand->images()->update([
+                        'url' => $url_name,
+                    ]);
+                    if ($previousUrl && Storage::disk('public')->exists($previousUrl)) {
+                        Storage::disk('public')->delete($previousUrl);
+                    }
+                    $this->logo->storeAs('image/lodomens/', $fileName, 'public');
                 }
-                $this->logo->storeAs('image/lodomens/', $fileName, 'public');
-            }
 
                 if (is_object($this->logo)) {
                     $fileName= time().'-'. $this->logo->getClientOriginalName();

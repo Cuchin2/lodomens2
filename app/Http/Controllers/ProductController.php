@@ -9,6 +9,7 @@ use App\Models\Color;
 use App\Models\Brand;
 use App\Models\Type;
 use App\Models\Row;
+use App\Models\Setting;
 use App\Models\Sku;
 use Illuminate\Support\Str;
 use App\Http\Requests\StoreProductRequest;
@@ -99,7 +100,7 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Product $product)
-    { 
+    {
         $request->validate([
             'code' => ['required','numeric','max:9999',Rule::unique('products')->ignore($product->id)],
             'brand_id' => ['required']
@@ -118,8 +119,8 @@ class ProductController extends Controller
         if($request->input('colors') == null){
             Session::flash('mensaje', 'Selecione un color');
             return redirect()->route('inventory.products.edit',$product);
-        } 
-    
+        }
+
         $sellPrices = $request->input('sell_price');
         if($sellPrices){
         foreach($sellPrices as $index => $price) {
@@ -129,12 +130,15 @@ class ProductController extends Controller
             }
         }}
         $skus= Sku::where('product_id',$product->id)->get();
+        $usd=Setting::find(2)->action ?? '1';
+
         foreach ($skus as $index => $sku) {
             $sku->stock = $stock[$index] ?? '0';
             $sku->sell_price = $sellPrices[$index] ?? '0';
+            $sku->usd = $sellPrices[$index]/$usd ?? '0';
             $sku->save();
             }
-        return redirect()->route('inventory.products.edit',$product);
+        return redirect()->route('inventory.products.edit',$product)->with('info','Se actualizarón los datos del producto '.$product->name);
     }
 
     /**

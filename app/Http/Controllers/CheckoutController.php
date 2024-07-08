@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Http;
@@ -11,6 +10,7 @@ use MercadoPago\MercadoPagoConfig;
 use App\Models\Address;
 use App\Models\DeliveryOrder;
 use App\Models\SaleOrder;
+use App\Models\Shipping;
 use Cart;
 class CheckoutController extends Controller
 {
@@ -59,7 +59,7 @@ class CheckoutController extends Controller
             $getDistrit2 = Http::get("http:/api.geonames.org/childrenJSON?geonameId=$form2->city&lang=es&username=$username")->json()['geonames'];
         } else { $address2 = $address;}
 
-        Session::put('can_checkout', true);
+
         return view('web.cart.checkout',compact('address','address2','user','form1','form2','getState','getCity','getDistrit','getCountry','on','getState2','getCity2','getDistrit2'));
     }
     public function pays(){
@@ -67,20 +67,29 @@ class CheckoutController extends Controller
             return redirect()->route('web.shop.cart.index');
         }
         // Elimina la variable de sesión para evitar reutilización
-        session()->forget('can_checkout');
+
         $formToken = $this->generateFormToken();
         $sessionToken = $this->generateSessionToken();
         $preferenceId = $this->generatePreferenceId();
         return view('web.cart.pay',compact('formToken','sessionToken','preferenceId'));
     }
+    public function topay(Request $request){
+        Session::put('totality', $request->total);
+        Session::put('can_checkout', true);
+        $state=SaleOrder::find($request->order_id);
+        $state->shipping_id=$request->state;
+        $state->save();
+        return redirect()->route('web.shop.checkout.pay');
+    }
     private function generateFormToken(){
+
         $auth= base64_encode(config('services.izipay.client_id').':'.config('services.izipay.secret'));
         $response= Http::withHeaders([
              'Authorization' => "Basic $auth",
              'Content-Type' => 'application/json',
         ])->
         post(config('services.izipay.url'),[
-            'amount'  => 10000,
+            'amount'  => session('totality')*100,
             'currency' => 'USD',
             'orderId'  => Str::random(20),
             'customer' => [
@@ -103,7 +112,7 @@ class CheckoutController extends Controller
         ])
         ->post(config('services.niubiz.url_api').'/api.ecommerce/v2/ecommerce/token/session/'.config('services.niubiz.merchant_id'),[
             'channel'=>'web',
-            'amount'=> Cart::instance('cart')->total(),
+            'amount'=> session('totality'),
             'antifraud'=>[
                 'clientIp' => request()->ip(),
                 'merchantDefineData' => [
@@ -119,14 +128,17 @@ class CheckoutController extends Controller
     }
     public function generatePreferenceId(){
         MercadoPagoConfig::setAccessToken(config('services.mercadopago.token'));
+        $price = session('totality');
+        $price = str_replace(',', '.', $price);  $price = (float) $price; $price = number_format($price, 2, ',', '');
+        $price = (float) $price;
 
         $client = new PreferenceClient();
             $preference = $client->create([
             "items"=> [
                 [
-                "title" => "Mi producto",
+                "title" => "Total",
                 "quantity" => 1,
-                "unit_price" => 100
+                "unit_price" => $price
                 ]
                 ],
             "back_urls" => [
@@ -177,8 +189,31 @@ class CheckoutController extends Controller
         } else{
             DeliveryOrder::where('order_id', $saleOrder->id)->delete();
         }
-
+        /* session()->forget('can_checkout'); */
         /* return redirect()->back(); */
-    return redirect()->route('web.shop.checkout.pay');
+    /* return redirect()->route('web.shop.checkout.pay'); */
+    Session::put('shipping', true);
+    $id=$saleOrder->id;
+    return redirect()->route('web.shop.checkout.shipping',['id'=>$id]);
+
+    }
+    public function shipping(Request $request)
+    {
+        if (!session('shipping')) {
+            return redirect()->back();
+        }
+        $shippingByState = Shipping::all()->groupBy('state');
+        $sale_order = SaleOrder::with('shipping')->find(1);
+                if (session('location') === 'PE') {
+                    $collectionState1 = $shippingByState['district']->sortBy('order') ?? collect();
+                    $collectionState2 = $shippingByState['nacional']->sortBy('order') ?? collect();
+                    $currency = 'PEN';
+                    return view('web.cart.shipping',compact('collectionState1','collectionState2','sale_order'));
+                } else {
+                    $collectionState3 = $shippingByState['internacional']->sortBy('order') ?? collect();
+                    $currency = 'USD';
+                    return view('web.cart.shipping',compact('collectionState3','sale_order'));
+                }
+
     }
 }

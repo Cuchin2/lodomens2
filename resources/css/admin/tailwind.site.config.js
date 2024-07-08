@@ -36,6 +36,7 @@ export default {
                 'gris-5': '#D1D1D1',
                 'corp-90':'#C000A1',
                 'corp-70':'#D917B9',
+                'corp-60':'#E023C5',
                 'corp-50':'#F12ED2',
                 'corp-30':'#F852DD',
                 'corp-10':'#FF76E9',
@@ -115,7 +116,7 @@ export default {
                 'morado-40':'#A24DD7',
                 'morado-30':'#AE5DE0',
                 'morado-20':'#BD6EED',
-                'morado-10':'#CB7FFA', 
+                'morado-10':'#CB7FFA',
                 }
 
             },

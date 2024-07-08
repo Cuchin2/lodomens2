@@ -1,11 +1,7 @@
 @extends('layouts.web')
 
 @section('breadcrumb')
-
-<x-breadcrumb.lodomens.breadcrumb title="Gracias">
-    <x-breadcrumb.lodomens.breadcrumb2 name='Gracias' />
-</x-breadcrumb.lodomens.breadcrumb>
-
+ <x-breadcrumb.progress />
 @endsection
 
 {{--  <x-lodomens.video />  --}}

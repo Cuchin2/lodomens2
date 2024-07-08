@@ -50,6 +50,8 @@ class ShopMain extends Component
         $product = $this->skus->product;
         $qtn= $this->counts;
         $price = $this->skus->sell_price;
+        if(session('location') !== 'PE')
+        { $price = $this->skus->usd; }
         if($this->choose === 'CART' ){
             Cart::instance('cart')->add(
             $product->id,
@@ -88,6 +90,8 @@ class ShopMain extends Component
     public function showCartModal($id,$color,$url,$colorSelected,$choose)
     {   $this->counts= 1; $this->active =0;
         $this->skus= Sku::where(['product_id'=>$id,'color_id'=>$color])->first();
+        if(session('location') !== 'PE')
+                { $this->skus->sell_price = $this->skus->usd; }
         $this->image= $url;
         $this->colorSelected= json_decode($colorSelected);
         $this->price_cart= $this->skus->sell_price;
@@ -112,6 +116,8 @@ class ShopMain extends Component
             if(($this->counts > $this->skus->stock))
             {$this->counts = $this->skus->stock; }
         };
+        if(session('location') !== 'PE')
+        { $this->skus->sell_price = $this->skus->usd; }
         $this->price_cart= number_format($this->counts*$this->skus->sell_price, 2, '.', '');
 
     }
@@ -125,6 +131,8 @@ class ShopMain extends Component
         ->where('rows.order', 0)
         ->where('images.imageable_id', $id) // Agrega esta línea
         ->first()->url ?? '/image/dashboard/No_image_dark.png';
+        if(session('location') !== 'PE')
+        { $this->skus->sell_price = $this->skus->usd; }
         $this->price_cart= $this->skus->sell_price;
     }
     public function showWishlistModal()

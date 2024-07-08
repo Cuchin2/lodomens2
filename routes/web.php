@@ -14,6 +14,8 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaidController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\TypesController;
@@ -45,9 +47,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+    Route::put('/usd/{id}',[DashboardController::class,'usd'])->name('dashboard.usd');
 });
 Route::get('tienda',[WebShopController::class,'index'])->name('web.shop.index');
 Route::get('tienda/{product}/{color}',[WebShopController::class,'show'])->name('web.shop.show');
@@ -71,6 +72,8 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
         Route::put('about/update/{id}',[InicioController::class,'about'])->name('about.update');
         Route::get('footer',[FooterController::class,'edit'])->name('mypage.edit');
         Route::put('footer/{id}',[FooterController::class,'update'])->name('mypage.update');
+        Route::resource('contact',ContactController::class)->names('mypage.contact');
+        Route::get('shipping',[InicioController::class,'shipping'])->name('mypage.shipping');
         Route::resource('roles', RoleController::class)->names('roles');
         Route::resource('users', UserController::class)->names('users');
         Route::post('color/product/upload/{product}',[ColorController::class,'upload'])->name('upload.product.color');
@@ -102,14 +105,16 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
 
     Route::get('checkout',[CheckoutController::class,'index'])->name('web.shop.checkout.index');
     Route::post('checkout/crear',[CheckoutController::class,'create'])->name('checkout.create');
+    Route::post('para_pagar',[CheckoutController::class,'topay'])->name('web.shop.checkout.forpay');
     Route::get('pagos',[CheckoutController::class,'pays'])->name('web.shop.checkout.pay');
-
+    Route::get('envios',[CheckoutController::class,'shipping'])->name('web.shop.checkout.shipping');
     Route::post('paid/izipay',[PaidController::class,'izipay'])->name('paid.izipay');
     Route::post('paid/niubiz',[PaidController::class,'niubiz'])->name('paid.niubiz');
     Route::post('/paid/create-paypal-order',[PaidController::class,'createPaypalOrder'])->name('paid.createPaypalOrder');
     Route::post('/paid/capture-paypal-order',[PaidController::class ,'capturePaypalOrder'])->name('paid.capturePaypalOrder');
     Route::get('/paid/mercadopago',[PaidController::class ,'mercadopago'])->name('paid.mercadopago');
     Route::get('/gracias', function (){
+            session()->forget('can_checkout');
             return view('web.cart.gracias');
     })->name('web.shop.gracias');
     Route::get('/get/prueba/', function(){

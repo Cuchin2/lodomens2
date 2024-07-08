@@ -16,7 +16,7 @@ use PhpParser\Node\Expr\Cast\Object_;
 
 class WebShopController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $products = Product::with('reviews')->get();
         $categories = Category::all();
         $brands = Brand::all();
@@ -39,35 +39,20 @@ class WebShopController extends Controller
             ->orderBy('rows.order', 'asc')->get();
         $imagenes[$key]= $imagenes2;
         $skus[$key]= Sku::where(['product_id'=>$product->id,'color_id'=>$color1->id])->first();
+            if(session('location') !== 'PE')
+            { $skus[$key]->sell_price = $skus[$key]->usd; }
         }
         $indice = $colorSelect->search(function ($item) use ($color_name){
             return $item->name === $color_name;
-        }); 
+        });
         $firstImage = $imagenes[$indice]->first();
        /*  dd($imagenes); */
        if($imagenes[$indice]->isEmpty()){
         $firstImage = new \stdClass();
         $firstImage->url = "image/dashboard/No_image_dark.png";
        }
-        $product->visit()->withSession(); 
-      
-        /* foreach ($imagenes as $coleccion) {
-            if ($coleccion->isEmpty()) {
-                $imagenDefault = new \stdClass();; // Crear una nueva instancia de la clase Image
-                $imagenDefault->url = 'image/dashboard/No_image_dark.png'; // Asignar la URL por defecto
-                $coleccion->push($imagenDefault); // Agregar la imagen por defecto a la colección
-            } 
-        }  */  /* dd($imagenes); */
-/*         foreach ($imagenes as $coleccion) {
-            
-                for ($i=0; $i < $colorSelect->count()  ; $i++) { 
-                   
-            if (!isset($coleccion[$i])) {
-                $imagenDefault = new \stdClass(); // Crear una nueva instancia de la clase stdClass
-                $imagenDefault->url = 'image/dashboard/No_image_dark.png'; // Asignar la URL por defecto
-                $coleccion[$i]=$imagenDefault; // Agregar la imagen por defecto a la colección
-            } } 
-        } */ 
+        $product->visit()->withSession();
+
             return view('web.shop.show',compact('product','colorSelect','imagenes','firstImage','indice','skus'));
     }
     public function getimage(Request $request)
@@ -84,7 +69,7 @@ class WebShopController extends Controller
         $image = new \stdClass();
         $image->url = "image/dashboard/No_image_dark.png";
     }
-    
+
     return response()->json(['url' => $image->url]);
     }
 

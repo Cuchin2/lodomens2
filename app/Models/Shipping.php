@@ -23,4 +23,22 @@ class Shipping extends Model
     {
         return $this->hasOne(SaleOrder::class, 'shipping_id');
     }
+    public function spanish(){
+        switch ($this->attributes['state']) {
+            case 'district':
+                return 'distrital';
+            case 'nacional':
+                    return 'nacional';
+            default:
+                return 'internacional';
+        }
+    }
+    public function currency(){
+        switch ($this->attributes['state']) {
+            case 'internacional':
+                return '$';
+            default:
+                return 'S/.';
+        }
+    }
 }

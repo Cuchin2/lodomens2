@@ -1,3 +1,13 @@
+@php
+    $color = [
+        'PAID'=>'text-azul-30',
+        'PROCESS'=>'text-morado-30',
+        'TRACKING'=>'text-amarillo-30',
+        'DONE'=>'text-verde-30',
+        'CANCEL'=>'text-rojo-30'
+    ]
+@endphp
+
 <div class="mx-auto w-full col-span-3 space-y-3 ">
     <div class="bg-gris-100 w-full">
         <div class="flex justify-between px-4 py-2 rounded-[3px]">
@@ -12,8 +22,9 @@
         </div>
     </div>
     @foreach ($orders as $order)
-    <div class="bg-gris-100 w-full" x-data="{ open : false}">
-        <div class="flex items-center px-4 py-2 rounded-[3px] cursor-pointer " x-on:click="open = !open">
+    @if($order->status !== 'CREATE')
+    <div class="bg-gris-100 w-full" x-data="{ open }">
+        <div class="flex items-center px-4 py-2 rounded-[3px] cursor-pointer " x-on:click="if(open == {{ $order->id }}) { open = '' } else { open = {{ $order->id }} }">
            <div class="flex items-center space-x-5 justify-between w-full">
                 <p>Compra N° {{ $order->id }}</h6>
                 @php
@@ -22,19 +33,19 @@
                 @endphp
 
                 <p>{{ $num.' de '.$mes }}</h6>
-                <p>{{ $order->convert() }}</p>
-                <p class="font-bold">S/.{{ $order->total }}</p>
+                <p class="{{ $color[$order->status] }}">{{ $order->convert() }}</p>
+                <p class="font-bold">{{ $order->shipping->currency() }}{{ $order->total }}</p>
 
            </div>
            <div class="flex ml-4 w-fit"> <x-icons.chevron-down height="10px" width="10px" grosor="1" class="ml-auto"
-                     ::class="{ 'rotate-180': open  }" />
+                     ::class="{ 'rotate-180': open == {{ $order->id }}  }" />
            </div>
 
 
         </div>
 
 
-        <div x-show="open" x-cloak x-collapse x-on:click.away="open = false">
+        <div x-show="open == {{ $order->id }}" x-cloak x-collapse x-on:click="open = {{ $order->id }}">
             <hr class="border-gris-70">
             <div  class="px-4 py-2">
                 <p>Seguimiento del pedido</p>
@@ -70,26 +81,55 @@
 
             @endforeach
         </div>
-        <div  x-show="open" x-cloak>
+        <div  x-show="open == {{ $order->id }}" x-cloak>
             <hr class="border-gris-70">
-            <div  class="px-4 py-2">
-                <p class="mb-2"><b>Envio a domicilio</b></p>
-                @if ($order->deliveryOrders)
-                <p1>{{ $order->deliveryOrders->address }}, {{ $order->deliveryOrders->reference }}</p1>
-                <p1>{{ $order->deliveryOrders->district }}, {{ $order->deliveryOrders->city }} </p1>
-                <p1>{{ $order->deliveryOrders->state }}, {{ $order->deliveryOrders->country }}.</p1>
-                <p1><b>Recibido por:</b> {{ $order->deliveryOrders->name }} {{ $order->deliveryOrders->last_name }}</p1>
-                @else
-                <p1>{{ $order->address }}, {{ $order->reference }}</p1>
-                <p1>{{ $order->district }}, {{ $order->city }} </p1>
-                <p1>{{ $order->state }}, {{ $order->country }}.</p1>
-                <p1><b>Recibido por:</b> {{ $order->name }} {{ $order->last_name }}</p1>
-                @endif
+            <div>
+                <p class="my-2 px-4 "><b>{{ $order->shipping->price == 0 ?  $order->shipping->name : 'Envio a domicilio' }}</b></p>
+                <div  class="px-4 py-2 grid grid-cols-2 gap-14">
+                    <div>
+                        @if ($order->deliveryOrders)
+                            @if ($order->shipping->price > 0)
+                            <p1>{{ $order->deliveryOrders->address }}, {{ $order->deliveryOrders->reference }}</p1>
+                            <p1>{{ $order->deliveryOrders->district }}, {{ $order->deliveryOrders->city }} </p1>
+                            <p1>{{ $order->deliveryOrders->state }}, {{ $order->deliveryOrders->country }}.</p1>
+                            @else
+                            <p1><b>Dirección:</b> {{ $order->shipping->description }}</p1>
+                            @endif
+                            <p1><b>Recibido por:</b> {{ $order->deliveryOrders->name }} {{ $order->deliveryOrders->last_name }}</p1>
+                        @else
+                            @if ($order->shipping->price > 0)
+                            <p1>{{ $order->address }}, {{ $order->reference }}</p1>
+                            <p1>{{ $order->district }}, {{ $order->city }} </p1>
+                            <p1>{{ $order->state }}, {{ $order->country }}.</p1>
+                            @else
+                            <p1><b>Dirección:</b> {{ $order->shipping->description }}</p1>
+                            @endif
+                            <p1><b>Recibido por:</b> {{ $order->name }} {{ $order->last_name }}</p1>
+
+                        @endif
+                    </div>
 
 
+                    <div>
+                     @if ($order->shipping->price > 0)
+
+                        <p1 class="capitalize"> <b>Tipo de Envio:</b> {{ $order->shipping->spanish() }} </p1>
+                        <p1><b> Precio :</b>  {{ $order->shipping->price }}
+                            @if ($order->shipping->state == 'district')
+                            <p1> {{ $order->shipping->name }}</p1>
+                            @else
+                            <p1><b>Currier :</b>{{ $order->shipping->name }}</p1>
+                            @endif
+                     @else
+                        <p1>Envio Gratis</p1>
+                     @endif
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    @endif
     @endforeach
 
         {{$orders->links('vendor.livewire.lodomen')}}

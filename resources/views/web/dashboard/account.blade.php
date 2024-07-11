@@ -48,7 +48,7 @@
             </x-button.webprimary>
         </div>--}}
         @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
-        <div class="mt-10 sm:mt-0 p-4">
+        <div class="sm:mt-0 pb-4">
             @livewire('profile.update-password-form')
         </div>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Http;
 use MercadoPago\MercadoPagoConfig;
 use MercadoPago\Client\MerchantOrder\MerchantOrderClient;
@@ -21,7 +22,7 @@ class PaidController extends Controller
         {
             throw new \Exception('invalid hash');
         }
-
+        Session::put('thanks', true);
         //puedes realizar la acción que requiera la compra
         return /* "OK" */ redirect()->route('web.shop.gracias');
     }
@@ -53,6 +54,7 @@ class PaidController extends Controller
         ]);
         if(isset($response['dataMap']) && $response['dataMap']['ACTION_CODE'] === '000'){
             checkoutPay();
+            Session::put('thanks', true);
             return redirect()->route('web.shop.gracias');
         }
         else {
@@ -120,7 +122,7 @@ class PaidController extends Controller
                 $paid_amount += $payment->transaction_amount;
             }
         }
-
+        Session::put('thanks', true);
         if($paid_amount == $merchant_order->total_amount){
             //Pago se realizo satisfactoriamente
             //Ejecutamos cualquier action

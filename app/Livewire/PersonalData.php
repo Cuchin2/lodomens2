@@ -28,14 +28,32 @@ class PersonalData extends Component
     }
     public function salvar(){
         $user = auth()->user();
-        $user->name=$this->name; 
+        $user->name=$this->name;
         $user->last_name = $this->last_name;
         $user->save();
         $this->dispatch('name',name:$this->name.' '.$this->last_name);
-       
+
         $user->profile->update(['last_name' => $this->second_name]);
         $user->profile->update(['phone' => $this->phone]);
         $user->profile->update(['dni' => $this->dni]);
         $user->profile->update(['document_type' => $this->doc_type]);
+    }
+    public function submit()
+    {
+        /* $this->validate(); */
+        $user = auth()->user();
+        $user->name=$this->name;
+        $user->last_name = $this->last_name;
+        $user->save();
+        $this->dispatch('name',name:$this->name.' '.$this->last_name);
+
+        $user->profile->update(['last_name' => $this->second_name]);
+        $user->profile->update(['phone' => $this->phone]);
+        $user->profile->update(['dni' => $this->dni]);
+        $user->profile->update(['document_type' => $this->doc_type]);
+        $this->dispatch('alt');
+        session()->flash('message', 'Los datos personales se han actualizado correctamente.');
+
+
     }
 }

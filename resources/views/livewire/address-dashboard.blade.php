@@ -1,8 +1,10 @@
 <div class="col-span-3 space-y-3">
     <div class="bg-gris-100 w-full">
-        <div class="flex justify-between px-4 py-2 rounded-[3px]">
+        <div class="flex justify-between px-4 py-2 rounded-[3px] items-center">
             <h6>Direcciones</h6>
-            <x-button.corp1 wire:click="modal('CREATE','','')">Nueva dirección</x-button.corp1>
+            <x-button.webprimary wire:click="modal('CREATE','','')" class="ml-auto scale-[0.80]">Nueva dirección
+            </x-button.webprimary>
+
         </div>
     </div>
     @php

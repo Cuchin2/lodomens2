@@ -205,7 +205,7 @@
 
 
 </div>
-<x-dialog-modal wire:model="showModal" maxWidth="fit">
+<x-dialog-modal wire:model="showModal">
     <x-slot name="title">
         Agregando al{{ $choose === 'CART' ? ' carrito' : ' wishlist' }}
     </x-slot>
@@ -213,7 +213,7 @@
         <div class="bg-gris-90 px-2 md:px-6 py-3">
             <div class="md:flex space-x-2 md:space-x-7 md:justify-between">
                 <div class="flex justify-center space-x-5 md:w-full">
-                    <x-outstock text="text-[10px]" class="md:!h-[136px]" name="{{ $skus->product->name ?? ''}}" url="{{ $image ?? ''}}" stock="{{ $skus->stock ?? ''}}" />
+                    <x-outstock text="text-[10px]" class="md:!max-h-[136px] md:!w-1/2 h-full" name="{{ $skus->product->name ?? ''}}" url="{{ $image ?? ''}}" stock="{{ $skus->stock ?? ''}}" />
                     <div class="space-y-4 md:w-full">
                         <div class="md:flex md:items-center md:justify-between">
                             <h6 href="">{{ $skus->product->name ?? ''}}</h6>

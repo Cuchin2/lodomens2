@@ -11,7 +11,7 @@
 @endpush
 
 @section('breadcrumb')
- <x-breadcrumb.progress />
+ <x-breadcrumb.progress id="{{ $id }}" />
 @endsection
 
 
@@ -59,7 +59,7 @@
     {{-- fin de error de pago --}}
 
 
-    <div class="flex flex-col text-center bg-gris-90 h-full p-3 rounded-[5px] border-[1px] border-gris-70 w-1/3 min-w-fit my-6 mx-auto">
+    <div class="flex flex-col text-center bg-gris-90 h-full p-3 rounded-[5px] border-[1px] border-gris-70 w-1/3 min-w-fit mb-6 mx-auto">
 
         <h5 class="mb-4">Métodos de Pago</h5>
         <div class="flex flex-col mx-auto w-[280px] space-y-4">

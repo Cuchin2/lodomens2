@@ -83,7 +83,7 @@
             <p>Estás seguro de cerrar sesión</p>
             <x-slot name="footer">
                 <x-button.corp_secundary @click="show = false" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
-                <x-button.corp1  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">aceptar</x-button.corp1>
+                <x-button.corp1  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Aceptar</x-button.corp1>
             </x-slot>
         </x-web.modal.modal>
 

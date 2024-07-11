@@ -1,7 +1,7 @@
 @extends('layouts.web')
 
 @section('breadcrumb')
- <x-breadcrumb.progress />
+ <x-breadcrumb.progress id="{{ $id }}"/>
 
 @endsection
 
@@ -18,15 +18,20 @@
 @endsection
 
 @section('content')
+@php
+    $shipping=$sale_order->shipping->name ?? '';
+    $state= $sale_order->shipping->id ?? '""';
+    $valor= $sale_order->shipping->price ?? '0';
+@endphp
 <div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75  pb-1 2xl:min-h-[374px] lg:min-h-[278px]"
-    x-data="{shipping:'{{ $sale_order->shipping->name }}', state:{{ $sale_order->shipping->id }}, valor:{{ $sale_order->shipping->price }}, total0:'{{ Cart::instance('cart')->total() }}', total:'', open: '0', map:'',
+    x-data="{shipping:'{{ $shipping }}', state:{{ $state }}, valor:{{ $valor }}, total0:'{{ Cart::instance('cart')->total() }}', total:'', open: {{ $open }}, map:{{ $state }},
     caltotal(){
         this.total = parseFloat(this.total0) + parseFloat(this.valor);
         this.total = this.total.toFixed(2); console.log(this.shipping+'-'+this.state+'-'+this.valor);
     },
-    }" x-init="total=total0"
+    }" x-init="caltotal()"
 >
-    <div class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="px-4 pb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="md:col-span-2 col-span-1">
             <div>
                 <h5 class="p-2">TIPO DE ENVIO</h5>
@@ -181,7 +186,7 @@
         </div>
 
 
-        <div x-data="{check: false}">
+        <div x-data="{check: false}" {{--  x-init="if(shipping) { check = true }"  --}}>
             <div>
                 <h5 class="p-2">TU PEDIDO</h5>
                 <div class="bg-gris-100 p-4 rounded-[3px]">
@@ -245,25 +250,30 @@
 
 
             </div>
-            <div class="flex items-center space-x-4">
+            <template x-if="shipping">
                 <div>
-                    <x-checkbox.webcheckbox @change="check= !check" ::value="check" />
+                    <div class="flex items-center space-x-4">
+                        <div>
+                            <x-checkbox.webcheckbox @change="check= !check" ::value="check" />
+                        </div>
+                        <p1> Al registrarte estás aceptando los
+                            <p1 />
+                            <a href="#" class="text-[14px]"><b class="hover:text-corp-30"> Términos y
+                                    Condiciones</b></a></label>
+                    </div>
+                    <div class="mt-4 select-none" :class="check ? '' : 'opacity-40 '">
+                        <form action="{{ route('web.shop.checkout.forpay') }}" method="post" onsubmit="handleSubmit(event)">@csrf
+                        <input type="text" x-model="total" name="total" hidden>
+                        <input type="text" x-model="state" name="state" hidden>
+                        <input type="text" name="id" value="{{ $id }}" hidden>
+                        <input type="text" name='order_id' value="{{ $sale_order->id }}" hidden>
+                        <x-button.websecondary type="submit" class="w-full " ::class="check ? '' :'cursor-not-allowed'"
+                            ::disabled="!check" @click="$dispatch('heart')">Realizar Pedido
+                        </x-button.websecondary>
+                        </form>
+                    </div>
                 </div>
-                <p1> Al registrarte estás aceptando los
-                    <p1 />
-                    <a href="#" class="text-[14px]"><b class="hover:text-corp-30"> Términos y
-                            Condiciones</b></a></label>
-            </div>
-            <div class="mt-4 select-none" :class="check ? '' : 'opacity-40 '">
-                <form action="{{ route('web.shop.checkout.forpay') }}" method="post" onsubmit="handleSubmit(event)">@csrf
-                 <input type="text" x-model="total" name="total" hidden>
-                 <input type="text" x-model="state" name="state" hidden>
-                 <input type="text" name='order_id' value="{{ $sale_order->id }}" hidden>
-                <x-button.websecondary type="submit" class="w-full " ::class="check ? '' :'cursor-not-allowed'"
-                    ::disabled="!check" @click="$dispatch('heart')">Realizar Pedido
-                </x-button.websecondary>
-                </form>
-            </div>
+            </template>
         </div>
 
     </div>

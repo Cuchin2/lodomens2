@@ -114,7 +114,13 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
     Route::post('/paid/capture-paypal-order',[PaidController::class ,'capturePaypalOrder'])->name('paid.capturePaypalOrder');
     Route::get('/paid/mercadopago',[PaidController::class ,'mercadopago'])->name('paid.mercadopago');
     Route::get('/gracias', function (){
-            session()->forget('can_checkout');
+        if (!session('thanks')) {
+            return redirect()->route('web.shop.cart.index');
+        }
+        session()->forget('can_checkout');
+        session()->forget('shipping');
+        session()->forget('pay');
+        session()->forget('thanks');
             return view('web.cart.gracias');
     })->name('web.shop.gracias');
     Route::get('/get/prueba/', function(){

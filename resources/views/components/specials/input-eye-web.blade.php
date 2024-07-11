@@ -1,5 +1,5 @@
 <div class="relative mt-0 " x-data="{ show: true }">
-    <input class="w-full focus:ring-black bg-transparent border-0 border-b-[1px] border-gris-70 focus:border-b-[1px] focus:border-gris-70 focus:placeholder-gris-70 placeholder-gris-30
+    <input class="w-full focus:ring-black bg-transparent border-0 border-b-[1px] border-gris-70 focus:border-b-[1px] focus:border-gris-70 focus:placeholder-gris-50 placeholder-gris-50 md:text-[14px] text-[12px]
 
 " :type="show ? 'password' : 'text'" placeholder="Contraseña" {{ $attributes }}>
 

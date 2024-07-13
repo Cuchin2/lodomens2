@@ -12,7 +12,7 @@
 @section('content')
 
 <x-menu.sidebar>
-    <div class="bg-gris-100  m-auto w-full col-span-3 h-full">
+    <div class="bg-gris-100  m-auto w-full col-span-3 h-full rounded-[3px]">
         {{-- Be like water. --}}
         <h5 class="px-5 pt-5">Configuración de cuenta</h5>
 {{--          <div class="grid grid-cols-3 gap-3 mx-auto p-5">

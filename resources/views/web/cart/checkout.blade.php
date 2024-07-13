@@ -6,7 +6,7 @@
 
 @section('content')
 
-<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75  pb-1 2xl:min-h-[374px] lg:min-h-[278px]">
+<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75  pb-1 2xl:min-h-[374px] lg:min-h-[278px] mb-5">
     <form action="{{ route('checkout.create') }}" method="post" onsubmit="handleSubmit(event)">@csrf
     <div class="px-4 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="col-span-1 md:col-span-2">

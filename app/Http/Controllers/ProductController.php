@@ -135,7 +135,7 @@ class ProductController extends Controller
         foreach ($skus as $index => $sku) {
             $sku->stock = $stock[$index] ?? '0';
             $sku->sell_price = $sellPrices[$index] ?? '0';
-            $sku->usd = $sellPrices[$index]/$usd ?? '0';
+            $sku->usd = ($sellPrices[$index] ?? '0' )/$usd;
             $sku->save();
             }
         return redirect()->route('inventory.products.edit',$product)->with('info','Se actualizarón los datos del producto '.$product->name);

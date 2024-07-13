@@ -1,7 +1,7 @@
 <div class="col-span-3">
         @if($cartitems->count() > 0)
         <div class="col-span-3">
-            <div class="bg-gris-100 px-6 py-3">
+            <div class="bg-gris-100 px-6 py-3 rounded-t-[3px]">
                 <div class="flex justify-between">
                     <div class="flex justify-center items-center relative space-x-2">
                         <h5> Wishlist</h5>
@@ -14,9 +14,10 @@
                     </a>
                 </div>
             </div>
+            <div class="bg-gris-100 rounded-b-[3px]">
             @foreach ($cartitems as $index => $item)
             <hr class="border-gris-70">
-            <div class="flex bg-gris-100 px-2 md:px-6 py-3 md:justify-between">
+            <div class="flex px-2 md:px-6 py-3 md:justify-between">
 
                 <div class="md:flex space-x-2 md:space-x-7 md:justify-between w-full">
                     <div class="flex justify-center space-x-5 md:w-full">
@@ -62,6 +63,7 @@
             </div>
             </div></div>
             @endforeach
+            </div>
             <x-dialog-modal wire:model="showModal" maxWidth="fit">
                 <x-slot name="title">
                     <div class="flex justify-center">

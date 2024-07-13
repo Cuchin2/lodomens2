@@ -68,11 +68,9 @@
             <p>{{ Carbon\Carbon::now()->isoformat('DD MMM YYYY, h:mm a') }}</p>
             </div>
             <x-rating />
+            @error('star')<p1 class="text-red-500"> {{ $message }}</p1> @enderror
             <x-text-area comment="review" click="$dispatch('star-rating')" save="save"/>
-{{--              <button wire:click="save" type="button" class=" mt-3 float-right bg-corp-50 rounded-[3px]" @click="$dispatch('star-rating')"
-                style="font-size:14px; width:90px; order: 1;">Comentar</button>
-            <button type="button" class="btn  gris2  hv-turkey mt-3 float-right br-20"
-                style="border-radius:8px;font-size:14px; width:90px; order: 2;">Cancelar</button>  --}}
+
         </div>
     </li>
     @else

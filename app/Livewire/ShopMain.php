@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Rating;
 use Livewire\Component;
 use App\Models\Product;
 use App\Models\Category;
@@ -17,7 +18,7 @@ class ShopMain extends Component
     use WithPagination;
     public $showModal = false; public $skus = ''; public $image=''; public $price_cart = '';
     public $perPage = 5; public $counts = '1'; public $colorSelected= []; public $active = '0';
-    public $showCreateModal = false; public $choose;
+    public $showCreateModal = false; public $choose; public $rating='';
     #[Url(history:true)]
     public $search = '';
     #[Url(history:true)]
@@ -36,6 +37,9 @@ class ShopMain extends Component
         return view('livewire.shop-main',[
             'products' => Product::search($this->search)
             ->where('status','SHOP')
+            ->when($this->rating, function ($query) {
+                $query->where('rating', $this->rating);
+            })
             ->when($this->type !== '',function($query){
                 $query->where('name',$this->type);
             })
@@ -138,5 +142,9 @@ class ShopMain extends Component
     public function showWishlistModal()
     {
         $this->showCreateModal= true;
+    }
+    public function rate($star)
+    {
+        $this->rating=$star;
     }
 }

@@ -1,4 +1,4 @@
-<div class="bg-gris-100  m-auto w-full col-span-3 h-full">
+<div class="bg-gris-100  m-auto w-full col-span-3 h-full rounded-[3px]">
     @if (session()->has('message'))
     <div x-data="{ open: true,
     abrir() {
@@ -40,7 +40,7 @@
             </div>
             <div class="">
                 <p  class="text-gris-5">Tipo de documento</p>
-                <x-select-line wire:model="doc_type" {{--  wire:change="salvar"  --}}
+                <x-select-line wire:model="doc_type"
                 :options="[
                             '' => 'Seleccione un doc',
                             'DNI' => 'DNI',

@@ -1,8 +1,9 @@
 @extends('layouts.web')
 
 @section('breadcrumb')
+@if(!isset($empty))
  <x-breadcrumb.progress id="{{ $id }}"/>
-
+@endif
 @endsection
 
 @section('styles')
@@ -18,11 +19,12 @@
 @endsection
 
 @section('content')
-@php
-    $shipping=$sale_order->shipping->name ?? '';
-    $state= $sale_order->shipping->id ?? '""';
-    $valor= $sale_order->shipping->price ?? '0';
-@endphp
+@if(!isset($empty))
+    @php
+        $shipping=$sale_order->shipping->name ?? '';
+        $state= $sale_order->shipping->id ?? '""';
+        $valor= $sale_order->shipping->price ?? '0';
+    @endphp
 <div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75  pb-1 2xl:min-h-[374px] lg:min-h-[278px]"
     x-data="{shipping:'{{ $shipping }}', state:{{ $state }}, valor:{{ $valor }}, total0:'{{ Cart::instance('cart')->total() }}', total:'', open: {{ $open }}, map:{{ $state }},
     caltotal(){
@@ -59,7 +61,6 @@
                         <div class="px-4 py-2 space-y-2">
 
                             @foreach ($collectionState1 as $key=>$district)
-
 
                             <div class="items-center rounded-[3px] border border-gris-60 bg-opacity-20 py-2 px-2 sm:px-5 text-[12px]" :class="state == {{ $district->id }} ? '!border-green-600 bg-green-900 text-gris-5' : ''">
                                 <input  id="{{ $district->id }}" type="radio" class="hidden" :checked="state == {{ $district->id }}"/>
@@ -279,6 +280,16 @@
     </div>
 </div>
 <x-preloader.heart />
+@else
+<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75  pb-1 2xl:min-h-[374px] lg:min-h-[278px] flex items-center ">
+    <div class="text-center mx-auto">
+    <h3 >No se han creado métodos de envios en el panel administrativo</h3>
+    <a href="{{ route('mypage.shipping') }}" >
+        <x-button.webprimary class="mt-4">Ir a métodos de envio</x-button-webprimary>
+    </a>
+    </div>
+</div>
+@endif
 @endsection
 
 @push('scripts')

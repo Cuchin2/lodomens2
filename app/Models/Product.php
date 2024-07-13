@@ -7,7 +7,7 @@ use Coderflex\Laravisit\Concerns\CanVisit;
 use Coderflex\Laravisit\Concerns\HasVisits;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\SoftDeletes;
+/* use Illuminate\Database\Eloquent\SoftDeletes; */
 use App\Models\Rating;
 use App\Models\Color;
 use App\Models\Type;
@@ -16,7 +16,7 @@ use App\Models\Sku;
 class Product extends Model implements CanVisit
 {
     use HasFactory;
-    use SoftDeletes;
+  /*   use SoftDeletes; */
     use HasVisits;
     protected $fillable = [
         'code',

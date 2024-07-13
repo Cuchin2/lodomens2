@@ -6,7 +6,7 @@ use Livewire\Component;
 use App\Models\Product;
 use App\Models\Like;
 use App\Models\Review as Comm;
-
+use Illuminate\Support\Facades\Validator;
 class review extends Component
 {
     public $reviewableType; // Tipo de modelo al que se relacionará (por ejemplo, 'Product')
@@ -16,7 +16,18 @@ class review extends Component
     public $review2 ='';
     public $score;
     public $abc = '';
-
+    public function rules()
+    {
+        return [
+            'star' => 'required',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'star.required' => 'La calificación es obligatoria',
+        ];
+    }
     public function addLike($id) {
         $like = Like::where([
             'user_id' => auth()->user()->id,
@@ -42,6 +53,7 @@ class review extends Component
 
     public function save()
     {
+       $this->validate();
        $comentario= Comm::create([
             'body' => $this->review,
             'user_id' => auth()->user()->id,
@@ -49,6 +61,8 @@ class review extends Component
         ]);
         $coo= Product::find($this->reviewableId);
         $coo->reviews()->save($comentario);
+        $coo->rating= round($coo->reviews()->latest()->get()->avg('score'));
+        $coo->save();
         $this->review ='';
     }
     public function rate($star){

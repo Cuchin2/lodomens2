@@ -87,7 +87,6 @@ class CheckoutController extends Controller
 
     public function create(CheckoutRequest $request){
        // formulario #1
-       Session::put('can_checkout', true);
         $saleOrder = SaleOrder::updateOrCreate(
             ['status' => 'CREATE', 'user_id' => $request->user_id],
             [
@@ -106,7 +105,7 @@ class CheckoutController extends Controller
                 'district' => $request->district,
                 'zip_code' => $request->zip_code,
                 'total' => $request->total,
-                'shipping_id'=> 0
+                //'shipping_id'=> 0
             ]
         );
         if($request->otra == 'true'){
@@ -137,33 +136,50 @@ class CheckoutController extends Controller
 
     }
     public function shipping(Request $request)
-    {   $id=$request->id;
+    {
+        $id = $request->id;
+
+        // Verificar si la sesión 'shipping' está presente
         if (!session('shipping')) {
             return redirect()->back();
         }
-        $shippingByState = Shipping::all()->groupBy('state');
+
+        // Verificar si la colección de Shipping está vacía
+        $shipping =  Shipping::all();
+
+        if ($shipping->isEmpty()) {
+            $empty= true;
+            return view('web.cart.shipping',compact('empty'));
+        }
+        // Agrupar los métodos de envío por estado
+        $shippingByState = $shipping->groupBy('state');
+
+        // Encontrar la orden de venta y cargar la relación de envío
         $sale_order = SaleOrder::with('shipping')->find($request->id);
+
+        // Mapeo de estados
         $stateMapping = [
             'district' => 1,
             'nacional' => 2,
             'internacional' => 3,
         ];
-        if(isset($sale_order->shipping->state))
-        {$open = $stateMapping[$sale_order->shipping->state]; }
-        else {$open = "'1'";}
 
-                if (session('location') === 'PE') {
-                    $collectionState1 = $shippingByState['district']->sortBy('order') ?? collect();
-                    $collectionState2 = $shippingByState['nacional']->sortBy('order') ?? collect();
-                    $currency = 'PEN';
-                    return view('web.cart.shipping',compact('collectionState1','collectionState2','sale_order','open','id'));
-                } else {
-                    $collectionState3 = $shippingByState['internacional']->sortBy('order') ?? collect();
-                    $currency = 'USD';
-                    return view('web.cart.shipping',compact('collectionState3','sale_order','open','id'));
-                }
+        // Determinar el estado abierto
+        $open = isset($sale_order->shipping->state) ? $stateMapping[$sale_order->shipping->state] : 1;
 
+        // Manejo del envío basado en la ubicación de la sesión
+        if (session('location') === 'PE') {
+            $collectionState1 = $shippingByState->get('district', collect())->sortBy('order');
+            $collectionState2 = $shippingByState->get('nacional', collect())->sortBy('order');
+            $currency = 'PEN';
+            return view('web.cart.shipping', compact('collectionState1', 'collectionState2', 'sale_order', 'open', 'id'));
+        } else {
+            $collectionState3 = $shippingByState->get('internacional', collect())->sortBy('order');
+            $currency = 'USD';
+            return view('web.cart.shipping', compact('collectionState3', 'sale_order', 'open', 'id'));
+        }
     }
+
     /* Izipay */
     private function generateFormToken(){
 

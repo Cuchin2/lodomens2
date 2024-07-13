@@ -12,37 +12,42 @@
         <div class="w-[34px] h-[34px] bg-gris-90 rounded p-1 cursor-pointer" @click="open=!open">
             <x-icons.chevron-left height="22px" width="22px" grosor="2" class="p-1" />
         </div>
-        <div class="hidden md:block w-fit ml-9 mr-9 whitespace-nowrap">
+        <div class="hidden md:block w-fit mx-[50px] whitespace-nowrap">
             <p>{{--  107  --}} {{ $products->count() }} {{ $products->count() == 1 ? 'Resultado' : 'Resultados' }}</p>
         </div>
-        <div class="mx-3 w-full">
+        <div class="ml-3 w-full">
             <div class="relative">
-                <x-icons.search class="absolute right-1 top-1 h-[20px] w-[20px] fill-gris-10" />
+                <x-icons.search class="absolute right-1 top-[6px] h-[18px] w-[18px] fill-gris-30" />
                 <input type="text"
                     wire:model.live.debounce.300ms="search"
-                    class="text-gris-20 bg-black h-[30px]  text-[12px] pr-[26px] rounded-[3px] focus:ring-gris-50 focus:border-gris-50 w-full "
+                    class="text-gris-10 bg-black h-[30px] placeholder:text-gris-30 border-[1.5px] focus:border-gris-50 focus:ring-gris-50 text-[12px] pr-[26px] rounded-[3px] border-gris-50 w-full "
                     placeholder="Buscar" required="" x-cloak>
             </div>
         </div>
-        <div class="hidden md:block w-1/3 mx-3">
-            <x-select-web>
+        <div class="hidden md:block w-1/3 mx-4">
+            <x-select-two :options="['' => 'Ordenar por',
+                                    'op1' => 'Opción 1',
+                                    'op2' => 'Opción 2',
+                                    'op3' => 'Opción 3'
+                                        ]"/>
+{{--              <x-select-web>
                 <option>Option 1</option>
                 <option>Option 2</option>
                 <option>Option 3</option>
-            </x-select-web>
+            </x-select-web>  --}}
         </div>
         <div class="flex my-auto">
             <div class="w-fit bg-gris-90 rounded p-1 ml-auto cursor-pointer md:hidden block"
                 @click="open2 = !open2">
                 <x-icons.chevron-down height="20px" width="20px" grosor="2" class="p-1" />
             </div>
-            <div class=" rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]" :class="{ 'bg-gris-70 text-white': sort === 1, 'bg-gris-90': sort !== 1 }">
+            <div class="rounded-l-[3px] p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]" :class="{ 'bg-gris-70 text-white': sort === 1, 'bg-gris-90': sort !== 1 }">
                 <x-icons.format_list_bulleted class=" mx-auto my-auto"  @click="sort=1" />
             </div>
-            <div class="rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]" :class="{ 'bg-gris-70 text-white': sort === 2, 'bg-gris-90': sort !== 2 }">
+            <div class="p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px]" :class="{ 'bg-gris-70 text-white': sort === 2, 'bg-gris-90': sort !== 2 }">
                 <x-icons.window class=" mx-auto my-auto"  @click="sort=2"/>
             </div>
-            <div class=" rounded p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px] " :class="{ 'bg-gris-70 text-white': sort === 3, 'bg-gris-90': sort !== 3 }">
+            <div class="rounded-r-[3px] p-1 ml-auto cursor-pointer md:flex hidden w-[34px] h-[34px] " :class="{ 'bg-gris-70 text-white': sort === 3, 'bg-gris-90': sort !== 3 }">
                 <x-icons.auto_awesome_mosaic class=" mx-auto my-auto" @click="sort=3"/>
             </div>
         </div>
@@ -86,12 +91,79 @@
                     </ul>
                 </div>
             </li>
-            <li class="mr-6 p-2">
-                <p1 class="text-gris-10 hover:text-white">Color</p1>
+            <li class="p-2" >
+                <div class="text-gris-10  cursor-pointer">
+                <p1 @click="menu1 = (menu1 === 3) ? 0 : 3" class="text-gris-10 hover:text-white flex items-center">Color
+                    <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"
+                    ::class="{'rotate-90 transition-all': menu1 === 3}" />
+                </p1>
+                <ul  x-show="menu1===3" x-collapse x-cloak class="flex flex-wrap">
+                    @for ($chechito=0; $chechito<3; $chechito++)
+                        <div class="rounded-full w-4 h-4 bg-red-500 mt-3 mr-2"></div>
+                        <div class="rounded-full w-4 h-4 bg-blue-500 mt-3 mr-2"></div>
+                        <div class="rounded-full w-4 h-4 bg-teal-500 mt-3 mr-2"></div>
+                        <div class="rounded-full w-4 h-4 bg-yellow-500 mt-3 mr-2"></div>
+                        <div class="rounded-full w-4 h-4 bg-purple-500 mt-3 mr-2"></div>
+                    @endfor
+                </ul>
+                </div>
             </li>
-            <li class="mr-6 p-2">
+            <li class="p-2" >
+                <div class="text-gris-10  cursor-pointer">
+                <p1 @click="menu1 = (menu1 === 4) ? 0 : 4" class="text-gris-10 hover:text-white flex items-center">Calificaciones
+                    <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"
+                    ::class="{'rotate-90 transition-all': menu1 === 4}" />
+                </p1>
+                <ul  x-show="menu1===4" x-collapse x-cloak class="flex flex-wrap mt-2">
+                    <x-rating-filtro />
+{{--                      <div class="space-y-4">
+                        <div class="flex space-x-[2px] items-center">
+                            <p1 class="mr-2">5</p1>
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                        </div>
+                        <div class="flex space-x-[2px] items-center">
+                            <p1 class="mr-2">4</p1>
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 " />
+                        </div>
+                        <div class="flex space-x-[2px] items-center">
+                            <p1 class="mr-2">3</p1>
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 " />
+                            <x-icons.star class="h-5 w-5 " />
+                        </div>
+                        <div class="flex space-x-[2px] items-center">
+                            <p1 class="mr-2">2</p1>
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 " />
+                            <x-icons.star class="h-5 w-5 " />
+                            <x-icons.star class="h-5 w-5 " />
+                        </div>
+                        <div class="flex space-x-[2px] items-center">
+                            <p1 class="mr-2">1</p1>
+                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
+                            <x-icons.star class="h-5 w-5 " />
+                            <x-icons.star class="h-5 w-5 " />
+                            <x-icons.star class="h-5 w-5 " />
+                            <x-icons.star class="h-5 w-5 " />
+                        </div>
+                    </div>  --}}
+                </ul>
+                </div>
+            </li>
+{{--              <li class="mr-6 p-2">
                 <p1 class="text-gris-10 hover:text-white">Calificaciones</p1>
-            </li>
+            </li>  --}}
         </ul>
         </div>
      </div>
@@ -166,7 +238,7 @@
                     </div>
                     <div class="flex space-x-3">
                         <h4>{{ session('currency') }} {{ $sku->sell_price ?? ''}}</h4>
-                        <h5 class="line-through text-gris-70">S/.65 </h5>
+                        {{--  <h5 class="line-through text-gris-70">S/.65 </h5>  --}}
                     </div>
                     <p class="mt-4 text-justify">{{ $product->short_description }}</p>
                     <x-button.webprimary class="w-fit my-3 px-[50px]" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id ?? ''}}','{{ $firstImage[$key0]->url ?? ''}}','{{ $colorSelect ?? '' }}','CART')"> Añadir a Carrito

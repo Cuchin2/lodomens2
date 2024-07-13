@@ -117,7 +117,7 @@
                             <h4 x-text="'{{ session('currency') }} '+sku.sell_price"x-show="skuselect === parseInt(sku.color_id)" x-cloak></h4>
                         </template>
                     </div>
-                    <h5 class="line-through text-corp-50">{{ session('currency') }}65 </h5>
+                    {{--  <h5 class="line-through text-corp-50">{{ session('currency') }}65 </h5>  --}}
                 </div>
                 <p class="mt-4 text-justify">{{ $product->short_description }}</p>
                 <div class="flex my-4 space-x-1">
@@ -225,13 +225,13 @@
                             :class="{ ' text-corp-30 border-b border-corp-50': tab == 'tab2'}"
                             @click.prevent="tab = 'tab2'">Reseñas</a>
                     </li>
-                    <div class="my-auto ml-auto w-[120px]">
+{{--                      <div class="my-auto ml-auto w-[120px]">
                         <x-select class="">
                             <option>Option 1</option>
                             <option>Option 2</option>
                             <option>Option 3</option>
                         </x-select>
-                    </div>
+                    </div>  --}}
 
                 </ul>
                 <div>

@@ -9,8 +9,8 @@
 @endphp
 
 <div class="mx-auto w-full col-span-3 space-y-3 ">
-    <div class="bg-gris-100 w-full">
-        <div class="flex justify-between px-4 py-2 rounded-[3px]">
+    <div class="bg-gris-100 w-full rounded-[3px]">
+        <div class="flex justify-between px-4 py-2 items-center">
             <h6>Mis compras</h6>
             <div class="w-[100px]">
             <x-select wire:change="filter()" wire:model="filterBy">
@@ -23,7 +23,7 @@
     </div>
     @foreach ($orders as $order)
     @if($order->status !== 'CREATE')
-    <div class="bg-gris-100 w-full" x-data="{ open }">
+    <div class="bg-gris-100 w-full rounded-[3px]" x-data="{ open }">
         <div class="flex items-center px-4 py-2 rounded-[3px] cursor-pointer " x-on:click="if(open == {{ $order->id }}) { open = '' } else { open = {{ $order->id }} }">
            <div class="flex items-center space-x-5 justify-between w-full">
                 <p>Compra N° {{ $order->id }}</h6>

@@ -61,8 +61,31 @@
             }">
         <div class="h-full bg-gris-90 lg:w-[120px] xl:w-[205px] md:relative rounded-[3px]">
         <ul class="md:fixed bg-gris-90 md:w-[148px] lg:w-[120px] xl:w-[205px] rounded-[3px] h-fit md:max-h-full overflow-hidden xl:px-3" @click.away="menu1 = 0">
-            <li class="mr-6 p-2 ">
-                <p1 class="text-gris-10 hover:text-white">Filtros</p1>
+            <li class="p-2 ">
+                <div class="flex justify-between items-center">
+                    <p1 class=" hover:text-white">Filtros</p1>
+                    @if($cat || $rating || $bra || $gam)
+                    <div wire:click="clean()" class="hover:text-white cursor-pointer">
+                        <x-icons.cross class="h-2 w-2" />
+                    </div>
+                    @endif
+
+                </div>
+                <div class="flex flex-wrap gap-1">
+                    @if($cat)
+                    <x-web.special.filter wire:click="categorized('','')">{{ $cat }}</x-web.special.filter>
+                    @endif
+                    @if($bra)
+                    <x-web.special.filter wire:click="brandized('','')">{{ $bra}}</x-web.special.filter>
+                    @endif
+                    @if($gam)
+                    <x-web.special.filter wire:click="colorized('','')">{{ $gam}}</x-web.special.filter>
+                    @endif
+                    @if($rating)
+                    <x-web.special.filter wire:click="$set('rating', '')">{{ $rating == 1 ? '1 estrella' : $rating.' estrellas' }}</x-web.special.filter>
+                    @endif
+
+                </div>
             </li>
             <hr class="border-t border-gris-70">
             <li class=" p-2" @click="menu1 = (menu1 === 1) ? 0 : 1">
@@ -73,7 +96,8 @@
                     </p1>
                     <ul x-show="menu1===1" x-collapse x-cloak class="w-full text-[12px] ml-2 overflow-y-auto !max-h-40 bar mt-2">
                         @foreach ($categories as $category)
-                        <p2 class="hover:text-white">{{ $category->name }}</p2>
+
+                        <p2 wire:click="categorized('{{ $category->name }}','{{ $category->id }}')" class="hover:text-white">{{ $category->name }}</p2>
                         @endforeach
                     </ul>
                 </div>
@@ -86,7 +110,7 @@
                     </p1>
                     <ul x-show="menu1===2" x-collapse x-cloak class="w-fit text-[12px] ml-2 mt-2">
                         @foreach ($brands as $brand)
-                        <p2 class="hover:text-white">{{ $brand->name }}</p2>
+                        <p2 wire:click="brandized('{{ $brand->name }}','{{ $brand->id }}')" class="hover:text-white">{{ $brand->name }}</p2>
                         @endforeach
                     </ul>
                 </div>
@@ -97,14 +121,14 @@
                     <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"
                     ::class="{'rotate-90 transition-all': menu1 === 3}" />
                 </p1>
-                <ul  x-show="menu1===3" x-collapse x-cloak class="flex flex-wrap">
-                    @for ($chechito=0; $chechito<3; $chechito++)
-                        <div class="rounded-full w-4 h-4 bg-red-500 mt-3 mr-2"></div>
-                        <div class="rounded-full w-4 h-4 bg-blue-500 mt-3 mr-2"></div>
-                        <div class="rounded-full w-4 h-4 bg-teal-500 mt-3 mr-2"></div>
-                        <div class="rounded-full w-4 h-4 bg-yellow-500 mt-3 mr-2"></div>
-                        <div class="rounded-full w-4 h-4 bg-purple-500 mt-3 mr-2"></div>
-                    @endfor
+                <ul  x-show="menu1===3" x-collapse x-cloak class="flex flex-wrap mt-2">
+                    @foreach ($gamas as $gama)
+                        @if(isset($gama->images->url))
+                            <img src="{{ asset('storage/'.$gama->images->url) }}" wire:click="colorized('{{ $gama->name }}','{{ $gama->id }}')" class="rounded-full mx-auto w-4 h-4" alt="">
+                        @else
+                            <div class="rounded-full w-4 h-4 mx-auto " wire:click="colorized('{{ $gama->name }}','{{ $gama->id }}')" style="background:{{ $gama->hex }}"></div>
+                        @endif
+                    @endforeach
                 </ul>
                 </div>
             </li>
@@ -116,69 +140,29 @@
                 </p1>
                 <ul  x-show="menu1===4" x-collapse x-cloak class="flex flex-wrap mt-2">
                     <x-rating-filtro />
-{{--                      <div class="space-y-4">
-                        <div class="flex space-x-[2px] items-center">
-                            <p1 class="mr-2">5</p1>
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                        </div>
-                        <div class="flex space-x-[2px] items-center">
-                            <p1 class="mr-2">4</p1>
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 " />
-                        </div>
-                        <div class="flex space-x-[2px] items-center">
-                            <p1 class="mr-2">3</p1>
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 " />
-                            <x-icons.star class="h-5 w-5 " />
-                        </div>
-                        <div class="flex space-x-[2px] items-center">
-                            <p1 class="mr-2">2</p1>
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 " />
-                            <x-icons.star class="h-5 w-5 " />
-                            <x-icons.star class="h-5 w-5 " />
-                        </div>
-                        <div class="flex space-x-[2px] items-center">
-                            <p1 class="mr-2">1</p1>
-                            <x-icons.star class="h-5 w-5 fill-corp2-30" />
-                            <x-icons.star class="h-5 w-5 " />
-                            <x-icons.star class="h-5 w-5 " />
-                            <x-icons.star class="h-5 w-5 " />
-                            <x-icons.star class="h-5 w-5 " />
-                        </div>
-                    </div>  --}}
+
                 </ul>
                 </div>
             </li>
-{{--              <li class="mr-6 p-2">
-                <p1 class="text-gris-10 hover:text-white">Calificaciones</p1>
-            </li>  --}}
         </ul>
         </div>
      </div>
     {{-- FIN menu 1 --}}
-    <div class="mx-left w-full " :class="{'pl-2': open === true}">
-    <div :class="{
+    <div class="mx-left w-full" :class="{'pl-2': open === true}">
+        <div wire:loading.delay class="w-full h-[300px]">
+            <x-preloader.heartlite />
+        </div>
+    <div wire:loading.remove :class="{
         'grid-cols-2 lg:grid-cols-5 md:grid-cols-4': !open && sort === 3,
-        'grid-cols-2 lg:grid-cols-4 md:grid-cols-3': (open && sort === 3) {{--  || (!open && sort === 2)  --}},
+        'grid-cols-2 lg:grid-cols-4 md:grid-cols-3': (open && sort === 3),
         'grid-cols-2 lg:grid-cols-4 md:grid-cols-2': open && sort === 2,
         'grid-cols-2 lg:grid-cols-5 md:grid-cols-3': (!open && sort === 2),
         'mt-1 md:mt-0': true,
-    }" class="grid w-full">
+    }" class="{{ $products->isNotEmpty() ? 'grid' : 'h-full' }} w-full">
 
-        @foreach ($products as $key0 =>$product )
-        <div class="px-3 mx-auto relative my-[8px] items-center w-fit" x-data="{icon:false}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex w-full':sort===1}">
+        @forelse ($products as $key0 =>$product )
+
+        <div  class="px-3 mx-auto relative my-[8px] items-center w-fit" x-data="{icon:false}" x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex w-full':sort===1}">
             <a href="{{ !empty($product->colors) && !empty($product->colors[0]->id) ? route('web.shop.show', ['product' => $product, 'color' => $product->colors[0]->id]) : '#' }}">
                 @php
                 $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')
@@ -211,7 +195,7 @@
                             { $sku->sell_price = $sku->usd; }
                         }
                         @endphp
-                <x-outstock {{--  class="md:max-w-[200px] max-w-[150px]"  --}} url="{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}" name="{{ $product->name }}" stock="{{ $sku->stock ?? '' }}" />
+                <x-outstock  url="{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}" name="{{ $product->name }}" stock="{{ $sku->stock ?? '' }}" />
             </a>
 
 
@@ -233,12 +217,11 @@
                 <div x-show="sort===1" x-cloak class="px-8">
                     <h3>{{ $product->name }}</h3>
                     <div class="mb-2 cursor-pointer flex">
-                        {{--  <x-star class="h-5 w-5" star=" {{ round($product->reviews->avg('score'), 1)*20 }}"/>
-                        <p class="text-gris-30"> - {{ $product->reviews->count() }} reseñas -</p>  --}}
+
                     </div>
                     <div class="flex space-x-3">
                         <h4>{{ session('currency') }} {{ $sku->sell_price ?? ''}}</h4>
-                        {{--  <h5 class="line-through text-gris-70">S/.65 </h5>  --}}
+        
                     </div>
                     <p class="mt-4 text-justify">{{ $product->short_description }}</p>
                     <x-button.webprimary class="w-fit my-3 px-[50px]" wire:click="showCartModal('{{ $product->id }}','{{ $sku->color_id ?? ''}}','{{ $firstImage[$key0]->url ?? ''}}','{{ $colorSelect ?? '' }}','CART')"> Añadir a Carrito
@@ -246,7 +229,11 @@
                 </div>
 
         </div>
-        @endforeach
+        @empty
+        <div class="flex w-full items-center h-full">
+         <p class="mx-auto">No hay elementos para mostrar.</p>
+        </div>
+        @endforelse
     </div>
     {{$products->links('vendor.livewire.lodomen')}}
     </div>

@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Color;
 use App\Models\Image;
 use App\Models\Sku;
 use Livewire\Attributes\Url;
@@ -18,7 +19,8 @@ class ShopMain extends Component
     use WithPagination;
     public $showModal = false; public $skus = ''; public $image=''; public $price_cart = '';
     public $perPage = 5; public $counts = '1'; public $colorSelected= []; public $active = '0';
-    public $showCreateModal = false; public $choose; public $rating='';
+    public $showCreateModal = false; public $choose; public $rating=''; public $cat=''; public $cat_id='';
+    public $bra=''; public $brand_id=''; public $gam=''; public $gam_id='';
     #[Url(history:true)]
     public $search = '';
     #[Url(history:true)]
@@ -34,14 +36,27 @@ class ShopMain extends Component
         $this->resetPage();
     }    public function render()
     {
+        $a=$this->gam_id; sleep(1);
         return view('livewire.shop-main',[
+            'gamas'=>Color::with('images')->get(),
             'products' => Product::search($this->search)
             ->where('status','SHOP')
             ->when($this->rating, function ($query) {
                 $query->where('rating', $this->rating);
             })
+            ->when($this->cat_id, function ($query) {
+                $query->where('category_id', $this->cat_id);
+            })
+            ->when($this->brand_id, function ($query) {
+                $query->where('brand_id', $this->brand_id);
+            })
             ->when($this->type !== '',function($query){
                 $query->where('name',$this->type);
+            })
+            ->when($this->gam_id != '', function ($query) use ($a) {
+                $query->whereHas('colors', function ($query) use ($a) {
+                    $query->where('color_id', $this->gam_id);
+                });
             })
             ->orderBy($this->sortBy,$this->sortDir)
             ->paginate($this->perPage),
@@ -143,8 +158,27 @@ class ShopMain extends Component
     {
         $this->showCreateModal= true;
     }
+    /* filtros */
+    public function clean(){
+        $this->reset('rating','cat','cat_id','bra','brand_id','gam','gam_id');
+    }
     public function rate($star)
     {
         $this->rating=$star;
+    }
+    public function categorized($name,$id)
+    {
+        $this->cat=$name;
+        $this->cat_id=$id;
+    }
+    public function brandized($name,$id)
+    {
+        $this->bra=$name;
+        $this->brand_id=$id;
+    }
+    public function colorized($name,$id)
+    {
+        $this->gam=$name;
+        $this->gam_id=$id;
     }
 }

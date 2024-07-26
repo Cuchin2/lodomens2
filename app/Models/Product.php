@@ -31,6 +31,7 @@ class Product extends Model implements CanVisit
         'brand_id',
         'provider_id',
         'type_id',
+        'sell_price'
     ];
     public function colors()
     {
@@ -100,7 +101,7 @@ class Product extends Model implements CanVisit
        ->orWhere('updated_at','like',"%{$value}%"); */
     }
     public function my_update($request){
-        $this->update($request->all());
+        $this->update($request->except('sell_price'));
 
         if ($request->tags !== NULL) {
             // Obtén el valor de tags como un solo string
@@ -162,7 +163,9 @@ class Product extends Model implements CanVisit
                         $this->colors()->detach();
                         Sku::where('product_id', $request->id)->delete();
                 }
-
+                $first_price=Sku::where(['product_id'=>$request->id,'color_id'=>$b[0]])->pluck('sell_price');
+                $product->sell_price=$first_price[0];
+                $product->save();
             }
             public function status(){
                 switch ($this->attributes['status']) {

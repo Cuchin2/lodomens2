@@ -9,6 +9,9 @@
 
 
     <x-slot name="slot2">
+        @if (Session::has('message'))
+        <x-dashboard.alert.succes>Se creo satisfactoriamente un Contenido </x-dashboard.alert.succes>
+        @endif
         <livewire:contact-app/>
     </x-slot>
 

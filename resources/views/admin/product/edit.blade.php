@@ -7,31 +7,13 @@
             <x-breadcrumb.breadcrumb2 name='{{$product->name}}' />
         </x-breadcrumb.breadcrumb>
     </x-slot>
-    <x-slot name="slot2"> @if (session()->has('info'))
-        <div x-data="{ open: true }" x-show="open" x-init="setTimeout(() => open = false, 2000)"
-            :class="!open" x-collapse
-            class="mb-[20px]">
-            <div
-    class="items-center flex rounded-lg border border-green-600 bg-green-900 bg-opacity-20 py-2 px-2 text-green-600 sm:px-5 text-[12px]"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      class="h-5 w-5"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-        clip-rule="evenodd"
-      />
-    </svg>
-    <p class="mx-1 ">{{session()->get('info')}}</p>
-  </div>
-
-        </div>
-
-    @endif
+    <x-slot name="slot2">
+        @if (session()->has('info'))
+        <x-dashboard.alert.succes>{{session()->get('info')}}</x-dashboard.alert.succes>
+        @endif
+        @if ($errors->any() || Session::has('mensaje2') || Session::has('mensaje'))
+            <x-dashboard.alert.danger>Error! el formularion o se envio, revise los campos. </x-dashboard.alert.danger>
+        @endif
         <form method="POST" action="{{ route('inventory.products.update', $product) }}" name="formulario"
             enctype="multipart/form-data">
             @csrf
@@ -44,7 +26,11 @@
 
                         <div class="my-3">
                             <x-label class="mb-2">Nombre:</x-label>
-                            <x-input name="name" value="{{ old('name',$product->name) }}" placeholder="Primer nombre "></x-input>
+                            <x-input name="name" value="{{ old('name',$product->name) }}" placeholder="Primer nombre ">
+                            </x-input>
+                            @error('name')
+                            <div class="text-red-600 ml-2"> {{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="my-1 flex">
                             <div class="flex items-center space-x-2 mr-1">
@@ -73,8 +59,8 @@
                             <x-label class="mb-2">Estados:</x-label>
                             <div class="mt-3">
                                 <x-select-search placeholder="Selecciona un estado"
-                                    message="Ningun tipo coincide con la búsqueda" name="status"
-                                    :data="$status" selected="{{ $product->status ?? ''}}">
+                                    message="Ningun tipo coincide con la búsqueda" name="status" :data="$status"
+                                    selected="{{ $product->status ?? ''}}">
                                 </x-select-search>
                             </div>
                         </div>
@@ -82,8 +68,8 @@
                             <x-label class="mb-2">Tipos:</x-label>
                             <div class="mt-3">
                                 <x-select-search placeholder="Selecciona un tipo"
-                                    message="Ningun tipo coincide con la búsqueda" name="type_id"
-                                    :data="$types" selected="{{ $product->type->id ?? ''}}">
+                                    message="Ningun tipo coincide con la búsqueda" name="type_id" :data="$types"
+                                    selected="{{ $product->type->id ?? ''}}">
                                 </x-select-search>
                             </div>
                         </div>
@@ -91,58 +77,63 @@
                             <x-label class="mb-2">Marca:</x-label>
                             <div class="mt-3">
                                 <x-select-search placeholder="Selecciona la marca"
-                                    message="Ninguna marca coincide con la búsqueda" name="brand_id"
-                                    :data="$brands" selected="{{ $product->brand->id ?? ''}}">
+                                    message="Ninguna marca coincide con la búsqueda" name="brand_id" :data="$brands"
+                                    selected="{{ $product->brand->id ?? ''}}">
                                 </x-select-search>
                                 @error('brand_id')
-                                <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                                <div class="text-red-600 ml-2"> {{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
 
                         <div class="my-3" x-data="{ code: '{{ $product->code }}' }">
                             <x-label class="mb-2">Código del producto</x-label>
-                            <x-input name="code" maxlength="4" x-model="code" @change="addLeadingZeros" value="{{ old('code', $product->code) }}" placeholder="Código del producto "></x-input>
+                            <x-input name="code" maxlength="4" x-model="code" @change="addLeadingZeros"
+                                value="{{ old('code', $product->code) }}" placeholder="Código del producto "></x-input>
                             @error('code')
-                            <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                            <div class="text-red-600 ml-2"> {{ $message }}</div>
                             @enderror
                         </div>
                         <div class="my-3">
-                            {{--  <x-label class="mb-2">{{ $product->skus->count() > 1 ? 'Códigos' : 'Código' }} SKU</x-label>  --}}
-                        <div class="">
-                          @foreach ($product->skus->load('color') as $index =>$sku)
-                          <div class="mb-4">
-                            <div class="flex justify-between"><p style="color: {{ $sku->color->hex }};">{{ $sku->color->name }}</p>
-                                <x-label class="mb-2 ">SKU: {{ $sku->code }}</x-label>
-                            </div>
-
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="">
-                                        <x-label class="mb-2 " >Nivel de stock</x-label>
-                                        <x-input name="stock[]" value="{{ old('stock.'.$index, $sku['stock']) }}" placeholder="Nivel de stock "></x-input>
+                            {{-- <x-label class="mb-2">{{ $product->skus->count() > 1 ? 'Códigos' : 'Código' }} SKU
+                            </x-label> --}}
+                            <div class="">
+                                @foreach ($product->skus->load('color') as $index =>$sku)
+                                <div class="mb-4">
+                                    <div class="flex justify-between">
+                                        <p style="color: {{ $sku->color->hex }};">{{ $sku->color->name }}</p>
+                                        <x-label class="mb-2 ">SKU: {{ $sku->code }}</x-label>
                                     </div>
-                                    <div class="">
-                                        <x-label class="mb-2">Precio de venta</x-label>
-                                        <x-input name="sell_price[]" value="{{ old('sell_price.'.$index, $sku['sell_price']) }}"
-                                            placeholder="Precio de venta "></x-input>
+
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="">
+                                            <x-label class="mb-2 ">Nivel de stock</x-label>
+                                            <x-input name="stock[]" value="{{ old('stock.'.$index, $sku['stock']) }}"
+                                                placeholder="Nivel de stock "></x-input>
+                                        </div>
+                                        <div class="">
+                                            <x-label class="mb-2">Precio de venta</x-label>
+                                            <x-input name="sell_price[]"
+                                                value="{{ old('sell_price.'.$index, $sku['sell_price']) }}"
+                                                placeholder="Precio de venta "></x-input>
+                                        </div>
                                     </div>
                                 </div>
-                         </div>
-                          @endforeach
-                        </div>
+                                @endforeach
+                            </div>
 
 
                         </div>
                         @if(Session::has('mensaje2'))
-                        <div class="text-corp-10 ml-2">
-                                {{ Session::get('mensaje2') }}
-                            </div>
+                        <div class="text-red-600 ml-2">
+                            {{ Session::get('mensaje2') }}
+                        </div>
                         @endif
-{{--                          <div class="my-3">
+                        {{-- <div class="my-3">
                             <x-label class="mb-2">Precio de venta</x-label>
-                            <x-input name="" value="{{ $product->sell_price }}"
-                                placeholder="Precio de venta "></x-input>
-                        </div>  --}}
+                            <x-input name="" value="{{ $product->sell_price }}" placeholder="Precio de venta ">
+                            </x-input>
+                        </div> --}}
                         <div class="flex space-x-4 my-3">
                             <x-label class="mb-2">Reseñas:</x-label>
                             <x-label>{{ $product->reviews->count() }}</x-label>
@@ -160,19 +151,15 @@
                             <x-label class="mb-2">Colores:</x-label>
                         </div>
                         <div class=" mb-4">
-                            <x-dashboard.multipleselect
-                            id="1"
-                            name="colors"
-                            placeholder="Selccione los colores"
-                            :colorSelect="$colorSelect"
-                            :colorUnSelect="$colorUnSelect" />
+                            <x-dashboard.multipleselect id="1" name="colors" placeholder="Selccione los colores"
+                                :colorSelect="$colorSelect" :colorUnSelect="$colorUnSelect" />
 
                             @if(Session::has('mensaje'))
-                            <div class="text-corp-10 ml-2">
-                                    {{ Session::get('mensaje') }}
-                                </div>
+                            <div class="text-red-600 ml-2">
+                                {{ Session::get('mensaje') }}
+                            </div>
                             @endif
-                             </div>
+                        </div>
                         <div class="my-3">
                             <x-label class="mb-2">Categoría:</x-label>
                             <div class="mt-3">
@@ -188,14 +175,8 @@
                         </div>
 
                         <div class=" mb-4">
-                            <x-dashboard.multipleselectsimple
-                            id="2"
-                            name="tags"
-                            placeholder="Seleccione las etiquetas"
-                            :selected="$tagSelect"
-                            :unselected="$tagNames"
-                             param="0"
-                            />
+                            <x-dashboard.multipleselectsimple id="2" name="tags" placeholder="Seleccione las etiquetas"
+                                :selected="$tagSelect" :unselected="$tagNames" param="0" />
 
                         </div>
 
@@ -206,7 +187,8 @@
 
                 </div>
 
-                @include('admin.product.colorimage',['colors'=> $colorSelect,'id'=>$product->id,'numberArray'=>$numberArray])
+                @include('admin.product.colorimage',['colors'=>
+                $colorSelect,'id'=>$product->id,'numberArray'=>$numberArray])
                 {{-- @include('admin.product.image') --}}
 
             </div>
@@ -217,10 +199,8 @@
 
         @push('scripts')
         <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
-        <script data-navigate-once>
-
-
-                CKEDITOR.replace('body', {
+        <script>
+            CKEDITOR.replace('body', {
                     language: 'es',
                     height: 300,
                     resize_dir: 'vertical',

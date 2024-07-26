@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\SaleOrder;
 use Illuminate\Http\Request;
 use Cart;
 class WishlistController extends Controller
@@ -22,9 +22,10 @@ class WishlistController extends Controller
     {
         return view('web.dashboard.address');
     }
-    public function purchase()
+    public function purchase(Request $request)
     {
-        return view('web.dashboard.purchase');
+        $order_user= SaleOrder::where('user_id',auth()->user()->id)->where('status','PAID')->latest()->first();
+        return view('web.dashboard.purchase',['open'=>$request->open,'order_last'=>$order_user->id]);
     }
     public function account(Request $request)
     {

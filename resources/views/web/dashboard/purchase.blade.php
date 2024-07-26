@@ -12,7 +12,7 @@
 @section('content')
 
 <x-menu.sidebar>
-    <livewire:web-purchase />
+    <livewire:web-purchase open="{{ $open }}" order_last="{{ $order_last }}"/>
 </x-menu.sidebar>
 
 

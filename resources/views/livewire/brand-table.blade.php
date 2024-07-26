@@ -6,7 +6,7 @@
                 <div class="flex items-center justify-between">
                     <div class="flex w-full m-[20px]">
 
-                        <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" wire:click="showDeleteModal('','','CREATE','','','')">
+                        <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" wire:click="showDeleteModal('','','CREATE','','')">
                             <div class="flex items-center justify-center mx-[10px]">
                             <x-icons.plus class="h-[12px] w-[12px] fill-white mx-[3px]" grosor="1"></x-icons.plus>
 
@@ -141,10 +141,10 @@
                                     <td class="px-4 py-[13px]">{{$brand->description}}</td>
 
                                     <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
-                                        <button type="button" class="text-azul-50 hover:text-azul-30" wire:click="showDeleteModal({{ $brand->id }},'{{$brand->name}}','DESCRIPTION','','{{ $brand->slug }}','{{ isset($brand->images->url) ? asset('storage/'. $brand->images->url) : '' }}')">
+                                        <button type="button" class="text-azul-50 hover:text-azul-30" wire:click="showDeleteModal({{ $brand->id }},'{{$brand->name}}','DESCRIPTION','{{ $brand->slug }}','{{ isset($brand->images->url) ? asset('storage/'. $brand->images->url) : '' }}')">
                                             <x-icons.edit></x-icons.edit>
                                         </button>
-                                        <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal2({{ $brand->id }},'{{$brand->name}}','DELETE','','','{{ isset($brand->images->url) ? asset('storage/'. $brand->images->url) : '' }}')" >
+                                        <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal2({{ $brand->id }},'{{$brand->name}}','DELETE','','{{ isset($brand->images->url) ? asset('storage/'. $brand->images->url) : '' }}')" >
                                             <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                         </button>
                                     </td>
@@ -222,7 +222,7 @@
                     {{ __('Cancelar') }}
                 </x-button.corp_secundary>
 
-                <x-button.corp1 class="ml-3" wire:click="deleted('{{$itemIdToDelete}}')" wire:loading.attr="disabled">
+                <x-button.corp1 class="ml-3" wire:click="kill('{{$itemIdToDelete}}')" wire:loading.attr="disabled">
                     Eliminar
                 </x-button.corp1>
             </x-slot>

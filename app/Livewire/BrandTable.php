@@ -59,17 +59,7 @@ class BrandTable extends Component
     public function deleted($id)
     {
         $this->brand=Brand::find($id);
-        if($this->which == 'DELETE'){
-            $brand=Brand::find($id);
-            if(isset($brand->images->url)){
-            Storage::disk('public')->delete($brand->images->url);
-            $brand->images()->delete();
-            }
-            $brand->delete();
-            $this->showModalDelete = false;
-        }
-
-        elseif ($this->which =='CREATE'){
+        if ($this->which =='CREATE'){
             $this->validate();
             $brand=Brand::create([
                 'name'=> $this->name,
@@ -145,7 +135,7 @@ class BrandTable extends Component
         $this->sortBy = $sortByField;
         $this->sortDir = 'DESC';
     }
-    public function showDeleteModal($itemId,$name,$abc,$description,$slug,$file)
+    public function showDeleteModal($itemId,$name,$abc,$slug,$file)
         { $this->resetValidation(); $this->dispatch('notify2');
            if(isset($file)){
             $this->dispatch('notify',url: $file,filename:basename(parse_url($file, PHP_URL_PATH)) );
@@ -158,8 +148,8 @@ class BrandTable extends Component
                 $this->showModal = true;
                 $this->which = $abc;
         }
-        public function showDeleteModal2($itemId,$name,$abc,$description,$slug,$file)
-        {       $this->resetValidation();
+        public function showDeleteModal2($itemId,$name,$abc,$slug,$file)
+        {
                 $this->logo = $file;
                 $this->name = $name;
                 $this->itemIdToDelete = $itemId;
@@ -193,5 +183,15 @@ class BrandTable extends Component
     public function page($page)
     {
         $this->perPage = $page;
+    }
+    public function kill($id)
+    {
+        $brand=Brand::find($id);
+        if(isset($brand->images->url)){
+        Storage::disk('public')->delete($brand->images->url);
+        $brand->images()->delete();
+        }
+        $brand->delete();
+        $this->showModalDelete = false;
     }
 }

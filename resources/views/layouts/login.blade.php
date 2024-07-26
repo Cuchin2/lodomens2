@@ -74,14 +74,14 @@ $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
                     </a>
                 </li>
                 @endauth
-                <li class="">
+                <li class="!mt-0">
                     <a  href="{{ route('web.shop.webdashboard.profile') }}" class="flex items-center hover:text-corp-50">
                         <x-icons.user class="h-4"></x-icons.user>
                         <span class="ml-3 ">Mi cuenta </span>
                     </a>
                 </li>
                 @can('home')
-                    <li class="">
+                    <li >
                         <a href="{{ route('dashboard') }}" class="flex items-center hover:text-corp-50">
                             <x-icons.home class="h-4"></x-icons.home>
                             <span class="ml-3 ">Dashboard</span>
@@ -90,14 +90,14 @@ $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
                 @endcan
 
 
-                <li class="">
+                <li>
                     <a href="#" class=" flex items-center hover:text-corp-50 md:hidden">
                         <x-icons.setting class="h-4"></x-icons.setting>
                         <span class="ml-3 ">Settings</span>
                     </a>
                 </li>
 
-                <li class="">
+                <li>
                     <a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                         type="submit" class="flex items-center hover:text-corp-50">
                         <x-icons.poweroff class="h-4"></x-icons.poweroff>

@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="ml-auto flex space-x-2 w-fit !mt-4 ">
-
+                    <x-button.corp_secundary wire:click="beforeDelete('{{ $contact->id }}','{{ $contact->name }}')" wire:loading.attr="disabled">Eliminar</x-button.corp_secundary>
                     <x-button.corp1 type="submit" wire:loading.attr="disabled">
                         Actualizar
                     </x-button.corp1>
@@ -40,7 +40,7 @@
                 <div class="mt-3">
                     <x-select-search placeholder="Selecciona un icono"
                         message="Ningun tipo coincide con la búsqueda" livewire="true" set="{{ $key }}"
-                        :data="$icons" selected="{{ $contact->icon }}">
+                        :data="$icons" selected="{{ $contact->icon  ?? ''}}">
                     </x-select-search>
                 </div>
                 <div class="mt-3">
@@ -101,7 +101,6 @@
                 </div>
 
                 <div class="ml-auto flex space-x-2 w-fit !mt-4 ">
-
                     <x-button.corp1 type="submit" wire:loading.attr="disabled">
                         Actualizar
                     </x-button.corp1>
@@ -117,7 +116,22 @@
             Agregar Elemento
         </x-button.corp1>
     @endif
+    <x-dialog-modal wire:model="showModal">
+        <x-slot name="title">
+            Confirmar Eliminación
+        </x-slot>
 
+        <x-slot name="content">
 
+            <div class="flex"> ¿Estás seguro de que deseas eliminar esto <b>'{{ $name }}'</b>? <div class="w-7 h-7 rounded-full ml-2"></div> </div>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-button.corp_secundary wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
+            <x-button.corp1 wire:click="afterDelete('{{ $id }}')" wire:loading.attr="disabled">Eliminar</x-button.corp1>
+
+        </x-slot>
+    </x-dialog-modal>
+</div>
 
 

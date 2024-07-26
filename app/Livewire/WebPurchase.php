@@ -8,7 +8,7 @@ use Livewire\WithPagination;
 class WebPurchase extends Component
 {
     use WithPagination;
-    public $filterBy='created_at'; public $perPage = 5;
+    public $filterBy='created_at'; public $perPage = 5; public $open = ''; public $order_last = '';
     public function render()
     {
         return view('livewire.web-purchase',[

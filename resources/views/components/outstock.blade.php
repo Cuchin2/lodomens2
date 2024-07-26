@@ -1,4 +1,4 @@
-@props(['url','stock','name','text'=>'text-[14px]'])
+@props(['url'=>'','stock'=>'','name'=>'','text'=>'text-[14px]'])
 
 <lodo {{ $attributes->merge(['class' => ' relative items-center  flex max-w-[200px] max-h-[200px] mx-auto']) }}>
     {{ $slot }}

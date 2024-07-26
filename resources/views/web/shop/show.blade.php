@@ -4,7 +4,7 @@
 
 <x-breadcrumb.lodomens.breadcrumb title="TIENDA">
     <x-breadcrumb.lodomens.breadcrumb2 name='Tienda' href="{{ route('web.shop.index') }}"  />
-    <x-breadcrumb.lodomens.breadcrumb2 name='{{$product->category->name}}' href="#" class="hidden md:block"/>
+    <x-breadcrumb.lodomens.breadcrumb2 name='{{$product->category->name}}' href="{{ route('web.shop.index',['category_id'=>$product->category->id]) }}" class="hidden md:block"/>
     <x-breadcrumb.lodomens.breadcrumb2 name='{{$product->name}}' />
 </x-breadcrumb.lodomens.breadcrumb>
 
@@ -32,11 +32,11 @@
       });
 }
  }">
-    <div class="md:grid md:grid-cols-2">
+    <div class="md:grid md:grid-cols-2 text-gris-30">
         <div class="md:grid md:grid-cols-6 mt-5">
             <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2 flex items-start" >
                 {{--  <p x-text="ext"></p>  --}}
-                <lodo class="md:w-[338px] lg:h-[338px] md:h-[217px] min-w-[318px] relative mx-auto border-[2px] border-corp-50 rounded-[3px] flex items-center {{--  h-full items-center  --}}">
+                <lodo class="md:w-[338px] lg:h-[338px] md:h-[217px] lg:min-w-[318px] relative mx-auto border-[2px] border-corp-50 rounded-[3px] flex items-center {{--  h-full items-center  --}}">
                 <template x-if="ext === 'mp4'">
                     <video :src="src" controls
                   class="w-full " :alt="ext" alt="">
@@ -101,13 +101,13 @@
 
                 </div>
                 <h3>{{ $product->name }}</h3>
-                <div class="mb-2 cursor-pointer flex" x-data
+                <div class="mb-2 cursor-pointer flex items-center" x-data
                     x-on:click="$scroll('#second', { offset: 200 }); tab = 'tab2'">
                     @if ($product->reviews->count() === 0)
 
                     @else
                     <livewire-starmain  product="{{ $product->id }}"/>
-                        <p class="text-gris-30"> - {{ $product->reviews->count() }} {{  $product->reviews->count() === 1 ? 'Reseña' : 'Reseñas' }} -</p>
+                        <p class="text-gris-30"> {{ $product->reviews->count() }} {{  $product->reviews->count() === 1 ? 'Reseña' : 'Reseñas' }} </p>
                     @endif
 
                 </div>
@@ -120,7 +120,7 @@
                     {{--  <h5 class="line-through text-corp-50">{{ session('currency') }}65 </h5>  --}}
                 </div>
                 <p class="mt-4 text-justify">{{ $product->short_description }}</p>
-                <div class="flex my-4 space-x-1">
+                <div class="flex my-4 space-x-1 items-center">
                     <p class="font-bold"> {{ $colorSelect->count() === 1 ? 'COLOR: ' : 'COLORES: ' }}</p class="font-bold">
                     <div class="flex space-x-2" x-data="{active:'{{ $indice }}'}">
                         @foreach ($colorSelect as $key => $color )
@@ -154,16 +154,16 @@
                 </a>
                 <div class="my-4">
                     <div class="flex">
-                        <p class=" text-gris-10 mr-1 font-bold">Categorias :</p>
-                        <p class=" text-gris-10">{{ $product->category->name }}</p>
+                        <p class=" {{--  text-gris-10  --}} mr-1 font-bold">Categorias :</p>
+                        <p class=" {{--  text-gris-10  --}}">{{ $product->category->name }}</p>
                     </div>
                     <div class="flex">
 
                         @if($product->tags->isNotEmpty())
-                        <p class=" text-gris-10 mr-1 font-bold">Etiquetas :</p>
+                        <p class=" {{--  text-gris-10  --}} mr-1 font-bold">Etiquetas :</p>
                         @endif
                         @foreach ($product->tags as $key => $tag)
-                        <p class="text-gris-10">
+                        <p class="{{--  text-gris-10  --}}">
                             {{ $tag->name }}
                             @if (!$loop->last)
                             ,
@@ -173,7 +173,7 @@
                     </div>
                 </div>
                 <div class="flex">
-                    <p class=" text-gris-10 mr-2 font-bold">Compartir en:</p>
+                    <p class=" {{--  text-gris-10  --}} mr-2 font-bold">Compartir en:</p>
                     <div class="flex space-x-3 ">
                         <div
                             class="h-[24px] w-[24px] border-[1px] border-corp-50 rounded-[3px] flex justify-center items-center ">
@@ -209,7 +209,7 @@
 
     </div>
     <hr class="mt-[20px] mb-[10px] border-gris-70">
-    <div>
+    <div class="text-gris-30">
         {!! $product->body !!}
         <hr class="my-[40px] border-gris-70">
         <div id="second" class="md:mx-16">

@@ -5,7 +5,12 @@
         'TRACKING'=>'text-amarillo-30',
         'DONE'=>'text-verde-30',
         'CANCEL'=>'text-rojo-30'
-    ]
+    ];
+
+    if($open !== '1')
+    {
+        $order_last= '';
+    }
 @endphp
 
 <div class="mx-auto w-full col-span-3 space-y-3 ">
@@ -23,7 +28,7 @@
     </div>
     @foreach ($orders as $order)
     @if($order->status !== 'CREATE')
-    <div class="bg-gris-100 w-full rounded-[3px]" x-data="{ open }">
+    <div class="bg-gris-100 w-full rounded-[3px]" x-data="{ open :'{{ $order_last }}' }">
         <div class="flex items-center px-4 py-2 rounded-[3px] cursor-pointer " x-on:click="if(open == {{ $order->id }}) { open = '' } else { open = {{ $order->id }} }">
            <div class="flex items-center space-x-5 justify-between w-full">
                 <p>Compra N° {{ $order->id }}</h6>

@@ -1,6 +1,6 @@
-@props(['height','width','fill'=>'currentColor','grosor'=>'0','m'=>'inherit'])
+@props(['fill'=>'currentColor','grosor'=>'0'])
 
-<svg version="1.1" height="{{$height}}" width="{{$width}}" fill="{{$fill}}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" style="enable-background:new 0 0 20 20; display: inherit; margin:{{$m}}" xml:space="preserve">
+<svg version="1.1" fill="{{$fill}}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" xml:space="preserve">
 
     <g id="ico-calendar">
         <path stroke-width="{{$grosor}}" stroke="{{$fill}}" class="st1" d="M18.5,2H16V1.5C16,1.2,15.8,1,15.5,1S15,1.2,15,1.5V2H5V1.5C5,1.2,4.8,1,4.5,1S4,1.2,4,1.5V2H1.5

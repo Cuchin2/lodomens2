@@ -1,4 +1,7 @@
 <x-app-layout>
+    @push('styles')
+
+    @endpush
 
     <x-slot name="slot1">
         <x-breadcrumb.title title='Página de inicio' />
@@ -112,14 +115,41 @@
             </div>
             <div class="my-3 px-4 xl:w-1/2 lg:w-2/3 md:w-4/5 w-full mx-auto">
                 <x-label class="mb-2">Descripción:</x-label>
-                <x-input-textarea placeholder="Descripción" name="description" col="10">
+                <textarea class="form-control" name="description" id="body" rows="10">
+                    {{ old('short_description', $about->description ?? '') }}
+                    </textarea>
+{{--                  <x-input-textarea placeholder="Descripción" name="description" col="10">
                     {{ old('short_description', $about->description ?? '')  }}
-                    </x-imput-textarea>
+                    </x-imput-textarea>  --}}
             </div>
             <x-button.corp1 type="buttom" class="mx-auto my-4">Actualizar</x-button.corp1>
             </div>
         </form>
         </div>
     </x-slot>
+    @push('scripts')
+    <script>
+        CKEDITOR.replace('body', {
+                language: 'es',
+                height: 300,
+                resize_dir: 'vertical',
+                resize_minHeight: 300,
+                skin: 'prestige',
+            });
+
+            CKEDITOR.addCss('.cke_editable { background-color: #0E0E0E; color: white;  }');
+
+            function addLeadingZeros() {
+                // Verificar si el valor tiene menos de 4 dígitos
+                if (this.code.length < 4) {
+                  // Calcular la cantidad de ceros necesarios
+                  var leadingZeros = 4 - this.code.length;
+
+                  // Agregar los ceros a la izquierda del valor
+                  this.code = '0'.repeat(leadingZeros) + this.code;
+                }
+              }
+    </script>
+    @endpush
 
 </x-app-layout>

@@ -7,7 +7,7 @@
                 if (this.rating == amount) {
             this.rating = 0;
           }
-                else this.rating = amount;
+                else this.rating = amount; $dispatch('out');
             },
         currentLabel() {
            let r = this.rating;
@@ -20,7 +20,7 @@
     <div class="flex ">
         <template x-for="(star, index) in ratings" :key="index">
             <button @click="rate(star.amount), $wire.rate(star.amount)" @mouseover="hoverRating = star.amount" @mouseleave="hoverRating = rating"
-                aria-hidden="true" :title="star.label"
+                aria-hidden="true" :title="star.label" 
                 class="rounded-sm  fill-current focus:outline-none focus:shadow-outline px-[2px] m-0 cursor-pointer"
                 :class="{'text-corp2-30': hoverRating >= star.amount, 'hover:text-corp2-30': rating >= star.amount && hoverRating >= star.amount}"
                 >

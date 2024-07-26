@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FooterController;
 use App\Http\Controllers\InicioController;
+use App\Http\Controllers\TiendaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
@@ -52,6 +53,8 @@ Route::middleware([
 });
 Route::get('tienda',[WebShopController::class,'index'])->name('web.shop.index');
 Route::get('tienda/{product}/{color}',[WebShopController::class,'show'])->name('web.shop.show');
+Route::get('sku/{id}/{color}',[TiendaController::class,'skus'])->name('get.skus');
+Route::post('addcart',[TiendaController::class,'addcart'])->name('addcart');
 Route::get('registro',[WebController::class,'login_register'])->name('web.login_register');
 Route::post('registro/user',[WebController::class,'register_user'])->name('web.store_register');
 Route::get('recuperar_password',[WebController::class,'recover_password'])->name('web.recover_password');

@@ -34,7 +34,8 @@
                 @if(isset($about))
                 <h1 class="mx-auto font-bold text-[14px] md:text-[20px] lg:text-[25px] text-center w-full">{{ $about->name ?? 'ACERCA DE NOSOTROS' }}</h1>
                 <p class="text-[12px] md:text-[14px] lg:text-[18px] xl:w-3/4 lg:w-4/5 md:w-3/4 sm:w-3/4 ext-justify mx-auto">
-                    {!! nl2br(e($about->description)) !!}
+                    {{--  {!! nl2br(e($about->description)) !!}  --}}
+                    {!! $about->description !!}
                 </p>
                 @endif
                 {{--                  <p class="text-[12px] md:text-[14px] lg:text-[18px]">Somos una marca cuya propuesta busca el

@@ -17,10 +17,10 @@ use PhpParser\Node\Expr\Cast\Object_;
 class WebShopController extends Controller
 {
     public function index(Request $request){
-        $products = Product::with('reviews')->get();
-        $categories = Category::all();
-        $brands = Brand::all();
-        return view('web.shop.index',compact('products','categories','brands'));
+        if($request->all()){
+            return view('web.shop.index',['category_id'=>$request->category_id]);
+        }
+        return view('web.shop.index');
     }
     public function show(Product $product,Color $color){
         $color_name=$color->name;

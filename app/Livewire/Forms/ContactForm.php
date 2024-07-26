@@ -6,7 +6,7 @@ use App\Models\Contact;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
-class contacForm extends Form
+class ContactForm extends Form
 {
 
     public $name= [];

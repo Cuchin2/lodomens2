@@ -1,32 +1,37 @@
 <?php
 
 namespace App\Livewire;
-use App\Livewire\Forms\ContacForm;
+use App\Livewire\Forms\ContactForm;
 use App\Models\Contact;
 use Livewire\Component;
 use Livewire\Attributes\On;
 class ContactApp extends Component
 {
-    public ContacForm $form;
-    public $elements = []; public $condition = true;
-
+    public ContactForm $form; public $name = ''; public $id = '';
+    public $elements = []; public $condition = true; public $showModal=false;
+    public $icons = [
+        'mail' => 'Correo',
+        'planet' => 'Planeta',
+        'address' =>  'Dirección',
+        'info' => 'información',
+        'phone_whatsapp'=>'WhatsApp',
+        'phone'=>'Teléfono',
+        'camera'=>'Cámara',
+        'calendar'=>'Calendario'
+    ];
     public function render()
     {
         $contacts= Contact::orderBy('order','asc')->get();
-        $icons = [
-            'mail' => 'Correo',
-            'planet' => 'Planeta',
-            'address' =>  'Dirección',
-            'info' => 'información'
-        ];
-        foreach ($contacts as $key => $contact) {
-            $this->form->name[$key]=$contact->name;
-            $this->form->description[$key]=$contact->description;
-            $this->form->icon[$key]=$contact->icon;
+
+        if ($contacts->isNotEmpty()) {
+            foreach ($contacts as $key => $contact) {
+                $this->form->name[$key] = $contact->name;
+                $this->form->description[$key] = $contact->description;
+                $this->form->icon[$key] = $contact->icon;
+            }
         }
         return view('livewire.contact-app',[
             'contacts'=>$contacts,
-            'icons'=>$icons
         ]);
     }
     public function updateForm($id,$key){
@@ -81,8 +86,9 @@ class ContactApp extends Component
             'order'=>Contact::orderBy('order','asc')->count()
         ]);
         $this->elements = [];
-        $this->dispatch('success');
+        session()->flash('message', 'Se creó satisfactoriamente.');
         $this->condition=true;
+        $this->redirectRoute('mypage.contact.index');
     }
     public function sort($item, $newPosition)
     {
@@ -111,5 +117,18 @@ class ContactApp extends Component
     {
             $this->form->icon[$key]=$value;
 
+    }
+    public function beforeDelete($id,$name)
+    {
+        $this->name= $name;
+        $this->id= $id;
+        $this->showModal=true;
+    }
+    public function afterDelete()
+    {
+        $contacto = Contact::find($this->id);
+        $contacto->delete();
+        $this->showModal=false;
+        $this->dispatch('success');
     }
 }

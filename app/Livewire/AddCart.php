@@ -7,7 +7,7 @@ use App\Models\Product;
 use App\Models\Sku;
 use App\Models\Color;
 use Cart;
-use Livewire\Attributes\On; 
+use Livewire\Attributes\On;
 class AddCart extends Component
 {
     public $sku; public $limit;
@@ -39,9 +39,9 @@ class AddCart extends Component
             if(auth()->user()){
             Cart::instance('cart')->store(auth()->user()->id);}
         $this->dispatch('cart-added');
-        $this->redirectRoute('cart.index');
+        $this->redirectRoute('web.shop.cart.index');
     }
-    #[On('add-wishlist')] 
+    #[On('add-wishlist')]
     public function addwish($color)
     {
         if(auth()->user()){
@@ -68,5 +68,5 @@ class AddCart extends Component
             $this->showCreateModal= true;
         }
     }
-   
+
 }

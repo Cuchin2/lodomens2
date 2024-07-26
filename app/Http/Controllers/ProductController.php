@@ -103,7 +103,8 @@ class ProductController extends Controller
     {
         $request->validate([
             'code' => ['required','numeric','max:9999',Rule::unique('products')->ignore($product->id)],
-            'brand_id' => ['required']
+            'brand_id' => ['required'],
+            'name' => ['required']
             // Añade aquí otras reglas de validación según sea necesario
         ], [
             'code.required' => 'El campo código es obligatorio.',
@@ -111,6 +112,7 @@ class ProductController extends Controller
             'code.max' => 'El campo código debe contener 4 dígitos.',
             'code.unique' => 'El código ya está en uso.',
             'brand_id.required' => 'Seleccione una marca.',
+            'name.required'=>'El campo nombre es obligatorio'
             // Añade otros mensajes de error aquí
         ]);
         $request->merge(['id' => $product->id]);

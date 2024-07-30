@@ -25,7 +25,7 @@
                         console.error(error);
                     });
                     } }" class="space-y-3"
-                    @ad.window="getdata()">
+                    @ad.window="getdata()" x-init="$wire.cambio(address[0].id);">
                         <template x-for="item in address" :key="item.id">
                             <div class="w-full rounded-[3px]">
                                 <div class="flex items-center cursor-pointer" @click="open = (open === item.id) ? '' : item.id">

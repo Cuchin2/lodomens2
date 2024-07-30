@@ -183,13 +183,13 @@ class ColorTable extends Component
                 ]);
                     $this->logo->storeAs('image/lodomens/', $fileName, 'public');
             }
-                    if($previousUrl && $this->logo ==null) 
-                    { 
+                    if($previousUrl && $this->logo ==null)
+                    {
                         Storage::disk('public')->delete($previousUrl);
                         $color->images()->delete();
                     }
-                
-            
+
+
         }
         if($this->choose === 2)
         {   $color= Color::find($this->itemIdToDelete);
@@ -208,5 +208,15 @@ class ColorTable extends Component
     public function page($page)
     {
         $this->perPage = $page;
+    }
+    public function updated($propertyName)
+    {
+        if ($propertyName === 'logo') {
+            $this->dispatch('logo');
+        }
+    }
+    public function revealButton()
+    {
+        $this->dispatch('revealbutton');
     }
 }

@@ -196,4 +196,14 @@ class TypeTable extends Component
     {
         $this->perPage = $page;
     }
+    public function updated($propertyName)
+    {
+        if ($propertyName === 'logo') {
+            $this->dispatch('logo');
+        }
+    }
+    public function revealButton()
+    {
+        $this->dispatch('revealbutton');
+    }
 }

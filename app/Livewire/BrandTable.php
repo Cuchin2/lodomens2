@@ -186,12 +186,32 @@ class BrandTable extends Component
     }
     public function kill($id)
     {
-        $brand=Brand::find($id);
-        if(isset($brand->images->url)){
-        Storage::disk('public')->delete($brand->images->url);
-        $brand->images()->delete();
+        $brand = Brand::find($id);
+
+        if ($brand->products()->exists()) {
+            $this->showModalDelete = false;
+            session()->flash('error', 'No se puede eliminar la marca porque existen productos asociados.');
+            return;
         }
+
+        if (isset($brand->images->url)) {
+            Storage::disk('public')->delete($brand->images->url);
+            $brand->images()->delete();
+        }
+
         $brand->delete();
         $this->showModalDelete = false;
+        session()->flash('message', 'La marca ha sido eliminada correctamente.');
+    }
+
+    public function updated($propertyName)
+    {
+        if ($propertyName === 'logo') {
+            $this->dispatch('logo');
+        }
+    }
+    public function revealButton()
+    {
+        $this->dispatch('revealbutton');
     }
 }

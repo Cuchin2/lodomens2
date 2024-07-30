@@ -37,6 +37,7 @@
                     class="w-full focus:ring-gris-100 bg-inherit border-0 border-b-[1px] border-gris-70 focus:border-b-[1px] focus:border-gris-70 focus:placeholder-gris-50 placeholder-gris-50 text-[14px]"
                     type="text" placeholder="Ingresa tu nombre" wire:model="name"  {{--  wire:change="salvar"  --}}
                     placeholder="Nombre">
+                    @error('name') <span class="text-corp-30">{{ $message }}</span> @enderror
             </div>
             <div class="">
                 <p  class="text-gris-5">Tipo de documento</p>
@@ -55,15 +56,15 @@
             <div class="mb-4 ">
                 <input
                     class="w-full focus:ring-gris-100 bg-inherit border-0 border-b-[1px] border-gris-70 focus:border-b-[1px] focus:border-gris-70 focus:placeholder-gris-50 placeholder-gris-50 text-[14px]"
-                    type="text" placeholder="Ingresa tu nombre" wire:model="last_name"  {{--  wire:change="salvar"  --}}
-                    placeholder="Apellido">
+                    type="text" placeholder="Ingresa tu apellido" wire:model="last_name"  {{--  wire:change="salvar"  --}}
+                   >
             </div>
             <p class="text-gris-5">N° de documento </p>
             <div class="mb-4 ">
                 <input
                     class="w-full focus:ring-gris-100 bg-inherit border-0 border-b-[1px] border-gris-70 focus:border-b-[1px] focus:border-gris-70 focus:placeholder-gris-50 placeholder-gris-50 text-[14px]"
-                    type="text" placeholder="Ingresa tu número" wire:model="dni"  {{--  wire:change="salvar"  --}}
-                    placeholder="Apellido">
+                    type="text" placeholder="Ingresa tu número de Doc." wire:model="dni"  {{--  wire:change="salvar"  --}}
+                   >
             </div>
         </div>
         <div>
@@ -71,15 +72,15 @@
             <div class="mb-4 ">
                 <input
                     class="w-full focus:ring-gris-100 bg-inherit border-0 border-b-[1px] border-gris-70 focus:border-b-[1px] focus:border-gris-70 focus:placeholder-gris-50 placeholder-gris-50 text-[14px]"
-                    type="text" placeholder="Ingresa tu nombre" wire:model="second_name"  {{--  wire:change="salvar"  --}}
-                     placeholder="Segundo apellido">
+                    type="text" placeholder="Ingresa tu segundo apellido" wire:model="second_name"  {{--  wire:change="salvar"  --}}
+                    >
             </div>
             <p class="text-gris-5">Teléfono </p>
             <div class="mb-4 ">
                 <input
                     class="w-full focus:ring-gris-100 bg-inherit border-0 border-b-[1px] border-gris-70 focus:border-b-[1px] focus:border-gris-70 focus:placeholder-gris-50 placeholder-gris-50 text-[14px]"
                     type="text" placeholder="Ingresa tu teléfono" wire:model="phone" {{--  wire:change="salvar"  --}}
-                    placeholder="Apellido">
+                    >
             </div>
         </div>
 

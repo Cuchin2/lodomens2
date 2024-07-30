@@ -118,9 +118,6 @@
                 <textarea class="form-control" name="description" id="body" rows="10">
                     {{ old('short_description', $about->description ?? '') }}
                     </textarea>
-{{--                  <x-input-textarea placeholder="Descripción" name="description" col="10">
-                    {{ old('short_description', $about->description ?? '')  }}
-                    </x-imput-textarea>  --}}
             </div>
             <x-button.corp1 type="buttom" class="mx-auto my-4">Actualizar</x-button.corp1>
             </div>

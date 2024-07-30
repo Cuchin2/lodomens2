@@ -139,7 +139,8 @@ class ShippingNational extends Component
     }
     public function clean()
     {
-        $this->reset('name','description','price','itemId','title');
+        $this->reset('name','description','price','itemId','title','logo');
+        $this->dispatch('notify',url:null);
     }
     public function showDelete($id)
     {
@@ -167,4 +168,15 @@ class ShippingNational extends Component
     public function deletelogo(){
         $this->logo = null;
     }
+    public function updated($propertyName)
+    {
+        if ($propertyName === 'logo') {
+            $this->dispatch('logo');
+        }
+    }
+    public function revealButton()
+    {
+        $this->dispatch('revealbutton');
+    }
+
 }

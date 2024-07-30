@@ -22,6 +22,7 @@ class CheckoutModal extends Component
         $this->cual =  $request->input('components.0.calls.0.params.1.cual');
     }
     public function hola(){
+
         if($this->select == 'SELECT')
         {
             $address = Address::find($this->id);

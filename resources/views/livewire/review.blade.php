@@ -59,7 +59,7 @@
     <!-- Verificar si el usuario está autenticado -->
 
     {{-- reseñas --}}
-    <li class="flex justify-center space-x-4 border-gris-70 border-[1px] p-4 mb-4">
+    <li class="flex justify-center space-x-4 border-gris-70 border-[1px] p-4 mb-4 rounded-[3px]">
         <div class="item__avatar w-[70px]"><img style="border-radius: 50%!important"
                 src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" /></div>
         <div class="w-full">
@@ -82,7 +82,7 @@
 
     <ul class="p-0 mb-4 mt-0 pt-[25px]">
         @foreach ($co as $com)
-        <li class="w-full flex  space-x-5 border-gris-70 border-[1px] p-4 mb-4 px-4" x-data="{ abc: false }">
+        <li class="w-full flex  space-x-5 border-gris-70 border-[1px] p-4 mb-4 px-4 rounded-[3px]" x-data="{ abc: false }">
             <div class="flex-none w-[50px]"><img style="border-radius: 50%!important"
                     src="{{ asset('storage/'.$com->user->profile_photo_path) }}" alt="" /></div>
             <div class="w-full">

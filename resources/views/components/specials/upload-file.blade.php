@@ -9,10 +9,21 @@
 
       </div>
       <!-- Show a preview of the photo -->
-      <div x-show="previewPhoto" class=" overflow-hidden bg-gris-transparent">
+      <div x-show="previewPhoto" class=" overflow-hidden bg-gris-transparent relative">
+{{--          <template x-if="previewPhoto">
+            <div class="w-5 h-5 rounded-full animate-spin absolute
+            border-2 border-solid border-white border-t-transparent"></div>
+        </template>  --}}
+        @if($livewire)
         <img :src="previewPhoto" width="75%" height="75%"
-             alt=""
-             class=" object-cover mx-auto">
+        alt=""
+        class=" object-cover mx-auto" :class="imageReady ? '' : 'opacity-10'">
+        @else
+        <img :src="previewPhoto" width="75%" height="75%"
+        alt=""
+        class=" object-cover mx-auto">
+        @endif
+
       </div>
     </div>
 
@@ -31,7 +42,7 @@
         </label>
       </div>
 
-      <div class="items-center text-sm text-gray-500 mx-auto" @notify{{ $id }}.window="previewPhoto=$event.detail.url; fileName=$event.detail.filename;" @notify2{{ $id }}.window="clearPreview($refs)">
+      <div class="items-center text-sm text-gray-500 mx-auto" @notify{{ $id }}.window="previewPhoto=$event.detail.url; fileName=$event.detail.filename;" @notify2{{ $id }}.window="clearPreview($refs)" @logo.window="imageReady=true;  @if($livewire) $wire.revealButton(); @endif">
         <!-- Display the file name when available -->
         <div class=" w-full mx-auto flex items-center">
         <span x-text="fileName || emptyText" class="text-[12px] text-gris-40 text-center overflow-hidden"></span>
@@ -72,10 +83,17 @@
         return {
           previewPhoto: originalUrl,
           fileName: originalUrl,
+          imageReady: true,
+          livewire: '{{ $livewire }}',
           emptyText: originalUrl ? 'No se ha elegido ningún archivo nuevo' : 'Ningún archivo elegido',
           updatePreview($refs) {
             var reader,
-                files = $refs.input.files;
+            files = $refs.input.files; this.imageReady=false;
+            if(this.livewire)
+            {
+                const event = new CustomEvent('clockimage'); window.dispatchEvent(event);
+            };
+
             reader = new FileReader();
             reader.onload = (e) => {
               this.previewPhoto = e.target.result;

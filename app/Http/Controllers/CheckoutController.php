@@ -12,6 +12,7 @@ use MercadoPago\MercadoPagoConfig;
 use App\Models\Address;
 use App\Models\DeliveryOrder;
 use App\Models\SaleOrder;
+use App\Models\Setting;
 use App\Models\Shipping;
 use Cart;
 class CheckoutController extends Controller
@@ -166,17 +167,18 @@ class CheckoutController extends Controller
 
         // Determinar el estado abierto
         $open = isset($sale_order->shipping->state) ? $stateMapping[$sale_order->shipping->state] : 1;
-
+        $dolar=Setting::find(2)->action ?? 1;
         // Manejo del envío basado en la ubicación de la sesión
-        if (session('location') === 'PE') {
+        if ($sale_order->country === 'PE' /* session('location') === 'PE' */) {
             $collectionState1 = $shippingByState->get('district', collect())->sortBy('order');
             $collectionState2 = $shippingByState->get('nacional', collect())->sortBy('order');
             $currency = 'PEN';
-            return view('web.cart.shipping', compact('collectionState1', 'collectionState2', 'sale_order', 'open', 'id'));
+
+            return view('web.cart.shipping', compact('collectionState1', 'collectionState2', 'sale_order', 'open', 'id','dolar'));
         } else {
             $collectionState3 = $shippingByState->get('internacional', collect())->sortBy('order');
             $currency = 'USD';
-            return view('web.cart.shipping', compact('collectionState3', 'sale_order', 'open', 'id'));
+            return view('web.cart.shipping', compact('collectionState3', 'sale_order', 'open', 'id','dolar'));
         }
     }
 

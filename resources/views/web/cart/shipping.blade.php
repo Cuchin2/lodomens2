@@ -64,9 +64,10 @@
 
                             <div class="items-center rounded-[3px] border border-gris-60 bg-opacity-20 py-2 px-2 sm:px-5 text-[12px]" :class="state == {{ $district->id }} ? '!border-green-600 bg-green-900 text-gris-5' : ''">
                                 <input  id="{{ $district->id }}" type="radio" class="hidden" :checked="state == {{ $district->id }}"/>
-                                <label for="{{ $district->id }}" class="flex items-center cursor-pointer hover:text-gris-5" @click="shipping='{{ $district->name }}'; state={{ $district->id }}; valor={{ $district->price }}; caltotal(); map={{ $district->id }};" >
+                                <label for="{{ $district->id }}" class="flex items-center cursor-pointer hover:text-gris-5" @click="shipping='{{ $district->name }}'; state={{ $district->id }}; valor={{ $district->price == 0 ? 0 : (session('location') === 'PE' ? $district->price:  ( $dolar != 0 ? number_format($district->price / $dolar, 2) : 0)) }}; caltotal(); map={{ $district->id }};" >
                                     <span class="w-4 h-4 inline-block mr-2 rounded-full border flex-no-shrink"></span>
-                                    <p1>{{ $district->name }} </p1> <b class="ml-auto">{{ $district->price == 0 ? 'GRATIS' : $district->price.' soles' }} </b>
+                                    <p1>{{ $district->name }} </p1> <b class="ml-auto">{{ $district->price == 0 ? 'GRATIS' : (session('location') === 'PE' ? $district->price.' soles' : ('$ ' . ($dolar != 0 ? number_format($district->price / $dolar, 2) : 'GRATIS'))) }}
+                                    </b>
                                     {{--  <img src="{{ asset('image/shipping/OLVA_Logo.png') }}" class="ml-auto h-[30px]" alt="">  --}}
 
                                     {{--  fin mapa  --}}
@@ -120,9 +121,9 @@
                             @foreach ($collectionState2 as $key=>$nacional)
                             <div class="items-center rounded-[3px] border border-gris-60 bg-opacity-20 py-2 px-2 sm:px-5 text-[12px]" :class="state == '{{ $nacional->id }}' ? '!border-green-600 bg-green-900 text-gris-5' : ''">
                                 <input id="{{ $nacional->id }}" :checked="state == '{{ $nacional->id }}'" type="radio" class="hidden"/>
-                            <label for="{{ $nacional->id }}" class="flex items-center cursor-pointer hover:text-gris-5" @click="shipping='{{ $nacional->name }}'; state='{{ $nacional->id }}'; valor={{ $nacional->price }}; caltotal()">
+                            <label for="{{ $nacional->id }}" class="flex items-center cursor-pointer hover:text-gris-5" @click="shipping='{{ $nacional->name }}'; state='{{ $nacional->id }}'; valor={{ session('location') === 'PE' ? $nacional->price : number_format($nacional->price / $dolar, 2) }}; caltotal()">
                                 <span class="w-4 h-4 inline-block mr-2 rounded-full border flex-no-shrink"></span>
-                                <p1>{{ $nacional->name }} : <b>{{ $nacional->price }} soles </b></p1>
+                                <p1>{{ $nacional->name }} : <b>{{ session('location') === 'PE' ? $nacional->price.' soles' : '$ '.number_format($nacional->price / $dolar, 2) }}  </b></p1>
                                 <img src="{{ asset('storage/'.($nacional->url ?? 'image/dashboard/No_image_dark.png')) }}" class="ml-auto h-[30px]" alt="">
                             </label>
                             <p2>{{ $nacional->description }}</p2>
@@ -161,16 +162,16 @@
                 </div>
 
 
-                <div x-show="open == 3" x-cloak x-collapse{{--   x-on:click.away="open = false"  --}}>
+                <div x-show="open == 3" x-cloak x-collapse {{--   x-on:click.away="open = false"  --}}>
                     <hr class="border-gris-70">
                     <div class="px-4 py-2 space-y-2">
                         <p class="py-2">Elige tu currier</p>
                         @foreach ($collectionState3 as $key=>$internacional)
                         <div class="items-center rounded-[3px] border border-gris-60 bg-opacity-20 py-2 px-2 sm:px-5 text-[12px]" :class="state == '{{ $internacional->id }}' ? '!border-green-600 bg-green-900 text-gris-5' : ''">
                             <input x-model="check" id="{{ $internacional->id }}" :checked="state == '{{ $internacional->id }}'" type="radio" class="hidden"/>
-                        <label for="{{ $internacional->id }}" class="flex items-center cursor-pointer hover:text-gris-5" @click="shipping='{{ $internacional->name }}'; state='{{ $internacional->id }}'; valor={{ $internacional->price }}; caltotal()">
+                        <label for="{{ $internacional->id }}" class="flex items-center cursor-pointer hover:text-gris-5" @click="shipping='{{ $internacional->name }}'; state='{{ $internacional->id }}'; valor={{ session('location') === 'PE' ? $internacional->price*$dolar : $internacional->price }}; caltotal()">
                             <span class="w-4 h-4 inline-block mr-2 rounded-full border flex-no-shrink"></span>
-                            <p1>{{ $internacional->name }} : <b>{{ $internacional->price }} $ </b></p1>
+                            <p1>{{ $internacional->name }} : <b>{{ session('location') === 'PE' ? 'S/.'.$internacional->price*$dolar :'$ '.$internacional->price }}  </b></p1>
                             <img src="{{ asset('storage/'.($internacional->url ?? 'image/dashboard/No_image_dark.png')) }}" class="ml-auto h-[30px]" alt="">
                         </label>
                         <p2>{{ $internacional->description }}</p2>
@@ -211,6 +212,7 @@
                             <template x-if="valor">
                                 <p x-text="'{{session('currency')}} '+valor.toFixed(2)" class="ml-2"></p>
                             </template>
+
                         </div>
                         </div>
                     </div>

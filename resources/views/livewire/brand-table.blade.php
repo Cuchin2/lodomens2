@@ -1,4 +1,17 @@
 <div>
+    @if (session()->has('message'))
+    <div class="alert alert-success">
+        <x-dashboard.alert.succes> {{ session('message') }}</x-dashboard.alert.succes>
+
+    </div>
+    @endif
+
+    @if (session()->has('error'))
+        <div class="alert alert-danger">
+            <x-dashboard.alert.danger>{{ session('error') }} </x-dashboard.alert.danger>
+
+        </div>
+    @endif
     <section>
         <div class="w-full">
             <!-- Start coding here -->
@@ -141,10 +154,10 @@
                                     <td class="px-4 py-[13px]">{{$brand->description}}</td>
 
                                     <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
-                                        <button type="button" class="text-azul-50 hover:text-azul-30" wire:click="showDeleteModal({{ $brand->id }},'{{$brand->name}}','DESCRIPTION','{{ $brand->slug }}','{{ isset($brand->images->url) ? asset('storage/'. $brand->images->url) : '' }}')">
+                                        <button type="button" class="text-azul-50 hover:text-azul-30" wire:click="showDeleteModal('{{ $brand->id }}','{{$brand->name}}','DESCRIPTION','{{ $brand->slug }}','{{ isset($brand->images->url) ? asset('storage/'. $brand->images->url) : '' }}')">
                                             <x-icons.edit></x-icons.edit>
                                         </button>
-                                        <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal2({{ $brand->id }},'{{$brand->name}}','DELETE','','{{ isset($brand->images->url) ? asset('storage/'. $brand->images->url) : '' }}')" >
+                                        <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal2('{{ $brand->id }}','{{$brand->name}}','DELETE','','{{ isset($brand->images->url) ? asset('storage/'. $brand->images->url) : '' }}')" >
                                             <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                         </button>
                                     </td>
@@ -198,13 +211,28 @@
             </x-slot>
 
             <x-slot name="footer">
+
                 <x-button.corp_secundary  wire:click="$toggle('showModal')" wire:loading.attr="disabled">
                     {{ __('Cancelar') }}
                 </x-button.corp_secundary>
+                <div x-data="{ open: true }" @clockimage.window="open=false" @revealbutton.window="open=true">
+                    <template x-if="open == true">
 
-                <x-button.corp1 class="ml-3" wire:click="deleted('{{$itemIdToDelete}}')" wire:loading.attr="disabled">
-                    {{ $which == 'CREATE' ? 'Crear' : 'Actualizar' }}
-                </x-button.corp1>
+                        <x-button.corp1 class="ml-3" wire:click="deleted('{{$itemIdToDelete}}')" wire:loading.attr="disabled">
+                                <p>{{ $which == 'CREATE' ? 'Crear' : 'Actualizar' }}</p>
+                        </x-button.corp1>
+                    </template>
+                    <template x-if="open == false">
+                        <x-button.corp1 class="ml-3" wire:loading.attr="disabled">
+                            <div class="w-5 h-5 rounded-full animate-spin
+                            border-2 border-solid border-white border-t-transparent"></div>
+                    </x-button.corp1>
+
+                    </template>
+                </div>
+
+
+
             </x-slot>
         </x-dialog-modal>
         <x-dialog-modal wire:model="showModalDelete">

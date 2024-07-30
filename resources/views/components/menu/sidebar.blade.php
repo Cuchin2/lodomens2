@@ -14,7 +14,7 @@
 
                 </div>
             </div>
-            <div class="flex items-center w-1/4 space-x-5">
+{{--              <div class="flex items-center w-1/4 space-x-5">
                 <x-select>
                     <option>Option 1</option>
                     <option>Option 2</option>
@@ -25,7 +25,7 @@
                     <option>Option 2</option>
                     <option>Option 3</option>
                 </x-select>
-            </div>
+            </div>  --}}
         </div>
 
 

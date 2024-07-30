@@ -222,4 +222,14 @@ class SliderTable extends Component
             ] // Valores a actualizar o crear
         );
     }
+    public function updated($propertyName)
+    {
+        if ($propertyName === 'logo') {
+            $this->dispatch('logo');
+        }
+    }
+    public function revealButton()
+    {
+        $this->dispatch('revealbutton');
+    }
 }

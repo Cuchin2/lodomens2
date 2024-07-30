@@ -104,7 +104,7 @@ class ShippingInternational extends Component
 
         $this->resetValidation(); $this->clean(); $this->dispatch('notify2');
         if(isset($file)){
-            $this->dispatch('notify',url: $file,filename:basename(parse_url($file, PHP_URL_PATH)) );
+            $this->dispatch('notify3',url: $file,filename:basename(parse_url($file, PHP_URL_PATH)) );
              }
         $this->itemId=$id;
         $this->logo=$shipping->url;
@@ -139,7 +139,8 @@ class ShippingInternational extends Component
     }
     public function clean()
     {
-        $this->reset('name','description','price','itemId','title');
+        $this->reset('name','description','price','itemId','title','logo');
+        $this->dispatch('notify3',url:null);
     }
     public function showDelete($id)
     {
@@ -166,5 +167,15 @@ class ShippingInternational extends Component
     }
     public function deletelogo(){
         $this->logo = null;
+    }
+    public function updated($propertyName)
+    {
+        if ($propertyName === 'logo') {
+            $this->dispatch('logo');
+        }
+    }
+    public function revealButton()
+    {
+        $this->dispatch('revealbutton');
     }
 }

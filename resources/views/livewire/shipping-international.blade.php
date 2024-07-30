@@ -115,7 +115,7 @@
                         <x-label class="my-2">Imagen</x-label>
 
                         <div class="py-3">
-                            <x-specials.upload-file livewire="true" id="2"/>
+                            <x-specials.upload-file livewire="true" id="3"/>
                         </div>
 
                 </div>
@@ -130,9 +130,21 @@
                 {{ __('Cancelar') }}
             </x-button.corp_secundary>
 
-            <x-button.corp1 class="ml-3" wire:click="createOrUpdate('{{$itemId}}')" @click="$dispatch('contentsaved')" wire:loading.attr="disabled">
-                Aceptar
-            </x-button.corp1>
+            <div x-data="{ open: true }" @clockimage.window="open=false" @revealbutton.window="open=true">
+                <template x-if="open == true">
+
+                    <x-button.corp1 class="ml-3" wire:click="createOrUpdate('{{$itemId}}')"  @click="$dispatch('contentsaved')" wire:loading.attr="disabled">
+                            <p>Aceptar</p>
+                    </x-button.corp1>
+                </template>
+                <template x-if="open == false">
+                    <x-button.corp1 class="ml-3" wire:loading.attr="disabled">
+                        <div class="w-5 h-5 rounded-full animate-spin
+                        border-2 border-solid border-white border-t-transparent"></div>
+                </x-button.corp1>
+
+                </template>
+            </div>
         </x-slot>
     </x-dialog-modal>
 

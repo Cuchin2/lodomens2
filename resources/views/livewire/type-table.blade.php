@@ -141,7 +141,7 @@
                                             <span class="w-4 h-4 inline-block mr-2 rounded-full border flex-no-shrink"></span>
                                             </label>
                                         </td>
-                                    <td class="px-4 py-[13px]"> 
+                                    <td class="px-4 py-[13px]">
                                         <img src="{{ asset('storage/'.($brand->images->url ?? 'image/dashboard/No_image_dark.png')) }}" class="border-[1px] border-gris-50 rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
                                     </td><td class="px-4 py-[13px]">
                                         {{$brand->name}}</td>
@@ -225,9 +225,21 @@
                     {{ __('Cancelar') }}
                 </x-button.corp_secundary>
 
-                <x-button.corp1 class="ml-3" wire:click="delete('{{$itemIdToDelete}}')" wire:loading.attr="disabled">
-                    {{ $which == 'CREATE' ? 'Crear' : 'Actualizar' }}
-                </x-button.corp1>
+                <div x-data="{ open: true }" @clockimage.window="open=false" @revealbutton.window="open=true">
+                    <template x-if="open == true">
+
+                        <x-button.corp1 class="ml-3" wire:click="deleted('{{$itemIdToDelete}}')" wire:loading.attr="disabled">
+                                <p>{{ $which == 'CREATE' ? 'Crear' : 'Actualizar' }}</p>
+                        </x-button.corp1>
+                    </template>
+                    <template x-if="open == false">
+                        <x-button.corp1 class="ml-3" wire:loading.attr="disabled">
+                            <div class="w-5 h-5 rounded-full animate-spin
+                            border-2 border-solid border-white border-t-transparent"></div>
+                    </x-button.corp1>
+
+                    </template>
+                </div>
             </x-slot>
         </x-dialog-modal>
         <x-dialog-modal wire:model="showModalDelete">

@@ -85,7 +85,7 @@
                                 </x-select-web>
                                     @error('country') <p1 class="text-corp-10 ml-2"> {{ $message }}</p1> @enderror
                                 <x-labelweb class="mt-4">Ciudad <x-required /> </x-labelweb>
-                                <x-select-web x-model="selectedCity" @change="fetchDistrits" name="city" {{--  x-show="cities.length > 0"  --}}>
+                                <x-select-web x-model="selectedCity" @change="fetchDistrits" name="city" ::disabled="cities == null ? true : false" ::class="cities == null ? 'bg-gris-70' : ''">
                                     <option value="" disabled selected>Selecciona la ciudad</option>
                                     <template x-for="city in cities" :key="city.geonameId">
                                         <option :value="city.geonameId" x-text="city.name" x-bind:selected="city.geonameId === {{ old('city',$form1->city ?? '') }} ? true : false"></option>
@@ -95,8 +95,8 @@
                             </div>
                             <div>
                                 <x-labelweb >Estado/Provincia <x-required /> </x-labelweb>
-                                <x-select-web x-model="selectedState" @change="fetchCities" name="state" {{--  x-show="states.length > 0"  --}}>
-                                    <option value="" disabled selected>Selecciona el Estado/Departamento</option>
+                                <x-select-web ::disabled="states == null ? true : false" ::class="states == null ? 'bg-gris-70' : ''" x-model="selectedState" @change="fetchCities" name="state" {{--  x-show="states.length > 0"  --}}>
+                                    <option value=""  selected>Selecciona el Estado/Departamento</option>
                                     <template x-for="state in states" :key="state.geonameId">
                                         <option :value="state.geonameId" x-text="state.name" x-bind:selected="state.geonameId === {{ old('state',$form1->state ?? '') }} ? true : false"></option>
                                     </template>
@@ -104,7 +104,7 @@
                                 @error('state') <p1 class="text-corp-10 ml-2"> {{ $message }}</p1> @enderror
 
                                 <x-labelweb class="mt-4">Distrito/Localidad <x-required /> </x-labelweb>
-                                <x-select-web x-model="selectedDistrit" name="district" {{--  x-show="distrits.length > 0"  --}}>
+                                <x-select-web x-model="selectedDistrit" name="district" ::disabled="distrits == null ? true : false" ::class="distrits == null ? 'bg-gris-70' : ''">
                                     <option value="" disabled selected>Selecciona el distrito</option>
                                     <template x-for="distrit in distrits" :key="distrit.geonameId">
                                         <option :value="distrit.geonameId" x-text="distrit.name" x-bind:selected="distrit.geonameId === {{ old('district',$form1->district ?? '') }} ? true : false"></option>
@@ -332,7 +332,7 @@
                     <div>
                         <h5>Resumen de pedido</h5>
                         <div class="flex justify-between my-8">
-                            <p>Subtotal({{ Cart::instance('cart')->content()->count() }})</p>
+                            <p>Subtotal ({{ Cart::instance('cart')->content()->count() }})</p>
                             <p>{{session('currency')}}{{ Cart::instance('cart')->subtotal() }}</p>
                         </div>
                         <div class="flex justify-between my-2 text-white">

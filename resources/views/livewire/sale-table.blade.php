@@ -7,7 +7,7 @@
                 <div class="flex mt-[20px] ">
                     <div class="mx-auto space-x-2">
                     <button class="bg-primary hover:bg-gris-70 text-gris-10 hover:text-white hover:border-white py-[2px] rounded-full transition duration-150 border-[1px] border-gris-10 whitespace-nowrap w-[100px] h-[24px] text-[12px]">
-                       Sin pagar 
+                       Sin pagar
                     </button>
                     <button class="dark:hover:bg-azul-30/10 hover:dark:text-azul-10 dark:text-azul-30  hover:dark:border-azul-10 py-[2px] rounded-full transition duration-150 border-[1px] border-azul-30 whitespace-nowrap w-[100px] h-[24px] text-[12px]">
                         Pagado
@@ -27,7 +27,7 @@
                 </div>
                 </div>
                 <div class="flex items-center justify-between">
-                   
+
                     <div class="flex w-full m-[20px]">
 
                         <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" wire:click="showNewModal()">
@@ -155,21 +155,21 @@
                                     class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
                                     {{$sale->id}}</th>
                                 <td class="px-4 py-[13px]">
-                                        {{ now()->parse($sale->created_at)->format('d/m/Y h:ia') }}  
-                                </td>   
+                                        {{ now()->parse($sale->created_at)->format('d/m/Y h:ia') }}
+                                </td>
                                 <td class="px-4 py-[13px] ">
                                     {{$sale->name.' '.$sale->last_name}}</td>
                                     <td class="px-4 py-[13px] ">
                                         {{$sale->total}}</td>
                                 <td class="px-4 py-[13px] ">
                                     {{ now()->parse($sale->updated_at)->format('d/m/Y h:ia') }}  </td>
-                             
-                                <td class="px-4 py-[13px]" wire:ignore>   
+
+                                <td class="px-4 py-[13px]" wire:ignore>
 
                                    <x-dropdown.dropdown status="{{ $sale->convert() }}" id="{{ $sale->id }}"/>
                                 </td>
                                 <td class="px-4 py-[13px] ">
-                                    <a class="text-verde-50 hover:text-verde-30 cursor-pointer flex justify-center" wire:click="showEditModal('{{ $sale->id }}','{{$sale->name}}','{{ $sale->hex }}','{{ $sale->code }}','{{ isset($sale->images->url) ? asset('storage/'. $sale->images->url) : '' }}')">
+                                    <a href="{{ route('sale.show',$sale->id) }}" wire:navigate class="text-verde-50 hover:text-verde-30 cursor-pointer flex justify-center">
                                         <x-icons.eye class="h-5 w-5"></x-icons.eye>
                                     </a>
 {{--                                      <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal('{{ $sale->id }}','                                      {{$sale->name}}','{{ $sale->hex }}','{{ $sale->code }}','{{ asset('storage/'.($sale->images->url ?? '')) }}')" >
@@ -177,7 +177,7 @@
                                     </button>  --}}
                                 </td>
                             </tr>
-                           
+
                             @endforeach
                         </tbody>
                     </table>
@@ -193,7 +193,7 @@
 
     </section>
 
-   
+
 </div>
 <x-dialog-modal wire:model="showModal">
     <x-slot name="title">

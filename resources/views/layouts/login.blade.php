@@ -25,7 +25,7 @@ $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
 
     </div>
     <ul x-show="isOpen" @closelogin.window="isOpen = false" x-collapse x-cloak
-        class="absolute z-50 @guest w-[235px] @else w-fit  @endguest rounded-[5px] bg-gris-90 md:top-[34px] md:right-[17px] top-[26px] right-[9px] text-gris-10 border-[0.5px] border-gris-80">
+        class="absolute z-50 @guest w-[235px] @else w-fit  @endguest rounded-[5px] bg-gris-90 top-[34px] md:top-[37px]  md:right-[17px] right-[9px] text-gris-10 border-[0.5px] border-gris-80">
         @guest
             <div @if ($firefox == true) style="left: 200px" @endif
                 @if ($chrome == true) style="left: 200px" @endif></div>
@@ -65,7 +65,7 @@ $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
                     </a>
                 </li>
                 @auth
-                <li class="md:hidden">
+                <li class="md:hidden" style="margin-bottom: 10px">
                     <a href="{{ route('web.shop.webdashboard.wishlist') }}" class=" flex items-center hover:text-corp-50 relative">
                         <x-icons.heart class="h-4"></x-icons.heart>
                         <x-elements.notification-icon number="{{ $wishlist }}" class="{{ $wishlist == 0 ? 'hidden' : '!right-[80px]' }}"/>

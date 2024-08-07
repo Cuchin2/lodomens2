@@ -126,7 +126,7 @@
                             <p1><b>Currier :</b>{{ $order->shipping->name }}</p1>
                             @endif
                      @else
-                        <p1>Envio Gratis</p1>
+                        <p1 class="text-verde-30">Envio Gratis</p1>
                      @endif
 
                     </div>

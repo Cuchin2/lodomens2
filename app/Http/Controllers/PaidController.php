@@ -53,7 +53,6 @@ class PaidController extends Controller
             'purchaseNumber'=> $request->purchasenumber,
         ]);
         if(isset($response['dataMap']) && $response['dataMap']['ACTION_CODE'] === '000'){
-            checkoutPay();
             Session::put('thanks', true);
             return redirect()->route('web.shop.gracias');
         }

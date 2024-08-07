@@ -75,6 +75,7 @@
 
                         </x-sidebar.ul-drop>
                         @endcan  --}}
+                        @role(['admin','gerencia'])
                         <x-sidebar.ul-drop name="Mi página" id="2" :active="request()->routeIs('mypage.*')">
                             <x-slot name="icon">
                                 <x-icons.planet class="h-[20px] w-[20px]" />
@@ -87,7 +88,7 @@
                             <x-sidebar.ul-drop-son href="{{ route('mypage.shipping') }}" :active2="request()->routeIs('mypage.shipping')">Envios</x-sidebar.ul-drop-son>
 
                         </x-sidebar.ul-drop>
-
+                        @endrole
 {{--                          @can('purchases.index')
                         <x-sidebar.ul-simple :active="request()->routeIs('home')"
                             href="{{ route('dashboard') }}">

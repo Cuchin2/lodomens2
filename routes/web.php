@@ -24,7 +24,10 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\GraciasController;
 use App\Models\Address;
+use App\Models\SaleOrder;
+
 /*
 
 |--------------------------------------------------------------------------
@@ -47,9 +50,10 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    'home.permission', // Aplica el middleware aquí
 ])->group(function () {
-    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
-    Route::put('/usd/{id}',[DashboardController::class,'usd'])->name('dashboard.usd');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::put('/usd/{id}', [DashboardController::class, 'usd'])->name('dashboard.usd');
 });
 Route::get('tienda',[WebShopController::class,'index'])->name('web.shop.index');
 Route::get('tienda/{product}/{color}',[WebShopController::class,'show'])->name('web.shop.show');
@@ -98,6 +102,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
         Route::delete('deleteimage/{product}',[ProductController::class,'deleteimage'])->name('deleteimage');
         Route::post('handleReorder/{product}',[ProductController::class,'handleReorder'])->name('handleReorder');
         Route::get('sales',[SaleController::class, 'index'])->name('sale.index');
+        Route::get('sales/{id}',[SaleController::class, 'show'])->name('sale.show');
 
     });
     Route::get('panel/wishlist',[WishlistController::class,'index'])->name('web.shop.webdashboard.wishlist');
@@ -116,16 +121,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
     Route::post('/paid/create-paypal-order',[PaidController::class,'createPaypalOrder'])->name('paid.createPaypalOrder');
     Route::post('/paid/capture-paypal-order',[PaidController::class ,'capturePaypalOrder'])->name('paid.capturePaypalOrder');
     Route::get('/paid/mercadopago',[PaidController::class ,'mercadopago'])->name('paid.mercadopago');
-    Route::get('/gracias', function (){
-        if (!session('thanks')) {
-            return redirect()->route('web.shop.cart.index');
-        }
-        session()->forget('can_checkout');
-        session()->forget('shipping');
-        session()->forget('pay');
-        session()->forget('thanks');
-            return view('web.cart.gracias');
-    })->name('web.shop.gracias');
+    Route::get('/gracias',[GraciasController::class, 'gracias'])->name('web.shop.gracias');
     Route::get('/get/prueba/', function(){
         $get= Address::where('user_id',auth()->user()->id)->get() ?? '';
         $get2= Address::where(['user_id'=>auth()->user()->id,'current'=>1])->first()->name ?? '';
@@ -142,5 +138,16 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
     Route::get('/api/cities/{stateCode}', [LocationController::class, 'getCities']);
     Route::get('/api/distrits/{cityCode}', [LocationController::class, 'getDistrits']);
 
+    Route::get('luchin',function(){
+        $order = SaleOrder::where(['user_id'=>auth()->user()->id,'status'=>'PAID'])->with('saleDetails')->first();
+        $mailData['email']=env('MAIL_FROM_ADDRESS');
+        $mailData['name']=env('APP_NAME');
+        $mailData['order']=$order;
+        $mailData['subject']='Gracias por su compra';
+        $mailData['cartItems']=$order->saleDetails;
+        $mailData['shipping']=$order->shipping;
+        $mailData['deliveryOrders']=$order->deliveryOrders;
 
+        return view('emails.graciasMail',compact('mailData'));
+    })->name('luchin');
 });

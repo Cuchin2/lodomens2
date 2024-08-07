@@ -23,16 +23,22 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
+            'profile_photo_url'=>'required',
         ];
     }
     public function messages()
     {
         return [
-        'name.required'=>'Este campo es requerido.',
-        'name.string'=>'El valor no es correcto.',
+        'name.required'=>'El nombre es requerido.',
+        'name.string'=>'El nombre no es correcto.',
         'name.max'=>'Solo se permite 255 caracteres.',
+
+        'last_name.required'=>'Apellido es requerido.',
+        'last_name.string'=>'Apellido no es correcto.',
+        'last_name.max'=>'Solo se permite 255 caracteres.',
 
         'password.confirmed' => 'Las contraseñas no coinciden.',
         'password.min' => 'La contraseña debe ser mínimo 6 carácteres.',
@@ -57,7 +63,9 @@ class StoreRequest extends FormRequest
 
         'email.string'=>'El valor no es correcto.',
         'email.unique'=>'La dirreción de correo electrónico ya se encuentra registrada.',
-        'email.email'=>'No es un correo elecrónico.'
+        'email.email'=>'No es un correo elecrónico.',
+
+        'profile_photo_url.required'=>'La foto es obligatoria'
     ];
     }
 }

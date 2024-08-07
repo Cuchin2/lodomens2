@@ -139,12 +139,20 @@
                                     @endforeach
                                 </td>
                                 <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
+
                                     <a class="text-azul-50 hover:text-azul-30" href="{{route('users.edit',$user->id)}}">
                                         <x-icons.edit></x-icons.edit>
                                     </a>
+
+                                    @if($rol !== 'admin')
                                     <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal({{ $user->id }},'{{$user->name}}')" >
                                         <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                     </button>
+                                    @else
+                                    <div>
+                                        <div class="h-5 w-5"></div>
+                                    </div>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -173,8 +181,8 @@
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.corp1 wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp1>
-                <x-button.corp_secundary wire:click="delete({{$itemIdToDelete}})" wire:loading.attr="disabled">Eliminar</x-button.corp_secundary>
+                <x-button.corp_secundary wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
+                <x-button.corp1 wire:click="delete({{$itemIdToDelete}})" wire:loading.attr="disabled">Eliminar</x-button.corp1>
 
             </x-slot>
         </x-dialog-modal>

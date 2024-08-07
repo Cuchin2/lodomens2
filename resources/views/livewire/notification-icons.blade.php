@@ -27,7 +27,7 @@
 
             @include('layouts.login')
             {{--  flag  --}}
-            <div class="relative" x-data="{ isOpen: false, src: '{{ asset('image/flags/Bandera-PE.png') }}', alt:'Peru', lang:'ES' }">
+{{--              <div class="relative" x-data="{ isOpen: false, src: '{{ asset('image/flags/Bandera-PE.png') }}', alt:'Peru', lang:'ES' }">
                 <button @click="isOpen = !isOpen" @keydown.escape="isOpen = false"
                     class="flex items-center bg-gris-90 p-1 rounded-[3px] md:w-[57px]">
                     <img :src="src" src="{{ asset('image/flags/Bandera-PE.png') }}":alt="alt" alt="Peru"
@@ -43,12 +43,12 @@
                             class="md:w-[32px] w-[20px] h-[12px] md:h-[20.61px] cursor-pointer ml-[4px] mt-[8px]">
                             <p class="text-gris-10 text-[10px] mx-auto mt-[10px] hidden md:block">ES</p>
                     </li>
-{{--                      <li x-show="alt !== 'Mexico'" @click="src = '{{ asset('image/flags/Bandera-MX.png') }}',isOpen = false, alt = 'Mexico',lang='ES'"
+                    <li x-show="alt !== 'Mexico'" @click="src = '{{ asset('image/flags/Bandera-MX.png') }}',isOpen = false, alt = 'Mexico',lang='ES'"
                     class="flex">
                         <img src="{{ asset('image/flags/Bandera-MX.png') }}" alt="Mexico" srcset=""
                             class="md:w-[32px] w-[20px] h-[12px] md:h-[20.61px] cursor-pointer ml-[4px] mt-[8px] ">
                             <p class="text-gris-10 text-[10px] mx-auto mt-[10px] hidden md:block">ES</p>
-                    </li>  --}}
+                    </li>
                     <li x-show="alt !== 'USA'" @click="src = '{{ asset('image/flags/Bandera-US.png') }}',isOpen = false, alt = 'USA', lang='EN'"
                     class="flex">
                         <img src="{{ asset('image/flags/Bandera-US.png') }}" alt="USA" srcset=""
@@ -57,7 +57,7 @@
                     </li>
 
                 </ul>
-            </div>
+            </div>  --}}
             {{--  fin de flags  --}}
     </div>
 </div>

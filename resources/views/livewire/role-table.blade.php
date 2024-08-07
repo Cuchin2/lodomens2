@@ -173,13 +173,13 @@
             </x-slot>
 
             <x-slot name="footer">
-                <x-secondary-button  wire:click="$toggle('showModal')" wire:loading.attr="disabled">
+                <x-button.corp_secundary wire:click="$toggle('showModal')" wire:loading.attr="disabled">
                     {{ __('Cancelar') }}
-                </x-secondary-button>
+                </x-button.corp_secundary>
 
-                <x-danger-button class="ml-3" wire:click="delete({{$itemIdToDelete}})" wire:loading.attr="disabled">
+                <x-button.corp1 class="ml-3" wire:click="delete({{$itemIdToDelete}})" wire:loading.attr="disabled">
                     {{ __('Eliminar') }}
-                </x-danger-button>
+                </x-button.corp1>
             </x-slot>
         </x-dialog-modal>
 

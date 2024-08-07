@@ -34,7 +34,7 @@
                         <div class="grid grid-cols-6">
 
                             <div x-data="{
-                                                src: '../image/perfiles/Foto_perfil_ecowaste.jpg',
+                                                src: '{{ old('profile_photo_url') ? old('profile_photo_url') : '../image/perfiles/Foto_perfil_ecowaste.jpg' }}',
                                                 src2: '', src3:'',
                                                 showModal: false,
                                                 activeItem: null,
@@ -70,7 +70,7 @@
                                                     const croppedSrc = roundedCanvas.toDataURL();
                                                     this.src = croppedSrc;
 
-                                                    const inputElement = document.getElementById('croppedImageBase64');
+                                                    const inputElement = document.getElementById('profile_photo_url');
 
                                                     inputElement.value = croppedSrc;
                                                     };
@@ -101,11 +101,11 @@
                                                     });
                                                 },
                                                 updateImage2(event) {
-                                                    this.src2 = event.target.src;    
+                                                    this.src2 = event.target.src;
                                                 },
                                                 definiteImage (){
                                                     this.src=this.src2; this.showModal = false;
-                                                    const inputElement = document.getElementById('croppedImageBase64');
+                                                    const inputElement = document.getElementById('profile_photo_url');
                                                     inputElement.value = this.src;
                                                 },
 
@@ -123,6 +123,11 @@
                                         style="display: flex; align-items: center">
                                         <x-icons.camera fill="white" class="w-3 h-3 md:w-4 md:h-4 mx-auto" />
                                     </div>
+                                    @isset ($errors->messages()['profile_photo_url'])
+                                    @foreach ($errors->messages()['profile_photo_url'] as $key=>$error)
+                                    <p class="text-red-600 ml-2a5">{{ $errors->messages()['profile_photo_url'][$key] }}</p>
+                                    @endforeach
+                                    @endisset
                                 </label>
 
                                 {{-- modal de prueba --}}
@@ -148,10 +153,10 @@
 
                                                     Subir Foto
                                                 </label>
-                                                <input type="file" class="hidden" value="" name="croppedImage"
+                                                <input type="file" class="hidden" value="{{old('profile_photo_url')}}" name="croppedImage"
                                                     id="fileInput" x-ref="croppedImage" accept="image/*"
                                                     @change="updateImage">
-                                                <input type="text" name="croppedImageBase64" id="croppedImageBase64"
+                                                <input type="text" name="profile_photo_url" id="profile_photo_url" value="{{old('profile_photo_url')}}"
                                                     class="hidden">
                                                 <div class="flex flex-col ">
                                                     <p class="mx-4 font-bold float-left flex">Fotos sugeridas</p>
@@ -242,7 +247,12 @@
                                         <input
                                             class="w-full focus:ring-black bg-black border-0 border-b-[1px] border-gris-70 focus:border-b-[1px] focus:border-gris-70 focus:placeholder-gris-70 placeholder-gris-30"
                                             type="text" placeholder="Ingresa tu nombre" value="{{ old('name') }}"
-                                            name="name" placeholder="Nombre" required>
+                                            name="name" placeholder="Nombre" >
+                                            @isset ($errors->messages()['name'])
+                                            @foreach ($errors->messages()['name'] as $key=>$error)
+                                            <p class="text-red-600 ml-2a5">{{ $errors->messages()['name'][$key] }}</p>
+                                            @endforeach
+                                            @endisset
                                     </div>
                                 </div>
                                 <div class="my-4">
@@ -250,7 +260,12 @@
                                     <div class="input-group mt-0 ">
                                         <input class="w-full focus:ring-black bg-black border-0 border-b-[1px] border-gris-70 focus:border-b-[1px] focus:border-gris-70 focus:placeholder-gris-70 placeholder-gris-30" type="text"
                                             placeholder="Ingresa tu apellido" value="{{ old('last_name') }}"
-                                            name="last_name" required>
+                                            name="last_name" >
+                                            @isset ($errors->messages()['last_name'])
+                                            @foreach ($errors->messages()['last_name'] as $key=>$error)
+                                            <p class="text-red-600 ml-2a5">{{ $errors->messages()['last_name'][$key] }}</p>
+                                            @endforeach
+                                            @endisset
                                     </div>
                                 </div>
                             </div>
@@ -272,7 +287,7 @@
                                 alerta
                             @endisset
                             " type="email" placeholder="Ingresa tu correo electrónico" name="email"
-                                value="{{ old('email') }}" required>
+                                value="{{ old('email') }}">
                         </div> {{-- {{ dd($errors->messages()['email'][0]) }} --}}
                         @isset ($errors->messages()['email'])
                         @foreach ($errors->messages()['email'] as $key=>$error)
@@ -296,7 +311,7 @@
                             @isset ($errors->messages()['password'])
                                         alerta
                                 @endisset
-                            " :type="show ? 'password' : 'text'" placeholder="Contraseña" name="password" required>
+                            " :type="show ? 'password' : 'text'" placeholder="Contraseña" name="password">
 
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer">
                                     <x-icons.eye_close class="h-6 text-gris-30" />
@@ -316,7 +331,7 @@
                                 alerta
                                 @endisset
                                 " :type="show ? 'password' : 'text'" placeholder="Contraseña"
-                                    name="password_confirmation" required>
+                                    name="password_confirmation">
 
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer">
                                     <x-icons.eye_close class="h-6 text-gris-30" />

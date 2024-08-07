@@ -2,6 +2,9 @@
 use App\Models\SaleDetail;
 use App\Models\SaleOrder;
 use Illuminate\Support\Facades\Http;
+use App\Mail\Gracias;
+use Illuminate\Support\Facades\Mail;
+
      function checkoutPay(){
         $user=auth()->user();
         $cartItems = Cart::instance('cart')->content();
@@ -29,8 +32,8 @@ use Illuminate\Support\Facades\Http;
                 $deliverOrder->city=(string) $xml2->adminName2;
                 $deliverOrder->district=(string) $xml2->name;
                 $deliverOrder->save();
-                // fin de pruebas   
-            }       
+                // fin de pruebas
+            }
         //fin de cambias ubicaciones
         foreach ($cartItems as $item) {
             SaleDetail::create([
@@ -48,6 +51,21 @@ use Illuminate\Support\Facades\Http;
         }
         $order->status = 'PAID';
         $order->save();
+        // Enviarn eo correo de Gracias y el detalle de la compra
+        $email= $order->email;
+        // Enviar correo al cliente
+        $data= [
+           'email'=>env('MAIL_FROM_ADDRESS'),
+           'name'=>env('APP_NAME'),
+           'order'=>$order,
+           'subject'=>'Gracias por su compra',
+           'cartItems'=>$order->saleDetails,
+           'shipping'=>$order->shipping,
+           'deliveryOrders'=>$order->deliveryOrders,
+        ];
+       Mail::to($email)->send(new Gracias($data));
+        //
         Cart::instance('cart')->destroy();
         Cart::instance('cart')->store($user->id);
+
     }

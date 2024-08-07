@@ -48,16 +48,18 @@
                 <span class="text-gris-30">{{ $data['dataMap']['CARD'] }} ({{ $data['dataMap']['BRAND'] }})</span>
             </div>
             <div class="flex items-center space-x-5">
-                <span class="w-52 font-bold">Importe (USD)</span>
-                <span class="text-corp-30 font-bold">$ {{ $data['order']['amount'].' '.$data['order']['currency'] }}</span>
+                <span class="w-52 font-bold">Importe ({{session('currency')}})</span>
+                <span class="text-gris-30 font-bold">{{session('currency')}} {{ $data['order']['amount']}}</span>
             </div>
-        </div>
+        </div>{{--  .' '.$data['order']['currency']   --}}
         <div>
 
         </div>
     @endif
 </div>
-
+@php
+    session()->forget('thanks');
+@endphp
 @endsection
 
 

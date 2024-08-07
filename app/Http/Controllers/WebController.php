@@ -49,7 +49,7 @@ class WebController extends Controller
         return redirect()->route('web.login_register')->with('login_messages','Es necesario iniciar sesión para dejar un comentario');
     }
     public function register_user(StoreRequest $request){
-        $base64Image = $request->input('croppedImageBase64');
+        $base64Image = $request->input('profile_photo_url');
 
                 if (preg_match('/^data:image\//', $base64Image)) {
                             // Analiza el encabezado para determinar el tipo de imagen

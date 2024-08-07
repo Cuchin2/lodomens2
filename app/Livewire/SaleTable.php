@@ -6,6 +6,8 @@ use App\Models\SaleOrder;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Url;
+use App\Mail\OrderStatusChanged;
+use Illuminate\Support\Facades\Mail;
 class SaleTable extends Component
 {
     use WithPagination;
@@ -46,6 +48,18 @@ class SaleTable extends Component
         $sale = SaleOrder::find($this->id);
         $sale->status = $this->state;
         $sale->save();
+        $email= $sale->email;
+         // Enviar correo al cliente
+         $data= [
+            'email'=>'contacto@lodomens.com',
+            'status'=>$sale->status,
+            'order'=>$this->id,
+            'name_client'=>$sale->name,
+            'name'=>'Lodomens',
+            'last_name'=>$sale->last_name,
+            'subject'=>'Cambio de estado de compra'
+         ];
+        Mail::to($email)->send(new OrderStatusChanged($data));
         $this->showModal = false;
         $this->dispatch('state',state:$sale->convert(),id:$this->id);
     }

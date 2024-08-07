@@ -195,7 +195,7 @@
                     <div>
                         <h5>Resumen de pedido</h5>
                         <div class="flex justify-between mt-8">
-                            <p>Subtotal({{ Cart::instance('cart')->content()->count() }})</p>
+                            <p>Subtotal ({{ Cart::instance('cart')->content()->count() }})</p>
                             <p>{{session('currency')}}{{ Cart::instance('cart')->subtotal() }}</p>
                         </div>
 
@@ -296,13 +296,24 @@
 
 @push('scripts')
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
 @if(isset($collectionState1))
-@foreach ($collectionState1 as $key=>$district)
-@if($district->latitude !== null)
+
+@foreach ($collectionState1 as $key => $district)
+
+@if ($district->latitude !== null)
+
 <script>
-    let map{{ $district->id }} = L.map('mi_mapa{{ $district->id }}').setView([{{ $district->latitude }}, {{ $district->longitude }}],20);
+    key = '{{ $key }}'; district= [];
+    district[key] = '{{ $district->id }}';
+    district['latitude'] = '{{ $district->latitude }}';
+    district['longitude'] = '{{ $district->longitude }}';
+    district['title'] = {!! json_encode($district->title) !!};
+    district['url'] = `{{ asset('storage/image/marker-icon-2x2.png') }}`;
+
+    let map{{ $district->id }} = L.map('mi_mapa{{ $district->id }}').setView([district['latitude'],district['longitude']],20);
     var myIcon = L.icon({
-        iconUrl: '{{ asset('storage/image/marker-icon-2x2.png') }}',
+        iconUrl: district['url'],
         iconSize: [25, 41],
         popupAnchor: [0, -20],
     });
@@ -310,9 +321,10 @@
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> Lodomens'
     }).addTo(map{{ $district->id }});
 
-    L.marker([{{ $district->latitude }}, {{ $district->longitude }}], {icon: myIcon}).addTo(map{{ $district->id }}).bindPopup("{!! $district->title !!}")
+    L.marker([district['latitude'], district['longitude']], {icon: myIcon}).addTo(map{{ $district->id }}).bindPopup(district['title'])
 </script>
 @endif
 @endforeach
+
 @endif
 @endpush

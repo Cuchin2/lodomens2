@@ -90,12 +90,12 @@ $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
                 @endcan
 
 
-                <li>
+{{--                  <li>
                     <a href="#" class=" flex items-center hover:text-corp-50 md:hidden">
                         <x-icons.setting class="h-4"></x-icons.setting>
                         <span class="ml-3 ">Settings</span>
                     </a>
-                </li>
+                </li>  --}}
 
                 <li>
                     <a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"

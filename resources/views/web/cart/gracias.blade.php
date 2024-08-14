@@ -6,7 +6,7 @@
 
 {{--  <x-lodomens.video />  --}}
 @section('content')
-
+<div class="mt-[50px] md:m-0">
 <div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75  pb-1 2xl:min-h-[374px] lg:min-h-[278px] flex flex-col items-center justify-center">
 
         <div class="flex flex-col text-center bg-gris-90 h-full p-3 rounded-[5px] border-[1px] border-gris-70 w-2/3 my-6">
@@ -56,6 +56,7 @@
 
         </div>
     @endif
+</div>
 </div>
 @php
     session()->forget('thanks');

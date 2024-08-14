@@ -29,9 +29,9 @@
 
     <h5 class="px-5 pt-5">Datos personales</h5>
     <form wire:submit.prevent="submit">
-    <div class="grid grid-cols-3 gap-3 mx-auto p-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mx-auto p-5">
         <div>
-            <p class="text-gris-5">Nombre {{--  <span class="text-corp-50">*</span>  --}}</p>
+            <p class="text-gris-5">Nombre</p>
             <div class="mb-4 ">
                 <input
                     class="w-full focus:ring-gris-100 bg-inherit border-0 border-b-[1px] border-gris-70 focus:border-b-[1px] focus:border-gris-70 focus:placeholder-gris-50 placeholder-gris-50 text-[14px]"
@@ -39,6 +39,8 @@
                     placeholder="Nombre">
                     @error('name') <span class="text-corp-30">{{ $message }}</span> @enderror
             </div>
+        </div>
+        <div>
             <div class="">
                 <p  class="text-gris-5">Tipo de documento</p>
                 <x-select-line wire:model="doc_type"
@@ -59,6 +61,8 @@
                     type="text" placeholder="Ingresa tu apellido" wire:model="last_name"  {{--  wire:change="salvar"  --}}
                    >
             </div>
+        </div>
+        <div>
             <p class="text-gris-5">N° de documento </p>
             <div class="mb-4 ">
                 <input
@@ -75,6 +79,8 @@
                     type="text" placeholder="Ingresa tu segundo apellido" wire:model="second_name"  {{--  wire:change="salvar"  --}}
                     >
             </div>
+        </div>
+        <div>
             <p class="text-gris-5">Teléfono </p>
             <div class="mb-4 ">
                 <input

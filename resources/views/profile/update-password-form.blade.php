@@ -8,6 +8,7 @@
     </x-slot>  --}}
 
     <x-slot name="form">
+        <div class="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-7 sm:mx-auto mx-2 w-full">
         <div class="w-full">
             <x-label for="current_password" class="!text-gris-5 text-[12px] md:text-[14px] lg:text-[16px]" value="{{ __('Current Password') }}" />
             <x-specials.input-eye-web id="current_password" type="password"  wire:model="state.current_password" autocomplete="current-password" />
@@ -28,7 +29,16 @@
             {{--  <x-input id="password_confirmation" type="password" class="mt-1 block w-full" wire:model="state.password_confirmation" autocomplete="new-password" />  --}}
             <x-input-error for="password_confirmation" class="mt-2 !text-corp-10" />
         </div>
+        <div class="w-full">
+            <x-label class="!text-gris-5 text-[12px] md:text-[14px] lg:text-[16px]" value="Correo electrónico" />
 
+                <input
+                class="w-full pointer-events-nonew-full focus:ring-black bg-transparent border-0 border-b-[1px] border-gris-70 focus:border-b-[1px] focus:border-gris-70 focus:placeholder-gris-70 placeholder-gris-30 !text-gris-5 text-[12px] md:text-[14px] lg:text-[16px]"
+                type="text"  value="{{ auth()->user()->email }}" disabled
+               >
+
+        </div>
+    </div>
     </x-slot>
 
     <x-slot name="actions">

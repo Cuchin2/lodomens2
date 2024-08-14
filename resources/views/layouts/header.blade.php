@@ -25,10 +25,10 @@
 
         <livewire:notification-icons cart="{{ Cart::instance('cart')->content()->count() }}" wishlist="{{ Cart::instance('wishlist')->content()->count() }}"/>
         {{-- Menu Responsive --}}
-        <div class="absolute top-[44px] z-10"
+        <div class="absolute top-[44px] z-10 w-0" :class="{ 'w-0': open === false, 'w-1/3': open === true }"
            >
             <ul class="bg-gris-90 md:hidden transition-all duration-300 ease-in-out w-0 h-screen"
-                :class="{ 'w-0': open === false, 'w-full': open === true }">
+                :class="{ 'w-0 border-none border-transparent': open === false, 'w-full border-[1px] border-gris-80': open === true }">
                     <x-menu-item2  :active="request()->routeIs('root')" href="{{route('root')}}">INICIO</x-menu-item2>
                     <x-menu-item2  :active="request()->routeIs('web.shop.*')" href="{{route('web.shop.index')}}">TIENDA</x-menu-item2>
                     <x-menu-item2  :active="request()->routeIs('web.contact.*')" href="{{route('web.contact.index')}}">CONTACTO</x-menu-item2>

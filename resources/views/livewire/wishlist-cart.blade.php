@@ -94,16 +94,16 @@
         </div>
         @else
         <div class="bg-gris-100  m-auto w-full col-span-3 h-full flex items-center">
-            <div class="w-2/3 mx-auto">
+            <div class="md:w-2/3 w-5/6 mx-auto  mb-4 mt-6">
+                <h4 class="mx-auto w-fit">Tu Wishlist está vacío</h4>
                 <div class="mx-auto grid grid-cols-4 p-2">
                     <div class="col-span-1 flex items-center">
-                        <x-icons.cart class="w-20 mx-auto" />
+                        <x-icons.cart class="md:w-18 sm:w-16 w-10 mx-auto" />
                     </div>
-                    <div class="col-span-3 text-center space-y-3">
+                    <div class="col-span-3 text-center flex">
 
-                        <h4>Tu Wishlist está vacío</h4>
-                        <p class="12px w-[80%] mx-auto">Inicia sesión para ver los productos que habías guardado en tu
-                            carro.</p>
+
+                        <p class="12px w-[80%] m-auto">Actualmente no cuentas con productos en tu wishlist. Ve a Tienda para agregas tus productos.</p>
                     </div>
 
                 </div>
@@ -111,11 +111,7 @@
                     <a href="{{route('web.shop.index')}}" class="w-full">
                         <x-button.webprimary class="w-full"> Añadir a Carrito</x-button.webprimary>
                     </a>
-        {{--                      <div class="flex space-x-2">
-                                <p>¿No tienes cuenta?</p> <a class="text-corp-30 cursor-pointer"
-                                    href="{{ route('web.login_register') }}">Registrarse</a>
-                            </div>  --}}
-                            {{-- <p class="text-corp-30">Ir a tienda</p> --}}
+
                 </div>
             </div>
         </div>

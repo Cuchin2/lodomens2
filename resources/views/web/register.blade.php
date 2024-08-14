@@ -147,7 +147,7 @@
                                                 Perfil</h1>
                                             <div class="modal-body">
                                                 <label for="fileInput"
-                                                    class="mx-4 border-solid border-[1px]  my-3 cursor-pointer items-center border-gris-50 bg-gris-90 hover:bg-gris-80 br-20 font-bold flex justify-center"
+                                                    class="mx-4 border-solid border-[1px] rounded-[3px] my-3 cursor-pointer items-center border-gris-50 bg-gris-90 hover:bg-gris-80 br-20 font-bold flex justify-center"
                                                     style="padding: 3px">
                                                     <x-icons.camera class="w-[18px] h-[18px] mr-2" />
 
@@ -161,51 +161,72 @@
                                                 <div class="flex flex-col ">
                                                     <p class="mx-4 font-bold float-left flex">Fotos sugeridas</p>
                                                     <div class="mx-4 my-3 grid grid-cols-3 md:grid-cols-5 gap-4">
-                                                        <img class="rounded-full border-[4px] border-gris-90 hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz"
+                                                        <div class="border-[1px] border-gris-70 rounded-full hover:border-transparent transition-all duration-300 ease-in-out" :class="{ ' !border-transparent': activeItem === 1 }">
+                                                        <img class="rounded-full border-[3px] border-transparent hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz transition-all duration-300 ease-in-out"
                                                             src="{{asset('storage/image/lodomens/layouts/FotoPerfil_01.png')}}"
                                                             :class="{ ' !border-corp-50': activeItem === 1 }" alt=""
                                                             @click="updateImage2, activeItem = 1">
-                                                            <img class="rounded-full border-[4px] border-gris-90 hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz"
-                                                            src="{{asset('storage/image/lodomens/layouts/FotoPerfil_02.png')}}"
-                                                            :class="{ ' !border-corp-50': activeItem === 2 }" alt=""
-                                                            @click="updateImage2, activeItem = 2">
-                                                            <img class="rounded-full border-[4px] border-gris-90 hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz"
-                                                            src="{{asset('storage/image/lodomens/layouts/FotoPerfil_03.png')}}"
-                                                            :class="{ ' !border-corp-50': activeItem === 3 }" alt=""
-                                                            @click="updateImage2, activeItem = 3">
+                                                        </div>
+                                                        <div class="border-[1px] border-gris-70 rounded-full hover:border-transparent transition-all duration-300 ease-in-out" :class="{ ' !border-transparent': activeItem === 1 }">
+                                                            <img class="rounded-full border-[3px] border-transparent hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz transition-all duration-300 ease-in-out"
+                                                                src="{{asset('storage/image/lodomens/layouts/FotoPerfil_02.png')}}"
+                                                                :class="{ ' !border-corp-50': activeItem === 2 }" alt=""
+                                                                @click="updateImage2, activeItem = 2">
+                                                        </div>
+                                                        <div class="border-[1px] border-gris-70 rounded-full hover:border-transparent transition-all duration-300 ease-in-out" :class="{ ' !border-transparent': activeItem === 1 }">
+                                                            <img class="rounded-full border-[3px] border-transparent hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz transition-all duration-300 ease-in-out"
+                                                                src="{{asset('storage/image/lodomens/layouts/FotoPerfil_03.png')}}"
+                                                                :class="{ ' !border-corp-50': activeItem === 3 }" alt=""
+                                                                @click="updateImage2, activeItem = 3">
+                                                        </div>
+                                                        <div class="border-[1px] border-gris-70 rounded-full hover:border-transparent transition-all duration-300 ease-in-out" :class="{ ' !border-transparent': activeItem === 1 }">
+                                                            <img class="rounded-full border-[3px] border-transparent hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz transition-all duration-300 ease-in-out"
+                                                                src="{{asset('storage/image/lodomens/layouts/FotoPerfil_04.png')}}"
+                                                                :class="{ ' !border-corp-50': activeItem === 4 }" alt=""
+                                                                @click="updateImage2, activeItem = 4">
+                                                        </div>
+                                                        <div class="border-[1px] border-gris-70 rounded-full hover:border-transparent transition-all duration-300 ease-in-out" :class="{ ' !border-transparent': activeItem === 1 }">
+                                                            <img class="rounded-full border-[3px] border-transparent hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz transition-all duration-300 ease-in-out"
+                                                                src="{{asset('storage/image/lodomens/layouts/FotoPerfil_05.png')}}"
+                                                                :class="{ ' !border-corp-50': activeItem === 5 }" alt=""
+                                                                @click="updateImage2, activeItem = 5">
+                                                        </div>
 
-                                                        <img class="rounded-full border-[4px] border-gris-90 hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz"
-                                                            src="{{asset('storage/image/lodomens/layouts/FotoPerfil_04.png')}}"
-                                                            :class="{ ' !border-corp-50': activeItem === 4 }" alt=""
-                                                            @click="updateImage2, activeItem = 4">
-                                                            <img class="rounded-full border-[4px] border-gris-90 hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz"
-                                                            src="{{asset('storage/image/lodomens/layouts/FotoPerfil_05.png')}}"
-                                                            :class="{ ' !border-corp-50': activeItem === 5 }" alt=""
-                                                            @click="updateImage2, activeItem = 5">
+                                                        <div class="border-[1px] border-gris-70 rounded-full hover:border-transparent transition-all duration-300 ease-in-out" :class="{ ' !border-transparent': activeItem === 1 }">
+                                                            <img class="rounded-full border-[3px] border-transparent hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz transition-all duration-300 ease-in-out"
+                                                                src="{{asset('storage/image/lodomens/layouts/FotoPerfil_06.png')}}"
+                                                                :class="{ ' !border-corp-50': activeItem === 6 }" alt=""
+                                                                @click="updateImage2, activeItem = 6">
+                                                            </div>
+                                                            <div class="border-[1px] border-gris-70 rounded-full hover:border-transparent transition-all duration-300 ease-in-out" :class="{ ' !border-transparent': activeItem === 1 }">
+                                                                <img class="rounded-full border-[3px] border-transparent hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz transition-all duration-300 ease-in-out"
+                                                                    src="{{asset('storage/image/lodomens/layouts/FotoPerfil_07.png')}}"
+                                                                    :class="{ ' !border-corp-50': activeItem === 7 }" alt=""
+                                                                    @click="updateImage2, activeItem = 7">
+                                                            </div>
+                                                            <div class="border-[1px] border-gris-70 rounded-full hover:border-transparent transition-all duration-300 ease-in-out" :class="{ ' !border-transparent': activeItem === 1 }">
+                                                                <img class="rounded-full border-[3px] border-transparent hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz transition-all duration-300 ease-in-out"
+                                                                    src="{{asset('storage/image/lodomens/layouts/FotoPerfil_08.png')}}"
+                                                                    :class="{ ' !border-corp-50': activeItem === 8 }" alt=""
+                                                                    @click="updateImage2, activeItem = 8">
+                                                            </div>
+                                                            <div class="border-[1px] border-gris-70 rounded-full hover:border-transparent transition-all duration-300 ease-in-out" :class="{ ' !border-transparent': activeItem === 1 }">
+                                                                <img class="rounded-full border-[3px] border-transparent hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz transition-all duration-300 ease-in-out"
+                                                                    src="{{asset('storage/image/lodomens/layouts/FotoPerfil_09.png')}}"
+                                                                    :class="{ ' !border-corp-50': activeItem === 9 }" alt=""
+                                                                    @click="updateImage2, activeItem = 9">
+                                                            </div>
+                                                            <div class="border-[1px] border-gris-70 rounded-full hover:border-transparent transition-all duration-300 ease-in-out" :class="{ ' !border-transparent': activeItem === 1 }">
+                                                                <img class="rounded-full border-[3px] border-transparent hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz transition-all duration-300 ease-in-out"
+                                                                    src="{{asset('storage/image/lodomens/layouts/FotoPerfil_10.png')}}"
+                                                                    :class="{ ' !border-corp-50': activeItem === 10 }" alt=""
+                                                                    @click="updateImage2, activeItem = 10">
+                                                            </div>
 
-                                                            <img class="rounded-full border-[4px] border-gris-90 hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz"
-                                                            src="{{asset('storage/image/lodomens/layouts/FotoPerfil_06.png')}}"
-                                                            :class="{ ' !border-corp-50': activeItem === 6 }" alt=""
-                                                            @click="updateImage2, activeItem = 6">
-                                                            <img class="rounded-full border-[4px] border-gris-90 hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz"
-                                                            src="{{asset('storage/image/lodomens/layouts/FotoPerfil_07.png')}}"
-                                                            :class="{ ' !border-corp-50': activeItem === 7 }" alt=""
-                                                            @click="updateImage2, activeItem = 7">
-                                                            <img class="rounded-full border-[4px] border-gris-90 hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz"
-                                                            src="{{asset('storage/image/lodomens/layouts/FotoPerfil_08.png')}}"
-                                                            :class="{ ' !border-corp-50': activeItem === 8 }" alt=""
-                                                            @click="updateImage2, activeItem = 8">
-                                                            <img class="rounded-full border-[4px] border-gris-90 hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz"
-                                                            src="{{asset('storage/image/lodomens/layouts/FotoPerfil_09.png')}}"
-                                                            :class="{ ' !border-corp-50': activeItem === 9 }" alt=""
-                                                            @click="updateImage2, activeItem = 9">
-                                                            <img class="rounded-full border-[4px] border-gris-90 hover:border-corp-50 w-[100px] h-[100px] cursor-pointer xyz"
-                                                            src="{{asset('storage/image/lodomens/layouts/FotoPerfil_10.png')}}"
-                                                            :class="{ ' !border-corp-50': activeItem === 10 }" alt=""
-                                                            @click="updateImage2, activeItem = 10">
+
                                                     </div>
                                                     <div class="mx-4 mt-[19px] flex">
-                                                        <x-button.main type="button" class="w-[140px]"  @click="definiteImage">Aceptar</x-button.main>
+                                                        <x-button.webprimary type="button" class="w-[140px] mx-auto"  @click="definiteImage">Aceptar</x-button.webprimary>
                                                     </div>
                                                 </div>
                                             </div>
@@ -229,7 +250,7 @@
 
                                                 </div>
                                                 <div class="mt-4 ">
-                                                    <x-button.main type="button" class="w-[140px]"  @click="cropAndCloseModal">Aceptar</x-button.main>
+                                                    <x-button.webprimary  type="button" class="w-[140px] mx-auto"  @click="cropAndCloseModal">Aceptar</x-button.webprimary>
                                                    {{--   <a id="button" @click="cropAndCloseModal"
                                                         class="mx-auto mt-3 cursor-pointer items-center  bg-turkey text-white br-20 font-bold flex bg-turkey1-hv justify-center"
                                                         style="padding: 3px; width:140px; height:32px">Guardar</a>  --}}
@@ -273,7 +294,7 @@
 
 
                     </div>
-                    <div class=" pt-0 pb-0">
+                    <div class=" pt-0 pb-0" x-data="{check: false}">
 
                         <p class="flex">Correo Electrónico</p>
 
@@ -351,13 +372,13 @@
                             </div> --}}
                             {{--
                         </div> --}}
-                        <div class="
+                        <div class="mt-6
                         @isset ($errors->messages()['terms'])
                                         mb-0
                                         @endisset
-                        ">
-                            <input type="checkbox" id="check" name="terms">
-                            <label  for="check"></label><label class="form-check-label"
+                        " >
+                        <x-checkbox.webcheckbox @change="check= !check" ::value="check" id="check" />
+                            <label class="form-check-label"  for="check"
                                 style="padding-left: 1.95em;">Al registrarte estás
                                 aceptando los<a href="#"><b class="turkey turkey1-hv"> Términos y
                                         Condiciones</b></a></label>
@@ -368,8 +389,9 @@
                             $errors->messages()['password'][$key] }} --}}</p>
                         @endforeach
                         @endisset
-                        <div class="text-center mt-8">
-                            <x-button.main class="w-[141px]">Enviar</x-button.main>
+                        <div class="text-center mt-8 " :class="check ? '' : 'opacity-40 '">
+                            <x-button.webprimary ::class="check ? 'cursor-pointer' :'cursor-not-allowed'"
+                            ::disabled="!check" type="submit" class="w-[141px]">Enviar</x-button.webprimary>
                         </div>
 
                     </div>

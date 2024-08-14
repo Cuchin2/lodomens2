@@ -2,8 +2,8 @@
 
 @section('breadcrumb')
 
-<x-breadcrumb.lodomens.breadcrumb title="Perfil">
-    <x-breadcrumb.lodomens.breadcrumb2 name='Perfil' />
+<x-breadcrumb.lodomens.breadcrumb title="Mi Cuenta">
+    <x-breadcrumb.lodomens.breadcrumb2 name='Direcciones' />
 </x-breadcrumb.lodomens.breadcrumb>
 
 @endsection

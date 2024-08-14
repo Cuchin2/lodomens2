@@ -5,9 +5,9 @@
             class="dark:hover:text-corp-50 absolute cursor-pointer z-50">
             <x-icons.search class="h-[20px] w-[20px] fill-gris-10"  />
         </a>
-        <div :class="{'md:w-[265px] w-[200px] @auth w-[190px] @endauth' : !show, 'w-0': show}" class="absolute @guest right-[80px] md:right-[187px]
-            @else right-[93px] md:right-[200px]
-        @endguest  top-[7px] md:top-[1px] duration-500 ease-out ">
+        <div :class="{'md:w-[265px] w-[200px] @auth w-[190px] @endauth' : !show, 'w-0': show}" class="absolute @guest right-[70px] md:right-[150px] top-[-6px]
+            @else right-[82px] md:right-[160px] top-[1px]
+        @endguest   duration-500 ease-out ">
 
             <input @blur="show = true" x-transition:leave-end="opacity-0 scale-90"  x-ref="inputsearh" type="text" :class="{'p-2  pr-[30px]' : !show, 'p-0 border-none': show}"
                 class="text-gris-10 bg-black h-[30px]  text-[12px]  rounded-[3px] focus:ring-gris-50 focus:border-gris-50 block w-full"

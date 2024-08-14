@@ -1,4 +1,4 @@
-<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0" style="background: url({{ asset('storage/image/lodomens/layouts/Fondo_Lodomens.jpeg') }});  background-repeat: no-repeat; background-size: cover;">
+<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0" style="background: url({{ asset('storage/image/lodomens/layouts/Fondo_Lodomens.png') }});  background-repeat: no-repeat; background-size: cover;">
     <div>
         {{ $logo }}
     </div>

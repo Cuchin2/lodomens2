@@ -1,6 +1,6 @@
 <div>
     {{-- Because she competes with no one, no one can compete with her. --}}
-    <div x-data="{ open: window.innerWidth > 1024, open2: false, sort:3 } " x-init="window.addEventListener('resize', () => {
+    <div x-data="{ open: window.innerWidth > 1024, open2: false, sort:3, show: false} " x-init="window.addEventListener('resize', () => {
         console.log(window.innerWidth,open);
         if(window.innerWidth < 671) { sort = 3;}
         if(window.innerWidth > 1024){
@@ -24,7 +24,7 @@
                             placeholder="Buscar" required="" x-cloak>
                     </div>
                 </div>
-                <div class="hidden md:block w-1/3 mx-4" >
+                <div class="{{--  hidden md:block  --}} md:w-1/3  w-1/2 md:mx-4 mx-2 hidden md:block" >
                     <x-select-livewire wire:model="selectedOption"
                     :options="['' => 'Ordenar por',
                                     'asc' => 'Precio de menor a mayor',
@@ -32,8 +32,8 @@
                                     'new' => 'Productos nuevos'
                                         ]" />
                 </div>
-                <div class="flex my-auto">
-                    <div class="w-[34px] h-[34px] bg-gris-90 rounded p-1 cursor-pointer flex items-center ml-2 md:hidden"
+                <div class="flex my-auto ml-2 md:ml-0">
+                    <div class="w-[34px] h-[34px] bg-gris-90 rounded p-1 cursor-pointer flex items-center md:hidden"
                         @click="open2 = !open2" >
                         <x-icons.chevron-down height="20px" width="20px" grosor="2" class="p-1 mx-auto" />
                     </div>
@@ -222,7 +222,7 @@
 
                         <div class="absolute right-0 top-0 py-[7px] px-[20px] w-[60px]"
                             x-show="(icon && sort !== 1 )|| sort === 1">
-                            <button type="button" @guest wire:click="showWishlistModal()" @else
+                            <button type="button" @guest @click="show=true;" @else
                                 onclick="showCartModall('{{ $product->id }}', '{{ $sku->color_id ?? '' }}', '{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}', '{{ $colorSelect ?? '' }}', 'WISHLIST')"
                                 @endguest class="h-fit w-fit">
                                 <x-icons.heart class="h-[20px] w-[20px] hover:fill-corp-50  cursor-pointer " />
@@ -272,29 +272,92 @@
 
         {{-- menu 2 --}}
 
-        <div class="absolute top-[47px] z-10 right-5">
+        <div class="absolute top-[86px] z-10 sm:right-[111px] right-[13px]">
             <ul class=" bg-gris-90 md:hidden rounded" x-show="open2" x-collapse x-cloak @click.away="open2 = false">
-                <li class="mr-6 p-2 ">
+{{--                  <li class="mr-6 p-2 ">
                     <a class="text-gris-10 hover:text-red-600 text-[12px] ">FILTROS</a>
                 </li>
-                <li class="border-[1px] border-gris-70"></li>
-                <li class="mr-6 p-2">
-                    <ul class="text-gris-10 hover:text-red-600 text-[12px]">Categorías</ul>
+                <li class="border-[1px] border-gris-70"></li>  --}}
+                <li class="mr-6 p-2 cursor-pointer">
+                    <ul class="text-gris-10 hover:text-red-600 text-[12px]" wire:click="$set('selectedPrice','asc')">Precio de menor a mayor</ul>
                 </li>
-                <li class="mr-6 p-2">
-                    <a class="text-gris-10 hover:text-red-600 text-[12px]">TIENDA</a>
+                <li class="mr-6 p-2 cursor-pointer">
+                    <a class="text-gris-10 hover:text-red-600 text-[12px]" wire:click="$set('selectedPrice','desc')">Precio de mayor a menor</a>
                 </li>
-                <li class="mr-6 p-2">
-                    <a class="text-gris-10 hover:text-red-600 text-[12px]">CONTACTO</a>
+                <li class="mr-6 p-2 cursor-pointer">
+                    <a class="text-gris-10 hover:text-red-600 text-[12px]" wire:click="abc('new')">Productos nuevos</a>
                 </li>
             </ul>
         </div>
 
         {{-- FIN menu 2 --}}
+{{--   modal registro  --}}
+<div
+    x-on:close.stop="show = false"
+    x-on:keydown.escape.window="show =false"
+    x-show="show"
+    class="jetstream-modal fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50"
+    style="display: none;"
+>
+    <div x-show="show" class="fixed inset-0 transform transition-all" x-on:click="show = false" x-transition:enter="ease-out duration-300"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="ease-in duration-200"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0">
+        <div class="absolute inset-0 bg-gray-500 dark:bg-black/40"></div>
+    </div>
+    <div class="flex items-center h-full">
+    <div x-show="show" class=" bg-white dark:bg-gris-90 rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:max-w-[265px] sm:mx-auto"
+                    x-trap.inert.noscroll="show"
+                    x-transition:enter="ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave="ease-in duration-200"
+                    x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                    <div class="px-3 py-4">
+                        <div class="text-lg font-medium  dark:text-gris-10 mx-4">
+                            Iniciar Sesión
+                        </div>
 
+                        <div class="mt-4 text-[15px]  dark:text-gris-10">
+                            <form class="p-4" action="{{ route('login') }}" method="POST">
+                                @csrf
+                                <div class="mb-3 text-gris-50 relative" >
+                                    <input autocomplete="off" id="emaill" name="email" type="text" class="peer rounded-[3px] placeholder-transparent bg-gris-90 text-gris-10 h-10 w-full border-gris-50 focus:ring-gris-50 focus:border-gris-50 focus:outline-none " placeholder="" />
+                                    <label for="emaill" class="absolute left-[12px] top-[-8px] text-gris-30 peer-placeholder-shown:text-[14px] text-[10px] bg-gris-90  rounded-[3px] peer-placeholder-shown:text-gris-50 peer-placeholder-shown:top-[9px] px-[3px] transition-all peer-focus:top-[-8px] peer-focus:text-gris-10 peer-focus:text-[10px] " >Correo electrónico</label>
+
+
+                                </div>
+                                <div class="mb-2 text-center text-gris-50 relative" >
+                                    <input autocomplete="off" id="passwordd" name="password" type="password" class="peer rounded-[3px] placeholder-transparent bg-gris-90 text-gris-10 h-10 w-full border-gris-50 focus:ring-gris-50 focus:border-gris-50 focus:outline-none" placeholder="" />
+                                    <label for="passwordd" class="absolute left-[12px] top-[-8px] text-gris-30 peer-placeholder-shown:text-[14px] text-[10px] bg-gris-90  rounded-[3px] peer-placeholder-shown:text-gris-50 peer-placeholder-shown:top-[9px] px-[3px] transition-all peer-focus:top-[-8px] peer-focus:text-gris-10 peer-focus:text-[10px]">Contraseña</label>
+                                    <a class="text-[14px] text-corp-50" href="{{ route('web.recover_password') }}">¿Olvidaste la contraseña?</a>
+
+                                </div>
+                                <div class="mb-2 text-[14px]">
+
+                                    <button type="submit"
+                                        class="w-full rounded-[3px]  text-white bg-corp-50 h-[33px] hover:bg-corp-70 ">Iniciar
+                                        sesión</button>
+                                    <div class="flex mt-1">
+                                        <eco style="margin-right:5px">¿No tienes cuenta?</eco>
+                                        <a class="text-corp-50" href="{{ route('web.login_register') }}">Registrate</a>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+{{--                      <div class="flex flex-row justify-end px-6 py-4 dark:bg-gris-90 text-end">
+                      {{ $footer }}
+                    </div>  --}}
+    </div>
+    </div>
+</div>
 
     </div>
-
-
 
 </div>

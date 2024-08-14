@@ -99,6 +99,10 @@
     </div>
 
     </div>
+    @yield('scripts')
+    @stack('scripts')
+
+    @stack('modals')
     @livewireScripts
     </div>
 
@@ -122,10 +126,7 @@
                   event.stopPropagation();
                 }
             </script>
-    @yield('scripts')
-    @stack('scripts')
 
-    @stack('modals')
 
 
 </body>

@@ -2,7 +2,7 @@
 
 @section('breadcrumb')
 
-<x-breadcrumb.lodomens.breadcrumb title="Wishlist">
+<x-breadcrumb.lodomens.breadcrumb title="Mi Cuenta">
     <x-breadcrumb.lodomens.breadcrumb2 name='Wishlist' />
 </x-breadcrumb.lodomens.breadcrumb>
 

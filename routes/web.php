@@ -122,16 +122,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
     Route::post('/paid/capture-paypal-order',[PaidController::class ,'capturePaypalOrder'])->name('paid.capturePaypalOrder');
     Route::get('/paid/mercadopago',[PaidController::class ,'mercadopago'])->name('paid.mercadopago');
     Route::get('/gracias',[GraciasController::class, 'gracias'])->name('web.shop.gracias');
-    Route::get('/get/prueba/', function(){
-        $get= Address::where('user_id',auth()->user()->id)->get() ?? '';
-        $get2= Address::where(['user_id'=>auth()->user()->id,'current'=>1])->first()->name ?? '';
-        $datosCombinados = [
-            'get' => $get,
-            'get2' => $get2,
-        ];
 
-        return response()->json($datosCombinados);
-    });
     // API de Pais/Departamento/Ciudad/Distrito
     Route::get('/api/countries', [LocationController::class, 'getCountries']);
     Route::get('/api/states/{countryCode}', [LocationController::class, 'getStates']);
@@ -150,4 +141,17 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
 
         return view('emails.graciasMail',compact('mailData'));
     })->name('luchin');
+
+});
+
+Route::get('bienvenido', function(){
+    return view('layouts.register_successfully');
+/*         $get= Address::where('user_id',auth()->user()->id)->get() ?? '';
+    $get2= Address::where(['user_id'=>auth()->user()->id,'current'=>1])->first()->name ?? '';
+    $datosCombinados = [
+        'get' => $get,
+        'get2' => $get2,
+    ];
+
+    return response()->json($datosCombinados); */
 });

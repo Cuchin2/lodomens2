@@ -3,6 +3,7 @@ use App\Models\SaleDetail;
 use App\Models\SaleOrder;
 use Illuminate\Support\Facades\Http;
 use App\Mail\Gracias;
+use App\Models\Shipping;
 use Illuminate\Support\Facades\Mail;
 
      function checkoutPay(){
@@ -49,6 +50,8 @@ use Illuminate\Support\Facades\Mail;
                 'productImage'=>$item->options->productImage,
             ]);
         }
+        $pago_envio = Shipping::find($order->shipping_id);
+        $order->total = $order->total + $pago_envio->price;
         $order->status = 'PAID';
         $order->save();
         // Enviarn eo correo de Gracias y el detalle de la compra

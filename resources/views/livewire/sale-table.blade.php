@@ -140,6 +140,7 @@
                                     Cliente
                                     </th>
                                 <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('total')">Total</th>
+                                <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" >Envio</th>
                                 <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('updated_at')">Fecha de actualización</th>
                                 <th scope="col" class="w-[123px] py-[13px] font-normal cursor-pointer" wire:click="setSortBy('state')">Estados</th>
                                 <th scope="col" class="px-4 py-[13px] font-normal text-center">
@@ -159,8 +160,10 @@
                                 </td>
                                 <td class="px-4 py-[13px] ">
                                     {{$sale->name.' '.$sale->last_name}}</td>
+                                <td class="px-4 py-[13px] ">
+                                    {{$sale->shipping->currency().$sale->total}}</td>
                                     <td class="px-4 py-[13px] ">
-                                        {{$sale->total}}</td>
+                                        {{$sale->shipping->spanish()}}</td>
                                 <td class="px-4 py-[13px] ">
                                     {{ now()->parse($sale->updated_at)->format('d/m/Y h:ia') }}  </td>
 

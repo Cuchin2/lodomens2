@@ -17,11 +17,11 @@
         </div>
     </button>
 
-    <div x-show="open" x-cloak class="absolute z-50 w-full bg-white border rounded-[3px] border-gris-70 dark:bg-gris-100">
+    <div x-show="open" x-cloak class="absolute z-50 w-auto bg-white border rounded-[3px] border-gris-70 dark:bg-gris-100">
         <ul class="py-1">
             @foreach($options as $value => $description)
                 @if($value !== '')
-                    <li @click="handleSelect('{{ $value }}')" class="cursor-pointer px-4 py-1 hover:bg-gris-80 text-[13px] hover:text-gris-5">{{ $description }}</li>
+                    <li @click="handleSelect('{{ $value }}')" class="cursor-pointer md:px-4 px-2 py-1 hover:bg-gris-80 text-[13px] hover:text-gris-5">{{ $description }}</li>
                 @endif
             @endforeach
         </ul>

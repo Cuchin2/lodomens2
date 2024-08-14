@@ -16,7 +16,7 @@
 
 
 @section('content')
-
+<div class="mt-[75px] md:m-0">
     {{-- error de pago --}}
     @if(session('niubiz'))
     @php
@@ -155,6 +155,8 @@
         </style>
 
     </div>
+</div>
+<x-preloader.heart />
 </div>
 @endsection
 

@@ -17,6 +17,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@alpinejs/sort": "^3.14.1"
+        "@alpinejs/sort": "^3.14.1",
+        "leaflet": "^1.9.4"
     }
 }

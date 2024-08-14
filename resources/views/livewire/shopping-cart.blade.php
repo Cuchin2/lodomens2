@@ -1,4 +1,4 @@
-<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 px-5 pb-1 flex items-center 2xl:min-h-[374px] lg:min-h-[278px]">
+<div class="md:mx-5 lg:mx-auto lg:w-[987px] sm:mt-10 md:mt-0 bg-black/75 px-5 pb-1 flex items-center 2xl:min-h-[374px] lg:min-h-[278px]">
     @if($cartitems->count() > 0)
 
     <div class="grid lg:grid-cols-3 w-full gap-5 my-4">
@@ -56,7 +56,7 @@
 
         </div>
 
-        <div class="col-span-2 md:col-span-1 space-y-4">
+        <div class="col-span-2 lg:col-span-1 space-y-4">
 {{--              <div class="bg-gris-100 px-6 py-3">
                 <h5>Añadir Cupón</h5>
                 <div class="flex space-x-2 my-2">
@@ -93,21 +93,24 @@
         </div>
     </div>
     @else
-    <div class="bg-gris-100  mx-auto w-[80%] p-4">
-        <div class="w-2/3 mx-auto">
-            <div class="mx-auto grid grid-cols-4 p-2">
-                <div class="col-span-1 flex items-center">
-                    <x-icons.cart class="w-20 mx-auto" />
-                </div>
-                <div class="col-span-3 text-center space-y-3">
+    <div class="bg-gris-100 mx-auto w-[80%] p-4 my-6">
+        <div class="md:w-2/3 sm:w-5/6 mx-auto  mb-4 mt-6">
+            <div class="mx-auto p-2">
+                <h4 class="mx-auto w-fit">Tu Carro está vacío</h4>
+                <div class="mx-auto grid grid-cols-4 p-2">
+                    <div class="col-span-1 flex items-center">
+                        <x-icons.cart class="md:w-18 sm:w-16 w-10 mx-auto" />
+                    </div>
+                    <div class="col-span-3 text-center flex">
 
-                    <h4>Tu Carro está vacío</h4>
-                    <p class="12px w-[80%] mx-auto">Inicia sesión para ver los productos que habías guardado en tu
-                        carro.</p>
+
+                        <p class="12px w-[80%] m-auto">Actualmente no cuentas con productos en tu carrito. Ve a Tienda para agregar tus productos.</p>
+                    </div>
+
                 </div>
 
             </div>
-            <div class="my-6 mx-11 flex flex-col items-center space-y-1">
+            <div class="my-6 mx-2 flex flex-col items-center space-y-1">
                 <a href="{{route('web.shop.index')}}" class="w-full">
                     <x-button.webprimary class="w-full"> Añadir a Carrito</x-button.webprimary>
                 </a>

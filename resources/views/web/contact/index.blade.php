@@ -150,18 +150,31 @@
 @endsection
 
 @push('scripts')
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script>
-    let map = L.map('mi_mapa').setView([-12.072223538634375, -77.04822961384393],20);
-    var myIcon = L.icon({
-        iconUrl: '{{ asset('storage/image/marker-icon-2x2.png') }}',
-        iconSize: [25, 41],
-        popupAnchor: [0, -20],
-    });
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> Lodomens'
-    }).addTo(map);
 
-    L.marker([-12.072223538634375, -77.04822961384393], {icon: myIcon}).addTo(map).bindPopup("<b>Tienda Lodomens</b> <br>Av. Arnaldo Marquez 1165 <br> Jesús María, Lima")
+{{--  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" data-navigate-track></script>  --}}
+
+<script>
+    function initializeMap() {
+        let map = L.map('mi_mapa').setView([-12.072223538634375, -77.04822961384393], 20);
+        var myIcon = L.icon({
+            iconUrl: '{{ asset('storage/image/marker-icon-2x2.png') }}',
+            iconSize: [25, 41],
+            popupAnchor: [0, -20],
+        });
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> Lodomens'
+        }).addTo(map);
+
+        L.marker([-12.072223538634375, -77.04822961384393], {icon: myIcon}).addTo(map).bindPopup("<b>Tienda Lodomens</b> <br>Av. Arnaldo Marquez 1165 <br> Jesús María, Lima");
+    }
+
+    // Ejecuta la función al cargar la página
+    initializeMap();
+
+    // Escucha el evento livewire:navigate y vuelve a ejecutar la función
+    document.addEventListener('livewire:navigate', function() {
+        initializeMap();
+    });
 </script>
 @endpush
+

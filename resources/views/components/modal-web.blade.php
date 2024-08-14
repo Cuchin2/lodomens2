@@ -32,7 +32,7 @@ $maxWidth = [
                     x-transition:leave-end="opacity-0">
         <div class="absolute inset-0 bg-gray-500 dark:bg-black/70 "></div>
     </div>
-    <div class="flex items-center h-full">
+    <div class="flex items-center h-full justify-center">
     <div x-show="show" class=" bg-white dark:bg-gris-90 border-[0.5px] dark:border-gris-80 rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full {{ $maxWidth }} sm:mx-auto"
                     x-trap.inert.noscroll="show"
                     x-transition:enter="ease-out duration-300"

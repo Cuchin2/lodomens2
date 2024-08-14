@@ -26,7 +26,9 @@ class SaleOrder extends Model
         'city',
         'state',
         'district',
-        'zip_code'
+        'zip_code',
+        'currency',
+        'delivery',
     ];
     public function deliveryOrders(): HasOne {
 

@@ -52,9 +52,9 @@ class CheckoutController extends Controller
         } else {
             $address = Address::where(['user_id'=>$user->id,'current'=>1])->first();
         }
-        $on = 0;
-        if($form2)
-        {   $on = 1; $address2 = collect(['name'=>'', 'description'=>$form2->address, 'reference'=> $form2->reference]);
+        $on = $form1->delivery;
+        if($on)
+        {    $address2 = collect(['name'=>'', 'description'=>$form2->address, 'reference'=> $form2->reference]);
             $response2 = Http::get("http:/api.geonames.org/searchJSON?country=$form2->country&lang=es&username=$username");
             $countryId2=$response2->json()['geonames'][0]['countryId'];
             $getState2 = Http::get("http:/api.geonames.org/childrenJSON?geonameId=$countryId2&lang=es&username=$username")->json()['geonames'];
@@ -106,6 +106,9 @@ class CheckoutController extends Controller
                 'district' => $request->district,
                 'zip_code' => $request->zip_code,
                 'total' => $request->total,
+                'currency'=> session('location') == 'PE' ? 'PEN' : 'USD',
+                'delivery'=>$request->otra == 'true' ? 1 : 0,
+
                 //'shipping_id'=> 0
             ]
         );
@@ -126,7 +129,20 @@ class CheckoutController extends Controller
            );
              }
         } else{
-            DeliveryOrder::where('order_id', $saleOrder->id)->delete();
+            DeliveryOrder::updateOrCreate(
+                ['order_id' => $saleOrder->id],
+                [
+                    'name' => $request->name,
+                    'last_name' => $request->last_name,
+                    'country' => $request->country,
+                    'address' => $request->address,
+                    'reference' => $request->reference,
+                    'city' => $request->city,
+                    'state' => $request->state,
+                    'district' => $request->district,
+                ]
+            );
+            /* DeliveryOrder::where('order_id', $saleOrder->id)->delete(); */
         }
         /* session()->forget('can_checkout'); */
         /* return redirect()->back(); */
@@ -156,7 +172,7 @@ class CheckoutController extends Controller
         $shippingByState = $shipping->groupBy('state');
 
         // Encontrar la orden de venta y cargar la relación de envío
-        $sale_order = SaleOrder::with('shipping')->find($request->id);
+        $sale_order = SaleOrder::with('shipping')->with('deliveryOrders')->find($request->id);
 
         // Mapeo de estados
         $stateMapping = [
@@ -169,7 +185,7 @@ class CheckoutController extends Controller
         $open = isset($sale_order->shipping->state) ? $stateMapping[$sale_order->shipping->state] : 1;
         $dolar=Setting::find(2)->action ?? 1;
         // Manejo del envío basado en la ubicación de la sesión
-        if ($sale_order->country === 'PE' /* session('location') === 'PE' */) {
+        if ($sale_order->deliveryOrders->country === 'PE' /* session('location') === 'PE' */) {
             $collectionState1 = $shippingByState->get('district', collect())->sortBy('order');
             $collectionState2 = $shippingByState->get('nacional', collect())->sortBy('order');
             $currency = 'PEN';

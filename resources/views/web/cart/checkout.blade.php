@@ -53,11 +53,11 @@
                             @error('dni') <p1 class="text-corp-10 ml-2"> {{ $message }}</p1> @enderror
                         </div>
                     </div>
-                    <div x-data="{address: {{ json_encode($address)}}, open:''}" x-init="if(address.name == '') { open= false;} else { open=true;}"
-                        @cambiazo.window="address.description=$event.detail.description;
+                    <div x-data="{ address: { name: '', reference: '{{ old('reference', $form1->reference ?? '') }}', description: '{{ old('address', $form1->address ?? '') }}' }, open:''}" x-init="address= ´{{ json_encode($address)}}´; if(address.name == '') { open= false;} else { open=true;}"
+                        >
+                        <div class="mb-4" @cambiazo.window="address.description=$event.detail.description;
                         address.reference=$event.detail.reference; address.name=$event.detail.name; open=true;
                         ">
-                        <div class="mb-4">
                             <div class="flex space-x-2">
                             <x-labelweb class="mr-2" x-bind:class="open ? '!mr-0' : ''">Dirección <x-required /> <p x-text="'('+address.name+')'" x-show="open" class="text-white text-[10px] mt-[5px] ml-5"></p></x-labelweb>
                             <x-icons.chevron-down @click="$dispatch('modal',{ select: 'SELECT', cual:1 })" height="10px" width="10px" grosor="1" class="mt-[7px] hover:text-white cursor-pointer"/></div>
@@ -69,7 +69,7 @@
                         </div>
                         <div class="mb-4">
                             <x-labelweb>Referencia (opcional)</x-labelweb>
-                            <x-input-web x-model="address.reference" name="reference" placeholder="Ingrese su referencia" @input="open=false"></x-input-web>
+                            <x-input-web  x-model="address.reference" name="reference" placeholder="Ingrese su referencia" @input="open=false"></x-input-web>
                         </div>
                     </div>
                         {{-- Pruebas --}}
@@ -85,7 +85,7 @@
                                 </x-select-web>
                                     @error('country') <p1 class="text-corp-10 ml-2"> {{ $message }}</p1> @enderror
                                 <x-labelweb class="mt-4">Ciudad <x-required /> </x-labelweb>
-                                <x-select-web x-model="selectedCity" @change="fetchDistrits" name="city" ::disabled="cities == null ? true : false" ::class="cities == null ? 'bg-gris-70' : ''">
+                                <x-select-web x-model="selectedCity" @change="fetchDistrits" name="city" {{--  x-show="cities.length > 0"  --}}>
                                     <option value="" disabled selected>Selecciona la ciudad</option>
                                     <template x-for="city in cities" :key="city.geonameId">
                                         <option :value="city.geonameId" x-text="city.name" x-bind:selected="city.geonameId === {{ old('city',$form1->city ?? '') }} ? true : false"></option>
@@ -95,8 +95,8 @@
                             </div>
                             <div>
                                 <x-labelweb >Estado/Provincia <x-required /> </x-labelweb>
-                                <x-select-web ::disabled="states == null ? true : false" ::class="states == null ? 'bg-gris-70' : ''" x-model="selectedState" @change="fetchCities" name="state" {{--  x-show="states.length > 0"  --}}>
-                                    <option value=""  selected>Selecciona el Estado/Departamento</option>
+                                <x-select-web x-model="selectedState" @change="fetchCities" name="state" {{--  x-show="states.length > 0"  --}}>
+                                    <option value="" disabled selected>Selecciona el Estado/Departamento</option>
                                     <template x-for="state in states" :key="state.geonameId">
                                         <option :value="state.geonameId" x-text="state.name" x-bind:selected="state.geonameId === {{ old('state',$form1->state ?? '') }} ? true : false"></option>
                                     </template>
@@ -104,7 +104,7 @@
                                 @error('state') <p1 class="text-corp-10 ml-2"> {{ $message }}</p1> @enderror
 
                                 <x-labelweb class="mt-4">Distrito/Localidad <x-required /> </x-labelweb>
-                                <x-select-web x-model="selectedDistrit" name="district" ::disabled="distrits == null ? true : false" ::class="distrits == null ? 'bg-gris-70' : ''">
+                                <x-select-web x-model="selectedDistrit" name="district" {{--  x-show="distrits.length > 0"  --}}>
                                     <option value="" disabled selected>Selecciona el distrito</option>
                                     <template x-for="distrit in distrits" :key="distrit.geonameId">
                                         <option :value="distrit.geonameId" x-text="distrit.name" x-bind:selected="distrit.geonameId === {{ old('district',$form1->district ?? '') }} ? true : false"></option>
@@ -206,8 +206,8 @@
                                     @error('last_name2') <p1 class="text-corp-10 ml-2"> {{ $message }}</p1> @enderror
                                 </div>
                             </div>
-                            <div x-data="{address: {{ json_encode($address2) }}, open:'' }"
-                            x-init="if(address.name == '') { open= false;} else {open=true;}"
+                            <div x-data="{ address: { name: '', reference: '{{ old('reference', $form2->reference ?? '') }}', description: '{{ old('address', $form2->address ?? '') }}' }, open:''}"
+                            x-init="address= ´{{ json_encode($address2) }}´; if(address.name == '') { open= false;} else {open=true;}"
                                 @cambiazo2.window="address.description=$event.detail.description;
                                 address.reference=$event.detail.reference; address.name=$event.detail.name; open=true;
                                 ">

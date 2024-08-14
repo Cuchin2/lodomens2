@@ -57,7 +57,7 @@ class PaidController extends Controller
             return redirect()->route('web.shop.gracias');
         }
         else {
-            return redirect()->route('checkout.index');
+            return redirect()->route('web.shop.checkout.index');
         }
 
     }

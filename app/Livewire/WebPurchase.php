@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\SaleOrder;
+use App\Models\Setting;
 use Livewire\Component;
 use Livewire\WithPagination;
 class WebPurchase extends Component
@@ -16,6 +17,7 @@ class WebPurchase extends Component
             ->orderBy($this->filterBy,'DESC')
             ->with('saleDetails')
             ->paginate($this->perPage),
+            'dolar'=>Setting::where('name','dolares')->pluck('action')->first(),
         ]);
     }
     public function filter() { }

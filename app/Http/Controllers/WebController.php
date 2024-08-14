@@ -82,6 +82,7 @@ class WebController extends Controller
             $profile = new Profile;
             $profile->user_id = $user->id;
             $profile->save();
+            $user->sendEmailVerificationNotification();
             // Autentica al usuario
             Auth::login($user);
             return redirect()->route('root');

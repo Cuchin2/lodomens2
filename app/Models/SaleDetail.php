@@ -10,15 +10,17 @@ class SaleDetail extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'brand', 		
-        'slug',	
+        'brand',
+        'slug',
         'qtn',
         'sell_price',
         'productImage',
         'sku',
         'color',
         'color_id',
-        'order_id'
+        'order_id',
+        'hex',
+        'src',
     ];
 
     public function saleOrder()

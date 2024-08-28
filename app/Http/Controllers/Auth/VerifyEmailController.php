@@ -29,6 +29,6 @@ class VerifyEmailController extends Controller
             event(new Verified($user));
         }
 
-        return redirect('/')->with('status', 'Email verified');
+        return redirect('bienvenido')->with('status', 'Email verified');
     }
 }

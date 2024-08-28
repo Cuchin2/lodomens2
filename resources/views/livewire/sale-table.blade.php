@@ -1,4 +1,4 @@
-<div class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg h-fit">
+<div class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg h-fit" x-data="{ pen:false }">
 <div>
     <section >
         <div class="w-full">
@@ -161,9 +161,11 @@
                                 <td class="px-4 py-[13px] ">
                                     {{$sale->name.' '.$sale->last_name}}</td>
                                 <td class="px-4 py-[13px] ">
-                                    {{$sale->shipping->currency().$sale->total}}</td>
+                                    {{($sale->currency == 'PEN' ? 'S/.' :'$ ').$sale->total}}</td>
                                     <td class="px-4 py-[13px] ">
-                                        {{$sale->shipping->spanish()}}</td>
+                                        @if($sale->shipping && method_exists($sale->shipping, 'spanish'))
+                                        {{ $sale->shipping->spanish() }} @else Sin definir @endif
+                                    </td>
                                 <td class="px-4 py-[13px] ">
                                     {{ now()->parse($sale->updated_at)->format('d/m/Y h:ia') }}  </td>
 
@@ -204,15 +206,34 @@
     </x-slot>
 
     <x-slot name="content">
-        <p>Estas seguro de actualizar el proceso a <b>"{{ $state_name }}"</b> </p>
+        <p>Estas seguro de actualizar el proceso de <b>"{{ $state_name }}"</b> </p>
 
         <x-elements.progress-bar step="{{ $step }}" />
     </x-slot>
 
     <x-slot name="footer">
         <x-button.corp_secundary wire:click="$toggle('showModal')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
-        <x-button.corp1 wire:click="update_state()" wire:loading.attr="disabled">Aceptar</x-button.corp1>
+        <x-button.corp1 wire:click="update_state()" wire:loading.attr="disabled" @click="pen=true;">Aceptar</x-button.corp1>
 
     </x-slot>
 </x-dialog-modal>
+<x-dialog-modal wire:model="showModal2" maxWidth="sm">
+    <x-slot name="title">
+        <x-elements.success scale="0.75" />
+    </x-slot>
+
+    <x-slot name="content">
+        <div class="text-center">
+        <p>Se actualizó satisfactoriamente el estado a: </p>
+        <p><b>"{{ $state_name }}"</b></p>
+        </div>
+    </x-slot>
+
+    <x-slot name="footer">
+        <div class="w-fit mx-auto">
+        <x-button.corp1 wire:click="$toggle('showModal2')" wire:loading.attr="disabled">Aceptar</x-button.corp1>
+        </div>
+    </x-slot>
+</x-dialog-modal>
+    <x-preloader.spin />
 </div>

@@ -19,7 +19,7 @@ $routeCart = route('addcart');
     id:'', counts: 1,
     color:'', location:' {{ session('location') ?? '' }}',
     url:'', route:'',
-    skus: '',
+    skus: '', hex:'', src:'',
     colorSelected:[], routeTemplate: '{{ $routeTemplate }}',
     get (e) {
         this.choose = e.choose;
@@ -28,7 +28,7 @@ $routeCart = route('addcart');
         this.url = e.url;
         this.colorSelected = JSON.parse(e.colorSelected);
         this.route= this.routeTemplate.replace('PLACEHOLDER_ID', this.id).replace('PLACEHOLDER_COLOR', this.color);
-        this.getskus();
+        this.getskus(); this.hex=e.hex; this.src=e.src;
     },
         getskus(data) {
         axios.get(this.route,data).then(response => {
@@ -78,7 +78,9 @@ $routeCart = route('addcart');
                 skus: this.skus,
                 counts: this.counts,
                 image: this.url,
-                choose: this.choose
+                choose: this.choose,
+                hex: this.hex,
+                src: this.src
         };
         axios.post(this.routeCart,data).then(response => {
             window.location.href = response.data.redirect;
@@ -105,13 +107,14 @@ $routeCart = route('addcart');
                 <div class="md:flex space-x-2 md:space-x-7 md:justify-between">
                     <div class="flex justify-center space-x-5 md:w-full">
                         <lodo class="relative items-center  flex max-w-[200px] max-h-[200px] mx-auto md:!max-h-[136px] md:!w-1/2 h-full">
+                            <img class="absolute top-3 left-2 scale-75" :src="'{{ asset('storage')}}'+'/'+src" alt="">
                             <img :src="'{{ asset('storage') }}'+'/'+url" class="mx-auto w-full h-full"
                                 :alt="skus?.product?.name ?? ''">
-                            <div class="absolute top-0 left-0 w-[100%] h-full flex items-center justify-center"
-                                :class="skus.stock > 0 ? 'border-[2px]  border-corp-50 rounded-[3px]':'bg-black/80 border-[2px] border-corp-50 rounded-[3px]'">
+                            <div class="absolute top-0 left-0 w-[100%] h-full flex items-center justify-center" :style="'border-color: ' + hex"
+                                :class="skus.stock > 0 ? 'border-[2px]  rounded-[3px]':'bg-black/80 border-[2px]  rounded-[3px]'">
                                 <template x-if="skus.stock < 1">
                                     <span
-                                        class="text-gris-20 font-bold  bg-gris-90 p-2 border-[2px]  border-corp-50 rounded-[3px]">SIN
+                                        class="text-gris-20 font-bold  bg-gris-90 p-2 border-[2px]  rounded-[3px]" :style="'border-color: ' + hex">SIN
                                         STOCK</span>
                                 </template>
                             </div>
@@ -199,7 +202,7 @@ $routeCart = route('addcart');
 
 @push('scripts')
 <script>
-    function showCartModall(a,b,c,d,e){
+    function showCartModall(a,b,c,d,e,f,g){
         const event = new CustomEvent('go', {
             detail: {
                 id:  a,
@@ -207,6 +210,8 @@ $routeCart = route('addcart');
                 url: c,
                 colorSelected: d,
                 choose:e,
+                hex:f,
+                src:g,
                 time: new Date()
             }
         });

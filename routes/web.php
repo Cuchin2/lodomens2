@@ -25,6 +25,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\GraciasController;
+use App\Http\Controllers\WelcomeController;
 use App\Models\Address;
 use App\Models\SaleOrder;
 
@@ -53,7 +54,7 @@ Route::middleware([
     'home.permission', // Aplica el middleware aquí
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::put('/usd/{id}', [DashboardController::class, 'usd'])->name('dashboard.usd');
+    Route::put('/usd/{name}', [DashboardController::class, 'usd'])->name('dashboard.usd');
 });
 Route::get('tienda',[WebShopController::class,'index'])->name('web.shop.index');
 Route::get('tienda/{product}/{color}',[WebShopController::class,'show'])->name('web.shop.show');
@@ -130,7 +131,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
     Route::get('/api/distrits/{cityCode}', [LocationController::class, 'getDistrits']);
 
     Route::get('luchin',function(){
-        $order = SaleOrder::where(['user_id'=>auth()->user()->id,'status'=>'PAID'])->with('saleDetails')->first();
+        $order = SaleOrder::where(['user_id'=>auth()->user()->id,'status'=>'PAID'])->with('saleDetails')->orderBy('created_at','desc')->first();
         $mailData['email']=env('MAIL_FROM_ADDRESS');
         $mailData['name']=env('APP_NAME');
         $mailData['order']=$order;
@@ -139,13 +140,16 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
         $mailData['shipping']=$order->shipping;
         $mailData['deliveryOrders']=$order->deliveryOrders;
 
-        return view('emails.graciasMail',compact('mailData'));
+        return view('emails.incomingMail',compact('mailData'));
     })->name('luchin');
 
 });
 
-Route::get('bienvenido', function(){
-    return view('layouts.register_successfully');
+Route::get('bienvenido',[WelcomeController::class,'bienvenido']);
+Route::get('verificar',[WelcomeController::class,'verificar'])->name('verified');
+Route::get('pruebas',function(){
+    return view('pruebas');
+});
 /*         $get= Address::where('user_id',auth()->user()->id)->get() ?? '';
     $get2= Address::where(['user_id'=>auth()->user()->id,'current'=>1])->first()->name ?? '';
     $datosCombinados = [
@@ -154,4 +158,3 @@ Route::get('bienvenido', function(){
     ];
 
     return response()->json($datosCombinados); */
-});

@@ -16,9 +16,9 @@ class DashboardController extends Controller
         $settings=Setting::all();
         return view('dashboard',compact('settings'));
     }
-    public function usd(Request $request,$id)
+    public function usd(Request $request,$name)
     {
-        $setting=Setting::find($id);
+        $setting=Setting::where('name',$name)->first();
         $setting->action=$request->usd;
         $setting->save();
         $multiplier = $request->usd;

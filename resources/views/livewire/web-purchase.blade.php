@@ -72,7 +72,7 @@ $order_last= '';
             <div class="px-4 py-2 flex items-center">
                 <a class="flex w-max items-center"
                     href="{{ route('web.shop.show',['product'=>$detail->slug,'color'=>$detail->color_id]) }}">
-                    <x-outstock text="text-[10px]" class="!w-[70px] !h-[70px] md:!w-[80px] md:!h-[80px]"
+                    <x-outstock text="text-[10px]" class="!w-[70px] !h-[70px] md:!w-[80px] md:!h-[80px]" color="{{ $detail->hex }}" img="{{ $detail->src }}" param="scale-50 top-0"
                         url="{{ $detail->productImage }}" name="luchin" stock="12" />
                 </a>
                 <div class="flex justify-between {{--  items-center  --}} w-full ml-2 sm:ml-4" >

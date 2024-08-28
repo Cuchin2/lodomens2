@@ -25,6 +25,7 @@ class SaleTable extends Component
 
     #[Url(history:true)]
     public $sortDir = 'DESC'; public $showModal = false; public $state; public $step = 1; public $state_name = ''; public $id;
+    public $showModal2 = false;
     public function updateSearch(){
         $this->resetPage();
     }
@@ -45,23 +46,39 @@ class SaleTable extends Component
         $this->state= $state;
     }
     public function update_state(){
-        $sale = SaleOrder::find($this->id);
+        $sale = SaleOrder::with('saleDetails')->find($this->id);
         $sale->status = $this->state;
         $sale->save();
         $email= $sale->email;
+        if($sale->status == 'PROCESS') {
+            $subject = 'Estamos procesando tu pedido N°00'.$sale->id;}
+        if($sale->status == 'TRACKING') {
+            $subject = '¡Qué emoción: Tu pedido N°00'.$sale->id.' llegará pronto';}
+        if($sale->status == 'DONE') {
+            $subject = 'Ya entregamos tu pedido N°00'.$sale->id.' ¿Qué te pareció?';}
+
          // Enviar correo al cliente
+
+         if($sale->status !== 'CANCEL' && $sale->status !== 'PAID')
+         {
          $data= [
-            'email'=>'contacto@lodomens.com',
+            'email'=>env('MAIL_FROM_ADDRESS'),
             'status'=>$sale->status,
-            'order'=>$this->id,
-            'name_client'=>$sale->name,
-            'name'=>'Lodomens',
+            'order'=>$sale,
+            'name'=>env('APP_NAME'),
+            'cartItems'=>$sale->saleDetails,
+            'shipping'=>$sale->shipping,
             'last_name'=>$sale->last_name,
-            'subject'=>'Cambio de estado de compra'
+            'deliveryOrders'=>$sale->deliveryOrders,
+            'subject'=>$subject ?? '',
          ];
         Mail::to($email)->send(new OrderStatusChanged($data));
+        }
         $this->showModal = false;
         $this->dispatch('state',state:$sale->convert(),id:$this->id);
+        $this->dispatch('spinoff');
+        $this->state_name = $sale->convert();
+        $this->showModal2 = true;
     }
     public function render()
     {

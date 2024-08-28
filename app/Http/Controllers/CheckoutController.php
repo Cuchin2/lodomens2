@@ -52,8 +52,8 @@ class CheckoutController extends Controller
         } else {
             $address = Address::where(['user_id'=>$user->id,'current'=>1])->first();
         }
-        $on = $form1->delivery;
-        if($on)
+        $on = $form1->delivery ?? 0;
+        if($on !== 0)
         {    $address2 = collect(['name'=>'', 'description'=>$form2->address, 'reference'=> $form2->reference]);
             $response2 = Http::get("http:/api.geonames.org/searchJSON?country=$form2->country&lang=es&username=$username");
             $countryId2=$response2->json()['geonames'][0]['countryId'];

@@ -6,10 +6,10 @@
 
         <x-validation-errors class="mb-4" />
             <div class="p-4 text-gris-10">
-        <h6 class="mx-auto w-fit">GRACIAS POR VALIDAR SU CORREO</h6>
+        <h6 class="mx-auto w-fit">GRACIAS POR REGISTRARSE</h6>
 
         <p1 class="text-justify my-6">
-            Tu correo fue verificado con éxito! 🎉 Ahora estás listo para disfrutar de todos los beneficios de nuestro sitio. ¡Bienvenido a Lodomens! ✨{{--  Por favor revise su correo electrónico, en su Bandeja de Entrada o Spam al correo que le enviamos y presione el botón para confirmar su correo electrónico  --}}.</p1>
+            Por favor revise su correo electrónico, en su Bandeja de Entrada o Spam al correo que le enviamos y presione el botón para confirmar su correo electrónico.</p1>
         <div class="mx-auto w-fit mt-8">
             <a href="{{ route('root') }}">
         <x-button.webprimary class="ms-4 text-[14px]">

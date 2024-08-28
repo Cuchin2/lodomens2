@@ -72,6 +72,9 @@
 
                             </div>
                             <div class="flex flex-wrap gap-1">
+                                @if($type_name)
+                                <x-web.special.filter wire:click="typerized('','')"  @click="if(window.innerWidth < 768) { open = false; }">{{ $type_name }}</x-web.special.filter>
+                                @endif
                                 @if($cat)
                                 <x-web.special.filter wire:click="categorized('','')"  @click="if(window.innerWidth < 768) { open = false; }">{{ $cat }}</x-web.special.filter>
                                 @endif
@@ -157,16 +160,30 @@
                                 </ul>
                             </div>
                         </li>
+                        <li class=" p-2" >
+                            <div class="text-gris-10  cursor-pointer">
+                                <p1 class="hover:text-white text-gris-10 flex items-center" @click="menu1 = (menu1 === 5) ? 0 : 5">Tipos
+                                    <x-icons.chevron-right height="10px" width="10px" grosor="1" class="ml-auto"
+                                        ::class="{'rotate-90 transition-all': menu1 === 5}" />
+                                </p1>
+                                <ul x-show="menu1===5" x-collapse x-cloak class="w-fit text-[12px] ml-2 mt-2" >
+                                    @foreach ($types as $type)
+                                    <p2 wire:click="typerized('{{ $type->name }}','{{ $type->id }}')"
+                                        class="hover:text-white" @click="if(window.innerWidth < 768) { open = false; } else { menu1 = 0;}">{{ $type->name }}</p2>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
             {{-- FIN menu 1 --}}
             <div class="mx-left w-full" :class="{'pl-2': open === true}">
-                <div wire:loading wire:target="rate,categorized,brandized,colorized,clean,search"
+                <div wire:loading wire:target="rate,categorized,brandized,colorized,clean,search,typerized"
                     class="w-full h-[300px]">
                     <x-preloader.heartlite />
                 </div>
-                <div wire:loading.remove wire:target="rate,categorized,brandized,colorized,clean,search" :class="{
+                <div wire:loading.remove wire:target="rate,categorized,brandized,colorized,clean,search,typerized" :class="{
                             'grid-cols-2 lg:grid-cols-5 md:grid-cols-4': !open && sort === 3,
                             'grid-cols-2 lg:grid-cols-4 md:grid-cols-3': (open && sort === 3),
                             'grid-cols-2 lg:grid-cols-4 md:grid-cols-2': open && sort === 2,
@@ -216,19 +233,20 @@
                             }
                             @endphp
                             <x-outstock url="{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}"
-                                name="{{ $product->name }}" stock="{{ $sku->stock ?? '' }}" />
+                                name="{{ $product->name }}" stock="{{ $sku->stock ?? '' }}" color="{{ $product->type->hex }}" img="{{ $product->type->images->url ?? '' }}"/>
+
                         </a>
 
 
                         <div class="absolute right-0 top-0 py-[7px] px-[20px] w-[60px]"
                             x-show="(icon && sort !== 1 )|| sort === 1">
                             <button type="button" @guest @click="show=true;" @else
-                                onclick="showCartModall('{{ $product->id }}', '{{ $sku->color_id ?? '' }}', '{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}', '{{ $colorSelect ?? '' }}', 'WISHLIST')"
+                                onclick="showCartModall('{{ $product->id }}', '{{ $sku->color_id ?? '' }}', '{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}', '{{ $colorSelect ?? '' }}', 'WISHLIST','{{ $product->type->hex  ?? ''}}','{{ $product->type->images->url ?? ''}}')"
                                 @endguest class="h-fit w-fit">
                                 <x-icons.heart class="h-[20px] w-[20px] hover:fill-corp-50  cursor-pointer " />
                             </button>
                             <button type="button"
-                                onclick="showCartModall('{{ $product->id }}', '{{ $sku->color_id ?? '' }}', '{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}', '{{ $colorSelect ?? '' }}', 'CART')"
+                                onclick="showCartModall('{{ $product->id }}', '{{ $sku->color_id ?? '' }}', '{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}', '{{ $colorSelect ?? '' }}', 'CART','{{ $product->type->hex ?? '' }}','{{ $product->type->images->url ?? ''}}')"
                                 class=" w-fit">
                                 <x-icons.cart class="h-[20px] w-[20px] cursor-pointer hover:fill-corp-50"
                                     x-show="sort !==1" />
@@ -253,7 +271,7 @@
                             </div>
                             <p class="mt-4 text-justify">{{ $product->short_description }}</p>
                             <x-button.webprimary class="w-fit my-3 px-[50px]"
-                                onclick="showCartModall('{{ $product->id }}', '{{ $sku->color_id ?? '' }}', '{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}', '{{ $colorSelect ?? '' }}', 'CART')">
+                                onclick="showCartModall('{{ $product->id }}', '{{ $sku->color_id ?? '' }}', '{{ $firstImage[$key0]->url ?? '/image/dashboard/No_image_dark.png' }}', '{{ $colorSelect ?? '' }}', 'CART','{{ $product->type->hex ?? '' }}','{{ $product->type->images->url ?? ''}}')">
                                 Añadir a Carrito
                             </x-button.webprimary>
                         </div>

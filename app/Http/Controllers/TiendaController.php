@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Sku;
 use App\Models\Image;
 use App\Models\Brand;
+use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Cart;
@@ -28,13 +29,12 @@ class TiendaController extends Controller
        }
        return response()->json(([
             'skus'=> $skus,
-            'image'=>$image
+            'image'=>$image,
         ]));
     }
     public function addcart(Request $request)
     {
         $skus = $request->skus;
-
         /* dd($skus['product']['name']); */
         $product = $skus['product'];
         $brand=Brand::find($product['brand_id'])->pluck('name');
@@ -54,7 +54,9 @@ class TiendaController extends Controller
             'sku'=> $skus['code'],
             'color'=> $skus['color']['name'],
             'color_id'=> $skus['color']['id'],
-            'stock'=> $skus['stock']
+            'stock'=> $skus['stock'],
+            'hex'=> $request->hex,
+            'src'=> $request->src,
             ]
         )->associate('App\Models\Sku');
         if(auth()->user()){
@@ -74,7 +76,9 @@ class TiendaController extends Controller
                 'sku'=> $skus['code'],
                 'color'=> $skus['color']['name'],
                 'color_id'=> $skus['color']['id'],
-                'stock'=> $skus['stock']
+                'stock'=> $skus['stock'],
+                'hex'=> $request->hex,
+                'src'=> $request->src,
                 ]
             )->associate('App\Models\Sku');
             Cart::instance('wishlist')->store(auth()->user()->id);

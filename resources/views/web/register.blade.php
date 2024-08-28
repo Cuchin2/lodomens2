@@ -391,7 +391,7 @@
                         @endisset
                         <div class="text-center mt-8 " :class="check ? '' : 'opacity-40 '">
                             <x-button.webprimary ::class="check ? 'cursor-pointer' :'cursor-not-allowed'"
-                            ::disabled="!check" type="submit" class="w-[141px]">Enviar</x-button.webprimary>
+                            ::disabled="!check" type="submit" class="w-[141px]" @click="$dispatch('heart')">Enviar</x-button.webprimary>
                         </div>
 
                     </div>
@@ -401,7 +401,7 @@
 
     </div>
 </div>
-
+<x-preloader.heart />
 @endsection
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.css">

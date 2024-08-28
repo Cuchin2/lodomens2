@@ -53,7 +53,7 @@ class TypeTable extends Component
             'color.required' => 'El color es requerido.',
         ];
     }
-    public function delete($id)
+    public function deleted($id)
     {
         $this->brand=Type::find($id);
         if($this->which == 'DELETE'){

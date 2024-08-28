@@ -12,6 +12,7 @@ use App\Models\Brand;
 use App\Models\Color;
 use Illuminate\Support\Facades\DB;
 use App\Models\Sku;
+use App\Models\Type;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Session;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Session;
 class ShopMain extends Component
 {
     use WithPagination;
-    public $rating=''; public $cat=''; public $cat_id=''; public $perPage = 5; public $new= '';
+    public $rating=''; public $cat=''; public $cat_id=''; public $perPage = 5; public $new= ''; public $type_id=''; public $type_name='';
     public $bra=''; public $brand_id=''; public $gam=''; public $gam_id='';  public $selectedOption = ''; public $selectedPrice = '';
     #[Url(history:true)]
     public $search = '';
@@ -54,9 +55,12 @@ class ShopMain extends Component
             ->when($this->brand_id, function ($query) {
                 $query->where('brand_id', $this->brand_id);
             })
-            ->when($this->type !== '',function($query){
-                $query->where('name',$this->type);
+            ->when($this->type_id, function ($query) {
+                $query->where('type_id', $this->type_id);
             })
+           /*  ->when($this->type !== '',function($query){
+                $query->where('name',$this->type);
+            }) */
             ->when($this->gam_id != '', function ($query) {
                 $query->whereHas('colors', function ($query) {
                     $query->where('color_id', $this->gam_id);
@@ -67,7 +71,7 @@ class ShopMain extends Component
             })
             ->when($this->new,function($query){
                 $query->orderBy($this->new, 'desc');
-            })
+            })->with('type.images')
             ->orderBy($this->sortBy,$this->sortDir)
             ->paginate($this->perPage);
 
@@ -80,6 +84,7 @@ class ShopMain extends Component
             'products' => $this->products,
             'categories' => Category::all(),
             'brands' => Brand::all(),
+            'types'=> Type::all()
         ]);
     }
     /* filtros */
@@ -104,6 +109,11 @@ class ShopMain extends Component
     {
         $this->gam=$name;
         $this->gam_id=$id; /* $this->dispatch('out'); */
+    }
+    public function typerized($name,$id)
+    {
+        $this->type_id=$id;
+        $this->type_name=$name;
     }
     #[On('option-selected')]
     public function abc($value)

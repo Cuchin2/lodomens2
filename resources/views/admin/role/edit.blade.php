@@ -322,7 +322,7 @@
 
 
                         <div class="my-4 flex float-right">
-                            <x-button.corp1>
+                            <x-button.corp1 type="submit">
                                 Actualizar
                             </x-button.corp1>
                           </div>

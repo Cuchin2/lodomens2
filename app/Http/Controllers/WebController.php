@@ -5,16 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSubscriptionRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Models\Contact;
-use App\Models\Post;
 use App\Models\User;
 use App\Models\Profile;
-use App\Models\Tag;
-use App\Models\Product;
 use App\Models\Subscription;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 class WebController extends Controller
@@ -85,7 +79,8 @@ class WebController extends Controller
             $user->sendEmailVerificationNotification();
             // Autentica al usuario
             Auth::login($user);
-            return redirect()->route('root');
+            /* return redirect()->route('root'); */
+            return redirect()->route('verified')->with('status', 'Validation email');
     }
     public function recover_password()
     {

@@ -36,7 +36,9 @@
         <div class="md:grid md:grid-cols-6 mt-5">
             <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2 flex items-start" >
                 {{--  <p x-text="ext"></p>  --}}
-                <lodo class="md:w-[338px] lg:h-[338px] md:h-[217px] lg:min-w-[318px] relative mx-auto border-[2px] border-corp-50 rounded-[3px] flex items-center {{--  h-full items-center  --}}">
+                <lodo class="relative md:w-[338px] lg:h-[338px] md:h-[217px] lg:min-w-[318px] relative mx-auto border-[2px] rounded-[3px] flex items-center {{--  h-full items-center  --}}" style="border-color: {{ $product->type->hex ?? ''}}">
+
+                    <img class="absolute top-5 left-5" src="{{ asset('storage').'/'.($product->type->images->url ??'') }}" alt="">    
                 <template x-if="ext === 'mp4'">
                     <video :src="src" controls
                   class="w-full " :alt="ext" alt="">
@@ -71,13 +73,14 @@
                 <div @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4'">
                     <video src="{{ asset('storage/'.$image->url) }}" muted
                     class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer" >
+                    style="border-color: {{ $product->type->hex ?? ''}}"
                     :class="{'border-gris-10': src === '{{ asset('storage/'.$image->url) }}'}"
                     @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4', abc='{{ $key2 }}'">
                     </video>
                  </div>
                 @else
-                <img src="{{ asset('storage/'.$image->url ?? 'hola')}}"
-                class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer"
+                <img src="{{ asset('storage/'.$image->url ?? '')}}"
+                class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer" style="border-color: {{ $product->type->hex ?? ''}}"
                 :class="{'border-gris-10': src === '{{ asset('storage/'.$image->url) }}'}"
                 @click="src='{{ asset('storage/'.$image->url) }}', ext='{{ pathinfo(asset('storage/'.$image->url), PATHINFO_EXTENSION) }}', abc='{{ $key2 }}'">
                 @endif

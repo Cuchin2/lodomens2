@@ -27,7 +27,9 @@ class WishlistCart extends Component
                     'sku'=> $sku->code,
                     'color'=> $sku->color->name,
                     'color_id'=> $sku->color->id,
-                    'stock'=>$sku->stock
+                    'stock'=>$sku->stock,
+                    'hex'=>$item->options->hex,
+                    'src'=>$item->options->src,
                         ]
                     ]);
 
@@ -124,7 +126,9 @@ class WishlistCart extends Component
             'sku'=> $item->options->sku,
             'color'=> $item->options->color,
             'color_id'=>$item->options->color_id,
-            'stock'=> $item->options->stock
+            'stock'=> $item->options->stock,
+            'hex'=>$item->options->hex,
+            'src'=>$item->options->src,
             ]
         )->associate('App\Models\Sku');
         $this->updateDataBase();

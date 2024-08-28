@@ -71,6 +71,8 @@ class GraciasController extends Controller
                     'color'=>$item->options->color,
                     'color_id'=>$item->options->color_id,
                     'productImage'=>$item->options->productImage,
+                    'hex'=>$item->options->hex,
+                    'src'=>$item->options->src,
                 ]);
             }
             $pago_envio = Shipping::find($order->shipping_id);
@@ -88,6 +90,7 @@ class GraciasController extends Controller
                'cartItems'=>$order->saleDetails,
                'shipping'=>$order->shipping,
                'deliveryOrders'=>$order->deliveryOrders,
+
             ];
            Mail::to($email)->send(new Gracias($data));
             //

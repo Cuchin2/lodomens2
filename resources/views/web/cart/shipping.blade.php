@@ -239,7 +239,7 @@
                                 href="{{ route('web.shop.show',['product'=>$item->options->slug,'color'=>$item->options->color_id]) }}">
                                 <x-outstock text="text-[10px]" class="!w-[50px] !h-[50px] md:!w-[65px] md:!h-[65px]"
                                     url="{{ $item->options->productImage }}" name="{{ $item->name }}"
-                                    stock="{{ $item->options->stock }}" />
+                                    stock="{{ $item->options->stock }}" color="{{$item->options->hex}}" img="{{$item->options->src}}" param="scale-50 top-0 left-0"/>
                             </a>
                         </div>
                         <div class="col-span-2">

@@ -27,7 +27,9 @@ class ShoppingCart extends Component
                     'sku'=> $sku->code,
                     'color'=> $sku->color->name,
                     'color_id'=> $sku->color->id,
-                    'stock'=>$sku->stock
+                    'stock'=>$sku->stock,
+                    'hex'=>$item->options->hex,
+                    'src'=>$item->options->src,
                         ]
                     ]);
 

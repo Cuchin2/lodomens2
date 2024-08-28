@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
         $this->call(FooterSeeder::class);
         $this->call(ColorSeeder::class);
         $this->call(TypeSeeder::class);
+        $this->call(SettingSeeder::class);
 
     }
     public function array($max){

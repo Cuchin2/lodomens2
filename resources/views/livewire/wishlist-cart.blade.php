@@ -23,7 +23,7 @@
                     <div class="flex justify-center space-x-5 md:w-full">
                         <a class="flex w-max items-center"
                             href="{{ route('web.shop.show',['product'=>$item->options->slug,'color'=>$item->options->color_id]) }}">
-                            <x-outstock text="text-[10px]" class="!w-[90px] !h-[90px] md:!w-[120px] md:!h-[120px]" url="{{ $item->options->productImage }}" name="{{ $item->name }}" stock="{{ $item->options->stock }}"/>
+                            <x-outstock text="text-[10px]" class="!w-[90px] !h-[90px] md:!w-[120px] md:!h-[120px]" url="{{ $item->options->productImage }}" name="{{ $item->name }}" stock="{{ $item->options->stock }}" color="{{ $item->options->hex ?? '' }}" img="{{ $item->options->src ?? '' }}"/>
                         </a>
                         <div class="md:w-full">
                             <div class="md:flex md:items-center md:justify-between">

@@ -11,6 +11,13 @@ use LaravelLang\NativeCountryNames\Enums\SortBy;
 
 class ColorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware([
+            'permission:inventory.colors.index',
+        ]);
+    }
     public function index()
     {
         return view('admin.color.index');
@@ -70,7 +77,7 @@ class ColorController extends Controller
             return response()->json(['url' => $url]);
     }
     public function sorting(Request $request,$id)
-    { 
+    {
         $orders = explode(",", $request->order);
         $product = Product::find($id);
         $rows = Row::whereHas('images', function ($query) use ($product) {

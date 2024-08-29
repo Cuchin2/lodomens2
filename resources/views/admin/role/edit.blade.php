@@ -30,6 +30,21 @@
 
                             <x-label class="my-4">Lista de permisos</x-label>
                             <div>
+                                <h3 class="my-4"> Permisos para "Configurar"</h3>
+                                <p class="my-2 mx-3">
+                                    <x-checkbox id="all0" onchange="cambiaGrupo2(this)" >TODOS / NINGUNO</x-checkbox>
+
+                                @foreach ($permissions as $key => $permission)
+                                    @if ($permission->type === 'configuration')
+                                        <label class="flex">
+                                            <x-checkbox id="{{$permission->id}}" name="permissions[]" rule="{{ $role->hasPermissionTo($permission) }}" value="{{ $permission->id }}">{{ $permission->description }}</x-checkbox>
+
+                                        </label>
+                                    @endif
+                                @endforeach
+
+                            </div>
+                            <div>
                                 <h3 class="my-4"> Permisos para "Usuarios"</h3>
                                 <p class="my-2 mx-3">
                                     <x-checkbox id="all" onchange="cambiaGrupo2(this)" >TODOS / NINGUNO</x-checkbox>

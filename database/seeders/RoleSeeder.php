@@ -94,8 +94,8 @@ class RoleSeeder extends Seeder
         Permission::create(['name'=>'providers.edit','type'=>'provedores','description'=>'Ver vista edición de provedores']);
         Permission::create(['name'=>'providers.update','type'=>'provedores','description'=>'Actualizar provedores']);
         Permission::create(['name'=>'providers.destroy','type'=>'provedores','description'=>'Eliminar provedores']);
-        Permission::create(['name'=>'roles.index','type'=>'roles','description'=>'Ver vista de roles']);
-        Permission::create(['name'=>'roles.show','type'=>'roles','description'=>'Ver vista de roles']);
+        Permission::create(['name'=>'roles.index','type'=>'roles','description'=>'Ver lista de roles']);
+        Permission::create(['name'=>'roles.show','type'=>'roles','description'=>'Ver vista individual de roles']);
         Permission::create(['name'=>'printers.index','type'=>'impresora','description'=>'Ver lista de impresoras']);
         Permission::create(['name'=>'printers.update','type'=>'impresora','description'=>'Actualizar impresoras']);
         Permission::create(['name'=>'orders.index','type'=>'pedidos','description'=>'Ver listas de pedidos']);
@@ -367,7 +367,7 @@ class RoleSeeder extends Seeder
             'first_name'=>$client_user->name,
         ]); */
         $client_user->assignRole('Client')->save();
-        for ($i=1; $i <4 ; $i++) { 
+        for ($i=1; $i <4 ; $i++) {
             Profile::create([
                 'user_id'=>$i,
             ]);

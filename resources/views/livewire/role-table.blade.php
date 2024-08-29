@@ -139,12 +139,14 @@
 
                                 </td>
                                 <td class="px-4 py-[13px] flex items-center justify-center space-x-5">
+                                    @if($role->name !== 'admin')
                                     <a class="text-azul-50 hover:text-azul-30" href="{{route('roles.edit',$role->id)}}">
                                         <x-icons.edit></x-icons.edit>
                                     </a>
                                     <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal({{ $role->id }},'{{$role->name}}')" >
                                         <x-icons.trash class="h-5 w-5"></x-icons.trash>
                                     </button>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

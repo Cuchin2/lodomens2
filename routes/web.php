@@ -25,6 +25,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\GraciasController;
+use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\WelcomeController;
 use App\Models\Address;
 use App\Models\SaleOrder;
@@ -147,9 +148,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
 
 Route::get('bienvenido',[WelcomeController::class,'bienvenido']);
 Route::get('verificar',[WelcomeController::class,'verificar'])->name('verified');
-Route::get('pruebas',function(){
-    return view('pruebas');
-});
+
 /*         $get= Address::where('user_id',auth()->user()->id)->get() ?? '';
     $get2= Address::where(['user_id'=>auth()->user()->id,'current'=>1])->first()->name ?? '';
     $datosCombinados = [
@@ -158,3 +157,5 @@ Route::get('pruebas',function(){
     ];
 
     return response()->json($datosCombinados); */
+Route::get('pruebas',[PruebaController::class ,'pruebas']);
+Route::get('permisos',[PruebaController::class ,'permission']);

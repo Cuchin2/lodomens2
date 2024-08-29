@@ -10,6 +10,14 @@ use Illuminate\Http\Request;
 
 class InicioController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware([
+            'permission:mypage.main.index',
+            'permission:mypage.main.shipping',
+        ]);
+    }
     public function index()
     {
         $banners=Banner::orderBy('order','asc')->get();

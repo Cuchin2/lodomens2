@@ -65,7 +65,7 @@
                                 <option value="DNI">DNI</option>
                                 <option value="PASSPORT">Pasaporte</option>
                                 <option value="CARNET">Carnet de extranjería</option>
-                            </x-select>  
+                            </x-select>
                            {{--   <x-input name="middle_name" value="{{ optional($user->profile)->midle_name }}" placeholder="Segundo nombre "></x-input>  --}}
                         </div>
                         <div class="my-3">
@@ -94,7 +94,7 @@
                                 <option value="DNI">Perú</option>
                                 <option value="PASSPORT">México</option>
                                 <option value="CARNET">Estados Unidos</option>
-                            </x-select>  
+                            </x-select>
                         </div>
                         <div class="my-3">
                             <x-label class="mb-2">Ciudad</x-label>
@@ -102,7 +102,7 @@
                                 <option value="DNI">Lima</option>
                                 <option value="PASSPORT">México DF</option>
                                 <option value="CARNET">Whashintgon DC</option>
-                            </x-select>  
+                            </x-select>
                         </div>
                         <div class="my-3">
                             <x-label class="mb-2">Teléfono / Celular</x-label>
@@ -179,12 +179,14 @@
                                 name="birthday" id="birthday">
                             <span class="dark:text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
                         </div>
+                        @if(!$user->hasRole('admin'))
                         <div class="mt-4 dark:text-gray-300">
                             <x-label class="mb-2">Listado de roles</x-label>
                             @foreach ($roles as $role)
                             <x-checkbox id="{{$role->id}}" rule="{{ $user->roles->contains($role) }}" value="{{ $role->id }}" name="roles[]">{{ $role->name }}</x-checkbox>
                             @endforeach
                         </div>
+                        @endif
                         <x-button.corp1 type="submit" class="ml-auto">Actualizar</x-button.corp1>
                     </div>
                 </div>
@@ -194,7 +196,7 @@
             .password-input {
           position: relative;
         }
- 
+
         .password-input input[type="password"] {
           padding-right: 40px; /* Espacio para el icono */
         }

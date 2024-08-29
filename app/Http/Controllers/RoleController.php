@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
-     public function __construct()
+
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware([
-            'permission:roles.index',
-            'permission:roles.show'
-        ]);
-
+            $this->middleware([
+                'permission:roles.index',
+                'permission:roles.show',
+                'permission:roles.edit'
+            ]);
     }
 
     public function index()
@@ -49,6 +51,9 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
+        if ($role->id === 1) {
+            abort(403, 'No tienes permiso para editar este rol.');
+        }
         $permissions= Permission::get();
         $tieneTodosLosPermisos = $role->permissions->count() == Permission::count();
         return view('admin.role.edit',compact('role','permissions','tieneTodosLosPermisos'));

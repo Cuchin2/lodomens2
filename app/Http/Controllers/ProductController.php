@@ -23,9 +23,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware([
+            'permission:products.index',
+            'permission:products.edit'
+        ]);
+
+    }
     public function index()
     {
         return view('admin.product.index');

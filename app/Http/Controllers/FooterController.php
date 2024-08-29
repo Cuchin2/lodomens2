@@ -8,6 +8,13 @@ use App\Models\Footer;
 use Illuminate\Support\Facades\Storage;
 class FooterController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware([
+            'permission:mypage.edit',
+        ]);
+    }
     public function edit()
     {
 

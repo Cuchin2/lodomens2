@@ -33,7 +33,9 @@ class AddCart extends Component
             'sku'=>$sku->code,
             'color'=>$sku->color->name,
             'color_id'=>$sku->color_id,
-            'stock'=>$sku->stock
+            'stock'=>$sku->stock,
+            'hex'=> $product->type->hex,
+            'src'=> $product->type->src,
             ]
         )->associate('App\Models\Sku');
             if(auth()->user()){
@@ -58,7 +60,9 @@ class AddCart extends Component
                 'sku'=>$sku->code,
                 'color'=>$sku->color->name,
                 'color_id'=>$sku->color_id,
-                'stock'=>$sku->stock
+                'stock'=>$sku->stock,
+                'hex'=> $product->type->hex,
+                'src'=> $product->type->src,
                 ]
             )->associate('App\Models\Sku');
                 Cart::instance('wishlist')->store(auth()->user()->id);

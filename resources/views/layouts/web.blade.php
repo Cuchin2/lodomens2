@@ -26,7 +26,7 @@
 
 <body class="font-sans antialiased bg-black" x-data="{show_backToTop: false}"
 @scroll.window="show_backToTop = window.pageYOffset > 30">
-
+<x-web.modal.alert-stock :outstock="$outstock ?? ''" :zerostock="$zerostock ?? ''"/>
 @include('layouts.header')
 
     <div class="min-h-screen mobile-height ">
@@ -43,14 +43,9 @@
 
                         </div>
 
-                        <div class=" mx-auto"  {{--  x-data="{preloader: true}" x-init="preloader = false"  --}}>
+                        <div class=" mx-auto" >
                             {{--  contenido principal  --}}
 
-{{--                              <div id="preloader">
-                            <div id="loader" x-show="preloader"
-
-                            ></div>
-                            </div>  --}}
                             <div class=" md:mt-[81px] mt-[44px]">
                                 @yield('breadcrumb')
                                     @yield('main')

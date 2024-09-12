@@ -27,6 +27,7 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\GraciasController;
 use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\StockController;
 use App\Models\Address;
 use App\Models\SaleOrder;
 
@@ -130,6 +131,8 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
     Route::get('/api/states/{countryCode}', [LocationController::class, 'getStates']);
     Route::get('/api/cities/{stateCode}', [LocationController::class, 'getCities']);
     Route::get('/api/distrits/{cityCode}', [LocationController::class, 'getDistrits']);
+
+    Route::post('restock',[StockController::class,'restock'])->name('restock');
 
     Route::get('luchin',function(){
         $order = SaleOrder::where(['user_id'=>auth()->user()->id,'status'=>'PAID'])->with('saleDetails')->orderBy('created_at','desc')->first();

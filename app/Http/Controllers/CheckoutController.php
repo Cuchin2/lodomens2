@@ -14,6 +14,7 @@ use App\Models\DeliveryOrder;
 use App\Models\SaleOrder;
 use App\Models\Setting;
 use App\Models\Shipping;
+use App\Models\Sku;
 use Cart;
 class CheckoutController extends Controller
 {
@@ -66,6 +67,7 @@ class CheckoutController extends Controller
         return view('web.cart.checkout',compact('address','address2','user','form1','form2','getState','getCity','getDistrit','getCountry','on','getState2','getCity2','getDistrit2'));
     }
     public function pays(Request $request){
+        $skus=$this->reserve();
         $id=$request->id;
         if (!session('pay')) {
             return redirect()->route('web.shop.cart.index');
@@ -75,7 +77,8 @@ class CheckoutController extends Controller
         $formToken = $this->generateFormToken();
         $sessionToken = $this->generateSessionToken();
         $preferenceId = $this->generatePreferenceId();
-        return view('web.cart.pay',compact('formToken','sessionToken','preferenceId','id'));
+        Session::put('reserve', true);
+        return view('web.cart.pay',compact('formToken','sessionToken','preferenceId','id','skus'));
     }
     public function topay(Request $request){
         Session::put('totality', $request->total);
@@ -267,5 +270,29 @@ class CheckoutController extends Controller
             "notification_url" => 'https://webhook.site/07ad52bf-6f41-459d-a4d5-feeff2a26f80' /* route('notifications.mercadopago') */,
             ]);
         return $preference->id;
+    }
+    public function reserve()
+    {
+        // Obtener los elementos del carrito
+        $items = Cart::instance('cart')->content();
+        $skus = [];
+        // Iterar sobre los items del carrito
+        foreach ($items as $key=>$item) {
+            // Obtener el sku desde el item
+            $skuCode = $item->options->sku;
+
+            // Buscar el SKU en la base de datos
+            $sku = Sku::where('code', $skuCode)->first();
+
+            // Restar la cantidad de la columna 'stock'
+            $sku->stock -= $item->qty;
+            if($sku->stock == 0){
+                $skus[$key] =$item;
+            }
+            // Guardar los cambios
+            $sku->save();
+        }
+
+        return $skus;
     }
 }

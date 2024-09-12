@@ -149,7 +149,46 @@ class RoleSeeder extends Seeder
         Permission::create(['name'=>'web.rate_product','type'=>'cliente','description'=>'Calificar productos']);
         Permission::create(['name'=>'web.update_client','type'=>'cliente','description'=>'Actualizar datos del cliente']);
         Permission::create(['name'=>'web.update_password','type'=>'cliente','description'=>'Actualizar contraseña del cliente']);
-
+        Permission::create([
+            'name'=>'mypage.main.index',
+            'type'=>'configuration',
+            'description'=>'Acceder a la edición de inicio'
+        ]);
+        Permission::create([
+            'name'=>'mypage.contact.index',
+            'type'=>'configuration',
+            'description'=>'Acceder a la edición de contacto'
+        ]);
+        Permission::create([
+            'name'=>'mypage.edit',
+            'type'=>'configuration',
+            'description'=>'Acceder a la edición del footer'
+        ]);
+        Permission::create([
+            'name'=>'mypage.main.shipping',
+            'type'=>'configuration',
+            'description'=>'Acceder a la edición de métodos de envio'
+        ]);
+        Permission::create([
+            'name'=>'inventory.types.index',
+            'type'=>'configuration',
+            'description'=>'Acceder a la edición de productos especiales'
+        ]);
+        Permission::create([
+            'name'=>'inventory.brands.index',
+            'type'=>'configuration',
+            'description'=>'Acceder a la edición de marcas'
+        ]);
+        Permission::create([
+            'name'=>'inventory.colors.index',
+            'type'=>'configuration',
+            'description'=>'Acceder a la edición de colores'
+        ]);
+        Permission::create([
+            'name'=>'roles.edit',
+            'type'=>'configuration',
+            'description'=>'Acceder a la edición de permisos'
+        ]);
 
         $admin->givePermissionTo([
             'users.index',
@@ -276,7 +315,15 @@ class RoleSeeder extends Seeder
             'web.change_password',
             'web.rate_product',
             'web.update_client',
-            'web.update_password'
+            'web.update_password',
+            'mypage.main.index',
+            'mypage.contact.index',
+            'mypage.edit',
+            'mypage.main.shipping',
+            'inventory.types.index',
+            'inventory.brands.index',
+            'inventory.colors.index',
+            'roles.edit',
         ]);
 
         $cashier->givePermissionTo([

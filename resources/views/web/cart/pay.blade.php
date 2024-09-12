@@ -57,7 +57,96 @@
     @endif
 
     {{-- fin de error de pago --}}
+        {{--  Timer  --}}
+        <div x-data="{
+            check: true,
+            timeLeft: 500, {{--  localStorage.getItem('timeLeft') || 600, // 10 minutos en segundos  --}}
+            skus: {{ json_encode($skus) }},
+            countdown() {
+                this.skus=Object.values(this.skus);
+                console.log(this.skus);
 
+                setInterval(() => {
+                    if (this.timeLeft > 0) {
+                        if(this.skus.length >0 ){
+                        this.timeLeft--;}
+                        {{--  localStorage.setItem('timeLeft', this.timeLeft);  --}}
+                    } else {
+                        // Redireccionar cuando el tiempo se acabe
+                        {{--  localStorage.setItem('timeLeft', 600); this.check=false;  --}}
+                        window.location.href = '{{ route('web.shop.cart.index') }}';
+                    }
+                }, 1000);
+
+                window.onbeforeunload = e => {
+                    if (this.check) {
+                        const formData = new FormData();
+                        formData.append('_token', '{{ csrf_token() }}'); // Incluye el token CSRF
+                        // Agrega otros datos necesarios
+                        formData.append('other_data', 'valor');
+                        navigator.sendBeacon('{{ route('restock') }}', formData);
+                        this.check= false;
+                    }
+                    $dispatch('heart');
+                    return null;
+                };
+                KR.onTransactionCreated( function(){
+                    $dispatch('izipay');
+                })
+            },
+
+        }" x-init="countdown()" @izipay.window="check = false">
+        <template x-if="skus.length >0 {{--  Object.keys(skus).length > 0  --}}">
+            <div class="text-center">
+                <h3 class="text-3xl font-bold">Tiempo de reserva:</h3>
+                <p x-text="Math.floor(timeLeft / 60) + ' minutos ' + timeLeft % 60 + ' segundos'"></p>
+
+                <x-web.modal.simple maxWidth="md">
+                    <x-slot name="title" >
+                        <p class="font-bold mb-4">Anuncio</p>
+                      <p1 class="text-justify leading-1"> {{ count($skus) > 1 ? 'Estos productos son los últimos disponibles. Se están reservando solo para tí' : 'Este producto es el útlimo disponible. Se está reservando solo para tí'}}, No pierdas la oportunidad de adquirirlo.
+                        </p1>
+                    </x-slot>
+                        @foreach ($skus as $item)
+
+                            <div class="mb-4 text-justify">
+                                <div class="flex justify-between mb-2">
+                                    <p class="font-bold">{{ $item->name }}</p>
+                                    <p class="font-bold">{{session('currency')}} {{ $item->qty*$item->price }}</p>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="col-span-1">
+                                        <div class="flex w-max items-center">
+                                            <x-outstock text="text-[10px]" class="!w-[50px] !h-[50px] md:!w-[65px] md:!h-[65px]"
+                                                url="{{ $item->options->productImage }}" name="{{ $item->name }}"
+                                                stock="{{ $item->options->stock }}" color="{{$item->options->hex}}" img="{{$item->options->src}}" param="scale-50 top-0 left-0"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <p1>Precio unidad: {{session('currency')}}{{ $item->price }}</p1>
+                                        <p1>Color: {{ $item->options->color }}</p1>
+                                        <p1> {{ $item->qty == 1 ? '1 unidad' : $item->qty.' unidades' }}</p1>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        <div class="flex justify-start">
+
+                        </div>
+                    <x-slot name="footer" >
+
+                        <div class="flex justify-center w-full">
+                            <x-button.corp1 @click=" show=false;">
+                                Aceptar
+                            </x-button.corp1>
+                        </div>
+                    </x-slot>
+                </x-web.modal.simple>
+            </div>
+
+        </template>
+        </div>
+         {{--  Fin de timer  --}}
 
     <div class="flex flex-col text-center bg-gris-90 h-full p-3 rounded-[5px] border-[1px] border-gris-70 w-1/3 min-w-fit mb-6 mx-auto">
 
@@ -235,6 +324,11 @@
       },
      });
 
+</script>
+<script>
+{{--      KR.onTransactionCreated( function(){
+        console.log('izipay');
+    })  --}}
 </script>
 @endpush
 

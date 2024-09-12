@@ -52,7 +52,6 @@ class PruebaController extends Controller
             'type'=>'configuration',
             'description'=>'Acceder a la edición de permisos'
         ]);
-
         return 'se crearon los permisos';
     }
 }

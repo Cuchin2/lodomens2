@@ -56,10 +56,10 @@ $steps = [
                                 $numberCursorClass = $isFutureStep ? 'cursor-not-allowed' : '';
                             @endphp
 
-                            <a href="{{ $isClickable ? $route : '#' }}" class="rounded-full h-5 w-5 {{ $isActive ? 'bg-gris-10 text-gris-90' : 'text-gris-30 bg-gris-70' }} text-center text-[14px] font-bold flex items-center justify-center {{ $numberHoverClass }} {{ $numberCursorClass }}" @click="$dispatch('heart')">
+                            <a href="{{ $isClickable ? $route : '#' }}" class="rounded-full h-5 w-5 {{ $isActive ? 'bg-gris-10 text-gris-90' : 'text-gris-30 bg-gris-70' }} text-center text-[14px] font-bold flex items-center justify-center {{ $numberHoverClass }} {{ $numberCursorClass }}" @if($isClickable && request()->routeIs('mweb.shop.checkout.pay')) @click="$dispatch('heart')" @endif>
                                 {{ $data['number'] }}
                             </a>
-                            <a href="{{ $isClickable ? $route : '#' }}" class="{{ $isActive ? 'text-gris-10' : 'text-gris-40' }} {{ $linkClass }}" @click="$dispatch('heart')">
+                            <a href="{{ $isClickable ? $route : '#' }}" class="{{ $isActive ? 'text-gris-10' : 'text-gris-40' }} {{ $linkClass }}" @if($isClickable && request()->routeIs('web.shop.checkout.pay')) @click="$dispatch('heart')" @endif>
                                 {{ $data['title'] }}
                             </a>
                         @endforeach

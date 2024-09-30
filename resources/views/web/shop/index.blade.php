@@ -16,7 +16,7 @@ $routeCart = route('addcart');
 @endphp
 <div x-data="{
     choose :'', active:0, routeCart: '{{ $routeCart }}',
-    id:'', counts: 1, open:false, show:false, message:'',
+    id:'', counts: 1, open:false, show:false, message:'', wishmessage: '',
     color:'', location:' {{ session('location') ?? '' }}',
     url:'', route:'',
     skus: '', hex:'', src:'',
@@ -73,6 +73,9 @@ $routeCart = route('addcart');
             { this.counts = this.skus.stock; }
         };
     },
+    toWishlist(){
+    window.location.href = '{{ route('web.shop.webdashboard.wishlist') }}';
+    },
     addToCart(){
         data =  {
                 skus: this.skus,
@@ -83,11 +86,15 @@ $routeCart = route('addcart');
                 src: this.src
         };
         axios.post(this.routeCart,data).then(response => {
+        $dispatch('cart-added');
         if(response.data.message){
         this.open=true;
         this.message=response.data.message;
         console.log(response.data.cart); }
-            {{--  window.location.href = response.data.redirect;  --}}
+        else{ {{--  window.location.href = response.data.redirect;  --}} $dispatch('wishlist-added'); this.open = true;
+
+            this.wishmessage = response.data.wishmessage;
+        }
         }).catch(error => {
             console.error(error);
         });
@@ -230,16 +237,29 @@ $routeCart = route('addcart');
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                     <div class="px-6 py-4">
                         <div class="text-lg font-medium  dark:text-gris-10">
-                            <h4 class="mx-auto w-fit">Importante</h3>
+                            <h4 class="mx-auto w-fit">Anuncio</h3>
                         </div>
 
                         <div class="mt-4 text-[15px]  dark:text-gris-10">
+                            <template x-if="choose == 'CART'">
                             <p x-text="message" class="text-center"></p>
+                            </template>
+                            <template x-if="choose !== 'CART'">
+                                <p x-text="wishmessage" class="text-center"></p>
+                             </template>
                         </div>
                     </div>
 
-                    <div class="flex flex-row justify-end px-6 py-4 dark:bg-gris-90 text-end">
+                    <div class="flex flex-row justify-center px-6 py-4 dark:bg-gris-90 text-center">
                        {{--   {{ $footer }}  --}}
+
+                        <x-button.corp_secundary @click="open = false">Salir</x-button.corp_secundary>
+
+                     <template  x-if="choose !== 'CART'">
+                        <x-button.corp1 @click="toWishlist(), open=false;">
+                            <p1>Aceptar</p1>
+                        </x-button.corp1>
+                    </template>
                     </div>
     </div>
     </div>

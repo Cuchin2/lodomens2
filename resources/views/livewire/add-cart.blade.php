@@ -80,4 +80,20 @@ x-init="changestock(color)">
 
     </x-slot>
     </x-dialog-modal>
+
+    <x-dialog-modal wire:model="modalMessage" maxWidth="fit">
+        <x-slot name="title">
+            <div class="text-center">Anuncio</div>
+        </x-slot>
+        <x-slot name="content">
+            <div class="flex justify-center">
+                Se agregó, <b>"{{ $product_name }}"</b> a tu lista de deseos.
+            </div>
+        </x-slot>
+        <x-slot name="footer">
+            <div class="w-fit mx-auto">
+            <x-button.corp_secundary wire:click="$toggle('modalMessage')">Cerrar</x-button.corp_secundary>
+             </div>
+        </x-slot>
+    </x-dialog-modal>
 </div>

@@ -64,7 +64,7 @@
                         <li class="p-2 ">
                             <div class="flex justify-between items-center">
                                 <p1  class=" hover:text-white">Filtros</p1>
-                                @if($cat || $rating || $bra || $gam)
+                                @if($cat || $rating || $bra || $gam || $type_name)
                                 <div wire:click="clean()" class="hover:text-white cursor-pointer" @click="if(window.innerWidth < 768) { open = false; }">
                                     <x-icons.cross class="h-2 w-2" />
                                 </div>

@@ -89,7 +89,7 @@ class ShopMain extends Component
     }
     /* filtros */
     public function clean(){
-        $this->reset('rating','cat','cat_id','bra','brand_id','gam','gam_id');
+        $this->reset('rating','cat','cat_id','bra','brand_id','gam','gam_id','type_id','type_name');
     }
     public function rate($star)
     {

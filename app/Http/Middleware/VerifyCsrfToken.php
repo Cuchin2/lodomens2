@@ -17,5 +17,6 @@ class VerifyCsrfToken extends Middleware
         'paid/create-paypal-order',
         'paid/capture-paypal-order',
         'paid/mercadopago',
+        'ipn'
     ];
 }

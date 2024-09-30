@@ -119,7 +119,8 @@ class TiendaController extends Controller
             Cart::instance('wishlist')->store(auth()->user()->id);
 
             return response()->json([
-                'redirect' => route('web.shop.webdashboard.wishlist')
+                'redirect' => route('web.shop.webdashboard.wishlist'),
+                'wishmessage'=>'¿Deseas ir a tu wishlist?'
             ]);
         }
     }

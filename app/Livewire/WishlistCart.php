@@ -112,25 +112,65 @@ class WishlistCart extends Component
     }
     }
     public function moveToCart($rowId,$index){
+
         $item = Cart::instance('wishlist')->get($rowId);
+        // Obtén el ítem del carrito si ya existe
+        $cartItem = Cart::instance('cart')->content()->where('id', $item->id)->first();
+        $requestedQuantity =  $item->qty;
+        $currentQtyInCart = $cartItem ? $cartItem->qty : 0;
+        // Consulta el stock disponible desde la base de datos
+        // Aquí consultas el stock real del SKU
+        $stockAvailable = Sku::where('code',$item->options->sku)->pluck('stock')->first();
+        if ($cartItem) {
+            // Si el producto ya está en el carrito, calcula la nueva cantidad
+            $newQty = $cartItem->qty + $requestedQuantity;
+
+            // Verifica si la nueva cantidad excede el stock disponible
+            if ($newQty <= $stockAvailable) {
+                // Actualiza la cantidad del producto en el carrito
+                Cart::instance('cart')->update($cartItem->rowId, $newQty);
+
+/*                 return response()->json([
+                    'message' => 'Cantidad actualizada correctamente',
+                    'cartItem' => $cartItem,
+                ]); */
+            } else {
+            // Calcula cuántos productos puedes agregar sin exceder el stock
+            $availableToAdd = $stockAvailable - $currentQtyInCart;
+            Cart::instance('cart')->update($cartItem->rowId, $availableToAdd+$cartItem->qty);
+                /* return response()->json(['message' => 'No hay suficiente stock disponible']); */
+            }
+        } else {
+            // Si el producto no está en el carrito, agrégalo si la cantidad solicitada es menor o igual al stock disponible
+            if ($requestedQuantity <= $stockAvailable) {
+                $newCartItem = Cart::instance('cart')->add(
+                    $item->id,
+                    $item->name,
+                    $item->qty,
+                    $item->price,
+                    ['productImage' => $item->options->productImage ?? 'image/dashboard/No_image_dark.png',
+                    'brand'=> $item->options->brand,
+                    'slug'=> $item->options->slug,
+                    'sku'=> $item->options->sku,
+                    'color'=> $item->options->color,
+                    'color_id'=>$item->options->color_id,
+                    'stock'=> $item->options->stock,
+                    'hex'=>$item->options->hex,
+                    'src'=>$item->options->src,
+                    ]
+                )->associate('App\Models\Sku');
+
+/*                 return response()->json([
+                    'message' => 'Producto agregado correctamente',
+                    'cartItem' => $newCartItem,
+                ]); */
+            } else {
+                /* return response()->json(['message' => 'No hay suficiente stock disponible']); */
+            }
+        }
+
         Cart::instance('wishlist')->remove($rowId);
         unset($this->counts[$index]);
-        Cart::instance('cart')->add(
-            $item->id,
-            $item->name,
-            $item->qty,
-            $item->price,
-            ['productImage' => $item->options->productImage ?? 'image/dashboard/No_image_dark.png',
-            'brand'=> $item->options->brand,
-            'slug'=> $item->options->slug,
-            'sku'=> $item->options->sku,
-            'color'=> $item->options->color,
-            'color_id'=>$item->options->color_id,
-            'stock'=> $item->options->stock,
-            'hex'=>$item->options->hex,
-            'src'=>$item->options->src,
-            ]
-        )->associate('App\Models\Sku');
         $this->updateDataBase();
         Cart::instance('cart')->store(auth()->user()->id);
         $this->dispatch('cart-added');

@@ -211,7 +211,7 @@ class CheckoutController extends Controller
         ])->
         post(config('services.izipay.url'),[
             'amount'  => session('totality')*100,
-            'currency' => 'USD',
+            'currency' => 'PEN',
             'orderId'  => Str::random(20),
             'customer' => [
                 'email' => auth()->user()->email,

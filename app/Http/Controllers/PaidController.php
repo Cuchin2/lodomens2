@@ -8,16 +8,20 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Http;
 use MercadoPago\MercadoPagoConfig;
 use MercadoPago\Client\MerchantOrder\MerchantOrderClient;
+use Illuminate\Support\Facades\Log;
 use Cart;
 class PaidController extends Controller
 {
     public function izipay(Request $request){
+         // Verificar si el algoritmo de hash es el correcto
         if($request->get('kr-hash-algorithm') !== 'sha256_hmac') {
             throw new \Exception("Invalid hash algorithm");
         }
+        // Obtener la respuesta del campo 'kr-answer'
         $krAnswer= str_replace('\/','/', $request->get('kr-answer'));
+        // Validar la integridad de la respuesta calculando el hash
         $calculateHash = hash_hmac('sha256',$krAnswer, config('services.izipay.hash_key'));
-
+        // Comprobar si el hash coincide con el proporcionado por IziPay
         if($calculateHash !== $request->get('kr-hash'))
         {
             throw new \Exception('invalid hash');
@@ -25,6 +29,78 @@ class PaidController extends Controller
         Session::put('thanks', true);
         //puedes realizar la acción que requiera la compra
         return /* "OK" */ redirect()->route('web.shop.gracias');
+
+    }
+    public function notificationIpn(Request $request)
+    {
+        Log::info('IPN received', $request->all());
+        // Registra todos los datos de la notificación
+        // Verifica si la solicitud contiene datos
+        if ($request->isMethod('post') && !$request->post()) {
+            Log::error('No post data received!');
+            return response()->json(['error' => 'No post data received!'], 400);
+        }
+
+        // Verifica el hash
+        if (!$this->checkHash($request)) {
+            Log::error('Invalid IPN signature');
+            return response()->json(['error' => 'Invalid IPN signature'], 400);
+        }
+
+        // Procesa la notificación IPN
+        try {
+            $formAnswer = json_decode($request->input('kr-answer'), true);
+            if (!$formAnswer) {
+                throw new \Exception('Invalid JSON answer');
+            }
+
+            // Obtén los detalles de la transacción
+            $transaction = $formAnswer['transactions'][0] ?? null;
+            if (!$transaction) {
+                throw new \Exception('Transaction not found in IPN answer');
+            }
+
+            $orderStatus = $formAnswer['orderStatus'];
+            $orderId = $formAnswer['orderDetails']['orderId'];
+            $transactionUuid = $transaction['uuid'];
+
+            // Log de los datos recibidos para seguimiento
+            Log::info('IPN Received', [
+                'orderStatus' => $orderStatus,
+                'orderId' => $orderId,
+                'transactionUuid' => $transactionUuid
+            ]);
+
+            // Aquí puedes procesar el estado de la orden según el $orderStatus
+            return response()->json(['message' => 'IPN Processed Successfully'], 200);
+
+        } catch (\Exception $e) {
+            Log::error('Error processing IPN: ' . $e->getMessage());
+            return response()->json(['error' => 'Error processing IPN'], 500);
+        }
+    }
+    // Validación de hash
+    private function checkHash(Request $request)
+    {
+        $hashAlgorithm = $request->input('kr-hash-algorithm');
+        if (!in_array($hashAlgorithm, ["sha256_hmac"])) {
+            return false;
+        }
+
+        // Obtén la llave según el algoritmo
+        $key = $hashAlgorithm === "sha256_hmac" ? env('IZIPAY_SHA256_KEY') : null;
+        if (!$key) {
+            return false;
+        }
+
+        // Reemplaza escapes en la respuesta
+        $krAnswer = str_replace('\/', '/', $request->input('kr-answer'));
+
+        // Calcula el hash
+        $calculatedHash = hash_hmac("sha256", $krAnswer, $key);
+
+        // Compara el hash calculado con el enviado
+        return $calculatedHash === $request->input('kr-hash');
     }
     public function niubiz(Request $request){
         $auth= base64_encode(config('services.niubiz.user').':'.config('services.niubiz.password'));

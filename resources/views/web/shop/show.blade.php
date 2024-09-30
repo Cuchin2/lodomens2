@@ -38,7 +38,7 @@
                 {{--  <p x-text="ext"></p>  --}}
                 <lodo class="relative md:w-[338px] lg:h-[338px] md:h-[217px] lg:min-w-[318px] relative mx-auto border-[2px] rounded-[3px] flex items-center {{--  h-full items-center  --}}" style="border-color: {{ $product->type->hex ?? ''}}">
 
-                    <img class="absolute top-5 left-5" src="{{ asset('storage').'/'.($product->type->images->url ??'') }}" alt="">    
+                    <img class="absolute top-5 left-5" src="{{ asset('storage').'/'.($product->type->images->url ??'') }}" alt="">
                 <template x-if="ext === 'mp4'">
                     <video :src="src" controls
                   class="w-full " :alt="ext" alt="">
@@ -149,7 +149,7 @@
                     @endif
 
                  </div>
-                <livewire:add-cart product="{{$product->id}}" color="{{ $colorSelect[0]->id }}"/>
+                <livewire:add-cart product="{{$product->id}}" color="{{ $colorSelect[0]->id }}" product_name="{{ $product->name }}"/>
 
                 <a class="flex my-4 space-x-2 hover:text-white cursor-pointer w-fit" @click=" $dispatch('add-wishlist',{ color: skuselect})">
                     <x-icons.heart class="w-[20px]" />

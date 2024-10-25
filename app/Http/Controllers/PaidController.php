@@ -70,7 +70,13 @@ class PaidController extends Controller
                 'orderId' => $orderId,
                 'transactionUuid' => $transactionUuid
             ]);
-
+            // Almacena datos en sesión
+            Session::put('transaction_details', [
+                'orderStatus' => $orderStatus,
+                'orderId' => $orderId,
+                'transactionUuid' => $transactionUuid,
+                // Agrega cualquier otro dato relevante que quieras almacenar
+            ]);
             // Aquí puedes procesar el estado de la orden según el $orderStatus
             return response()->json(['message' => 'IPN Processed Successfully'], 200);
 

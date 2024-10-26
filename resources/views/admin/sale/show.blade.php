@@ -20,8 +20,143 @@
     ]
     @endphp
     <x-slot name="slot2">
+        <!-- Contenedor del contenido -->
+        <div class="flex flex-col border border-gris-80 mx-10">
+            <div class="text-center p-0">
+                <!-- Logo o imagen de encabezado -->
+                <img src="https://lodomens.com/image/lodomens/Banner_para_correos.png" alt="Lodomens" class="w-5/6 mx-auto my-3" />
+            </div>
+            <div class="bg-gris-80 p-5 md:w-5/6 mx-auto">
+                <!-- Contenido del correo -->
+                <div class="text-center text-gris-10 font-sans text-2xl">
+                    <b>Estado del pedido actual</b>
+                </div>
+{{--                  <div class="py-5 text-gris-10 font-sans text-base leading-5">
+                    Hola, {{ $mailData['order']['name'] }}, tu pedido ha sido enviado a través de nuestro currier. Si no vas a estar, recuerda que alguien mayor de edad lo puede recibir, mostrando los datos de envio para verificar la compra.
+                </div>  --}}
+                <div class="max-w-2xl mx-auto">
+                    <div class="text-center py-5">
+                        <!-- Contenedor de la barra de progreso -->
+                        <div class="flex justify-center">
+                            <!-- Primer círculo (resaltado) -->
+                            <div class="text-center">
+                                <div class="flex justify-end items-center w-32">
+                                    <div class=" w-8 h-8 rounded-full bg-red-800  text-white flex items-center justify-center font-sans">
+                                        1
+                                    </div>
+                                    <div class="bg-red-800 h-1 w-[40%]"></div>
+                                </div>
+                                <div class="mt-2 text-gris-10 font-sans text-sm">Recibido</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="flex  items-center w-32">
+                                    <div class="bg-red-800 h-1  w-[38%]"></div>
+                                    <div class=" w-8 h-8 rounded-full bg-red-800 text-white flex items-center justify-center font-sans">
+                                        2
+                                    </div>
+                                    <div class="bg-red-800 h-1 w-[38%]"></div>
+                                </div>
+                                <div class="mt-2 text-gris-10 font-sans text-sm">En proceso</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="flex items-center w-32">
+                                    <div class="bg-red-800 h-1 w-[38%] "></div>
+                                    <div class=" w-8 h-8 rounded-full bg-red-800 text-white flex items-center justify-center font-sans">
+                                        3
+                                    </div>
+                                    <div class="bg-gray-300 h-1 w-[38%] "></div>
+                                </div>
+                                <div class="mt-2 text-red-800 font-sans text-sm font-bold">En camino</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="flex  items-center w-32">
+                                    <div class="bg-gray-300 h-1 w-[40%] "></div>
+                                    <div class=" w-8 h-8 rounded-full bg-gray-300 text-gris-80 flex items-center justify-center font-sans">
+                                        4
+                                    </div>
+                                </div>
+                                <div class="mt-2 text-gris-10 font-sans text-sm">Entregado</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid p-5 font-sans text-gris-10">
+                        <div class="border-b border-gray-300 pb-1 mb-4">
+                            <h6 class="m-0 text-lg font-bold">{{ $order->shipping->price == 0 ? 'Retirno en : '.$order->shipping->name : 'Dirección de envio' }}</h6>
+                        </div>
+                        @if ($order->deliveryOrders)
+                            @if ($order->shipping->price)
+                                <div>{{ $order->deliveryOrders->address }}, {{ $order->deliveryOrders->reference  }}</div>
+                                <div>{{ $order->deliveryOrders->district }}, {{ $order->deliveryOrders->city }} </div>
+                                <div>{{ $order->deliveryOrders->state }}, {{ $order->deliveryOrders->country }}.</div>
+                            @else
+                                <div>{{--  {!! $mailData['shipping']['title'] !!}  --}}</div>
+                            @endif
+                            <div><b>Recibido por:</b> {{ $order->deliveryOrders->name }} {{ $order->deliveryOrders->last_name }}</div>
+                        @else
+                            @if ($order->shipping->price > 0)
+                                <div>{{  $order->address }}, {{  $order->reference }}</div>
+                                <div>{{  $order->district }}, {{  $order->city }} </div>
+                                <div>{{  $order->state }}, {{  $order->country }}.</div>
+                            @else
+                                <div>{{ $order->shipping->description }}</div>
+                            @endif
+                            <div><b>Comprado por:</b> {{ $order->name.' '.$order->last_name }}</div>
+                        @endif
+                    </div>
 
-        <div class="max-w-[793px] h-[1122px] flex flex-col justify-between bg-gris-80 mx-auto shadow-xl mt-12 p-[72px] text-gris-10">
+                    <div class="max-w-2xl mx-auto font-sans text-gris-5 p-5">
+                        <div class="">
+                            <div class="flex border-b border-gray-300">
+                                <p class="text-lg font-bold mb-1">Detalles de su pedido:</p>
+                                <p class="text-lg mb-1 ml-auto">Pedido N° 00{{ $order->id }}</p>
+                            </div>
+                            @foreach ($order->saleDetails as $item)
+                            <div class="flex">
+                                <!-- Imagen del producto -->
+                                <a href="" class=" w-24 h-24 m-3 relative border-corp-50">
+                                    <img src="{{ (asset('storage').'/'.$item->src ?? '') }}" alt="" class="absolute">
+                                    <img src="{{(asset('storage').'/'.$item->productImage) }}" alt="{{ $item->name }}" class="w-24 h-24 object-cover border-2  rounded" style="border-color: {{ $item->hex }}">
+                                </a>
+
+                                <!-- Detalles del producto -->
+                                <div class="flex w-full">
+                                    <div class="m-3">
+                                        <h6 class="m-0 text-lg font-bold">{{ $item->name }}</h6>
+                                        <p class="m-3 text-sm">Precio unidad: {{session('currency')}}{{ $item->sell_price }}</p>
+                                        <p class="m-0 text-sm">Color:  {{ $item->color }}</p>
+                                        <p class="m-0 text-sm">Marca:  {{ $item->brand }}</p>
+                                    </div>
+                                    <div class="mt-3 ml-auto text-right">
+                                        <p class="m-0 text-lg font-bold">{{session('currency')}} {{ $item->qtn*$item->sell_price }}</p>
+                                        <p class="m-0 text-sm">Cantidad: {{ $item->qtn }}</p>
+                                        <p class="m-0 text-sm whitespace-nowrap">SKU: {{ $item->sku }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="font-sans text-gris-5 mb-12 px-5">
+                        <div class="flex border-t border-gray-300">
+                            <p class="text-lg mb-0">Sub-Total</p>
+                            <p class="text-lg mb-0 ml-auto">{{ ($order->country =='Perú' ? 'S/. ' : '$ '). number_format($order->total-$order->shipping->price,2 ) }}</p>
+                        </div>
+                        <div class="flex">
+                            <p class="m-1 text-lg">Envio - <span class="text-sm">{{ $order->shipping->price == 0 ?   $order->shipping->name : 'Envio a domicilio' }}</span></p>
+                            <p class="m-1 text-lg ml-auto">{{ ($order->country =='Perú' ? 'S/. ' : '$ ').$order->shipping->price }}</p>
+                        </div>
+                        <div class="flex font-bold">
+                            <p class="m-1 text-xl">Total:</p>
+                            <p class="m-1 text-xl ml-auto">{{ ($order->country =='Perú' ? 'S/. ' : '$ '). $order->total }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+{{--          <div class="max-w-[793px] h-[1122px] flex flex-col justify-between bg-gris-80 mx-auto shadow-xl mt-12 p-[72px] text-gris-10">
             <div>
                 <div class="flex items-center justify-between">
                     <div>
@@ -108,13 +243,7 @@
                                 <td class="font-bold">Envio</td>
                                 <td>{{ ($order->country =='Perú' ? 'S/. ' : '$ ').$order->shipping->price }}</td>
                             </tr>
-{{--                              <tr class="text-center">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="font-bold">Tax 8%</td>
-                                <td>$ 257,04</td>
-                            </tr>  --}}
+
                             <tr class="text-center">
                                 <td></td>
                                 <td></td>
@@ -133,7 +262,7 @@
                 <p>John Doe, (012) 345 6789, johndoe@example.com</p>
                 <p>www.yourwebaddress.com</p>
             </div>
-        </div>
+        </div>  --}}
 
 
     </x-slot>

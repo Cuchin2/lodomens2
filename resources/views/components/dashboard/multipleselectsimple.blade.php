@@ -1,5 +1,5 @@
 @props(['id'=>'','selected'=>'','unselected'=>'','param'=>'1','placeholder'=>'','name'=>''])
-<div class="msa-wrapper border-gris-70 border-[1px] dark:border-gris-70 dark:bg-gris-90 dark:text-gray-300 w-full focus:border-corp-50 dark:focus:border-corp-50 focus:ring-corp-50 dark:focus:ring-corp-50 rounded-lg shadow-sm"
+<div class="msa-wrapper border-gris-70 border-[1px]  bg-gris-90 text-gray-300 w-full focus:border-corp-50  rounded-lg shadow-sm"
 x-data="multiselectComponent{{ $id }}()"
 x-init="$watch('selected', value => selectedString = value.join(','))">
 
@@ -8,7 +8,7 @@ x-init="$watch('selected', value => selectedString = value.join(','))">
     aria-haspopup="tag-list" hidden>
 <div class="input-presentation" @click="listActive = !listActive"
     @click.away="listActive = false" x-bind:class="{ 'active': listActive }">
-    <span class="placeholder dark:text-gris-30 dark:text-[12px]" x-show="selected.length == 0">{{ $placeholder }}</span>
+    <span class="placeholder text-gris-30 text-[12px]" x-show="selected.length == 0">{{ $placeholder }}</span>
     <template x-for="(tag, index) in selected">
         <div class="tag-badge bg-gris-60">
             <span x-text="tag"></span>
@@ -22,7 +22,7 @@ x-init="$watch('selected', value => selectedString = value.join(','))">
 </div>
 <ul id="tag-list" x-show.transition="listActive" role="listbox">
     <template x-for="(tag, index, collection) in unselected">
-        <li x-show="!selected.includes(tag)" x-bind:value="tag" x-text="tag" class="dark:text-gris-30 dark:text-[12px]"
+        <li x-show="!selected.includes(tag)" x-bind:value="tag" x-text="tag" class="text-gris-30 text-[12px]"
             aria-role="button" @click.stop="addMe($event)" x-bind:data-index="index"
             role="option"></li>
     </template>

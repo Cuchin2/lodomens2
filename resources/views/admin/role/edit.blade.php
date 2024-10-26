@@ -13,7 +13,7 @@
             @csrf
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 " id="miDiv">
 
-                <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="  bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-12 ">
 
                         <div class="my-2">
@@ -22,10 +22,10 @@
                         </div>
 
 
-                        <x-label class="dark:text-gray-200 mb-4">Permisos especiales</x-label>
+                        <x-label class="text-gray-200 mb-4">Permisos especiales</x-label>
 
 
-                        <div class="dark:text-gray-200">
+                        <div class="text-gray-200">
                             <x-checkbox id="todos" onchange="cambiaGrupo(this)" rule="{{$tieneTodosLosPermisos}}">TODOS / NINGUNO</x-checkbox>
 
                             <x-label class="my-4">Lista de permisos</x-label>
@@ -142,7 +142,7 @@
                     </div>
 
                 </div>
-                <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg dark:text-gray-200">
+                <div class="  bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg text-gray-200">
                     <div class="mx-auto max-w-screen-xl px-4 py-2 lg:px-12 ">
                         <div>
                             <h3 class="my-4"> Permisos para "Productos"</h3>
@@ -243,7 +243,7 @@
                         </div>
                     </div>
                 </div>
-                <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg dark:text-gray-200">
+                <div class="  bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg text-gray-200">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-12 ">
 
                         <div>

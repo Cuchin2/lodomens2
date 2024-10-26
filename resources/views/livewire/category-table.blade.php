@@ -15,7 +15,7 @@
                             </div>
                           </div>
                         </button>
-                        <button class="h-[30px] text-gris-20  px-4 bg-gris-70 hover:bg-gris-60 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]">
+{{--                          <button class="h-[30px] text-gris-20  px-4 bg-gris-70 hover:bg-gris-60 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]">
 
                             <div class="text-center  text-gray-300 text-[12px] px-1 font-inter font-normal leading-4 whitespace-normal">
                                 Columnas
@@ -83,7 +83,7 @@
                                     x-on:click.outside="close($refs.button)"
                                     :id="$id('dropdown-button')"
                                     style="display: none;"
-                                    class="absolute left-0 mt-2 w-40 rounded-md bg-gris-70 shadow-md dark:text-gris-20"
+                                    class="absolute left-0 mt-2 w-40 rounded-md bg-gris-70 shadow-md text-gris-20"
                                 >
                                     <a href="#" class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md px-4 py-1.5 text-left text-[12px] hover:bg-gris-60 disabled:text-gray-500">
                                         New Task
@@ -98,16 +98,16 @@
                                     </a>
                                 </div>
                             </div>
-                        </div>
+                        </div>  --}}
                         <x-specials.search />
 
                     </div>
                 </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-center   dark:text-gris-30">
+                        <table class="w-full text-center   text-gris-30">
                             <thead class="text-[16px] text-gris-20  bg-gris-70 ">
                                 <tr>
-                                    <th scope="col" class="px-4 py-[13px] font-normal" >ID</th>
+                                    <th scope="col" class="px-4 py-[13px] font-normal" >N°</th>
                                     <th scope="col" class="px-4 py-[13px] font-normal" wire:click="setSortBy('name')">
                                         Nombre
                                         </th>
@@ -122,9 +122,9 @@
                             <tbody class="text-[14px] ">
                                 @foreach ($categories as $category)
 
-                                <tr wire:key="{{$category->id}}" class="border-b dark:border-gris-70 dark:hover:bg-gris-70 dark:hover:bg-opacity-[25%] px-[140px]">
+                                <tr wire:key="{{$category->id}}" class="border-b border-gris-70 hover:bg-gris-70 hover:bg-opacity-[25%] px-[140px]">
                                     <th scope="row"
-                                        class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
+                                        class="px-4 py-[13px] font-medium  whitespace-nowrap text-gris-30">
                                         {{$category->id}}</th>
 
                                     <td class="px-4 py-[13px]">

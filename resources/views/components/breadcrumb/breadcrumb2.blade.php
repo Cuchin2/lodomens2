@@ -5,7 +5,7 @@
       <svg class="w-2 h-2 mx-1 text-gris-40" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
       </svg>
-      <a href="{{$href}}" wire:navigate class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gris-40 dark:hover:text-white">{{$name}}</a>
+      <a href="{{$href}}" wire:navigate class="ml-1 text-sm font-medium  md:ml-2 text-gris-40 hover:text-white">{{$name}}</a>
     </div>
   </li>
 @else

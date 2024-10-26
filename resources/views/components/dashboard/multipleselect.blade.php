@@ -1,5 +1,5 @@
 @props(['id'=>'','colorSelect'=>'','colorUnSelect'=>'','param'=>'1', 'placeholder'=>'','name'=>''])
-<div class="msa-wrapper border-gris-70 border-[1px] dark:border-gris-70 dark:bg-gris-90 dark:text-gray-300 w-full focus:border-corp-50 dark:focus:border-corp-50 focus:ring-corp-50 dark:focus:ring-corp-50 rounded-lg shadow-sm"
+<div class="msa-wrapper border-gris-70 border-[1px]  bg-gris-90 text-gray-300 w-full focus:ring-corp-50 rounded-lg shadow-sm"
 x-data="multiselectComponent{{ $id }}()" x-init="
 selectedString = selected.map(item => item.name);
 $watch('selected', value => selectedString = value.map(item => item.name)); init();"
@@ -10,7 +10,7 @@ $watch('selected', value => selectedString = value.map(item => item.name)); init
     aria-haspopup="tag-list" hidden>
 <div class="input-presentation" @click="listActive = !listActive"
     @click.away="listActive = false" x-bind:class="{ 'active': listActive }">
-    <span class="placeholder dark:text-gris-30 dark:text-[12px]" x-show="selected.length == 0">{{ $placeholder }}</span>
+    <span class="placeholder text-gris-30 text-[12px]" x-show="selected.length == 0">{{ $placeholder }}</span>
     <div id="gallery"
         class="flex flex-wrap gap-[6px] items-center relative cursor-pointer">
         <template x-for="(tag, index) in selected">
@@ -28,7 +28,7 @@ $watch('selected', value => selectedString = value.map(item => item.name)); init
 </div>
 <ul id="tag-list" x-show.transition="listActive" role="listbox">
     <template x-for="(tag, index, collection) in unselected">
-        <li x-show="!selected.includes(tag.name)" x-bind:value="tag.name" class="dark:text-gris-30 dark:text-[12px]"
+        <li x-show="!selected.includes(tag.name)" x-bind:value="tag.name" class="text-gris-30 text-[12px]"
             x-text="tag.name" aria-role="button" @click.stop="addMe($event)"
             x-bind:data-index="index" role="option"></li>
     </template>
@@ -164,7 +164,7 @@ $watch('selected', value => selectedString = value.map(item => item.name)); init
                     padding: 6px 12px;
                     text-transform: capitalize;
                     cursor: pointer;
-              
+
                     &:hover {
                         background: #292929;
                         color: #D1D1D1;

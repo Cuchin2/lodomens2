@@ -1,4 +1,4 @@
-<div class="col-span-12 lg:col-span-12 bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg mb-4">
+<div class="col-span-12 lg:col-span-12 bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg mb-4">
   <div x-data="colorComponent()" x-init="init()">
     <div class="p-4">
       <x-button.corp_secundary  @click="addLine" class="w-full mr-2">Agregar línea</x-button.corp_secundary>
@@ -122,21 +122,21 @@
               </div>
 
               {{--  modal interno --}}
-                      <div x-show="basicInfoModal" x-transition.opacity="" x-transition:enter.duration.100ms="" x-transition:leave.duration.300ms="" class="fixed top-0 left-0 z-50 dark:bg-black/40 h-screen w-full flex items-center justify-center ">
-                          <div @click.away="basicInfoModal = false" class="relative sm:w-full sm:max-w-2xl sm:mx-auto bg-white dark:bg-gris-70 rounded-lg shadow-xl dark:text-gray-400 dark:border-t-[3.5px] dark:border-corp-50">
+                      <div x-show="basicInfoModal" x-transition.opacity="" x-transition:enter.duration.100ms="" x-transition:leave.duration.300ms="" class="fixed top-0 left-0 z-50 bg-black/40 h-screen w-full flex items-center justify-center ">
+                          <div @click.away="basicInfoModal = false" class="relative sm:w-full sm:max-w-2xl sm:mx-auto bg-gris-70 rounded-lg shadow-xl text-gray-400 border-t-[3.5px] border-corp-50">
                               <span @click="basicInfoModal = false" class="absolute right-2 top-1 text-xl cursor-pointer hover:text-gray-600" title="Close">
                                   ✕
                               </span>
                               <div class="px-6 py-4">
-                                  <div class="text-lg font-medium text-gray-900 dark:text-gris-10">
+                                  <div class="text-lg font-medium text-gris-10">
                                       Confirmación Eliminación
                                   </div>
-                                  <div class="mt-4 text-[15px] text-gray-600 dark:text-gray-400 flex items-center">
+                                  <div class="mt-4 text-[15px] text-gray-400 flex items-center">
                                       ¿Estás seguro de que deseas eliminar la imangen?  <img :src="imageUrl" alt="" class="w-[70px] ml-auto" >
                                   </div>
                               </div>
 
-                              <div class="flex flex-row justify-end px-6 py-4 bg-gray-100 dark:bg-gris-70 text-end rounded-lg">
+                              <div class="flex flex-row justify-end px-6 py-4 bg-gris-70 text-end rounded-lg">
                                   <x-button.corp_secundary  @click="basicInfoModal = false">Cancelar</x-button.corp_secundary>
                                   <x-button.corp1 @click="deleteimage(imageUrl)">Eliminar</x-button.corp1>
                               </div>
@@ -147,20 +147,20 @@
 
 
           </template>
-          <div class="flex dark:text-gris-30 cursor-pointer" @click="basicRowModal=true">
+          <div class="flex text-gris-30 cursor-pointer" @click="basicRowModal=true">
               ✕
             </div>
              {{--  modal externo --}}
-             <div x-show="basicRowModal" x-transition.opacity="" x-transition:enter.duration.100ms="" x-transition:leave.duration.300ms="" class="fixed top-0 left-0 z-50 dark:bg-black/40 h-screen w-full flex items-center justify-center ">
-              <div @click.away="basicRowModal = false" class="relative sm:w-full sm:max-w-2xl sm:mx-auto bg-white dark:bg-gris-70 rounded-lg shadow-xl dark:text-gray-400 dark:border-t-[3.5px] dark:border-corp-50">
-                  <span @click="basicRowModal = false" class="absolute right-2 top-1 text-xl cursor-pointer hover:text-gray-600" title="Close">
+             <div x-show="basicRowModal" x-transition.opacity="" x-transition:enter.duration.100ms="" x-transition:leave.duration.300ms="" class="fixed top-0 left-0 z-50 bg-black/40 h-screen w-full flex items-center justify-center ">
+              <div @click.away="basicRowModal = false" class="relative sm:w-full sm:max-w-2xl sm:mx-auto bg-gris-70 rounded-lg shadow-xl text-gray-400 border-t-[3.5px] border-corp-50">
+                  <span @click="basicRowModal = false" class="absolute right-2 top-1 text-xl cursor-pointer" title="Close">
                       ✕
                   </span>
                   <div class="px-6 py-4">
-                      <div class="text-lg font-medium text-gray-900 dark:text-gris-10">
+                      <div class="text-lg font-medium text-gris-10">
                           Confirmación Eliminación
                       </div>
-                      <div class="mt-4 text-[15px] text-gray-600 dark:text-gray-400 flex items-center" x-text="'¿Estás seguro de que deseas eliminar la fila N° '+(index+1) +' ?'">
+                      <div class="mt-4 text-[15px]  text-gray-400 flex items-center" x-text="'¿Estás seguro de que deseas eliminar la fila N° '+(index+1) +' ?'">
 
                       </div>
                       <p class="mt-4"><b>Advertencia</b>: Se borrarán todas las fotos de esta fila</p>
@@ -171,7 +171,7 @@
                       </div>
                   </div>
 
-                  <div class="flex flex-row justify-end px-6 py-4 bg-gray-100 dark:bg-gris-70 text-end rounded-lg">
+                  <div class="flex flex-row justify-end px-6 py-4 bg-gris-70 text-end rounded-lg">
                       <x-button.corp_secundary  @click="basicRowModal = false">Cancelar</x-button.corp_secundary>
                       <x-button.corp1 @click="deleterow(line.id)">Eliminar</x-button.corp1>
                   </div>

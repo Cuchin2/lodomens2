@@ -23,12 +23,12 @@
     @livewireStyles
     @stack('styles')
 </head>
-<body class="font-sans antialiased dark:bg-gris-90">
+<body class="font-sans antialiased bg-gris-90">
     <x-banner2 />
 
     <div class="min-h-screen">
 
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
+        <div class=" bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
 
             <div class="flex bg-gray-300 min-h-screen" x-data="{ isSidebarExpanded: false, contract: true,
                 setSidebar() {
@@ -37,13 +37,13 @@
             }" x-on:resize.window="setSidebar()" x-init="setSidebar()" >
 
                 <aside
-                    class="overflow-y-auto overflow-x-hidden simplebar-scrollable-y h-0 flex fixed z-10 flex-col text-gray-300 border-r dark:border-gris-70 bg-gris-90 transition-all duration-300 ease-in-out sm:w-[200px] w-52 sm:h-full"
+                    class="overflow-y-auto overflow-x-hidden simplebar-scrollable-y h-0 flex fixed z-10 flex-col text-gray-300 border-r border-gris-70 bg-gris-90 transition-all duration-300 ease-in-out sm:w-[200px] w-52 sm:h-full"
                     :class="{ 'sm:!w-[52px] w-0 overflow-y-hidden h-0': !isSidebarExpanded ,'h-full' : isSidebarExpanded }"
                     @mouseenter="if (contract===false) isSidebarExpanded = true"
                     @mouseleave="if (contract===false) isSidebarExpanded = false">
 
                     <a href="#"
-                        class="h-[54px] flex fixed z-10 w-inherit items-center dark:bg-gris-90 overflow-hidden dark:border-gris-70 border-r sm:border-b" :class="{'dark:border-none' : !isSidebarExpanded}">
+                        class="h-[54px] flex fixed z-10 w-inherit items-center dark:bg-gris-90 overflow-hidden border-gris-70 border-r sm:border-b" :class="{'dark:border-none' : !isSidebarExpanded}">
                         {{-- <x-icons.logosSvg.Logo_imag_Def width="38px"></x-icons.logosSvg.Logo_imag_Def> --}}
                         <img src="{{ asset('image/lodomens/Logo_isotipo2.svg') }}" class="h-[23.48px] w-[33px] ml-[9px]">
                         <span class="font-medium duration-300 ease-in-out ml-[13.74px] mr-[13px]"
@@ -176,16 +176,17 @@
                             </x-slot> Usuarios
                         </x-sidebar.ul-simple>
                         @endcan
-                        @can(['roles.index', 'roles.show'])
+                        @role('Admin') {{--  @can(['roles.index', 'roles.show'])  --}}
                         <x-sidebar.ul-simple href="{{ route('roles.index') }}" :active="request()->routeIs('roles.*')">
                             <x-slot name="icon">
                                 <x-icons.roles class="h-[20px] w-[20px]" />
                             </x-slot> Roles
                         </x-sidebar.ul-simple>
-                        @endcan
+                        @endrole
+                        {{--  @endcan  --}}
                     </div>
                     <div class="">
-                        <x-sidebar.ul-simple href="{{ route('dashboard') }}" class="dark:border-gris-70 border-t">
+                        <x-sidebar.ul-simple href="{{ route('dashboard') }}" class="border-gris-70 border-t">
                             <x-slot name="icon">
                                 <x-icons.setting class="h-[20px] w-[20px]" />
                             </x-slot> Setting
@@ -197,7 +198,7 @@
                 </aside>
 
                 <div :class="{ 'sm:!ml-[52px]': !isSidebarExpanded }"
-                    class="sm:ml-[200px] ml-0 flex-1 flex flex-col transition-all duration-300 ease-in-out dark:bg-gris-90">
+                    class="sm:ml-[200px] ml-0 flex-1 flex flex-col transition-all duration-300 ease-in-out bg-gris-90">
 
                     @livewire('navigation-menu')
 
@@ -214,7 +215,7 @@
                         </div>
 
                     </main>
-                    <div class="text-[12px] dark:text-gris-20 flex mx-[24px] my-1">
+                    <div class="text-[12px] text-gris-20 flex mx-[24px] my-1">
                         <p class="mr-auto">Realizado por <a href="https://estudio.nubesita.com/" target="__blank" class="text-corp-50">Nubesita Estudio</a></p>
                         <p>Copyright © {{ now()->year }}. Todos los Derechos Reservados.</p>
                         <p class="ml-auto">Versión: <p class="text-corp-50 ml-1 ">0.1.0</p></p>

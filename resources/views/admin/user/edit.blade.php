@@ -40,7 +40,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 " id="miDiv">
 
-                <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="  bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-12 ">
 
                         <div class="my-3">
@@ -77,16 +77,16 @@
                             <x-input name="ruc" placeholder="RUC "
                                 value="{{ optional($user->profile)->ruc }}"
                                 ></x-input>
-                            <span class="dark:text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
+                            <span class="text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
                         </div>
                     </div>
                 </div>
-                <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="  bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-12 ">
                         <div class="my-3">
                             <x-label class="mb-2">Dirección</x-label>
                             <x-input name="address" value="{{ optional($user->profile)->address }}" placeholder="Dirección "></x-input>
-                            <span class="dark:text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
+                            <span class="text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
                         </div>
                         <div class="my-3">
                             <x-label class="mb-2">Pais</x-label>
@@ -107,17 +107,17 @@
                         <div class="my-3">
                             <x-label class="mb-2">Teléfono / Celular</x-label>
                             <x-input name="phone" value="{{ optional($user->profile)->phone }}" type="number" placeholder="Teléfono / Celular"></x-input>
-                            <span class="dark:text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
+                            <span class="text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
                         </div>
                         <div class="my-3">
                             <x-label class="my-2">Resumen de publicación</x-label>
                             <x-input-textarea placeholder="Descripción" name="description" col="4">
                                 {{ optional($user->profile)->description }}
                                 </x-imput-textarea>
-                                <span class="dark:text-gris-50 text-[12px] flex m-1">Se recomienda de 200 a 300
+                                <span class="text-gris-50 text-[12px] flex m-1">Se recomienda de 200 a 300
                                     caracteres</span>
                         </div>
-                        <div class="my-3 dark:text-gray-200">
+                        <div class="my-3 text-gray-200">
                             <x-label class="my-2">Redes sociales</x-label>
 
                             @if ($user->socialMedia->isNotEmpty())
@@ -128,22 +128,22 @@
                         </div>
                     </div>
                 </div>
-                <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="  bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-12 ">
 
                         <div class="my-3">
                             <x-label for="password_confirmation" value="{{ __('Nueva contraseña') }}" />
                             <div class="mt-1 items-center password-input" x-data="{ show: true }">
-                                <input class="w-full border dark:border-gris-70 dark:bg-gris-90 dark:text-gris-30 dark:focus:border-gris-50 dark:focus:ring-gris-50 dark:placeholder-gris-50 height: 30px rounded-md text-[12px] h-[30px] pr-[30px]" :type="show ? 'password' : 'text'" placeholder="Contraseña" name="password" >
+                                <input class="w-full border border-gris-70 bg-gris-90 text-gris-30 focus:border-gris-50 focus:ring-gris-50 placeholder-gris-50 height: 30px rounded-md text-[12px] h-[30px] pr-[30px]" :type="show ? 'password' : 'text'" placeholder="Contraseña" name="password" >
 
-                                <div class="password-icon dark:text-gray-400  px-1  text-sm leading-5">
+                                <div class="password-icon text-gray-400  px-1  text-sm leading-5">
                                     <x-icons.eye_open x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': show, 'block': !show }"/>
                                     <x-icons.eye_close x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': !show, 'block': show }"/>
                                 </div>
 
                             </div>
                             @error('password')
-                            <small class="text-sm dark:text-red-500">
+                            <small class="text-sm text-red-500">
                                 {{$message}}
                             </small>
                             @enderror
@@ -152,9 +152,9 @@
                         <div class="my-3">
                             <x-label for="password_confirmation" value="{{ __('Confirmar nueva Contraseña') }}" />
                             <div class="mt-1 items-center password-input" x-data="{ show: true }">
-                                <input class="w-full border dark:border-gris-70 dark:bg-gris-90 dark:text-gris-30 dark:focus:border-gris-50 dark:focus:ring-gris-50 dark:placeholder-gris-50 height: 30px rounded-md text-[12px] h-[30px] pr-[30px]" :type="show ? 'password' : 'text'" placeholder="Repetir contraseña"  name="password_confirmation">
+                                <input class="w-full border border-gris-70 bg-gris-90 text-gris-30 focus:border-gris-50 focus:ring-gris-50 placeholder-gris-50 height: 30px rounded-md text-[12px] h-[30px] pr-[30px]" :type="show ? 'password' : 'text'" placeholder="Repetir contraseña"  name="password_confirmation">
 
-                                <div class="password-icon dark:text-gray-400  px-1  text-sm leading-5">
+                                <div class="password-icon text-gray-400  px-1  text-sm leading-5">
                                     <x-icons.eye_open x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': show, 'block': !show }"/>
                                     <x-icons.eye_close x-cloak class="h-4 cursor-pointer" @click="show = !show" x-bind:class="{ 'hidden': !show, 'block': show }"/>
 
@@ -162,7 +162,7 @@
 
                             </div>
                             @error('password')
-                                    <small class="text-sm dark:text-red-500">
+                                    <small class="text-sm text-red-500">
                                         {{$message}}
                                     </small>
                                     @enderror
@@ -170,17 +170,17 @@
                         <div class="my-3">
                             <x-label class="mb-2">Correo electrónico</x-label>
                             <x-input name="email" type="email" value="{{ $user->email }}" placeholder="correo electrónico"></x-input>
-                            <span class="dark:text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
+                            <span class="text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
                         </div>
                         <div class="my-3">
                             <x-label class="mb-2">Fecha de nacimiento</x-label>
                             <input type="date"
-                                class="border dark:border-gris-70 dark:bg-gris-90 dark:text-gris-30 dark:focus:border-gris-50 dark:focus:ring-gris-50 dark:placeholder-gris-50 height: 30px rounded-md text-[12px] h-[30px] block"
+                                class="border border-gris-70 bg-gris-90 text-gris-30 focus:border-gris-50 focus:ring-gris-50 placeholder-gris-50 height: 30px rounded-md text-[12px] h-[30px] block"
                                 name="birthday" id="birthday">
-                            <span class="dark:text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
+                            <span class="text-gris-50 text-[12px] flex m-1">Este campo es opcional</span>
                         </div>
                         @if(!$user->hasRole('admin'))
-                        <div class="mt-4 dark:text-gray-300">
+                        <div class="mt-4 text-gray-300">
                             <x-label class="mb-2">Listado de roles</x-label>
                             @foreach ($roles as $role)
                             <x-checkbox id="{{$role->id}}" rule="{{ $user->roles->contains($role) }}" value="{{ $role->id }}" name="roles[]">{{ $role->name }}</x-checkbox>

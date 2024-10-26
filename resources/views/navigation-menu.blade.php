@@ -7,7 +7,7 @@
     }
 }" class="bg-white dark:bg-gris-90 transition-all duration-300 ease-in-out fixed left-0 right-0 sm:ml-[208px] ml-[52px] z-50" :class="{'sm:!ml-[52px]': !isSidebarExpanded, '!ml-[200px]': isSidebarExpanded }"
     <!-- Primary Navigation Menu -->
-    <div class="mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8 bg-gris-90">
         <div class="flex justify-between h-54">
             <div class="flex">
                 <!-- Logo -->
@@ -16,7 +16,7 @@
                         <x-application-mark class="block h-9 w-auto" />
                     </a>
                 </div> --}}
-                <button class="p-2 -ml-2 mr-2 text-gray-900 dark:text-gray-100" @click="isSidebarExpanded = !isSidebarExpanded; contract=!contract">
+                <button class="p-2 -ml-2 mr-2  text-gray-100" @click="isSidebarExpanded = !isSidebarExpanded; contract=!contract">
                     <svg viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 transform rotate-180" :class="{'rrotate-0': !isSidebarExpanded }">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                       <line x1="4" y1="6" x2="14" y2="6" />
@@ -27,12 +27,12 @@
                 <!-- Navigation Links -->
                 <div class="relative sm:w-[260px] w-full mr-2 ml-auto">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <x-icons.search class="w-[14px] h-[14px] text-gris-300 dark:text-gris-40" />
+                        <x-icons.search class="w-[14px] h-[14px] text-gris-40" />
                     </div>
                     <input
 
                     type="search" x-model="search"
-                    class="dark:bg-gris-100 border dark:border-gris-80 mt-[11px] h-[30px] dark:text-gris-40 text-[12px] rounded-[20px] focus:ring-gris-70 focus:border-gris-70 block w-full pl-10 p-2 "
+                    class="bg-gris-100 border border-gris-80 mt-[11px] h-[30px] text-gris-40 text-[12px] rounded-[20px] focus:ring-gris-70 focus:border-gris-70 block w-full pl-10 p-2 "
                     placeholder="Buscar" required="">
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -50,7 +50,7 @@
                         <x-dropdown align="right" width="60">
                             <x-slot name="trigger">
                                 <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md  text-gris-10  bg-gray-800 hover:text-gray-300 focus:outline-none  focus:bg-gray-700  active:bg-gray-700 transition ease-in-out duration-150">
                                         {{ Auth::user()->currentTeam->name }}
 
                                         <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -80,7 +80,7 @@
 
                                     <!-- Team Switcher -->
                                     @if (Auth::user()->allTeams()->count() > 1)
-                                        <div class="border-t border-gray-200 dark:border-gray-600"></div>
+                                        <div class="border-t  border-gray-600"></div>
 
                                         <div class="block px-4 py-2 text-xs text-gray-400">
                                             {{ __('Switch Teams') }}
@@ -97,9 +97,9 @@
                 @endif
 
                 <!-- Settings Dropdown -->
-                <div class="ml-3 relative flex dark:text-gray-300">
+                <div class="ml-3 relative flex text-gray-300">
                     <div class="flex items-center">
-                        <a class="dark:hover:text-corp-50 flex items-center relative">
+                        <a class="hover:text-corp-50 flex items-center relative">
                             <x-icons.bell class="h-5 mr-[15px]"></x-icons.bell>
 
                             <span class="absolute top-[-7px] right-[10px] flex h-3 w-3 items-center justify-center">
@@ -124,7 +124,7 @@
                                 </button>
                             @else
                                 <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md  text-gray-400  dark:bg-gray-800  hover:text-gray-300 focus:outline-none  focus:bg-gray-700  active:bg-gray-700 transition ease-in-out duration-150">
                                         {{ Auth::user()->name }}
 
                                         <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -173,7 +173,7 @@
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md  text-gray-500  hover:text-gray-400  hover:bg-gray-900 focus:outline-none  focus:bg-gray-900  focus:text-gray-400 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -192,7 +192,7 @@
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+        <div class="pt-4 pb-1 border-t  border-gray-600">
             <div class="flex items-center px-4">
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                     <div class="shrink-0 mr-3">
@@ -203,7 +203,7 @@
                     @endif
 
                 <div>
-                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-base  text-gray-200">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
             </div>
@@ -232,7 +232,7 @@
 
                 <!-- Team Management -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
-                    <div class="border-t border-gray-200 dark:border-gray-600"></div>
+                    <div class="border-t  border-gray-600"></div>
 
                     <div class="block px-4 py-2 text-xs text-gray-400">
                         {{ __('Manage Team') }}
@@ -251,7 +251,7 @@
 
                     <!-- Team Switcher -->
                     @if (Auth::user()->allTeams()->count() > 1)
-                        <div class="border-t border-gray-200 dark:border-gray-600"></div>
+                        <div class="border-t  border-gray-600"></div>
 
                         <div class="block px-4 py-2 text-xs text-gray-400">
                             {{ __('Switch Teams') }}

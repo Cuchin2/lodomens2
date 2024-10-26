@@ -3,7 +3,7 @@
 <li>
     <div  {{ $attributes->merge(['class' => 'flex items-center']) }}>
         <a href="{{$href}}" wire:navigate
-            class="ml-1 text-sm font-medium text-gris-10 hover:text-blue-600 md:ml-2 dark:text-gris-40 dark:hover:text-white">{{$name}}</a>
+            class="ml-1 text-sm font-medium text-gris-10  md:ml-2 text-gris-40 hover:text-white">{{$name}}</a>
     </div>
 </li>
 <li {{ $attributes->merge(['class' => 'inline-flex items-center']) }}>
@@ -15,7 +15,7 @@
 @else
 <li aria-current="page">
     <div class="flex items-center">
-        <span class="text-sm font-medium  md:ml-1 dark:text-gris-30">{{$name}}</span>
+        <span class="text-sm font-medium  md:ml-1 text-gris-30">{{$name}}</span>
     </div>
 </li>
 @endif

@@ -1,7 +1,7 @@
 @props(['perPage'=>''])
 
 <div class="flex space-x-2 items-center">
-    <div class="dark:text-gris-30 text-[12.07px] font-inter font-normal leading-20.12">
+    <div class="text-gris-30 text-[12.07px] font-inter font-normal leading-20.12">
         Mostrar
     </div>
     <div x-data="{ page: '{{ $perPage }}' }" class="flex items-center gap-7">
@@ -15,9 +15,9 @@
         <option value="50">50</option>
         <option value="100">100</option>
     </select>
-    
+
     </div>
-    <div class="dark:text-gris-30 text-[12.07px] font-inter font-normal leading-20.12">
+    <div class="text-gris-30 text-[12.07px] font-inter font-normal leading-20.12">
         entradas
     </div>
 

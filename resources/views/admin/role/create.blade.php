@@ -9,22 +9,22 @@
     <x-slot name="slot2">
         <form method="POST" action="{{ route('roles.store') }}">
             @csrf
-          
+
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 " id="miDiv">
 
-                <div class=" bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="  bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-12 ">
-                        <h3 class="dark:text-gray-300"> Creando un rol nuevo</h3>
+                        <h3 class="text-gray-300"> Creando un rol nuevo</h3>
                         <div class="my-2">
                             <x-label class="mb-2">Nombre</x-label>
                             <x-input name="name"  placeholder="Nombre del rol"></x-input>
                         </div>
 
 
-                        <h4 class="dark:text-gray-200 mb-4">Permisos especiales</h4>
+                        <h4 class="text-gray-200 mb-4">Permisos especiales</h4>
 
 
-                        <div class="dark:text-gray-200">
+                        <div class="text-gray-200">
 
                             <p> <input type="checkbox" id="all" onchange="cambiaGrupo(this)"
                                      /> TODOS / NINGUNO</p>
@@ -153,7 +153,7 @@
                     </div>
 
                 </div>
-                <div class=" bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg dark:text-gray-200">
+                <div class="  bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg text-gray-200">
                     <div class="mx-auto max-w-screen-xl px-4 py-2 lg:px-12 ">
                         <div>
                             <h3 class="my-4"> Permisos para "Productos"</h3>
@@ -278,7 +278,7 @@
                         </div>
                     </div>
                 </div>
-                <div class=" bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg dark:text-gray-200">
+                <div class="  bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg text-gray-200">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-12 ">
 
                         <div>
@@ -396,9 +396,9 @@
 
 
                         <div class="my-4 flex float-right">
-                            <x-button>
+                            <x-button.corp1 type="submit">
                                 Crear
-                            </x-button>
+                            </x-button.corp1>
                           </div>
                     </div>
 

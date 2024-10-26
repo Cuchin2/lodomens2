@@ -5,12 +5,12 @@ text-gris-10 md:py-[10px] text-center">
 
     <h3 class="font-bold hidden md:block" >{{ $title }}</h3>
     <div class="h-[22px] md:h-[25.19px] mx-auto ">
-        <nav class="flex px-9 mt-[4px ]md:mt-[8px] dark:border-gray-700  font-normal text-[12px] leading-[16.80px]"
+        <nav class="flex px-9 mt-[4px ]md:mt-[8px] border-gray-700  font-normal text-[12px] leading-[16.80px]"
             aria-label="Breadcrumb">
             <ol class="inline-flex items-baseline space-x-1 md:space-x-1 mx-auto">
                 <li class="md:inline-flex items-center hidden">
                     <a href="{{route('root')}}" wire:navigate
-                        class="inline-flex items-center text-sm font-medium  dark:hover:text-white">
+                        class="inline-flex items-center text-sm font-medium  hover:text-white">
 
                         Inicio
                     </a>

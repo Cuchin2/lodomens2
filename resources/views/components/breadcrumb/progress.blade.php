@@ -42,7 +42,7 @@ $steps = [
 <div class="fixed w-full z-40">
     <div class="bg-gris-90 py-[3px] border-b-[1px] border-gris-80 text-gris-10 md:py-[10px] text-center h-[60px] items-center flex">
         <div class="h-[22px] md:h-[25.19px] mx-auto items-center flex">
-            <nav class="flex px-9 mt-[4px] md:mt-[8px] dark:border-gris-70 font-normal text-[12px]" aria-label="Breadcrumb">
+            <nav class="flex px-9 mt-[4px] md:mt-[8px] border-gris-70 font-normal text-[12px]" aria-label="Breadcrumb">
                 <ol class="mx-auto">
                     <div class="w-full mx-auto flex space-x-3">
                         @foreach($steps as $step => $data)

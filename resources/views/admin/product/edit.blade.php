@@ -21,7 +21,7 @@
 
             <div class="grid grid-cols-12 gap-6 sm:gap-6 lg:gap-6" id="miDiv">
 
-                <div class="col-span-12 lg:col-span-8 bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="col-span-12 lg:col-span-8  bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg: ">
 
                         <div class="my-3">
@@ -47,17 +47,17 @@
                         </div>
                         <div class="my-3">
                             <x-label class="my-2">Contenido:</x-label>
-                            <textarea class="form-control" name="body" id="body" rows="10">
+                            <textarea class="form-control " name="body" id="body" rows="10">
                             {{ old('body', $product->body) }}
                             </textarea>
                         </div>
                     </div>
                 </div>
-                <div class="col-span-12 lg:col-span-4 bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="col-span-12 lg:col-span-4  bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg: ">
                         <div class="my-3">
                             <x-label class="mb-2">Estados:</x-label>
-                            <div class="mt-3">
+                            <div class="mt-3 ">
                                 <x-select-search placeholder="Selecciona un estado"
                                     message="Ningun tipo coincide con la búsqueda" name="status" :data="$status"
                                     selected="{{ $product->status ?? ''}}">

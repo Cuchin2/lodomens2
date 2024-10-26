@@ -13,8 +13,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $settings=Setting::all();
-        return view('dashboard',compact('settings'));
+        $dolar=Setting::where('name','dolares')->first();
+
+        return view('dashboard',compact('dolar'));
     }
     public function usd(Request $request,$name)
     {

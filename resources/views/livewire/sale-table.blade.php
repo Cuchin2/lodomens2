@@ -1,36 +1,38 @@
-<div class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg h-fit" x-data="{ pen:false }">
+<div class="bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg h-fit" x-data="{ pen:false }">
 <div>
     <section >
         <div class="w-full">
             <!-- Start coding here -->
             <div class="relative shadow-md sm:rounded-lg overflow-auto bar">
-                <div class="flex mt-[20px] ">
+                <div class="flex my-[20px] ">
                     <div class="mx-auto space-x-2">
                     <button class="bg-primary hover:bg-gris-70 text-gris-10 hover:text-white hover:border-white py-[2px] rounded-full transition duration-150 border-[1px] border-gris-10 whitespace-nowrap w-[100px] h-[24px] text-[12px]">
                        Sin pagar
                     </button>
-                    <button class="dark:hover:bg-azul-30/10 hover:dark:text-azul-10 dark:text-azul-30  hover:dark:border-azul-10 py-[2px] rounded-full transition duration-150 border-[1px] border-azul-30 whitespace-nowrap w-[100px] h-[24px] text-[12px]">
+                    <button class="hover:bg-azul-30/10 hover:text-azul-10 text-azul-30  hover:border-azul-10 py-[2px] rounded-full transition duration-150 border-[1px] border-azul-30 whitespace-nowrap w-[100px] h-[24px] text-[12px]">
                         Pagado
                     </button>
-                    <button class="dark:hover:bg-morado-30/10  hover:dark:text-morado-10 dark:text-morado-30  hover:dark:border-morado-10 py-[2px] rounded-full transition duration-150 border-[1px] border-morado-30 whitespace-nowrap w-[100px] h-[24px] text-[12px]">
+                    <button class="hover:bg-morado-30/10  hover:text-morado-10 text-morado-30  hover:border-morado-10 py-[2px] rounded-full transition duration-150 border-[1px] border-morado-30 whitespace-nowrap w-[100px] h-[24px] text-[12px]">
                         En proceso
                     </button>
-                    <button class="dark:hover:bg-amarillo-30/10  hover:dark:text-amarillo-10 dark:text-amarillo-30  hover:dark:border-amarillo-10 py-[2px] rounded-full transition duration-150 border-[1px] border-amarillo-30 whitespace-nowrap w-[100px] h-[24px] text-[12px]">
+                    <button class="hover:bg-amarillo-30/10  hover:text-amarillo-10 text-amarillo-30  hover:border-amarillo-10 py-[2px] rounded-full transition duration-150 border-[1px] border-amarillo-30 whitespace-nowrap w-[100px] h-[24px] text-[12px]">
                         En camino
                     </button>
-                    <button class="dark:hover:bg-verde-30/10  hover:dark:text-verde-10 dark:text-verde-30  hover:dark:border-verde-10 py-[2px] rounded-full transition duration-150 border-[1px] border-verde-30 whitespace-nowrap w-[100px] h-[24px] text-[12px]">
+                    <button class="hover:bg-verde-30/10  hover:text-verde-10 text-verde-30  hover:border-verde-10 py-[2px] rounded-full transition duration-150 border-[1px] border-verde-30 whitespace-nowrap w-[100px] h-[24px] text-[12px]">
                         Entregado
                     </button>
-                    <button class="dark:hover:bg-rojo-30/10  hover:dark:text-rojo-10 dark:text-rojo-30  hover:dark:border-rojo-10 py-[2px] rounded-full transition duration-150 border-[1px] border-rojo-30 whitespace-nowrap w-[100px] h-[24px] text-[12px]">
+                    <button class="hover:bg-rojo-30/10  hover:text-rojo-10 text-rojo-30  hover:border-rojo-10 py-[2px] rounded-full transition duration-150 border-[1px] border-rojo-30 whitespace-nowrap w-[100px] h-[24px] text-[12px]">
                         Cancelado
                     </button>
                 </div>
+                <x-specials.search class="!w-[200px] !mx-auto"/>
                 </div>
-                <div class="flex items-center justify-between">
+
+{{--                  <div class="flex items-center justify-between">
 
                     <div class="flex w-full m-[20px]">
 
-                        <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" wire:click="showNewModal()">
+                    <button class="h-[30px] text-white px-1 bg-corp-50 hover:bg-corp-70 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]" wire:click="showNewModal()">
                             <div class="flex items-center justify-center mx-[10px]">
                             <x-icons.plus class="h-[12px] w-[12px] fill-white mx-[3px]" grosor="1"></x-icons.plus>
 
@@ -39,7 +41,7 @@
                             </div>
                           </div>
                         </button>
-                        <button class="h-[30px] text-gris-20  px-4 bg-gris-70 hover:bg-gris-60 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]">
+                      <button class="h-[30px] text-gris-20  px-4 bg-gris-70 hover:bg-gris-60 rounded-lg overflow-hidden flex items-center justify-center mx-[5px]">
 
                             <div class="text-center  text-gray-300 text-[12px] px-1 font-inter font-normal leading-4 whitespace-normal">
                                 Columnas
@@ -127,20 +129,20 @@
                                 </div>
                             </div>
                         </div>
-                        <x-specials.search />
+
                     </div>
-                </div>
+                </div>  --}}
                 <div class="">
-                    <table class="w-full text-center   dark:text-gris-30">
+                    <table class="w-full text-center   text-gris-30">
                         <thead class="text-[16px] text-gris-20  bg-gris-70 ">
                             <tr>
-                                <th scope="col" class="px-4 py-[13px] font-normal" >N° de venta</th>
-                                <th scope="col" class="px-4 py-[13px] font-normal" wire:click="setSortBy('created_at')">Fecha de venta</th>
+                                <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" >N° de venta</th>
+                                <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('created_at')">Fecha de venta</th>
                                 <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('name')">
                                     Cliente
                                     </th>
                                 <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('total')">Total</th>
-                                <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" >Envio</th>
+                                <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" >Envío</th>
                                 <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('updated_at')">Fecha de actualización</th>
                                 <th scope="col" class="w-[123px] py-[13px] font-normal cursor-pointer" wire:click="setSortBy('state')">Estados</th>
                                 <th scope="col" class="px-4 py-[13px] font-normal text-center">
@@ -151,9 +153,9 @@
                         <tbody class="text-[14px] ">
                             @foreach ($sales as $sale)
 
-                            <tr wire:key="{{$sale->id}}" class="border-b dark:border-gris-70 dark:hover:bg-gris-70 dark:hover:bg-opacity-[25%] px-[140px]">
+                            <tr wire:key="{{$sale->id}}" class="border-b border-gris-70 hover:bg-gris-70 hover:bg-opacity-[25%] px-[140px]">
                                 <th scope="row"
-                                    class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
+                                    class="px-4 py-[13px] font-medium  whitespace-nowrap text-gris-30">
                                     {{$sale->id}}</th>
                                 <td class="px-4 py-[13px]">
                                         {{ now()->parse($sale->created_at)->format('d/m/Y h:ia') }}
@@ -162,7 +164,7 @@
                                     {{$sale->name.' '.$sale->last_name}}</td>
                                 <td class="px-4 py-[13px] ">
                                     {{($sale->currency == 'PEN' ? 'S/.' :'$ ').$sale->total}}</td>
-                                    <td class="px-4 py-[13px] ">
+                                    <td class="px-4 py-[13px] first-letter:uppercase">
                                         @if($sale->shipping && method_exists($sale->shipping, 'spanish'))
                                         {{ $sale->shipping->spanish() }} @else Sin definir @endif
                                     </td>

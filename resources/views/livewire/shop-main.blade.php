@@ -195,7 +195,7 @@
 
                     <div class="px-3 mx-auto relative my-[8px] items-center w-fit" x-data="{icon:false}"
                         x-on:mouseover="icon=true" x-on:mouseleave="icon=false" :class="{'flex w-full':sort===1}">
-                        <a wire:navigate
+                        <a
                             href="{{ !empty($product->colors) && !empty($product->colors[0]->id) ? route('web.shop.show', ['product' => $product, 'color' => $product->colors[0]->id]) : '#' }}">
                             @php
                             $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')

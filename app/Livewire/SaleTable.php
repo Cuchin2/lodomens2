@@ -24,7 +24,11 @@ class SaleTable extends Component
     public $sortBy = 'created_at';
 
     #[Url(history:true)]
-    public $sortDir = 'DESC'; public $showModal = false; public $state; public $step = 1; public $state_name = ''; public $id;
+    public $sortDir = 'DESC';
+    #[Url(history:true)]
+    public $sort_status = '';
+
+    public $showModal = false; public $state; public $step = 1; public $state_name = ''; public $id;
     public $showModal2 = false;
     public function updateSearch(){
         $this->resetPage();
@@ -84,9 +88,9 @@ class SaleTable extends Component
     {
         return view('livewire.sale-table',[
             'sales' => SaleOrder::search($this->search)
-/*             ->when($this->type !== '',function($query){
-                $query->where('name',$this->type);
-            }) */
+            ->when($this->sort_status !== '', function ($query) {
+                $query->where('status', $this->sort_status);
+            })
             ->orderBy($this->sortBy,$this->sortDir)
             ->paginate($this->perPage)
         ]);
@@ -98,5 +102,14 @@ class SaleTable extends Component
     public function page($page)
     {
         $this->perPage = $page;
+    }
+    public function setStatus($status)
+    {
+        $this->sort_status = $status;
+    }
+    public function clearFilters()
+    {
+        $this->reset('sort_status','search','sortBy','sortDir','perPage');
+        $this->resetPage();   // Opcional: Restablece la paginación a la primera página
     }
 }

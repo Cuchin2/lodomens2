@@ -137,9 +137,27 @@
                                         $firstImage[$key0] = $imagenes[0]->first();
                                     }
                                     @endphp
-                                    <th scope="row" class="px-4 py-[13px] font-medium  whitespace-nowrap text-gris-30">
+                                    <th scope="row" class="px-4 py-[13px] font-medium  whitespace-nowrap text-gris-30"
+                                        x-data="{
+                                        imageUrl: '{{ asset('storage/'.($firstImage[$key0]->url ?? 'image/dashboard/No_image_dark.png'))}}',
+                                        isVideo: false,
+                                        checkextension() {
+                                        const extension = this.imageUrl.split('.').pop().toLowerCase();
+                                        const videoExtensions = ['mp4', 'webm', 'mov','avi'];
+                                        this.isVideo = videoExtensions.includes(extension);
+                                           },
+                                           }
+
+
+                                        " x-init="checkextension()"
+                                    >
+                                    <template x-if="isVideo">
+                                        <video src="{{ asset('storage/'.($firstImage[$key0]->url ?? 'image/dashboard/No_image_dark.png'))}}" class="{{ isset($firstImage[$key0]->url) ? 'border-[1px] border-gris-50' : 'border-[1px] border-gris-50'}} rounded-[3px] h-[40px] w-[40px] flex mx-auto" controls>
+                                    </template>
+                                    <template x-if="!isVideo">
                                         <img src="{{ asset('storage/'.($firstImage[$key0]->url ?? 'image/dashboard/No_image_dark.png'))}}" class="{{ isset($firstImage[$key0]->url) ? 'border-[1px] border-gris-50' : 'border-[1px] border-gris-50'}} rounded-[3px] h-[40px] w-[40px] flex mx-auto" alt="">
-                                      </th>
+                                    </template>
+                                    </th>
                                 <td class="px-4 py-[13px] ">
                                     {{$product->name}}</td>
                                     <td class="px-4 py-[13px]" wire:ignore>

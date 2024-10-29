@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 use MercadoPago\MercadoPagoConfig;
 use MercadoPago\Client\MerchantOrder\MerchantOrderClient;
 use Illuminate\Support\Facades\Log;
-use Cart;
+
 class PaidController extends Controller
 {
     public function izipay(Request $request){

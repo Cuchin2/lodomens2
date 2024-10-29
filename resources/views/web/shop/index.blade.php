@@ -19,13 +19,16 @@ $routeCart = route('addcart');
     id:'', counts: 1, open:false, show:false, message:'', wishmessage: '',
     color:'', location:' {{ session('location') ?? '' }}',
     url:'', route:'',
+    showBtn: false,
+    isVideo: null,
     skus: '', hex:'', src:'',
     colorSelected:[], routeTemplate: '{{ $routeTemplate }}',
     get (e) {
         this.choose = e.choose; this.counts=1;
         this.id = e.id;
         this.color = e.color;
-        this.url = e.url;
+        this.url = e.url; console.log(this.url);
+        this.checkextension(this.url);
         this.colorSelected = JSON.parse(e.colorSelected);
         this.route= this.routeTemplate.replace('PLACEHOLDER_ID', this.id).replace('PLACEHOLDER_COLOR', this.color);
         this.getskus(); this.hex=e.hex; this.src=e.src;
@@ -35,6 +38,9 @@ $routeCart = route('addcart');
             this.skus=response.data.skus;
             if(response.data.image){
                 this.url= response.data.image;
+                console.log(this.url);
+                this.checkextension(this.url);
+
             }
             $dispatch('fire'); this.loading=true;
         }).catch(error => {
@@ -98,7 +104,12 @@ $routeCart = route('addcart');
         }).catch(error => {
             console.error(error);
         });
-    }
+    },
+    checkextension(url) {
+        const extension = url.split('.').pop().toLowerCase();
+        const videoExtensions = ['mp4', 'webm', 'mov','avi'];
+        this.isVideo = videoExtensions.includes(extension);
+                                           },
 
 
 }" @go.window="get($event.detail);">
@@ -117,10 +128,20 @@ $routeCart = route('addcart');
             <div class="bg-gris-90 px-2 md:px-6 py-3">
                 <div class="md:flex space-x-2 md:space-x-7 md:justify-between">
                     <div class="flex justify-center space-x-5 md:w-full">
-                        <lodo class="relative items-center  flex max-w-[200px] max-h-[200px] mx-auto md:!max-h-[136px] md:!w-1/2 h-full">
-                            <img class="absolute top-3 left-2 scale-75" :src="'{{ asset('storage')}}'+'/'+src" alt="">
-                            <img :src="'{{ asset('storage') }}'+'/'+url" class="mx-auto w-full h-full"
+                        <lodo class="relative items-center  flex max-w-[200px] max-h-[200px] mx-auto md:!max-h-[136px] md:!w-1/2 h-full overflow-hidden"
+                            @mouseenter="showBtn = true"
+                            @mouseleave="showBtn = false"
+                        >
+                            <img class="absolute top-3 left-2 scale-75 z-50" :src="'{{ asset('storage')}}'+'/'+src" alt="">
+                            <template x-if="isVideo">
+                                <video :src="'{{ asset('storage') }}'+'/'+url" class="rounded-[3px]  w-full h-full border-corp-50 border-[3px]" style="z-index: 20" controls>
+                            </template>
+                            <template x-if="!isVideo">
+                                <img :src="'{{ asset('storage') }}'+'/'+url" class="mx-auto w-full h-full transition duration-500"
+                                :class="showBtn ? 'scale-125' : ''"
                                 :alt="skus?.product?.name ?? ''">
+                            </template>
+
                             <div class="absolute top-0 left-0 w-[100%] h-full flex items-center justify-center" :style="'border-color: ' + hex"
                                 :class="skus.stock > 0 ? 'border-[2px]  rounded-[3px]':'bg-black/80 border-[2px]  rounded-[3px]'">
                                 <template x-if="skus.stock < 1">

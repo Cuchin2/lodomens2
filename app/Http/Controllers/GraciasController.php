@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\SaleDetail;
 use App\Models\SaleOrder;
@@ -60,7 +60,7 @@ class GraciasController extends Controller
                 }
             //fin de cambias ubicaciones
             foreach ($cartItems as $item) {
-                SaleDetail::create([
+                $saleDetail = new SaleDetail([
                     'order_id' => $order->id, // Reemplaza 'orderId' con el ID de la orden correspondiente
                     'name'=>$item->name,
                     'brand'=>$item->options->brand,
@@ -74,6 +74,9 @@ class GraciasController extends Controller
                     'hex'=>$item->options->hex,
                     'src'=>$item->options->src,
                 ]);
+                if (!$saleDetail->save()) {
+                    Log::error('No se pudo guardar SaleDetail para el item ' . $item->name);
+                }
             }
             $pago_envio = Shipping::find($order->shipping_id);
             $order->total = $order->total + $pago_envio->price;

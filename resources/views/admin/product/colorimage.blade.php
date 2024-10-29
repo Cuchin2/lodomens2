@@ -26,9 +26,11 @@
           <div class="handle cursor-move text-gris-20 p-2" x-text="index+1"></div>
           <template x-for="color in colors" :key="color.name">
             <div x-data="{
-              imageUrl: '',
-              basicInfoModal: false,
+              imageUrl: null,
+              isVideo: false,
+              basicInfoModal: false, progress: 0,
               getImage(order,color){
+
                   axios.get('{{ route('getimage.product.color') }}', {
                       params: {
                         row: line.id,
@@ -41,6 +43,10 @@
                       if(response.data.url[0]){
                       this.imageUrl = '{{ asset('storage') }}/'+response.data.url;
                       this.files.push(this.imageUrl);
+                      const extension = this.imageUrl.split('.').pop().toLowerCase();
+                      const videoExtensions = ['mp4', 'webm', 'mov','avi'];
+                      this.isVideo = videoExtensions.includes(extension);
+
                   }
                     })
                     .catch(error => {
@@ -51,14 +57,22 @@
               fileChosen(event, index) {
                   const file = event.target.files[0];
                   const reader = new FileReader();
+                  reader.addEventListener('progress', (event) => {
+                    if (event.loaded && event.total) {
+                        const percent = Math.round((event.loaded / event.total) * 100);
+                        this.progress = percent;
+                        }
+                    });
                   reader.onload = (e) => {
                     const src = e.target.result;
                     const uniqueSrc = src + '?' + Date.now(); // Agregar un timestamp a la URL temporal
-                    this.imageUrl = uniqueSrc;
                     this.sendImageDataToBackend(file, index);
+                    const fileType = file.type;
+                    this.isVideo = fileType.startsWith('video/');
                   };
 
                   reader.readAsDataURL(file);
+                  this.progress=0;
                 },
               sendImageDataToBackend(file,index) {
                   let formData = new FormData();
@@ -71,6 +85,7 @@
                       this.imageUrl= '{{ asset('storage') }}/'+response.data.url;
                       this.files.push(this.imageUrl);
                      // Puedes ajustar esto según la respuesta del backend
+                     this.getImage(order,color)
                     })
                     .catch(error => {
                       // Manejar cualquier error que ocurra durante la solicitud
@@ -87,10 +102,14 @@
                       // Manejar la respuesta exitosa aquí
                       console.log(response);
                       this.basicInfoModal=false;
-                      this.imageUrl='';
+                      this.imageUrl=null;
+
+                      this.isImage= false;
+                      this.isVideo= false;
                       const index = this.files.indexOf(response.data.url);
                       if (index !== -1) {
                           this.files.splice(index, 1);
+                          this.progress=0;
                         }
                   })
                   .catch(function (error) {
@@ -103,19 +122,39 @@
 
                 <label :for="color.name + index" class="cursor-cell" >
                   <div class="w-[150px] h-[150px] rounded  border border-gris-50 flex items-center justify-center overflow-hidden">
+                    <div x-show="imageUrl">
 
-                    <img x-show="imageUrl" :src="imageUrl" class="w-full object-cover">
-                    <div x-show="!imageUrl" class="text-gray-300 flex flex-col items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 " fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                      </svg>
-                      <div>Subir imagen</div>
+                        <template x-if="isVideo">
+                            <video :src="imageUrl" controls></video>
+                        </template>
+                        <template x-if="!isVideo">
+                            <img :src="imageUrl" class="w-full object-cover">
+                        </template>
+
 
                     </div>
 
+                    <template x-if="!imageUrl">
+                    <div class="text-gray-300 flex flex-col items-center w-full">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 " fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      <div class="w-full p-2">
+                        <div x-show="progress > 0" class="w-full rounded-[3px] bg-gris-30">
+                            <div class="bg-green-600 text-[12px] py-1 text-green-100 text-center  leading-none rounded-[3px] h-full" :style="'width:'+progress+'%'"><p x-text="progress+'%'" class="text-center"></p></div>
+
+                          </div>
+                          <p x-show="progress > 0" class="text-center text-[12px] animate-pulse">Cargando ...</p>
+{{--                          <progress x-show="progress > 0" :value="progress" max="100">
+                        </progress>  --}}
+                       </div>
+                      <div>Subir imagen</div>
+
+                    </div>
+                  </template>
                   </div>
                 </label>
-                <div class="absolute bottom-4 left-4 hover:text-red-500 cursor-pointer" x-on:click="basicInfoModal=true"><x-icons.trash class="w-5 h-5"/></div>
+                <div x-show="imageUrl" class="absolute bottom-4 left-4 hover:text-red-500 cursor-pointer" x-on:click="basicInfoModal=true"><x-icons.trash class="w-5 h-5"/></div>
 
                 <input class="w-full cursor-pointer hidden" type="file" :name="color.name + index" :id="color.name + index" @change="fileChosen($event, line.id)">
 

@@ -12,7 +12,10 @@
 {{--  <x-lodomens.video />  --}}
 @section('content')
 
-<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 md:px-16 px-2 pb-1" x-data="{ tab: 'tab1', colorselect:'{{ $indice }}', colorid: '@json($colorSelect[0]->id)',ext:'{{ pathinfo(asset($firstImage ->url), PATHINFO_EXTENSION) }}', abc:'0', src: '{{ asset('storage/'.$firstImage->url) }}', skus: {{ json_encode($skus) }}, skuselect:{{ $skus[$indice]->color_id }}, getImage(a,b) {
+<div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 md:px-16 px-2 pb-1"
+ x-data="{ tab: 'tab1', colorselect:'{{ $indice }}', colorid: '@json($colorSelect[0]->id)', abc:'0', src: '{{ asset('storage/'.$firstImage->url) }}', skus: {{ json_encode($skus) }}, skuselect:{{ $skus[$indice]->color_id }},
+ showBtn: false, isVideo: true,
+ getImage(a,b) {
     axios.get('{{ route('getimage.product.select') }}', {
         params: {
           row: a,
@@ -24,34 +27,42 @@
       .then(response => {
         // Manejar la respuesta del backend
         if(response.data.url){
-        this.src = '{{ asset('storage') }}/'+response.data.url;}
+        this.src = '{{ asset('storage') }}/'+response.data.url;
+        this.checkextensions(this.src);
+        }
       })
       .catch(error => {
         // Manejar cualquier error que ocurra durante la solicitud
         console.error('Error al enviar la imagen al backend:', error);
       });
-}
- }">
+},
+checkextensions(url){
+ const extension = url.split('.').pop().toLowerCase();
+        const videoExtensions = ['mp4', 'webm', 'mov','avi'];
+        this.isVideo = videoExtensions.includes(extension);
+},
+ }" x-init="checkextensions(src)">
     <div class="md:grid md:grid-cols-2 text-gris-30">
         <div class="md:grid md:grid-cols-6 mt-5">
             <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2 flex items-start" >
                 {{--  <p x-text="ext"></p>  --}}
-                <lodo class="relative md:w-[338px] lg:h-[338px] md:h-[217px] lg:min-w-[318px] relative mx-auto border-[2px] rounded-[3px] flex items-center {{--  h-full items-center  --}}" style="border-color: {{ $product->type->hex ?? ''}}">
+                <lodo class="md:w-[338px] lg:h-[338px] md:h-[217px] lg:min-w-[318px] relative mx-auto border-[2px] rounded-[3px] flex items-center overflow-hidden" style="border-color: {{ $product->type->hex ?? ''}}"
+                        @mouseenter="showBtn = true"
+                        @mouseleave="showBtn = false"
+                    >
+                    <img class="absolute top-5 left-5" src="{{ asset('storage').'/'.($product->type->images->url ??'') }}" alt="" style="z-index: 50;">
+                    <template x-if="isVideo">
+                        <video :src="src" class="rounded-[3px] h-full w-full" style="z-index: 10;" controls
 
-                    <img class="absolute top-5 left-5" src="{{ asset('storage').'/'.($product->type->images->url ??'') }}" alt="">
-                <template x-if="ext === 'mp4'">
-                    <video :src="src" controls
-                  class="w-full " :alt="ext" alt="">
-                </div>
-                </video>
+                        ></video>
+                    </template>
+                    <template x-if="!isVideo">
+                        <img :src="src" class="rounded-[3px] transition duration-500 mx-auto w-full h-full" :class="showBtn ? 'scale-125' : ''"
+                        alt="{{ $product->name }}" >
+                    </template>
 
-                 </template>
 
-                  <template x-if="ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif' || ext === 'svg' || ext === 'ico'" >
-                  <img  :src="src"
-                  class="w-full h-full" alt="">
 
-                  </template>
                   @if($product->skus)
                   <template x-for="sku in skus" @sku.window="skuselect=$event.detail.parm">
                     <div x-show="skuselect === parseInt(sku.color_id)" x-cloak class="absolute top-0 left-0 w-full h-full flex items-center justify-center" :class="{'bg-black/80 ': sku.stock == 0 }">
@@ -68,22 +79,29 @@
                 class="md:max-h-[254px] lg:max-h-[370px] scroll-none flex md:block md:col-span-1 md:w-fit space-x-2 md:space-x-0 md:space-y-2 mt-2 overflow-x-auto md:overflow-x-hidden md:order-1" @send.window="colorselect=$event.detail.parm;" x-show="colorselect === '{{ $key }}'">
 
                 @foreach ($images as $key2=>$image)
+                <div x-data="{
+                    imageUrl:'{{ asset('storage/'.$image->url) }}',
+                    isVideo2: null,
+                    checkextension2() {
+                    const extension = this.imageUrl.split('.').pop().toLowerCase();
+                    const videoExtensions = ['mp4', 'webm', 'mov','avi'];
+                    this.isVideo2 = videoExtensions.includes(extension);
+                    },
+                    }" x-init="checkextension2()">
+                    <template x-if="isVideo2">
+                        <video :src="imageUrl"  class="w-[52px] min-h-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer" style="border-color: {{ $product->type->hex ?? ''}}"
+                            :class="{'!border-gris-10': src === imageUrl }"
+                             @click="src=imageUrl, abc='{{ $key2 }}', isVideo = true"
+                            >
+                    </template>
+                    <template x-if="!isVideo2">
+                        <img :src="imageUrl" class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer" style="border-color: {{ $product->type->hex ?? ''}}"
+                        :class="{'!border-gris-10': src === imageUrl }"
+                        @click="src=imageUrl, abc='{{ $key2 }}', isVideo = false "
+                        >
+                    </template>
+                </div>
 
-                @if (pathinfo(asset('storage/'.$image->url), PATHINFO_EXTENSION) === 'mp4')
-                <div @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4'">
-                    <video src="{{ asset('storage/'.$image->url) }}" muted
-                    class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer" >
-                    style="border-color: {{ $product->type->hex ?? ''}}"
-                    :class="{'border-gris-10': src === '{{ asset('storage/'.$image->url) }}'}"
-                    @click="src='{{ asset('storage/'.$image->url) }}', ext='mp4', abc='{{ $key2 }}'">
-                    </video>
-                 </div>
-                @else
-                <img src="{{ asset('storage/'.$image->url ?? '')}}"
-                class="w-[52px] border-[2px] border-corp-50 rounded-[3px] md:mx-auto cursor-pointer" style="border-color: {{ $product->type->hex ?? ''}}"
-                :class="{'border-gris-10': src === '{{ asset('storage/'.$image->url) }}'}"
-                @click="src='{{ asset('storage/'.$image->url) }}', ext='{{ pathinfo(asset('storage/'.$image->url), PATHINFO_EXTENSION) }}', abc='{{ $key2 }}'">
-                @endif
 
                 @endforeach
 

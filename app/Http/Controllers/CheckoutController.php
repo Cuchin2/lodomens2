@@ -275,6 +275,19 @@ class CheckoutController extends Controller
     {
         // Obtener los elementos del carrito
         $items = Cart::instance('cart')->content();
+        // Crear una nueva instancia temporal 'temp_reservation'
+        Cart::instance('temp_reservation')->destroy(); // Limpiar la instancia antes de usarla
+
+        // Clonar cada elemento de 'cart' a 'temp_reservation'
+        foreach ($items as $item) {
+            Cart::instance('temp_reservation')->add(
+                $item->id,
+                $item->name,
+                $item->qty,
+                $item->price,
+                $item->options->toArray() // Clonar opciones si hay
+            );
+        }
         $skus = [];
         // Iterar sobre los items del carrito
         foreach ($items as $key=>$item) {

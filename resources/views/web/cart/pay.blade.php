@@ -60,20 +60,17 @@
         {{--  Timer  --}}
         <div x-data="{
             check: true,
-            timeLeft: 500, {{--  localStorage.getItem('timeLeft') || 600, // 10 minutos en segundos  --}}
-            skus: {{ json_encode($skus) }},
+            timeLeft: 50,
+            skus: {{ json_encode($skus) ?? ''}},
             countdown() {
                 this.skus=Object.values(this.skus);
                 console.log(this.skus);
 
                 setInterval(() => {
                     if (this.timeLeft > 0) {
-                        if(this.skus.length >0 ){
-                        this.timeLeft--;}
-                        {{--  localStorage.setItem('timeLeft', this.timeLeft);  --}}
+                        this.timeLeft--;
                     } else {
                         // Redireccionar cuando el tiempo se acabe
-                        {{--  localStorage.setItem('timeLeft', 600); this.check=false;  --}}
                         window.location.href = '{{ route('web.shop.cart.index') }}';
                     }
                 }, 1000);
@@ -96,14 +93,15 @@
             },
 
         }" x-init="countdown()" @izipay.window="check = false">
-        <template x-if="skus.length >0 {{--  Object.keys(skus).length > 0  --}}">
+
             <div class="text-center">
                 <h3 class="text-3xl font-bold">Tiempo de reserva:</h3>
                 <p x-text="Math.floor(timeLeft / 60) + ' minutos ' + timeLeft % 60 + ' segundos'"></p>
-
+                <template x-if="skus.length >0 {{--  Object.keys(skus).length > 0  --}}">
                 <x-web.modal.simple maxWidth="md">
                     <x-slot name="title" >
-                        <p class="font-bold mb-4">Anuncio</p>
+                        <p class="font-bold mb-4 text-yellow-400 animate-pulse">Anuncio</p>
+                        <x-web.special.alert scale="0.75"/>
                       <p1 class="text-justify leading-1"> {{ count($skus) > 1 ? 'Estos productos son los últimos disponibles. Se están reservando solo para tí' : 'Este producto es el útlimo disponible. Se está reservando solo para tí'}}, No pierdas la oportunidad de adquirirlo.
                         </p1>
                     </x-slot>
@@ -142,13 +140,14 @@
                         </div>
                     </x-slot>
                 </x-web.modal.simple>
+            </template>
             </div>
 
-        </template>
+
         </div>
          {{--  Fin de timer  --}}
 
-    <div class="flex flex-col text-center bg-gris-90 h-full p-3 rounded-[5px] border-[1px] border-gris-70 w-1/3 min-w-fit mb-6 mx-auto">
+    <div class="flex flex-col text-center bg-gris-90 h-full p-7 rounded-[5px] border-[1px] border-gris-70 w-1/3 min-w-fit mb-6 mx-auto">
 
         <h5 class="mb-4">Métodos de Pago</h5>
         <div class="flex flex-col mx-auto w-[280px] space-y-4">
@@ -163,11 +162,11 @@
                 </div>
             </div>
             {{--  Niubiz  --}}
-            <div>
+{{--              <div>
                 <button onclick="VisanetCheckout.open()" class="flex justify-center w-full bg-gray-100 py-2 rounded-lg shadow">
                     <img src="https://codersfree.com/img/payments/niubiz.png" class="h-8" alt="Logo Niubiz">
                 </button>
-            </div>
+            </div>  --}}
             {{--  Paypal  --}}
             <div x-data="{ open: false }">
                 <button x-on:click="open = true" x-show="!open" class="flex justify-center w-full bg-gray-100 py-2 rounded-lg shadow">
@@ -231,12 +230,12 @@
 
 
             {{--  Mercado pago  --}}
-            <div  x-data="{ open: false }">
+{{--              <div  x-data="{ open: false }">
                 <button x-on:click="open = true" x-show="!open" class="flex justify-center w-full bg-gray-100 py-2 rounded-lg shadow">
                     <img src="{{ asset('storage/image/logos_pasarela/Logo_MercadoPago.png') }}" class="h-8" alt="Logo MercadoPago">
                 </button>
                 <div id="wallet_container" x-show="open" x-cloak></div>
-            </div>
+            </div>  --}}
         <style>
         #wallet_container > div > div > div > div {
             margin: 0 !important;
@@ -252,11 +251,11 @@
 
 @push('scripts')
 
-<script type="text/javascript" src="{{ config('services.niubiz.url_js') }}" /></script>
+{{--  <script type="text/javascript" src="{{ config('services.niubiz.url_js') }}" /></script>  --}}
 <script src="https://www.paypal.com/sdk/js?client-id={{ config('services.paypal.client_id') }}&currency=USD"></script>
-<script src="https://sdk.mercadopago.com/js/v2"></script>
+{{--  <script src="https://sdk.mercadopago.com/js/v2"></script>  --}}
 //niubiz
-<script type="text/javascript">
+{{--  <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function(event){
             let purchasenumber=Math.floor(Math.random() * 1000000000) +1;
             let amount = {{ session('totality') }};
@@ -276,7 +275,7 @@
                 }
             });
         });
-</script>
+</script>  --}}
 //paypal
 <script>
     paypal.Buttons({
@@ -308,7 +307,7 @@
         }
 </script>
 //mercadopago
-<script>
+{{--  <script>
 
     const mp = new MercadoPago("{{ config('services.mercadopago.key') }}");
     const bricksBuilder = mp.bricks();
@@ -324,7 +323,7 @@
       },
      });
 
-</script>
+</script>  --}}
 <script>
 {{--      KR.onTransactionCreated( function(){
         console.log('izipay');

@@ -6,14 +6,14 @@
         <span class="inline-block w-full rounded-md shadow-sm">
             <button type="button" x-ref="button" @click="toggleListboxVisibility()" :aria-expanded="open"
                 aria-haspopup="listbox" @click.away="$wire.change(value)"
-                class="relative h-[30px] z-0 w-full py-1 pl-3 pr-10 text-left transition duration-150 ease-in-out dark:bg-gris-90 border border-gray-700 rounded-md cursor-default focus:outline-none focus:shadow-outline-teal focus:border-corp-50 sm:text-sm sm:leading-5">
+                class="relative h-[30px] z-0 w-full py-1 pl-3 pr-10 text-left transition duration-150 ease-in-out bg-gris-90 border border-gray-700 rounded-md cursor-default focus:outline-none focus:shadow-outline-teal focus:border-corp-50 sm:text-sm sm:leading-5">
                 <span x-show="! open" x-text="value in options ? options[value] : placeholder"
-                    :class="{ 'text-gris-30': !(value in options) }" class="block truncate dark:text-gris-30"></span>
+                    :class="{ 'text-gris-30': !(value in options) }" class="block truncate text-gris-30"></span>
                 <input type="hidden" name="{{$name}}" x-model="value">
                 <input x-ref="search" x-show="open" x-model="search"  @keydown.enter.stop.prevent="selectOption()"
                     @keydown.arrow-up.prevent="focusPreviousOption()" @keydown.arrow-down.prevent="focusNextOption()"
                     type="search"
-                    class="w-full border-gris-30 h-[20px] dark:border-gray-700 dark:bg-gris-90 dark:text-gris-30 focus:border-cop-50 dark:focus:border-corp-70 focus:ring-corp-50 dark:focus:ring-corp-70 rounded-md shadow-sm text-[12px]"
+                    class="w-full  h-[20px] border-gray-700 bg-gris-90 text-gris-30 focus:border-cop-50 focus:border-corp-70 focus:ring-corp-50  rounded-md shadow-sm text-[12px]"
                      />
 
                 <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -27,7 +27,7 @@
 
         <div x-show="open" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0" x-cloak
-            class="absolute z-10 w-full mt-1 dark:bg-gris-90 rounded-md shadow-lg">
+            class="absolute z-20 w-full mt-1 bg-gris-90 rounded-md shadow-lg">
             <ul x-ref="listbox" @keydown.enter.stop.prevent="selectOption()"
                 @keydown.arrow-up.prevent="focusPreviousOption()" @keydown.arrow-down.prevent="focusNextOption()"
                 role="listbox" :aria-activedescendant="focusedOptionIndex ? name + 'Option' + focusedOptionIndex : null"
@@ -42,11 +42,11 @@
                             'text-gray-900': index !==
                                 focusedOptionIndex
                         }"
-                        class="relative py-1 pl-3 text-gray-900 cursor-default select-none pr-9">
+                        class="relative py-1 pl-3 text-gris-10 cursor-default select-none pr-9">
                         <span x-text="Object.values(options)[index]"
-                            :class="{ 'font-semibold': index === focusedOptionIndex, 'font-normal': index !==
+                            :class="{ 'font-semibold text-white': index === focusedOptionIndex, 'font-normal': index !==
                                 focusedOptionIndex }"
-                            class="block font-normal truncate dark:text-gris-30"></span>
+                            class="block font-normal truncate text-gris-30"></span>
 
                         <span x-show="key === value"
                             :class="{ 'text-white': index === focusedOptionIndex, 'text-corp-50': index !==

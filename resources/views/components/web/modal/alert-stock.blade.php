@@ -14,7 +14,7 @@
                     x-transition:leave="ease-in duration-200"
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0">
-        <div class="absolute inset-0 bg-gray-500 bg-black/40"></div>
+        <div class="absolute inset-0  bg-black/40"></div>
     </div>
     <div class="flex items-center h-full">
     <div x-show="show" class="  bg-gris-90 rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:max-w-md sm:mx-auto"

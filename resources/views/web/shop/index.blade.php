@@ -245,10 +245,10 @@ $routeCart = route('addcart');
                     x-transition:leave="ease-in duration-200"
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0">
-        <div class="absolute inset-0 bg-gray-500 dark:bg-black/40"></div>
+        <div class="absolute inset-0  bg-black/40"></div>
     </div>
     <div class="flex items-center h-full">
-    <div x-show="open" class=" bg-white dark:bg-gris-90 rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:max-w-md sm:mx-auto"
+    <div x-show="open" class="  bg-gris-90 rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:max-w-md sm:mx-auto"
                     x-trap.inert.noscroll="open"
                     x-transition:enter="ease-out duration-300"
                     x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -257,21 +257,28 @@ $routeCart = route('addcart');
                     x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                     <div class="px-6 py-4">
-                        <div class="text-lg font-medium  dark:text-gris-10">
+                        <div class="text-lg font-medium  text-gris-10 mb-3">
                             <h4 class="mx-auto w-fit">Anuncio</h3>
                         </div>
 
-                        <div class="mt-4 text-[15px]  dark:text-gris-10">
-                            <template x-if="choose == 'CART'">
-                            <p x-text="message" class="text-center"></p>
+
+                        <div class="mt-4 text-[15px]  text-gris-10">
+                             <template x-if="message == 'No hay suficiente stock disponible'">
+                                <x-web.special.alert scale="0.75"/>
                             </template>
-                            <template x-if="choose !== 'CART'">
+                            <template x-if="message !== 'No hay suficiente stock disponible'" >
+                                <x-elements.success scale="0.75" />
+                            </template>
+                            <div x-show="choose == 'CART'">
+                            <p x-text="message" class="text-center"></p>
+                            </div>
+                            <div x-show="choose !== 'CART'">
                                 <p x-text="wishmessage" class="text-center"></p>
-                             </template>
+                             </div>
                         </div>
                     </div>
 
-                    <div class="flex flex-row justify-center px-6 py-4 dark:bg-gris-90 text-center">
+                    <div class="flex flex-row justify-center px-6 py-4 bg-gris-90 text-center">
                        {{--   {{ $footer }}  --}}
 
                         <x-button.corp_secundary @click="open = false">Salir</x-button.corp_secundary>

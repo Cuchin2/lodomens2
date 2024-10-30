@@ -2,7 +2,7 @@
 
 <div x-data="{ count: 0 }" x-init="count = $refs.countme.value.length">
     <textarea wire:model="{{ $comment }}" type="text"
-        class="w-full border-gris-70  mt-2 dark:bg-black dark:text-gris-10 focus:border-gris-50 dark:focus:border-gris-50 placeholder-gris-40 focus:ring-gris-50 dark:focus:ring-gris-50 rounded-lg shadow-sm text-[13px]"
+        class="w-full border-gris-70  mt-2 bg-black text-gris-10  focus:border-gris-50 placeholder-gris-40 focus:ring-gris-50 rounded-lg shadow-sm text-[13px]"
         placeholder="Dejanos un comentario" rows="3" maxlength="225" x-ref="countme"
         x-on:keyup="count = $refs.countme.value.length">{{ $comment }}</textarea>
 

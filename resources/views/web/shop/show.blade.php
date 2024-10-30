@@ -50,7 +50,7 @@ checkextensions(url){
                         @mouseenter="showBtn = true"
                         @mouseleave="showBtn = false"
                     >
-                    <img class="absolute top-5 left-5" src="{{ asset('storage').'/'.($product->type->images->url ??'') }}" alt="" style="z-index: 50;">
+                    <img class="absolute top-5 left-5" src="{{ asset('storage').'/'.($product->type->images->url ??'') }}" alt="" style="z-index: 20;">
                     <template x-if="isVideo">
                         <video :src="src" class="rounded-[3px] h-full w-full" style="z-index: 10;" controls
 

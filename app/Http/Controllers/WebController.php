@@ -66,10 +66,10 @@ class WebController extends Controller
                 }
 
             $user= new User;
-            $user->name = $request->input('name');
+            $user->name = ucfirst(strtolower($request->input('name')));
             $user->email = $request->input('email');
             $user->password = Hash::make($request->input('password'));
-            $user->last_name = $request->input('last_name');
+            $user->last_name = ucfirst(strtolower($request->input('last_name')));
             $user->profile_photo_path = $path;
             $user->user_type_id = 3;
             $user->assignRole('Client')->save();

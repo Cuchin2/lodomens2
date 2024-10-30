@@ -8,7 +8,7 @@ use Cart;
 class StockController extends Controller
 {
     public function restock(Request $request){
-        $items = Cart::instance('cart')->content();
+        $items = Cart::instance('temp_reservation')->content();
 
         // Iterar sobre los items del carrito
         foreach ($items as $item) {

@@ -25,7 +25,7 @@ class WishlistController extends Controller
     public function purchase(Request $request)
     {
         $order_user= SaleOrder::where('user_id',auth()->user()->id)->where('status','PAID')->latest()->first();
-        return view('web.dashboard.purchase',['open'=>($request->open ?? ''),'order_last'=>($order_user->id ?? '')]);
+        return view('web.dashboard.purchase',['open'=>($request->open ?? ''),'order_last'=>$request->open ?? '1']);
     }
     public function account(Request $request)
     {

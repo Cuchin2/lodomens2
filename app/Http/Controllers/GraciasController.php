@@ -14,6 +14,8 @@ use Cart;
 class GraciasController extends Controller
 {
     public function gracias(){
+        $order=SaleOrder::where('user_id',auth()->user()->id)->pluck('id')->last();
+
         if (!session('thanks')) {
             return redirect()->route('web.shop.cart.index');
         }
@@ -21,7 +23,7 @@ class GraciasController extends Controller
         session()->forget('shipping');
         session()->forget('pay');
         $this->checkoutPay();
-        return view('web.cart.gracias');
+        return view('web.cart.gracias',['order'=>$order]);
     }
     private function checkoutPay()
     {
@@ -31,7 +33,7 @@ class GraciasController extends Controller
 
         try {
             $user=auth()->user();
-            $cartItems = Cart::instance('cart')->content();
+            $cartItems = Cart::instance('temp_reservation')->content();
             $order = SaleOrder::where(['user_id'=>$user->id,'status'=>'CREATE'])->with('shipping')->first();
             $district = $order->district;
             //cambiar datos de API de ubicaciones a strings
@@ -98,6 +100,7 @@ class GraciasController extends Controller
            Mail::to($email)->send(new Gracias($data));
             //
             Cart::instance('cart')->destroy();
+            Cart::instance('temp_reservation')->destroy();
             Cart::instance('cart')->store($user->id);
         } catch (\Exception $e) {
             // Manejar excepciones o errores

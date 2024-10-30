@@ -189,7 +189,7 @@
                                 <tr>
                                     <td>
                                         <!-- Botón de llamada a la acción -->
-                                        <a href="https://lodomens.com/panel/compras?open=1" style="color: white; background-color: #900D0D; text-decoration: none; padding: 10px 20px; font-family: 'Inter', sans-serif; border-radius: 5px;display:flex; margin:auto; width:fit-content; margin-bottom: 30px;">Ir a mis compras</a>
+                                        <a href="https://lodomens.com/panel/compras?open={{ $mailData['order']->id }}" style="color: white; background-color: #900D0D; text-decoration: none; padding: 10px 20px; font-family: 'Inter', sans-serif; border-radius: 5px;display:flex; margin:auto; width:fit-content; margin-bottom: 30px;">Ir a mis compras</a>
                                     </td>
                                 </tr>
 

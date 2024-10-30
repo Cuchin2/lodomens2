@@ -7,10 +7,6 @@ $color = [
 'CANCEL'=>'text-rojo-30'
 ];
 
-if($open !== '1')
-{
-$order_last= '';
-}
 @endphp
 
 <div class="mx-auto w-full col-span-3 space-y-3 " x-data="{ open :'{{ $order_last }}' }">

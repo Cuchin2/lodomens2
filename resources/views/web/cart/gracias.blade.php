@@ -19,7 +19,7 @@
          <p>Te envíamos los detalles de tu compra a <b>{{ auth()->user()->email }} </b></p>
          <x-elements.progress-web-bar pay_date="{{ now()->format('d/m/Y H:i:s')}}"/>
             <div class="w-11/12 mx-auto mt-6 mb-3">
-                <a href="{{ route('web.shop.webdashboard.purchase',['open'=>true]) }}" >
+                <a href="{{ route('web.shop.webdashboard.purchase', ['open' => $order]) }}" >
                     <x-button.webprimary >Ir a mis compras</x-button.webprimary>
                 </a>
 

@@ -14,7 +14,7 @@
                   <!-- Contenedor del contenido -->
                   <table border="0" cellpadding="0" cellspacing="0" width="600" style="display: flex; margin: auto;border: 1px solid #cccccc; border-collapse: collapse;">
                       <tr>
-                          <td align="center" {{--  bgcolor="#404040"  --}} style="padding:0">
+                          <td align="center" style="padding:0">
                               <!-- Logo o imagen de encabezado -->
                               <img src="https://lodomens.com/image/lodomens/Banner_para_correos.png" alt="Lodomens" width="95%" style="display: block; margin: 12px" />
                           </td>
@@ -173,33 +173,13 @@
 
                                             @endif
 
-  {{--                                            <div>
-                                                @if ($mailData['shipping']['price'] > 0)
-
-                                                   <div class="capitalize"> <b>Tipo de Envio:</b> {{ $mailData['shipping']->spanish() }} </div>
-                                                   <div><b> Precio :</b> {{session('currency')}} {{ $mailData['shipping']['price'] }}
-                                                       @if ($mailData['shipping']['state'] == 'district')
-                                                       <div> {{ $mailData['shipping']['name'] }}</div>
-                                                       @else
-                                                       <div><b>Currier :</b>{{ $mailData['shipping']['name'] }}</div>
-                                                       @endif
-                                                @else
-                                                   <div style="color:#14995B;"><b>Envio Gratis</b></div>
-                                                @endif
-                                                    <div style="font-weight: bold;">TOTAL :{{session('currency')}} {{ $mailData['order']['total'] }}</div>
-                                               </div>
-                                        </div>  --}}
-
-
-
-
                                     </div>
                                   </tr>
 
                                   <tr>
                                       <td>
                                           <!-- Botón de llamada a la acción -->
-                                          <a href="https://lodomens.com/panel/compras?open=1" style="color: white; background-color: #900D0D; text-decoration: none; padding: 10px 20px; font-family: 'Inter', sans-serif; border-radius: 5px;display:flex; margin:auto; width:fit-content; margin-bottom: 30px;">Ir a mis compras</a>
+                                          <a href="https://lodomens.com/panel/compras?open={{ $mailData['order']->id }}" style="color: white; background-color: #900D0D; text-decoration: none; padding: 10px 20px; font-family: 'Inter', sans-serif; border-radius: 5px;display:flex; margin:auto; width:fit-content; margin-bottom: 30px;">Ir a mis compras</a>
                                       </td>
                                   </tr>
                                   <tr>
@@ -210,15 +190,7 @@
                                                     &copy; 2024 <a href="#" style="color: #ffffff;">Nubesita Estudio.</a> Todos los derechos reservados.<br/>
 
                                                 </td>
-          {{--                                        <td align="right" width="25%">
-                                                    <!-- Enlaces de redes sociales -->
-                                                    <a href="https://www.facebook.com" style="color: #ffffff;">
-                                                        <img src="https://via.placeholder.com/24/ffffff/000000?text=F" alt="Facebook" width="24" height="24" style="display: block;" />
-                                                    </a>
-                                                    <a href="https://www.twitter.com" style="color: #ffffff;">
-                                                        <img src="https://via.placeholder.com/24/ffffff/000000?text=T" alt="Twitter" width="24" height="24" style="display: block;" />
-                                                    </a>
-                                                </td>  --}}
+
                                             </tr>
                                         </table>
                                     </td>

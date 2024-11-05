@@ -24,12 +24,16 @@
         <div class="flex flex-col border border-gris-80 mx-10">
             <div class="text-center p-0">
                 <!-- Logo o imagen de encabezado -->
-                <img src="https://lodomens.com/image/lodomens/Banner_para_correos.png" alt="Lodomens" class="w-5/6 mx-auto my-3" />
+                <img src="https://lodomens.com/image/lodomens/Banner_para_correos.png" alt="Lodomens" class="md:w-5/6 mx-auto my-3 w-full" />
             </div>
-            <div class="bg-gris-80 p-5 md:w-5/6 mx-auto">
+            <div class="bg-gris-80 p-5 md:w-5/6 mx-auto w-full">
                 <!-- Contenido del correo -->
                 <div class="text-center text-gris-10 font-sans text-2xl">
+                    @if($order->status == 'CANCEL')
+                    <b class="text-red-500">Pedido cancelado</b>
+                    @else
                     <b>Estado del pedido actual</b>
+                    @endif
                 </div>
 {{--                  <div class="py-5 text-gris-10 font-sans text-base leading-5">
                     Hola, {{ $mailData['order']['name'] }}, tu pedido ha sido enviado a través de nuestro currier. Si no vas a estar, recuerda que alguien mayor de edad lo puede recibir, mostrando los datos de envio para verificar la compra.
@@ -37,47 +41,18 @@
                 <div class="max-w-2xl mx-auto">
                     <div class="text-center py-5">
                         <!-- Contenedor de la barra de progreso -->
-                        <div class="flex justify-center">
-                            <!-- Primer círculo (resaltado) -->
-                            <div class="text-center">
-                                <div class="flex justify-end items-center w-32">
-                                    <div class=" w-8 h-8 rounded-full bg-red-800  text-white flex items-center justify-center font-sans">
-                                        1
-                                    </div>
-                                    <div class="bg-red-800 h-1 w-[40%]"></div>
-                                </div>
-                                <div class="mt-2 text-gris-10 font-sans text-sm">Recibido</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="flex  items-center w-32">
-                                    <div class="bg-red-800 h-1  w-[38%]"></div>
-                                    <div class=" w-8 h-8 rounded-full bg-red-800 text-white flex items-center justify-center font-sans">
-                                        2
-                                    </div>
-                                    <div class="bg-red-800 h-1 w-[38%]"></div>
-                                </div>
-                                <div class="mt-2 text-gris-10 font-sans text-sm">En proceso</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="flex items-center w-32">
-                                    <div class="bg-red-800 h-1 w-[38%] "></div>
-                                    <div class=" w-8 h-8 rounded-full bg-red-800 text-white flex items-center justify-center font-sans">
-                                        3
-                                    </div>
-                                    <div class="bg-gray-300 h-1 w-[38%] "></div>
-                                </div>
-                                <div class="mt-2 text-red-800 font-sans text-sm font-bold">En camino</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="flex  items-center w-32">
-                                    <div class="bg-gray-300 h-1 w-[40%] "></div>
-                                    <div class=" w-8 h-8 rounded-full bg-gray-300 text-gris-80 flex items-center justify-center font-sans">
-                                        4
-                                    </div>
-                                </div>
-                                <div class="mt-2 text-gris-10 font-sans text-sm">Entregado</div>
-                            </div>
-                        </div>
+                        @if($order->status == 'PAID')
+                        <x-progress.paid />
+                        @endif
+                        @if($order->status == 'TRACKING')
+                        <x-progress.track />
+                        @endif
+                        @if($order->status == 'PROCESS')
+                        <x-progress.process />
+                        @endif
+                        @if($order->status == 'DONE')
+                        <x-progress.done />
+                        @endif
                     </div>
                     <div class="grid p-5 font-sans text-gris-10">
                         <div class="border-b border-gray-300 pb-1 mb-4">

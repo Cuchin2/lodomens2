@@ -7,6 +7,7 @@ use App\Models\Image;
 use App\Models\Row;
 use App\Models\Color;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use LaravelLang\NativeCountryNames\Enums\SortBy;
 
 class ColorController extends Controller
@@ -29,9 +30,28 @@ class ColorController extends Controller
     public function upload(Request $request,$id)
     {
         $product = Product::find($id);
-        $file = $request->file('file');
-        $fileName = time().'-'.$file->getClientOriginalName();
-        $file->storeAs('image/lodomens/', $fileName, 'public');
+        $file = $request->input('file');
+        if (preg_match('/data:image\/(.*?);base64,/', $file, $matches)) {
+                            // Analiza el encabezado para determinar el tipo de imagen
+                            preg_match('/data:image\/(.*?);base64,/', $file, $matches);
+                            $imageType = $matches[1];
+
+                            // Extrae los datos base64
+                            $data = substr($file, strpos($file, ',') + 1);
+
+                            // Decodifica los datos base64 en una cadena binaria
+                            $imageData = base64_decode($data);
+                            // Genera un nombre de archivo único
+                            $fileName = time() . '.' . $imageType;
+                            // Guarda la imagen en el sistema de archivos
+                            $path = 'image/lodomens/' . $fileName;
+                            Storage::disk('public')->put($path, $imageData);
+        }
+        else{
+            $file= $request->file('file');
+            $fileName = time().'-'.$file->getClientOriginalName();
+            $file->storeAs('image/lodomens/', $fileName, 'public');
+        }
         $rowValue = $request->row;
             // Buscar y eliminar la imagen existente si los valores coinciden
             $existingImage = $product->images()
@@ -115,4 +135,5 @@ class ColorController extends Controller
         unlink($filePath);
         return response()->json(['url'=>$request->url]);
     }
+
 }

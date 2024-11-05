@@ -4,8 +4,10 @@ $firefox = strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox') ? true : false;
 $safari = strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') ? true : false;
 $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
 ?>
-<div x-data="{ isOpen: false }" style="cursor: pointer; display:inline-flex" @click="stopPropagation">
-    <div x-on:click="isOpen = !isOpen" @keydown.escape="isOpen = false" class="flex-items-center"
+<div x-data="{ isOpen: false, src: '{{ old('profile_photo_url') ? old('profile_photo_url') : ( auth()->user() ? Auth::user()->profile_photo_url : '../image/perfiles/Foto_perfil_ecowaste.jpg') }}'}" style="cursor: pointer; display:inline-flex" @click="stopPropagation"
+@photoprofile.window="src='{{  asset('storage')  }}/'+$event.detail.photo"
+>
+    <div x-on:click="isOpen = !isOpen" @click.away="isOpen = false" class="flex-items-center"
         title=@guest
 "Iniciar sesión"
     @else
@@ -15,7 +17,7 @@ $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
                 <x-icons.user class="h-[20px] w-[20px] fill-gris-10" />
             </a>
         @else
-            <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}"
+            <img class="h-8 w-8 rounded-full object-cover" :src="src" src="{{ auth()->user() ? Auth::user()->profile_photo_url : '../image/perfiles/Foto_perfil_ecowaste.jpg' }}"
                 alt="{{ Auth::user()->name }}" />
                 <span class="absolute top-[-1px] left-[57px] flex h-3 w-3 items-center justify-center md:hidden {{ $cart>0 || $wishlist>0 ? '' :'hidden' }}">
 
@@ -75,7 +77,7 @@ $chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') ? true : false;
                 </li>
                 @endauth
                 <li class="!mt-0">
-                    <a  href="{{ route('web.shop.webdashboard.profile') }}" class="flex items-center hover:text-corp-50">
+                    <a  href="{{ route('web.shop.webdashboard.profile') }}" wire:navigate class="flex items-center hover:text-corp-50">
                         <x-icons.user class="h-4"></x-icons.user>
                         <span class="ml-3 ">Mi cuenta </span>
                     </a>

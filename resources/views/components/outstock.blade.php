@@ -1,6 +1,6 @@
 @props(['url'=>'','stock'=>'','name'=>'','text'=>'text-[14px]','color'=>'','img'=>'','param'=>'top-3 left-3'])
 
-<lodo {{ $attributes->merge(['class' => ' relative items-center  flex max-w-[200px] max-h-[200px] mx-auto overflow-hidden']) }}
+<lodo {{ $attributes->merge(['class' => ' relative items-center  flex max-w-[200px] max-h-[200px] mx-auto overflow-hidden aspect-square']) }}
     x-data="{ showBtn: false,
       imageUrl: '{{ asset('storage/'.($url ?? '')) }}',
         isVideo: false,

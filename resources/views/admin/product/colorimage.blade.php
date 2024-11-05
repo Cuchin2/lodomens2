@@ -55,6 +55,7 @@
                     });
               },
               fileChosen(event, index) {
+              this.imageUrl= null;
               this.file= null; this.idem = index;
               this.croppedData = null;
                       if (this.cropper) {
@@ -63,12 +64,7 @@
                         }
                   const file = event.target.files[0];
                   const reader = new FileReader();
-                  reader.addEventListener('progress', (event) => {
-                    if (event.loaded && event.total) {
-                        const percent = Math.round((event.loaded / event.total) * 100);
-                        this.progress = percent;
-                        }
-                    });
+
                   reader.onload = (e) => {
                     const src = e.target.result;
                     const uniqueSrc = src + '?' + Date.now(); // Agregar un timestamp a la URL temporal
@@ -97,27 +93,36 @@
                   };
 
                   reader.readAsDataURL(file);
-                  this.progress=0;
+
 
                 },
-              sendImageDataToBackend(file,index) {
-                  let formData = new FormData();
-                  formData.append('file', file);
-                  formData.append('row', index);
-                  formData.append('colorid', color.id); // Agregar el color.id al formData
-                  axios.post('{{ route('upload.product.color',$id) }}', formData)
-                    .then(response => {
-                      // Manejar la respuesta del backend
-                      this.imageUrl= '{{ asset('storage') }}/'+response.data.url;
-                      this.files.push(this.imageUrl);
-                     // Puedes ajustar esto según la respuesta del backend
-                     this.getImage(order,color)
-                    })
-                    .catch(error => {
-                      // Manejar cualquier error que ocurra durante la solicitud
-                      console.error('Error al enviar la imagen al backend:', error);
-                    });
-                },
+sendImageDataToBackend(file, index) {
+this.progress= 1;
+    let formData = new FormData();
+    formData.append('file', file);
+    formData.append('row', index);
+    formData.append('colorid', color.id); // Agregar el color.id al formData
+
+    axios.post('{{ route('upload.product.color', $id) }}', formData, {
+        onUploadProgress: (progressEvent) => {
+
+                this.progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+
+        }
+    })
+    .then(response => {
+        // Manejar la respuesta del backend
+        this.imageUrl = '{{ asset('storage') }}/' + response.data.url;
+        this.files.push(this.imageUrl);
+        this.getImage(order, color); // Llamada adicional para obtener la imagen del servidor
+        this.progress = 0; // Reiniciar el progreso al finalizar
+    })
+    .catch(error => {
+        // Manejar cualquier error que ocurra durante la solicitud
+        console.error('Error al enviar la imagen al backend:', error);
+        this.progress = 0; // Reiniciar el progreso en caso de error
+    });
+},
                 deleteimage(url){
                   axios.delete('{{ route('deleteimage.color',$id) }}', {
                       data: {
@@ -129,7 +134,7 @@
                       console.log(response);
                       this.basicInfoModal=false;
                       this.imageUrl=null;
-
+                      this.resetFileInput();
                       this.isImage= false;
                       this.isVideo= false;
                       const index = this.files.indexOf(response.data.url);
@@ -177,7 +182,12 @@
                  WithtOutCrop(){
                  this.modalImg = false;
                  this.sendImageDataToBackend(this.file, this.idem);
-                 }
+                 },
+                resetFileInput() {
+                    // Limpia el valor del input de archivo
+                    this.$refs.croppedImage.value = null;
+                    this.progress = 0; // Reinicia el progreso si deseas
+                }
                 }" class="mr-4 " x-init="getImage(index,color.id)">
                             <div class="p-2 border-2 h-full w-full  text-transparent hover:text-gris-20 rounded-[6px] relative"
                                 x-bind:style="`border-color: ${color.hex};  border-style:dotted;`">
@@ -249,10 +259,18 @@
                                         <div class="text-lg font-medium text-gris-10">
                                             Confirmación Eliminación
                                         </div>
-                                        <div class="mt-4 text-[15px] text-gray-400 flex items-center">
-                                            ¿Estás seguro de que deseas eliminar la imangen? <img :src="imageUrl" alt=""
-                                                class="w-[70px] ml-auto">
-                                        </div>
+                                        <template x-if="isVideo">
+                                            <div class="mt-4 text-[15px] text-gray-400 flex items-center">
+                                                ¿Estás seguro de que deseas eliminar el video ? <video :src="imageUrl" class="h-[70px] ml-auto" controls></video>
+                                            </div>
+                                        </template>
+                                        <template x-if="!isVideo">
+                                            <div class="mt-4 text-[15px] text-gray-400 flex items-center">
+                                                ¿Estás seguro de que deseas eliminar la imangen? <img :src="imageUrl" alt=""
+                                                    class="w-[70px] ml-auto">
+                                            </div>
+                                        </template>
+
                                     </div>
 
                                     <div class="flex flex-row justify-end px-6 py-4 bg-gris-70 text-end rounded-lg">
@@ -288,9 +306,8 @@
                                 </div>
 
                                 <div class="flex flex-row justify-end px-6 py-4 bg-gris-70 text-end rounded-lg">
-                                     <x-button.corp_secundary @click="WithtOutCrop()">No
-                                    </x-button.corp_secundary>
-                                    <x-button.corp1 @click="cropAndCloseModal()" >Si</x-button.corp1>
+
+                                    <x-button.corp1 @click="cropAndCloseModal()" >Aceptar</x-button.corp1>
                                 </div>
                             </div>
                         </div>

@@ -91,7 +91,17 @@ $color = [
                                 <p1 class=" ml-auto">Marca: {{ $detail->brand }}</p1>
                             </div>
                         </div>
-                        <p1> SKU : {{ $detail->sku }}</p1>
+                        <div class="text-right ">
+
+                            <p1> SKU : {{ $detail->sku }}</p1>
+                            @if($order->convert() == 'Entregado')
+                            <a href="{{ route('web.shop.show',['product'=>$detail->slug,'color'=>$detail->color_id,'review'=>true]) }}">
+                            <x-specials.review class="mt-1"/>
+                            </a>
+                            @endif
+
+                        </div>
+
                     </div>
                 </div>
             </div>

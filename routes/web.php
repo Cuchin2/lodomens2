@@ -146,7 +146,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
         $mailData['shipping']=$order->shipping;
         $mailData['deliveryOrders']=$order->deliveryOrders;
 
-        return view('emails.incomingMail',compact('mailData'));
+        return view('emails.deliveredMail',compact('mailData'));
     })->name('luchin');
 
 });

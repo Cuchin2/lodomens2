@@ -4,7 +4,7 @@
 <tr>
 <td class="content-cell" align="center" style="color:#B6B6B6; background:#404040">
 {{--  {{ Illuminate\Mail\Markdown::parse($slot) }}  --}}
-<div>© 2004,<span style="font-weight: bold; color:#FFFFFF; "> Nubesita Estudio. </span> Todos los derechos reservados</div>
+<div>© {{ date('Y') }},<span style="font-weight: bold; color:#FFFFFF; "> Nubesita Estudio. </span> Todos los derechos reservados</div>
 </td>
 </tr>
 </table>

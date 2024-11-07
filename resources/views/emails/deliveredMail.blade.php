@@ -179,7 +179,7 @@
                                 <tr>
                                     <td>
                                         <!-- Botón de llamada a la acción -->
-                                        <a href="https://lodomens.com/panel/compras?open={{ $mailData['order']->id }}" style="color: white; background-color: #900D0D; text-decoration: none; padding: 10px 20px; font-family: 'Inter', sans-serif; border-radius: 5px;display:flex; margin:auto; width:fit-content; margin-bottom: 30px;">Dejar Reseña</a>
+                                        <a href="https://lodomens.com/panel/compras?open={{ $mailData['order']->id }}" style="color: white; background-color: #900D0D; text-decoration: none; padding: 10px 20px; font-family: 'Inter', sans-serif; border-radius: 5px;display:flex; margin:auto; width:fit-content; margin-bottom: 30px;">Dejar Reseñas</a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -187,7 +187,7 @@
                                       <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                           <tr>
                                               <td style="color: #ffffff; font-family: 'Inter', sans-serif; font-size: 14px; text-align:center;" width="100%">
-                                                  &copy; 2024 <a href="#" style="color: #ffffff;">Nubesita Estudio.</a> Todos los derechos reservados.<br/>
+                                                  &copy; {{ date('Y') }} <a href="#" style="color: #ffffff;">Nubesita Estudio.</a> Todos los derechos reservados.<br/>
 
                                               </td>
                                           </tr>

@@ -39,64 +39,54 @@ class TiendaController extends Controller
         $brand=Brand::find($product['brand_id'])->pluck('name');
         $qtn= $request->counts;
         $price = $skus['sell_price'];
-        $productId = $product['id'];
         $requestedQuantity = $qtn;
-        if(session('location') !== 'PE')
-        { $price = $skus['usd']; }
-        if($request->choose === 'CART' ){
-            // Obtén el ítem del carrito si ya existe
-            $cartItem = Cart::instance('cart')->content()->where('id', $productId)->first();
-            $currentQtyInCart = $cartItem ? $cartItem->qty : 0;
-            // Consulta el stock disponible desde la base de datos
-            $stockAvailable = $skus['stock']; // Aquí consultas el stock real del SKU
-            if ($cartItem) {
-                // Si el producto ya está en el carrito, calcula la nueva cantidad
-                $newQty = $cartItem->qty + $requestedQuantity;
+        $rowId=$this->getRowIdBySku($skus['code']);
+        if($rowId){
 
-                // Verifica si la nueva cantidad excede el stock disponible
-                if ($newQty <= $stockAvailable) {
-                    // Actualiza la cantidad del producto en el carrito
-                    Cart::instance('cart')->update($cartItem->rowId, $newQty);
+            $cartCount=Cart::instance('cart')->get($rowId)->qty;
 
-                    return response()->json([
-                        'message' => 'Cantidad actualizada correctamente',
-                        'cartItem' => $cartItem,
-                    ]);
-                } else {
-                // Calcula cuántos productos puedes agregar sin exceder el stock
-                $availableToAdd = $stockAvailable - $currentQtyInCart;
-                Cart::instance('cart')->update($cartItem->rowId, $availableToAdd+$cartItem->qty);
-                    return response()->json(['message' => 'No hay suficiente stock disponible']);
-                }
-            } else {
-                // Si el producto no está en el carrito, agrégalo si la cantidad solicitada es menor o igual al stock disponible
-                if ($requestedQuantity <= $stockAvailable) {
-                    $newCartItem = Cart::instance('cart')->add(
-                        $product['id'],
-                        $product['name'],
-                        $requestedQuantity,
-                        $price,
-                        [
-                            'productImage' => $request->image ?? 'image/dashboard/No_image_dark.png',
-                            'brand' => $brand,
-                            'slug' => $product['slug'],
-                            'sku' => $skus['code'],
-                            'color' => $skus['color']['name'],
-                            'color_id' => $skus['color']['id'],
-                            'stock' => $skus['stock'],
-                            'hex' => $request->hex,
-                            'src' => $request->src,
-                        ]
-                    )->associate('App\Models\Sku');
-
-                    return response()->json([
-                        'message' => 'Producto agregado correctamente',
-                        'cartItem' => $newCartItem,
-                    ]);
-                } else {
-                    return response()->json(['message' => 'No hay suficiente stock disponible']);
-                }
+            if($qtn + $cartCount > $skus['stock']){
+                $requestedQuantity = $skus['stock']-$cartCount;
             }
+            if($requestedQuantity == 0){
+
+                 return response()->json(['message' => 'No hay suficiente stock disponible']);
+            }
+        }
+        if(session(key: 'location') !== 'PE')
+        { $price = $skus['usd']; }
+
+        if($request->choose === 'CART' ){
+           $newCartItem = Cart::instance('cart')->add(
+            $product['id'],
+            $product['name'],
+            $requestedQuantity,
+            $price,
+            [
+                'productImage' => $request->image ?? 'image/dashboard/No_image_dark.png',
+                'brand' => $brand,
+                'slug' => $product['slug'],
+                'sku' => $skus['code'],
+                'color' => $skus['color']['name'],
+                'color_id' => $skus['color']['id'],
+                'stock' => $skus['stock'],
+                'hex' => $request->hex,
+                'src' => $request->src,
+            ]
+        )->associate('App\Models\Sku');
+        Cart::instance('cart')->store(auth()->user()->id);
+        if($qtn !== $requestedQuantity){
+            $unitLabel = $requestedQuantity > 1 ? 'unidades' : 'unidad';
+            return response()->json([
+                'message' => "No hay suficiente stock disponible. Se agregaron solo {$requestedQuantity} {$unitLabel}.",
+                'alert' => true,
+            ]);
+        } else {
+        return response()->json([
+            'message' => 'Producto '.$product['name'].' agregado correctamente',
+            'cartItem' => $newCartItem,
+        ]);
+        }
         }
 
         else {
@@ -124,4 +114,16 @@ class TiendaController extends Controller
             ]);
         }
     }
+    function getRowIdBySku($skuCode)
+        {
+            // Recorremos todos los items en el carrito
+            foreach (Cart::instance('cart')->content() as $item) {
+                // Comparamos el SKU para encontrar el item deseado
+                if ($item->options->sku === $skuCode) {
+                    return $item->rowId;
+                }
+            }
+            // Retornamos null si no se encuentra el item
+            return null;
+        }
 }

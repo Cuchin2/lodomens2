@@ -192,7 +192,7 @@
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
                                     <td style="color: #ffffff; font-family: 'Inter', sans-serif; font-size: 14px; text-align:center;" width="100%">
-                                        &copy; 2024 <a href="#" style="color: #ffffff;">Nubesita Estudio.</a> Todos los derechos reservados.<br/>
+                                        &copy; {{ date('Y') }} <a href="#" style="color: #ffffff;">Nubesita Estudio.</a> Todos los derechos reservados.<br/>
 
                                     </td>
                                 </tr>

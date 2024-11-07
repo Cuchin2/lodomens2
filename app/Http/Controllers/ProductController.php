@@ -211,10 +211,10 @@ class ProductController extends Controller
     {
         $image = Image::find($id);
         if ($image) {
-            $filePath = storage_path('app/public/'.$image->url);
+/*             $filePath = storage_path('app/public/'.$image->url);
             if (file_exists($filePath)) {
                 unlink($filePath);
-            }
+            } */
             $image->delete();
             return response()->json(['message' => 'La imagen se ha eliminado correctamente'], 200);
         }

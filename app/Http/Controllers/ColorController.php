@@ -61,12 +61,13 @@ class ColorController extends Controller
             })
             ->where('imageable_id', $id)
             ->first();
+            // Eliminar la imagen existente
             if ($existingImage) {
-                // Eliminar la imagen existente
+
                 $filePath = storage_path('app/public/'.$existingImage->url);
-                if (file_exists($filePath)) {
+/*                 if (file_exists($filePath)) {
                     unlink($filePath);
-                }
+                } */
                 $existingImage->delete();
             }
         $image=$product->images()->create([
@@ -119,7 +120,7 @@ class ColorController extends Controller
         return response()->json(['row_id'=>$row->id,'order'=>$row->order]);
     }
     public function deleterow(Request $request){
-        $row = Row::findOrFail($request->row_id);
+        $row = Row::find($request->row_id);
         // Eliminar las imágenes relacionadas a la fila
         $row->images()->delete();
         // Eliminar la fila
@@ -131,8 +132,8 @@ class ColorController extends Controller
         $path = str_replace('/storage/', '', $parsedUrl);
         $image=Image::where('url',$path)->first();
         $image->delete();
-        $filePath = storage_path('app/public/'.$path);
-        unlink($filePath);
+/*         $filePath = storage_path('app/public/'.$path);
+        unlink($filePath); */
         return response()->json(['url'=>$request->url]);
     }
 

@@ -13,8 +13,8 @@
 @section('content')
 
 <div class="md:mx-5 lg:mx-auto lg:w-[987px] bg-black/75 md:px-16 px-2 pb-1"
- x-data="{ tab: 'tab1', colorselect:'{{ $indice }}', colorid: '@json($colorSelect[0]->id)', abc:'0', src: '{{ asset('storage/'.$firstImage->url) }}', skus: {{ json_encode($skus) }}, skuselect:{{ $skus[$indice]->color_id }},
- showBtn: false, isVideo: true,
+ x-data="{ tab: 'tab1', colorselect:'{{ $indice }}', colorid: '@json($colorId)', abc:'0', src: '{{ asset('storage/'.$firstImage->url) }}', skus: {{ json_encode($skus) }}, skuselect:{{ $skus[$indice]->color_id }},
+ showBtn: false, isVideo: true, review: '{{ $review }}', offset: window.innerWidth <= 758 ? -350 : 150,
  getImage(a,b) {
     axios.get('{{ route('getimage.product.select') }}', {
         params: {
@@ -41,7 +41,7 @@ checkextensions(url){
         const videoExtensions = ['mp4', 'webm', 'mov','avi'];
         this.isVideo = videoExtensions.includes(extension);
 },
- }" x-init="checkextensions(src)">
+ }" x-init="checkextensions(src); if(review) { $scroll('#second', { offset: offset  }); tab = 'tab2';}">
     <div class="md:grid md:grid-cols-2 text-gris-30">
         <div class="md:grid md:grid-cols-6 mt-5">
             <div class="pt-[20px] md:order-2 md:w-full md:col-span-5 md:p-2 flex items-start" >
@@ -167,7 +167,7 @@ checkextensions(url){
                     @endif
 
                  </div>
-                <livewire:add-cart product="{{$product->id}}" color="{{ $colorSelect[0]->id }}" product_name="{{ $product->name }}"/>
+                <livewire:add-cart product="{{$product->id}}" color="{{ $colorId }}" product_name="{{ $product->name }}"/>
 
                 <a class="flex my-4 space-x-2 hover:text-white cursor-pointer w-fit" @click=" $dispatch('add-wishlist',{ color: skuselect})">
                     <x-icons.heart class="w-[20px]" />

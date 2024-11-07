@@ -269,10 +269,10 @@ $routeCart = route('addcart');
                             <template x-if="message !== 'No hay suficiente stock disponible'" >
                                 <x-elements.success scale="0.75" />
                             </template>
-                            <div x-show="choose == 'CART'">
+                            <div x-show="choose == 'CART'" class="mt-2">
                             <p x-text="message" class="text-center"></p>
                             </div>
-                            <div x-show="choose !== 'CART'">
+                            <div x-show="choose !== 'CART'" class="mt-2">
                                 <p x-text="wishmessage" class="text-center"></p>
                              </div>
                         </div>

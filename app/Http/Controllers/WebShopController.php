@@ -22,7 +22,7 @@ class WebShopController extends Controller
         }
         return view('web.shop.index');
     }
-    public function show(Product $product,Color $color){
+    public function show(Product $product,Color $color, Request $request){
         $color_name=$color->name;
         $colorSelect = $product->colors()->select('name', 'hex', 'colors.id')
         ->with('images')
@@ -51,9 +51,9 @@ class WebShopController extends Controller
         $firstImage = new \stdClass();
         $firstImage->url = "image/dashboard/No_image_dark.png";
        }
-        $product->visit()->withSession();
-
-            return view('web.shop.show',compact('product','colorSelect','imagenes','firstImage','indice','skus'));
+       $review = $request->review ?? null;
+        $product->visit()->withSession(); $colorId = $color->id;
+            return view('web.shop.show',compact('product','colorSelect','imagenes','firstImage','indice','skus','colorId','review'));
     }
     public function getimage(Request $request)
     {

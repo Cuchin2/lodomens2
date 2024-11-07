@@ -18,12 +18,17 @@ class AddCart extends Component
     {
         return view('livewire.add-cart');
     }
-    public function add($qtn,$color)
+    public function add($qtn)
     {
         $product = Product::with(['images','type'])->find($this->product); $productId=$product->id;
-        $sku = Sku::where(['product_id'=>$product->id, 'color_id' =>$color])->first();
+        $sku = Sku::where(['product_id'=>$product->id, 'color_id' =>$this->color])->first();
+        $rowId = $this->getRowIdBySku($sku->code);
             // Obtén el ítem del carrito si ya existe
-            $cartItem = Cart::instance('cart')->content()->where('id', $productId)->first();
+            if($rowId){
+            $cartItem = Cart::instance('cart')->get($rowId);}
+            else {
+                $cartItem= null;
+            }
             $currentQtyInCart = $cartItem ? $cartItem->qty : 0;
             $requestedQuantity = $qtn;
             // Consulta el stock disponible desde la base de datos
@@ -55,7 +60,7 @@ class AddCart extends Component
                         $product['name'],
                         $requestedQuantity,
                         $sku->sell_price,
-                        ['productImage' => $product->images->where('color_id',$color)->first()->url ?? 'image/dashboard/No_image_dark.png',
+                        ['productImage' => $product->images->where('color_id',$this->color)->first()->url ?? 'image/dashboard/No_image_dark.png',
                         'brand'=>$product->brand->name,
                         'slug'=> $product->slug,
                         'sku'=>$sku->code,
@@ -67,13 +72,10 @@ class AddCart extends Component
                         ]
                     )->associate('App\Models\Sku');
                          $this->message='Producto agregado correctamente';
-/*                     return response()->json([
-                        'message' => 'Producto agregado correctamente',
-                        'cartItem' => $newCartItem,
-                    ]); */
+
                 } else {
                     $this->message='No hay suficiente stock disponible';
-                    /* return response()->json(['message' => 'No hay suficiente stock disponible']); */
+
                 }
             }
 
@@ -86,10 +88,8 @@ class AddCart extends Component
         if(auth()->user()){
             $product = Product::with(['images','type'])->find($this->product); $productId=$product->id;
             $sku = Sku::where(['product_id'=>$product->id, 'color_id' =>$color])->first();
-            $cartItem = Cart::instance('wishlist')->content()->where('id', $productId)->first();
-            if($cartItem){
-                Cart::instance('wishlist')->update($cartItem->rowId,$cartItem->qty+1);
-            } else {
+            Cart::instance('wishlist')->content()->where('id', $productId)->first();
+
                 Cart::instance('wishlist')->add(
                     $product->id,
                     $product->name,
@@ -106,7 +106,7 @@ class AddCart extends Component
                     'src'=> $product->type->images->url ?? '',
                     ]
                 )->associate('App\Models\Sku');
-            }
+
 
             Cart::instance('wishlist')->store(auth()->user()->id);
             $this->dispatch('wishlist-added');
@@ -116,5 +116,20 @@ class AddCart extends Component
         }
         $this->modalMessage = true;
     }
-
+    #[On('sku')]
+    public function changeColor($parm){
+        $this->color= $parm;
+    }
+    public function getRowIdBySku($skuCode)
+    {
+        // Recorremos todos los items en el carrito
+        foreach (Cart::instance('cart')->content() as $item) {
+            // Comparamos el SKU para encontrar el item deseado
+            if ($item->options->sku === $skuCode) {
+                return $item->rowId;
+            }
+        }
+        // Retornamos null si no se encuentra el item
+        return null;
+    }
 }

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\Image;
 use App\Models\Row;
 use App\Models\Color;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use LaravelLang\NativeCountryNames\Enums\SortBy;
-
+use App\Models\Image;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Laravel\Facades\Image as ImageInter;
+use Intervention\Image\ImageManager;
 class ColorController extends Controller
 {
     public function __construct()
@@ -42,10 +43,17 @@ class ColorController extends Controller
                             // Decodifica los datos base64 en una cadena binaria
                             $imageData = base64_decode($data);
                             // Genera un nombre de archivo único
-                            $fileName = time() . '.' . $imageType;
+
+                            $fileName = time() . '.webp';
                             // Guarda la imagen en el sistema de archivos
-                            $path = 'image/lodomens/' . $fileName;
-                            Storage::disk('public')->put($path, $imageData);
+                            $path = 'storage/image/lodomens/' . $fileName;
+                            $manager = new ImageManager(new Driver());
+                            $img=$manager->read($imageData);
+
+                            $img->resize(500,500)->toWebp()->save($path);
+
+                            // create new image instance (800 x 600)
+
         }
         else{
             $file= $request->file('file');

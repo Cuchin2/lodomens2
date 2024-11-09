@@ -17,7 +17,7 @@
         </div>
     </button>
 
-    <div x-show="open" x-cloak class="absolute z-50 w-auto bg-white border rounded-[3px] border-gris-70 dark:bg-gris-100">
+    <div x-show="open" x-cloak class="absolute z-50 w-auto border rounded-[3px] border-gris-70 bg-gris-100">
         <ul class="py-1">
             @foreach($options as $value => $description)
                 @if($value !== '')

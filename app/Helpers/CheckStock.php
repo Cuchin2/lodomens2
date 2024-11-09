@@ -1,7 +1,6 @@
 <?php
 use App\Models\Sku;
 use Gloudemans\Shoppingcart\Facades\Cart;
-
 function checkStock()
 {
     // Obtener los elementos del carrito

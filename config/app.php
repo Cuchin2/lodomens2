@@ -138,7 +138,7 @@ return [
     | Supported drivers: "file", "cache"
     |
     */
-
+    'driver' => \Intervention\Image\Drivers\Gd\Driver::class,
     'maintenance' => [
         'driver' => 'file',
         // 'store' => 'redis',

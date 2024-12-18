@@ -75,7 +75,7 @@
 
                         </x-sidebar.ul-drop>
                         @endcan  --}}
-                        @role(['admin','gerencia'])
+                        @role(['Admin','Gerencia'])
                         <x-sidebar.ul-drop name="Mi página" id="2" :active="request()->routeIs('mypage.*')">
                             <x-slot name="icon">
                                 <x-icons.planet class="h-[20px] w-[20px]" />

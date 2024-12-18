@@ -37,7 +37,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 " id="miDiv">
 
-                <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class=" bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-6 ">
 
                         <div class="my-3">
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                 </div>
-                <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class=" bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-6 ">
                         <div class="my-3">
                             <x-label class="mb-2">Logo:</x-label>
@@ -69,7 +69,7 @@
                            {{--  fin de pruebas  --}}
 
                         </div>
-                        <div class="my-3 dark:text-gray-200">
+                        <div class="my-3 text-gray-200">
                             <x-label class="my-2">Redes sociales</x-label>
                              @if ($user->socialMedia->isNotEmpty())
                             <livewire-socialmedia-profile :redes="$user->socialMedia" />
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-                <div class=" bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class=" bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="mx-auto max-w-screen-xl px-4 py-4 lg:px-6 h-full">
                         <div class="my-3">
                         <x-label  value="{{ __('Información:') }}" />

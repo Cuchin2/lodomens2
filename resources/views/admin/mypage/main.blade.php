@@ -27,7 +27,7 @@
 
         </div>
         @endif
-        <div class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg ">
+        <div class="bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg ">
             <livewire:slider-table />
         </div>
         <div class="grid md:grid-cols-2 grid-cols-1 gap-4 mt-4" x-data="
@@ -58,7 +58,7 @@
 
         }"
          x-sort="change($item, $position)">
-            <div x-sort:item="{{ $banners[0]->id ?? ''}}" class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg px-2 py-4">
+            <div x-sort:item="{{ $banners[0]->id ?? ''}}" class="bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg px-2 py-4">
 
                 <form method="POST" :action="pos0" name="formulario"
                     enctype="multipart/form-data">
@@ -79,7 +79,7 @@
                     <x-button.corp1 type="buttom" class="mx-auto my-4">Actualizar</x-button.corp1>
                 </form>
             </div>
-            <div x-sort:item="{{ $banners[1]->id }}" class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg px-2 py-4">
+            <div x-sort:item="{{ $banners[1]->id }}" class="bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg px-2 py-4">
 
                 <form method="POST" :action="pos1" name="formulario2"
                     enctype="multipart/form-data">
@@ -101,7 +101,7 @@
                 </form>
             </div>
         </div>
-        <div class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg px-2 py-4 mt-4 w-full">
+        <div class="bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg px-2 py-4 mt-4 w-full">
             <form method="POST" action="{{ route('about.update',1) }}" name="formulario3">
                     @csrf
                     @method('PUT')

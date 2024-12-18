@@ -15,12 +15,12 @@
                             </div>
                           </div>
                         </button>
-                        <h1 class="dark:text-gris-20 mx-auto">Envíos Nacionales</h1>
+                        <h1 class="text-gris-20 mx-auto">Envíos Nacionales</h1>
                     </div>
                 </div>
 
                     <div class="overflow-x-auto">
-                        <table class="w-full text-center   dark:text-gris-30">
+                        <table class="w-full text-center text-gris-30">
                             <thead class="text-[16px] text-gris-20  bg-gris-70 ">
                                 <tr>
                                     <th scope="col" class="px-4 py-[13px] font-normal" wire:click="setSortBy('order')">
@@ -39,10 +39,10 @@
                             <tbody class="text-[14px] " x-sort="$wire.sort($item, $position)">
                                 @foreach ($districts as $district)
                                 <tr wire:key="{{$district->id}}"
-                                    class="border-b dark:border-gris-70 dark:hover:bg-gris-70 dark:hover:bg-opacity-[25%] px-[140px] h-full"
+                                    class="border-b border-gris-70 hover:bg-gris-70 hover:bg-opacity-[25%] px-[140px] h-full"
                                     x-sort:item="{{ $district->id }}">
                                     <td scope="row"
-                                        class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
+                                        class="px-4 py-[13px] font-medium  whitespace-nowrap text-gris-30">
                                         {{$district->order}}</td>
                                     <td class="px-4 py-[13px]">
                                             {{$district->name}}</td>

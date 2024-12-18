@@ -9,13 +9,13 @@
 
     <x-slot name="slot2">
         <div class="space-y-4">
-            <div class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg ">
+            <div class="bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg ">
                 <livewire:shipping-district/>
             </div>
-            <div class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg ">
+            <div class="bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg ">
                 <livewire:shipping-national/>
             </div>
-      <div class="bg-white dark:bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg ">
+      <div class="bg-gris-80 overflow-hidden shadow-xl sm:rounded-lg ">
             <livewire:shipping-international/>
         </div>
         </div>

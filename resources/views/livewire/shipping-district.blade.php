@@ -15,12 +15,12 @@
                             </div>
                           </div>
                         </button>
-                        <h1 class="dark:text-gris-20 mx-auto">Envíos Distritales a Lima</h1>
+                        <h1 class="text-gris-20 mx-auto">Envíos Distritales a Lima</h1>
                     </div>
                 </div>
 
                     <div class="overflow-x-auto">
-                        <table class="w-full text-center   dark:text-gris-30">
+                        <table class="w-full text-center text-gris-30">
                             <thead class="text-[16px] text-gris-20  bg-gris-70 ">
                                 <tr>
                                     <th scope="col" class="px-4 py-[13px] font-normal" wire:click="setSortBy('order')">
@@ -38,10 +38,10 @@
                             <tbody class="text-[14px] " x-sort="$wire.sort($item, $position)">
                                 @foreach ($districts as $district)
                                 <tr wire:key="{{$district->id}}"
-                                    class="border-b dark:border-gris-70 dark:hover:bg-gris-70 dark:hover:bg-opacity-[25%] px-[140px] h-full"
+                                    class="border-b border-gris-70 hover:bg-gris-70 hover:bg-opacity-[25%] px-[140px] h-full"
                                     x-sort:item="{{ $district->id }}">
                                     <td scope="row"
-                                        class="px-4 py-[13px] font-medium text-gray-900 whitespace-nowrap dark:text-gris-30">
+                                        class="px-4 py-[13px] font-medium whitespace-nowrap text-gris-30">
                                         {{$district->order}}</td>
                                     <td class="px-4 py-[13px]">
                                             {{$district->name}}</td>
@@ -89,7 +89,7 @@
 
             <div class="grid {{ $check ? 'grid-cols-2' : 'grid-cols-1' }}">
                 <div class="m-4">
-                    <x-button.corp_secundary class="{{ $check ? 'dark:!bg-transparent' : '' }}" wire:click="location">{{ $check ? 'Quitar ubicación' : 'Agregar ubicación' }}</x-button.corp_secundary>
+                    <x-button.corp_secundary class="{{ $check ? '!bg-transparent' : '' }}" wire:click="location">{{ $check ? 'Quitar ubicación' : 'Agregar ubicación' }}</x-button.corp_secundary>
                     <x-label class="my-2">Nombre</x-label>
                     <x-input placeholder="Nombre" wire:model="name" class="w-full"></x-imput>
                         @error('name')
@@ -118,7 +118,7 @@
                               <button @click="$refs.editor.focus(); document.execCommand('italic', false, null)"><em>Italic</em></button>
                             </div>
 
-                        <div contenteditable="true" id="editor" x-ref="editor" x-on:input="title = $event.target.innerHTML;" class="border-gray-300 dark:border-gris-70 dark:bg-gris-90 dark:text-gris-5 focus:border-gris-50 border dark:focus:border-gris-50 focus:ring-gris-50 dark:focus:ring-gris-50 rounded-lg shadow-sm text-[12px] focus:outline-none">{!! $title !!}
+                        <div contenteditable="true" id="editor" x-ref="editor" x-on:input="title = $event.target.innerHTML;" class=" border-gris-70 bg-gris-90 text-gris-5  border focus:border-gris-50 focus:ring-gris-50 rounded-lg shadow-sm text-[12px] focus:outline-none">{!! $title !!}
                         </div>
                         <style>
                             #editor {

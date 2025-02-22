@@ -28,6 +28,7 @@ use App\Http\Controllers\GraciasController;
 use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\MaterialController;
 use App\Models\Address;
 use App\Models\SaleOrder;
 
@@ -48,7 +49,7 @@ Route::get('/', function () {
 });
 
 Route::get('inicio',[MainController::class,'index'])->name('root');
-
+Route::post('addcart',[TiendaController::class,'addcart'])->name('addcart');
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -61,7 +62,7 @@ Route::middleware([
 Route::get('tienda',[WebShopController::class,'index'])->name('web.shop.index');
 Route::get('tienda/{product}/{color}',[WebShopController::class,'show'])->name('web.shop.show');
 Route::get('sku/{id}/{color}',[TiendaController::class,'skus'])->name('get.skus');
-Route::post('addcart',[TiendaController::class,'addcart'])->name('addcart');
+
 Route::get('registro',[WebController::class,'login_register'])->name('web.login_register');
 Route::post('registro/user',[WebController::class,'register_user'])->name('web.store_register');
 Route::get('recuperar_password',[WebController::class,'recover_password'])->name('web.recover_password');
@@ -98,6 +99,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
             Route::resource('brand',BrandController::class)->names('inventory.brands');
             Route::resource('categories', CategoryController::class)->names('inventory.categories');
             Route::resource('tags', TagController::class)->except('show')->names('inventory.tags');
+            Route::resource('materials', MaterialController::class)->names('inventory.materials');
         Route::get('tag/{type}',[TagController::class,'type'])->name('tags.indextype');
         Route::get('category/product',[CategoryController::class,'index_product'])->name('categories.PRODUCT');
         Route::get('getimages/{product}',[ProductController::class,'getimages'])->name('getimages');

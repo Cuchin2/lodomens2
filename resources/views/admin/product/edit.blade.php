@@ -69,7 +69,7 @@
                             <div class="mt-3">
                                 <x-select-search placeholder="Selecciona un tipo"
                                     message="Ningun tipo coincide con la búsqueda" name="type_id" :data="$types"
-                                    selected="{{ $product->type->id ?? ''}}">
+                                    selected="{{ $product->type_id ?? ''}}">
                                 </x-select-search>
                             </div>
                         </div>
@@ -78,14 +78,25 @@
                             <div class="mt-3">
                                 <x-select-search placeholder="Selecciona la marca"
                                     message="Ninguna marca coincide con la búsqueda" name="brand_id" :data="$brands"
-                                    selected="{{ $product->brand->id ?? ''}}">
+                                    selected="{{ $product->brand_id ?? ''}}">
                                 </x-select-search>
                                 @error('brand_id')
                                 <div class="text-red-600 ml-2"> {{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
-
+                        <div class="my-3">
+                            <x-label class="mb-2">Materiales:</x-label>
+                            <div class="mt-3">
+                                <x-select-search placeholder="Selecciona un material"
+                                    message="Ninguna material coincide con la búsqueda" name="material_id" :data="$materials"
+                                    selected="{{ $product->material_id ?? ''}}">
+                                </x-select-search>
+                                @error('material_id')
+                                <div class="text-red-600 ml-2"> {{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="my-3" x-data="{ code: '{{ $product->code }}' }">
                             <x-label class="mb-2">Código del producto</x-label>
                             <x-input name="code" maxlength="4" x-model="code" @change="addLeadingZeros"

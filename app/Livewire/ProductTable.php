@@ -14,12 +14,12 @@ use Illuminate\Validation\Rule;
 class ProductTable extends Component
 {
     use WithPagination;
-    public $showModal = false; public $showModalCreate= false; 
+    public $showModal = false; public $showModalCreate= false; public $showModalTipo= false;
     public $itemIdToDelete;
     #[Validate('required', message: 'Seleccione una categoría')]
      public $category_id; public $color1='inherit';
     public $itemName; public $product = ''; public $state = ''; public $id=''; public $status= ''; public $color2='inherit'; public $change2=''; public $status2= '';
-    public $name;
+    public $name; public $tipo_name; public $tipo_new_name; public $tipo_hex; public $tipo_old_hex; public $product_name; public $type_id;
     public $code;
     public $perPage = 10;
 
@@ -53,7 +53,7 @@ class ProductTable extends Component
         return [
             'name.required' => 'El nombre es requerido.',
             'code.required' => 'El código es requerido.',
-            'code.size' => 'Se Requiere 4 dígitos.',
+            'code.size' => 'Se Requiere 4 dígitos .',
         ];
     }
 
@@ -70,15 +70,15 @@ class ProductTable extends Component
                 $this->change2 = 'STOP';
             } else{
                 $product->status=$this->state;
-                $product->save(); 
-                $this->dispatch('state',state:$this->traslate($this->state),id:$id); 
+                $product->save();
+                $this->dispatch('state',state:$this->traslate($this->state),id:$id);
                 $this->showModal = false;
-            }                      
+            }
         }
         else{
             $product->delete(); $this->showModal = false;
         }
-             
+
     }
     public function create()
     {
@@ -104,20 +104,21 @@ class ProductTable extends Component
     }
     public function render()
     {
-        return view('livewire.product-table',[
+        return view('livewire.product-table', [
+            'types' => Type::all(),
             'products' => Product::search($this->search)
-            ->when($this->type !== '',function($query){
-                $query->where('name',$this->type);
-            })
-            ->orderBy($this->sortBy,$this->sortDir)
-            ->paginate($this->perPage),
-            'categories'=> Category::all()->pluck('name', 'id')->toArray(),
+                ->when($this->type !== '', function ($query) {
+                    $query->where('type_id', $this->type);
+                })
+                ->orderBy($this->sortBy, $this->sortDir)
+                ->paginate($this->perPage),
+            'categories' => Category::all()->pluck('name', 'id')->toArray(),
         ]);
     }
 
 
     public function showDeleteModal($itemId,$itemName)
-        {   
+        {
             $this->change2='';
             $this->itemName = $itemName;
             $this->itemIdToDelete = $itemId;
@@ -142,6 +143,24 @@ class ProductTable extends Component
         $this->color2=$color;
         $this->color1=$this->traslateColor($this->status);
         $this->change2='STATUS';
+    }
+    public function tipo($id,$hex,$name_new,$name,$old_hex,$product_name,$type_id){
+
+        $this->showModalTipo=true;
+        $this->id=$id;
+        $this->tipo_name=$name;
+        $this->tipo_new_name=$name_new;
+        $this->tipo_hex=$hex;
+        $this->tipo_old_hex=$old_hex;
+        $this->product_name=$product_name;
+        $this->type_id=$type_id;
+    }
+    public function change_tipo(){
+        $product_by_type= Product::find($this->id);
+        $product_by_type->type_id=$this->type_id;
+        $product_by_type->save();
+        $this->dispatch('tipo',name:$this->tipo_new_name,hex:$this->tipo_hex);
+        $this->showModalTipo=false;
     }
     public function reloadd()
     {

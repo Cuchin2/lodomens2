@@ -31,6 +31,7 @@ class Product extends Model implements CanVisit
         'brand_id',
         'provider_id',
         'type_id',
+        'material_id',
         'sell_price'
     ];
     public function colors()
@@ -67,11 +68,14 @@ class Product extends Model implements CanVisit
         return 'slug';
     }
     public function category(){
-     return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class);
     }
     public function type(){
         return $this->belongsTo(Type::class);
-       }
+    }
+    public function material(){
+        return $this->belongsTo(Type::class);
+    }
     public function skus()
     {
         return $this->hasMany(Sku::class);
@@ -93,12 +97,10 @@ class Product extends Model implements CanVisit
     }
     public function scopeSearch($query, $value)
     {
-        $query->where('name','like',"%{$value}%")
-        /* ->orWhere('sell_price','like',"%{$value}%") */;
-         /* ->orWhereHas('roles', function ($roleQuery) use ($value) {
-            $roleQuery->where('name', 'like', "%{$value}%");
-        });
-       ->orWhere('updated_at','like',"%{$value}%"); */
+        $query->where('name', 'like', "%{$value}%")
+              ->orWhereHas('type', function ($q) use ($value) {
+                  $q->where('name', 'like', "%{$value}%");
+              });
     }
     public function my_update($request){
         $this->update($request->except('sell_price'));

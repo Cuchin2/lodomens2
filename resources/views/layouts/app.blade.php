@@ -128,6 +128,8 @@
                             @can('brands.index')
                             <x-sidebar.ul-drop-son href="{{ route('inventory.brands.index')}}" :active2="request()->routeIs('inventory.brands.index')">Marcas</x-sidebar.ul-drop-son>
                             @endcan
+                            <x-sidebar.ul-drop-son href="{{ route('inventory.materials.index')}}" :active2="request()->routeIs('inventory.materials.index')">Materiales
+                            </x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son href="{{ route('inventory.tags.index')}}" :active2="request()->routeIs('inventory.tags.index')">Etiquetas
                             </x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son href="{{ route('inventory.colors.index')}}" :active2="request()->routeIs('inventory.colors.index')">Colores

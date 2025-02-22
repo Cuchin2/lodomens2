@@ -74,7 +74,8 @@ class TiendaController extends Controller
                 'src' => $request->src,
             ]
         )->associate('App\Models\Sku');
-        Cart::instance('cart')->store(auth()->user()->id);
+        if (auth()->check()) {
+        Cart::instance('cart')->store(auth()->user()->id);}
         if($qtn !== $requestedQuantity){
             $unitLabel = $requestedQuantity > 1 ? 'unidades' : 'unidad';
             return response()->json([

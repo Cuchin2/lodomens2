@@ -113,6 +113,9 @@
                                     </th>
 
                                 <th scope="col" class="px-4 w-[123px] py-[13px] font-normal cursor-pointer" wire:click="setSortBy('status')">Estado</th>
+                                <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('type_id')">
+                                    Tipo
+                                </th>
                                 <th scope="col" class="px-4 py-[13px] font-normal text-center">
                                     Acciones
                                 </th>
@@ -165,6 +168,9 @@
                                         <x-dropdown.dropdownproduct status="{{ $product->status() }}" id="{{ $product->id }}" name="{{$product->name}}"/>
                                      </td>
                                 </td>
+                                <td class="px-4 py-[13px]" wire:ignore>
+                                    <x-dropdown.dropdowntype :type="$product->type" :types="$types" :id="$product->id" :nameproduct="$product->name"/>
+                                </td>
                                 <td class="px-4 py-[13px] flex items-center justify-center space-x-5 h-[63px]">
 
                                     <a class="text-azul-50 hover:text-azul-30" href="{{route('inventory.products.edit',$product->slug)}}">
@@ -196,11 +202,12 @@
             <x-slot name="content">
 
                @if($change2 == 'STATUS')
-               ¿Estás seguto de cambiar el estado del producto "<b>{{$itemName}}</b>" <br>
+               ¿Estás seguto de cambiar el estado del producto"<b>{{$itemName}}</b>" <br>
                <div class="flex space-x-1 mt-2"><p>De</p> <p class="text-{{ $color1 }}-10">{{ $status }}</p> <p>a</p> <p class='text-{{ $color2 }}'>{{ $status2 }}</p></div>
                @elseif ($change2 == 'STOP')
                No es posible cambiar al estado <b class="text-verde-10">Publicado</b> un producto que no tenga definido sus parámetos.
                @else ¿Estás seguro de que deseas eliminar el producto "<b>{{$itemName}}</b>"? @endif
+
 
 
             </x-slot>
@@ -252,6 +259,24 @@
                 <x-button.corp_secundary  wire:click="$toggle('showModalCreate')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
                 <x-button.corp1 wire:click="create('{{$name}}')" wire:loading.attr="disabled">Crear</x-button.corp1>
 
+            </x-slot>
+        </x-dialog-modal>
+        <x-dialog-modal wire:model="showModalTipo">
+            <x-slot name="title">
+                Cambiar Tipo de producto
+            </x-slot>
+
+            <x-slot name="content">
+
+                ¿Estás seguto de cambiar el estado del producto <b>{{ $product_name }}</b>  de </br> <b style="color:{{ $tipo_old_hex}}">"{{$tipo_name}}"</b> a <b style="color:{{ $tipo_hex }}">"{{$tipo_new_name}}"</b> <br>
+
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-button.corp_secundary wire:click="$toggle('showModalTipo')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
+                @if($change2 !== 'STOP')
+                <x-button.corp1 wire:click="change_tipo()" wire:loading.attr="disabled">Aceptar</x-button.corp1>
+                @endif
             </x-slot>
         </x-dialog-modal>
     </section>

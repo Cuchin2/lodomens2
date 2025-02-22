@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Tag;
 use App\Models\Image;
 use App\Models\Color;
+use App\Models\Material;
 use App\Models\Brand;
 use App\Models\Type;
 use App\Models\Row;
@@ -73,6 +74,7 @@ class ProductController extends Controller
         $categories = Category::all()->pluck('name', 'id')->toArray();
         $brands = Brand::all()->pluck('name', 'id')->toArray();
         $types = Type::all()->pluck('name', 'id')->toArray();
+        $materials = Material::all()->pluck('name', 'id')->toArray();
         $average=round($product->reviews()->latest()->get()->avg('score'), 1);
         //multiselect Tags
         $tagNames = Tag::pluck('name')->toArray();
@@ -99,7 +101,7 @@ class ProductController extends Controller
             'POS' =>  'Programado',
             'DISABLED' => 'Cancelado'
         ];
-        return view('admin.product.edit', compact('status','product','categories','average','tagNames','tagSelect','colorNames','colorSelect','colorUnSelect','numberArray','brands','types'));
+        return view('admin.product.edit', compact('status','product','categories','average','tagNames','tagSelect','colorNames','colorSelect','colorUnSelect','numberArray','brands','types','materials'));
     }
 
     /**

@@ -83,7 +83,7 @@
 
                     </main>
                            {{--   footer  --}}
-                           <div class="relative z-10">
+                           <div class="relative z-30">
                             @include('layouts.footer')
                               </div>
                             {{--  fin  footer  --}}

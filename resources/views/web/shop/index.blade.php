@@ -7,7 +7,7 @@
 @section('content')
 {{--
 <x-lodomens.video /> --}}
-<livewire:shop-main cat_id="{{ $category_id ?? '' }}"/>
+<livewire:shop-main cat_id="{{ $category_id ?? '' }}" />
 {{--
 <livewire:shop-main-modal /> --}}
 @php
@@ -128,25 +128,28 @@ $routeCart = route('addcart');
             <div class="bg-gris-90 px-2 md:px-6 py-3">
                 <div class="md:flex space-x-2 md:space-x-7 md:justify-between">
                     <div class="flex justify-center space-x-5 md:w-full">
-                        <lodo class="relative items-center  flex max-w-[200px] max-h-[200px] mx-auto md:!max-h-[136px] md:!w-1/2 h-full overflow-hidden"
-                            @mouseenter="showBtn = true"
-                            @mouseleave="showBtn = false"
-                        >
-                            <img class="absolute top-3 left-2 scale-75 z-50" :src="'{{ asset('storage')}}'+'/'+src" alt="">
+                        <lodo
+                            class="relative items-center  flex max-w-[200px] max-h-[200px] mx-auto md:!max-h-[136px] md:!w-1/2 h-full overflow-hidden"
+                            @mouseenter="showBtn = true" @mouseleave="showBtn = false">
+                            <img class="absolute top-3 left-2 scale-75 z-50" :src="'{{ asset('storage')}}'+'/'+src"
+                                alt="">
                             <template x-if="isVideo">
-                                <video :src="'{{ asset('storage') }}'+'/'+url" class="rounded-[3px]  w-full h-full border-corp-50 border-[3px]" style="z-index: 20" controls>
+                                <video :src="'{{ asset('storage') }}'+'/'+url"
+                                    class="rounded-[3px]  w-full h-full border-corp-50 border-[3px]" style="z-index: 20"
+                                    controls>
                             </template>
                             <template x-if="!isVideo">
-                                <img :src="'{{ asset('storage') }}'+'/'+url" class="mx-auto w-full h-full transition duration-500"
-                                :class="showBtn ? 'scale-125' : ''"
-                                :alt="skus?.product?.name ?? ''">
+                                <img :src="'{{ asset('storage') }}'+'/'+url"
+                                    class="mx-auto w-full h-full transition duration-500"
+                                    :class="showBtn ? 'scale-125' : ''" :alt="skus?.product?.name ?? ''">
                             </template>
 
-                            <div class="absolute top-0 left-0 w-[100%] h-full flex items-center justify-center" :style="'border-color: ' + hex"
+                            <div class="absolute top-0 left-0 w-[100%] h-full flex items-center justify-center"
+                                :style="'border-color: ' + hex"
                                 :class="skus.stock > 0 ? 'border-[2px]  rounded-[3px]':'bg-black/80 border-[2px]  rounded-[3px]'">
                                 <template x-if="skus.stock < 1">
-                                    <span
-                                        class="text-gris-20 font-bold  bg-gris-90 p-2 border-[2px]  rounded-[3px]" :style="'border-color: ' + hex">SIN
+                                    <span class="text-gris-20 font-bold  bg-gris-90 p-2 border-[2px]  rounded-[3px]"
+                                        :style="'border-color: ' + hex">SIN
                                         STOCK</span>
                                 </template>
                             </div>
@@ -230,68 +233,61 @@ $routeCart = route('addcart');
     </x-web.modal.modal>
 
 
-    {{--  modal de stock  --}}
+    {{-- modal de stock --}}
 
-    <div
-    x-on:close.stop="open = false"
-    x-on:keydown.escape.window="open =false"
-    x-show="open"
-    class="jetstream-modal fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50"
-    style="display: none;"
->
-    <div x-show="open" class="fixed inset-0 transform transition-all" x-on:click="open = false" x-transition:enter="ease-out duration-300"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    x-transition:leave="ease-in duration-200"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0">
-        <div class="absolute inset-0  bg-black/40"></div>
-    </div>
-    <div class="flex items-center h-full">
-    <div x-show="open" class="  bg-gris-90 rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:max-w-md sm:mx-auto"
-                    x-trap.inert.noscroll="open"
-                    x-transition:enter="ease-out duration-300"
-                    x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                    x-transition:leave="ease-in duration-200"
-                    x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                    x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-                    <div class="px-6 py-4">
-                        <div class="text-lg font-medium  text-gris-10 mb-3">
-                            <h4 class="mx-auto w-fit">Anuncio</h3>
-                        </div>
-
-
-                        <div class="mt-4 text-[15px]  text-gris-10">
-                             <template x-if="message == 'No hay suficiente stock disponible'">
-                                <x-web.special.alert scale="0.75"/>
-                            </template>
-                            <template x-if="message !== 'No hay suficiente stock disponible'" >
-                                <x-elements.success scale="0.75" />
-                            </template>
-                            <div x-show="choose == 'CART'" class="mt-2">
-                            <p x-text="message" class="text-center"></p>
-                            </div>
-                            <div x-show="choose !== 'CART'" class="mt-2">
-                                <p x-text="wishmessage" class="text-center"></p>
-                             </div>
-                        </div>
+    <div x-on:close.stop="open = false" x-on:keydown.escape.window="open =false" x-show="open"
+        class="jetstream-modal fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50" style="display: none;">
+        <div x-show="open" class="fixed inset-0 transform transition-all" x-on:click="open = false"
+            x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+            <div class="absolute inset-0  bg-black/40"></div>
+        </div>
+        <div class="flex items-center h-full">
+            <div x-show="open"
+                class="  bg-gris-90 rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:max-w-md sm:mx-auto"
+                x-trap.inert.noscroll="open" x-transition:enter="ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave="ease-in duration-200"
+                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                <div class="px-6 py-4">
+                    <div class="text-lg font-medium  text-gris-10 mb-3">
+                        <h4 class="mx-auto w-fit">Anuncio</h3>
                     </div>
 
-                    <div class="flex flex-row justify-center px-6 py-4 bg-gris-90 text-center">
-                       {{--   {{ $footer }}  --}}
 
-                        <x-button.corp_secundary @click="open = false">Salir</x-button.corp_secundary>
+                    <div class="mt-4 text-[15px]  text-gris-10">
+                        <template x-if="message == 'No hay suficiente stock disponible'">
+                            <x-web.special.alert scale="0.75" />
+                        </template>
+                        <template x-if="message !== 'No hay suficiente stock disponible'">
+                            <x-elements.success scale="0.75" />
+                        </template>
+                        <div x-show="choose == 'CART'" class="mt-2">
+                            <p x-text="message" class="text-center"></p>
+                        </div>
+                        <div x-show="choose !== 'CART'" class="mt-2">
+                            <p x-text="wishmessage" class="text-center"></p>
+                        </div>
+                    </div>
+                </div>
 
-                     <template  x-if="choose !== 'CART'">
+                <div class="flex flex-row justify-center px-6 py-4 bg-gris-90 text-center">
+                    {{-- {{ $footer }} --}}
+
+                    <x-button.corp_secundary @click="open = false">Salir</x-button.corp_secundary>
+
+                    <template x-if="choose !== 'CART'">
                         <x-button.corp1 @click="toWishlist(), open=false;">
                             <p1>Aceptar</p1>
                         </x-button.corp1>
                     </template>
-                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    </div>
-</div>
 </div>
 @endsection
 

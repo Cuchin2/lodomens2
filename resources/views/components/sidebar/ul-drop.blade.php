@@ -6,15 +6,15 @@
         <a href="#"
             class="flex items-center h-[36px]  {{-- bg-teal-600 rounded-lg --}} transition-colors duration-300 pl-[13px] ease-in-out focus:outline-none focus:shadow-outline"
             @click="openItem === {{$id}} ? openItem = null : openItem = {{$id}}"
-            
+
             >
             @if($active == true)
             <div class="border-r-4 rounded-r-[4px] border-corp-30 w-[5px] h-full ml-[-9px] mr-[2px]"></div>
             @endif
             <span class="flex mr-auto {{ $active ? 'text-corp-30' : '' }}">
-                
+
                 {{$icon}}
-                <p class="ml-2 font-normal {{ $active ? 'text-white' : 'dark:text-gris-20' }} duration-300 transition-none ease-in-outtransition-none w-[100px]"
+                <p class="ml-2 font-normal {{ $active ? 'text-white' : 'text-gris-20' }} duration-300 transition-none ease-in-outtransition-none w-[100px]"
                 :class="{
                     'opacity-100': isSidebarExpanded,
                     'opacity-0': !isSidebarExpanded,

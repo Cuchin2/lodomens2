@@ -12,7 +12,8 @@ use App\Models\Rating;
 use App\Models\Color;
 use App\Models\Type;
 use App\Models\Sku;
-
+use App\Models\Material;
+use App\Models\OrderDetail;
 class Product extends Model implements CanVisit
 {
     use HasFactory;
@@ -74,7 +75,7 @@ class Product extends Model implements CanVisit
         return $this->belongsTo(Type::class);
     }
     public function material(){
-        return $this->belongsTo(Type::class);
+        return $this->belongsTo(Material::class);
     }
     public function skus()
     {

@@ -97,14 +97,14 @@
                             </x-slot> Compras
                         </x-sidebar.ul-simple>
                         @endcan  --}}
-                        @can('sales.index')
-                        <x-sidebar.ul-simple :active="request()->routeIs('sale.index')"
+            {{--                 @can('sales.index')
+                    <x-sidebar.ul-simple :active="request()->routeIs('sale.index')"
                             href="{{ route('sale.index') }}">
                             <x-slot name="icon">
                                 <x-icons.cart class="h-[20px] w-[20px]" />
                             </x-slot> Ventas
                         </x-sidebar.ul-simple>
-                        @endcan
+                        @endcan --}}
 {{--                          @can('orders.index')
                         <x-sidebar.ul-simple :active="request()->routeIs('home')"
                             href="{{ route('dashboard') }}">
@@ -140,23 +140,20 @@
 
                         {{-- <x-sidebar.ul-simple href="{{ route('tags.index') }}"
                             :active="request()->routeIs('tags.*')">Etiquetas</x-sidebar.ul-simple> --}}
+                            {{-- @can(['sales.index','sale.show','sale.dash.index']) --}}
+                            <x-sidebar.ul-drop name="Ventas" id="4" :active="request()->routeIs('sale.*')">
+                                        <x-slot name="icon">
+                                            <x-icons.cart class="h-[20px] w-[20px]" />
+                                        </x-slot>
+                                        <x-sidebar.ul-drop-son href="{{ route('sale.dash.create') }}" :active2="request()->routeIs('sale.dash.create')" navigate="false">Añandir nuevo
+                                        </x-sidebar.ul-drop-son>
+                                        <x-sidebar.ul-drop-son href="{{ route('sale.index') }}" :active2="request()->routeIs('sale.index')">Ventas web
+                                        </x-sidebar.ul-drop-son>
+                                        <x-sidebar.ul-drop-son href="{{ route('sale.dash.index') }}" :active2="request()->routeIs('sale.dash.index')">Ventas registradas
+                                        </x-sidebar.ul-drop-son>
 
-{{--                          <x-sidebar.ul-drop name="Blog" id="4">
-                            <x-slot name="icon">
-                                <x-icons.blog>
-                                </x-icons.blog>
-                            </x-slot>
-                            <x-sidebar.ul-drop-son function="$dispatch('post-modal')">Añandir nuevo
-                            </x-sidebar.ul-drop-son>
-                            <x-sidebar.ul-drop-son href="{{ route('posts.index') }}">Publicaciones
-                            </x-sidebar.ul-drop-son>
-                            <x-sidebar.ul-drop-son href="{{ route('POST.categories') }}">Categorias
-                            </x-sidebar.ul-drop-son>
-                            @can('tags.index')
-                            <x-sidebar.ul-drop-son href="{{ route('tags.indextype','POST')}}">Etiquetas
-                            </x-sidebar.ul-drop-son>
-                            @endcan
-                        </x-sidebar.ul-drop>  --}}
+                            </x-sidebar.ul-drop>
+                            {{-- @endcan --}}
 {{--                          @can(['products.index', 'categories.index', 'tags.index', 'brands.index'])
                         <x-sidebar.ul-drop name="eCommerce" id="5">
                             <x-slot name="icon">

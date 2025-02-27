@@ -29,6 +29,7 @@ use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\SaleDashController;
 use App\Models\Address;
 use App\Models\SaleOrder;
 
@@ -108,6 +109,8 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
         Route::post('handleReorder/{product}',[ProductController::class,'handleReorder'])->name('handleReorder');
         Route::get('sales',[SaleController::class, 'index'])->name('sale.index');
         Route::get('sales/{id}',[SaleController::class, 'show'])->name('sale.show');
+        // Ventas en el dashboard
+        Route::resource('saleDash',SaleDashController::class)->except(['edit','delete'])->names('sale.dash');
 
     });
     Route::get('panel/wishlist',[WishlistController::class,'index'])->name('web.shop.webdashboard.wishlist');

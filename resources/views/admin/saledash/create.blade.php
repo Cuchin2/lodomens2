@@ -241,7 +241,7 @@
     selectedMaterial: 'All',
     selectedBrand: 'All',
     selectedType: 'All',
-    itemsPerPage: 10,
+    itemsPerPage: 6,
     currentPage: 1,
 
     get categories() {

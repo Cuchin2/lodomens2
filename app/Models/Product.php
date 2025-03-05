@@ -98,11 +98,48 @@ class Product extends Model implements CanVisit
     }
     public function scopeSearch($query, $value)
     {
-        $query->where('name', 'like', "%{$value}%")
+        // Mapeo de traducciones en español a los valores originales en la base de datos
+        $statusMap = [
+            'borrador' => 'DRAFT',
+            'publicado' => 'SHOP',
+            'cancelado' => 'DISABLED',
+            'programado' => 'POS',
+        ];
+
+        // Convertimos la búsqueda a minúsculas y eliminamos espacios innecesarios
+        $valueLower = mb_strtolower(trim($value));
+
+        // Buscar coincidencias parciales en el statusMap
+        $matchingStatuses = array_filter($statusMap, function ($key) use ($valueLower) {
+            return stripos($key, $valueLower) !== false; // Devuelve true si encuentra coincidencia parcial
+        }, ARRAY_FILTER_USE_KEY);
+
+        // Obtener los valores de estado coincidentes
+        $statusValues = array_values($matchingStatuses);
+
+        $query->where(function ($q) use ($value, $statusValues) {
+            $q->where('name', 'like', "%{$value}%")
               ->orWhereHas('type', function ($q) use ($value) {
                   $q->where('name', 'like', "%{$value}%");
+              })
+              ->orWhereHas('material', function ($q) use ($value) {
+                  $q->where('name', 'like', "%{$value}%");
+              })
+              ->orWhereHas('category', function ($q) use ($value) {
+                  $q->where('name', 'like', "%{$value}%");
               });
+
+            // Si hay coincidencias en los estados, agregar condición OR en el WHERE
+            if (!empty($statusValues)) {
+                $q->orWhereIn('status', $statusValues);
+            }
+        });
+
+        return $query;
     }
+
+
+
     public function my_update($request){
         $this->update($request->except('sell_price'));
 
@@ -172,7 +209,7 @@ class Product extends Model implements CanVisit
             }
             public function status(){
                 switch ($this->attributes['status']) {
-                    case 'DRAFT  ':
+                    case 'DRAFT':
                         return 'Borrador';
                     case 'SHOP':
                         return 'Publicado';

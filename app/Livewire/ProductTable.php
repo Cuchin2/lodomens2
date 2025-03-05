@@ -5,22 +5,25 @@ namespace App\Livewire;
 use App\Models\Product;
 use App\Models\Type;
 use App\Models\Category;
+use App\Models\Material;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Livewire\WithPagination;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use MercadoPago\Resources\User\Status;
+
 class ProductTable extends Component
 {
     use WithPagination;
     public $showModal = false; public $showModalCreate= false; public $showModalTipo= false;
-    public $itemIdToDelete;
+    public $itemIdToDelete; public $category_selected;
     #[Validate('required', message: 'Seleccione una categoría')]
      public $category_id; public $color1='inherit';
     public $itemName; public $product = ''; public $state = ''; public $id=''; public $status= ''; public $color2='inherit'; public $change2=''; public $status2= '';
     public $name; public $tipo_name; public $tipo_new_name; public $tipo_hex; public $tipo_old_hex; public $product_name; public $type_id;
-    public $code;
+    public $code; public $category_nuevo; public $material_selected; public $state_selected; public $type_selected;
     public $perPage = 10;
 
     #[Url(history:true)]
@@ -105,14 +108,34 @@ class ProductTable extends Component
     public function render()
     {
         return view('livewire.product-table', [
-            'types' => Type::all(),
+            'typess' => Type::all()->pluck('name', 'id')->toArray(),
+            'types'=>Type::all(),
             'products' => Product::search($this->search)
-                ->when($this->type !== '', function ($query) {
+/*                 ->when($this->type !== '', function ($query) {
                     $query->where('type_id', $this->type);
+                }) */
+                ->when(!empty($this->category_selected), function ($query) {
+                    $query->where('category_id', $this->category_selected);
+                })
+                ->when(!empty($this->material_selected), function ($query) {
+                    $query->where('material_id', $this->material_selected);
+                })
+                ->when(!empty($this->state_selected), function ($query) {
+                    $query->where('status', $this->state_selected);
+                })
+                ->when(!empty($this->type_selected), function ($query) {
+                    $query->where('type_id', $this->type_selected);
                 })
                 ->orderBy($this->sortBy, $this->sortDir)
                 ->paginate($this->perPage),
             'categories' => Category::all()->pluck('name', 'id')->toArray(),
+            'materials' => Material::all()->pluck('name', 'id')->toArray(),
+            'product_states' => [
+                '1'=>'Publicado',
+                '2'=>'Borrador',
+                '3'=>'Programado',
+                '4'=>'Cancelado',
+            ],
         ]);
     }
 
@@ -126,12 +149,34 @@ class ProductTable extends Component
         }
     public function showCreateModal()
     {
+        $this->name='';
+        $this->category_nuevo='';
         $this->showModalCreate = true;
     }
 
-    public function change($a)
-    {
-        $this->category_id= $a;
+    public function selection($value,$set){
+        if($set == 1){
+            $this->category_selected=$value;
+        }
+        if($set ==2){
+            $this->material_selected=$value;
+        }
+        if($set ==3 ){
+            if($value==1){ $this->state_selected = 'SHOP';}
+            if($value==2){ $this->state_selected = 'DRAFT';}
+            if($value==3){ $this->state_selected = 'POS';}
+            if($value==4){ $this->state_selected = 'DISABLED';}
+        }
+        if($set ==4 ){
+            $this->type_selected = $value;
+        }
+    }
+    public function resetSelectors(){
+        $this->dispatch('rest1');
+        $this->dispatch('rest2');
+        $this->dispatch('rest3');
+        $this->dispatch('rest4');
+        $this->reset('category_selected','material_selected','state_selected','type_selected');
     }
     public function estado($state,$id,$status,$color,$name){
         $this->showModal = true;
@@ -194,4 +239,5 @@ class ProductTable extends Component
     {
         $this->perPage = $page;
     }
+
 }

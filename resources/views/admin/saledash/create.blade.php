@@ -228,7 +228,7 @@
 
 
                 <script>
-                    document.addEventListener('alpine:init', () => {
+
   Alpine.data('pos', () => ({
     searchQuery: '',
     selectedCategory: 'All',
@@ -564,7 +564,7 @@
       this.currentPage = 1;
     }
   }))
-})
+
                 </script>
     </x-slot>
 

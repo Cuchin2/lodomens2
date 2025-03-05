@@ -1,4 +1,4 @@
-@props(['placeholder','message','name'=>'','selected','data', 'livewire'=>false, 'set'=>''])
+@props(['placeholder','message','name'=>'','selected','data', 'livewire'=>false, 'set'=>'','altura'=>'200px'])
 <div class="text-gris-5">
     <div x-data="select{{ $set }}({
         data: {{ json_encode($data) }},
@@ -18,7 +18,7 @@
                 <input x-ref="search" x-show="open" x-model="search" @keydown.enter.stop.prevent="selectOption();"
                     @keydown.arrow-up.prevent="focusPreviousOption()" @keydown.arrow-down.prevent="focusNextOption()"
                     type="search"
-                    class="w-full border-gris-30 h-[20px] bg-gris-90 text-red-30 focus:border-gris-90 rounded-md shadow-sm text-[12px]" />
+                    class="w-full  h-[20px] border-gray-700 bg-gris-90 text-gris-30 focus:border-cop-50 focus:border-corp-70 focus:ring-corp-50  rounded-md shadow-sm text-[12px]" />
                 <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                     <div class="text-gris-30 ml-auto">
                         <x-icons.chevron-down />
@@ -26,14 +26,14 @@
                 </span>
             </button>
         </span>
-        <div x-show="open" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100"
+        <div x-show="open" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100" @rest{{ $set }}.window="value = null"
             x-transition:leave-end="opacity-0" x-cloak
             class="absolute z-10 w-full mt-1 bg-gris-90 rounded-md shadow-lg">
             <ul x-ref="listbox" @keydown.enter.stop.prevent="selectOption()"
                 @keydown.arrow-up.prevent="focusPreviousOption()" @keydown.arrow-down.prevent="focusNextOption()"
                 role="listbox" :aria-activedescendant="focusedOptionIndex ? name + 'Option' + focusedOptionIndex : null"
                 tabindex="-1"
-                class="py-1 overflow-auto text-base leading-6 rounded-md shadow-xs max-h-24 focus:outline-none text-[12px] sm:leading-5 bar">
+                class="py-1 overflow-auto text-base leading-6 rounded-md shadow-xs focus:outline-none text-[12px] sm:leading-5 bar" style="max-height:{{ $altura }};">
                 <template x-for="(key, index) in Object.keys(options)" :key="index">
                     <li :id="name + 'Option' + focusedOptionIndex" @click="selectOption()"
                         @mouseenter="focusedOptionIndex = index" @mouseleave="focusedOptionIndex = null" role="option"

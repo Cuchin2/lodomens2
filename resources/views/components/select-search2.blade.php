@@ -1,4 +1,4 @@
-@props(['placeholder','message','name','selected','data'])
+@props(['placeholder','message','name','selected','data','altura'=>24])
 
 <div >
     <div x-data="select({ data: {{ json_encode($data) }}, emptyOptionsMessage: '{{$message}}', name: 'country', placeholder: '{{$placeholder}}',value:'{{$selected}}' })" x-init="init()" @click.away="closeListbox()" @keydown.escape="closeListbox()"
@@ -32,7 +32,7 @@
                 @keydown.arrow-up.prevent="focusPreviousOption()" @keydown.arrow-down.prevent="focusNextOption()"
                 role="listbox" :aria-activedescendant="focusedOptionIndex ? name + 'Option' + focusedOptionIndex : null"
                 tabindex="-1"
-                class="py-1 overflow-auto text-base leading-6 rounded-md shadow-xs max-h-24 focus:outline-none sm:text-sm sm:leading-5 bar">
+                class="py-1 overflow-auto text-base leading-6 rounded-md shadow-xs max-h-{{ $altura }} focus:outline-none sm:text-sm sm:leading-5 bar">
                 <template x-for="(key, index) in Object.keys(options)" :key="index">
                     <li :id="name + 'Option' + focusedOptionIndex" @click="selectOption()"
                         @mouseenter="focusedOptionIndex = index" @mouseleave="focusedOptionIndex = null" role="option"

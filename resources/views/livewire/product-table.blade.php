@@ -231,10 +231,10 @@
             </div>
             <div class="my-3">
                 <x-label class="mb-2">Categoría</x-label>
-                <x-select-search2 placeholder="Selecciona la categoría"
+                <x-select-search placeholder="Selecciona la categoría" set="5" livewire="true"
                     message="Ninguna categoría coincide con la búsqueda" name="category_id" :data="$categories"
-                    selected="{{ $category_nuevo ?? ''}}">
-                </x-select-search2>
+                    selected="">
+                </x-select-search>
                 @error('category_id')
                 <div class="text-corp-10 ml-2"> {{ $message }}</div>
                 @enderror

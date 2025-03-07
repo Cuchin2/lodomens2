@@ -111,7 +111,7 @@
                                         <x-dropdown.dropdown status="{{ $sale->status }}" id="{{ $sale->id }}" />
                                     </td>
                                     <td class="px-4 py-[13px] ">
-                                        <a href="{{ route('sale.show',$sale->id) }}" wire:navigate class="text-verde-50 hover:text-verde-30 cursor-pointer flex justify-center">
+                                        <a href="{{ route('sale.dash.show',$sale->id) }}" wire:navigate class="text-verde-50 hover:text-verde-30 cursor-pointer flex justify-center">
                                             <x-icons.eye class="h-5 w-5"></x-icons.eye>
                                         </a>
                                         {{-- <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal('{{ $sale->id }}',' {{$sale->name}}','{{ $sale->hex }}','{{ $sale->code }}','{{ asset('storage/'.($sale->images->url ?? '')) }}')" >

@@ -150,7 +150,8 @@ class ProductTable extends Component
     public function showCreateModal()
     {
         $this->name='';
-        $this->category_nuevo='';
+        $this->category_id='';
+        $this->dispatch('rest5');
         $this->showModalCreate = true;
     }
 
@@ -169,6 +170,10 @@ class ProductTable extends Component
         }
         if($set ==4 ){
             $this->type_selected = $value;
+        }
+        if($set ==5){
+            $this->category_id=$value;
+
         }
     }
     public function resetSelectors(){

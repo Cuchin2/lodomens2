@@ -21,6 +21,7 @@
  {{--<script src="{{ asset('codemirror/lib/codemirror.js') }}" data-navigate-track></script>
     <script src="{{ asset('codemirror/mode/xml/xml.js') }}" data-navigate-track></script>  --}}
     @livewireStyles
+    @livewireScripts
     @stack('styles')
 </head>
 <body class="font-sans antialiased bg-gris-90">
@@ -232,7 +233,7 @@
 
     @stack('scripts')
 
-    @livewireScripts
+
 </body>
 
 </html>

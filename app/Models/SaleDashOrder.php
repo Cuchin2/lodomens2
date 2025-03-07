@@ -16,6 +16,7 @@ class SaleDashOrder extends Model
         'name',
         'phone',
         'dni',
+        'email'
     ];
 
     public function details()

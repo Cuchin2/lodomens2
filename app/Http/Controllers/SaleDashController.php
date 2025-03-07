@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Sku;
 use App\Models\SaleDashOrder;
 use App\Models\SaleDashDetail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Testing\TestResponse;
+
 class SaleDashController extends Controller
 {
 
@@ -36,6 +40,7 @@ class SaleDashController extends Controller
                     'material' => $sku->product && $sku->product->material
                         ? $sku->product->material->name
                         : 'N/A',
+                    'img'=>$sku->product->type->images ? $sku->product->type->images->first()->url :'N/A',
                     'image' => optional($sku->product->images->where('color_id', $sku->color_id)->first())->url ?? 'image/dashboard/No_image_dark.png',
                 ];
             });
@@ -44,17 +49,62 @@ class SaleDashController extends Controller
 
     public function store(Request $request)
     {
-        $client= $request->cliente;
-        $order = new SaleDashOrder();
-            $order->user_id = auth()->user()->id; // Asumiendo que estás autenticando usuarios
+        DB::beginTransaction();
+        $client = $request->cliente;
+
+        try {
+            $detalles = $request->detalles;
+            $productosNoDisponibles = [];
+
+            // Validar stock y preparar lista de productos no disponibles
+            foreach ($detalles as $item) {
+                $sku = Sku::where('code', $item['sku'])
+                    ->where('stock', '>=', $item['quantity'])
+                    ->first();
+
+                if (!$sku) {
+                    $skuInfo = Sku::where('code', $item['sku'])->first();
+                    $productosNoDisponibles[] = [
+                        'name' => $skuInfo->product->name ?? 'N/A',
+                        'code' => $skuInfo['code'],
+                        'image' => optional($skuInfo->product->images->where('color_id', $skuInfo->color_id)->first())->url ?? 'image/dashboard/No_image_dark.png',
+                        'available' => $skuInfo?->stock ?? 0,
+                        'hex' => $skuInfo->product->type ? $skuInfo->product->type->hex : 'N/A',
+                        'img'=>$sku->product->type->images ? $skuInfo->product->type->images->first()->url :'N/A',
+                        'required' => $item['quantity']
+                    ];
+                    continue;
+                }
+
+                // Restar stock
+                Sku::where('id', $sku->id)
+                    ->where('stock', '>=', $item['quantity'])
+                    ->decrement('stock', $item['quantity']);
+            }
+
+            // Si hay productos sin stock, retornar respuesta estructurada
+            if (!empty($productosNoDisponibles)) {
+                DB::rollBack();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Stock insuficiente para algunos productos',
+                    'unavailable_products' => $productosNoDisponibles
+                ], 422);
+            }
+
+            // Crear orden y detalles
+            $order = new SaleDashOrder();
+            $order->user_id = auth()->user()->id;
             $order->status = 'entregado';
             $order->currency = 'PEN';
             $order->total = $client['total'];
-            $order->name = $client['name'];
-            $order->phone = $client['phone'];
-            $order->dni = $client['doc'];
+            $order->name = $client['name'] ?? 'Desconocido';
+            $order->email = $client['email'] ?? '';
+            $order->phone = $client['phone'] ?? '';
+            $order->dni = $client['doc'] ?? '';
             $order->save();
-            foreach ($request->detalles as $detail) {
+
+            foreach ($detalles as $detail) {
                 $orderDetail = new SaleDashDetail();
                 $orderDetail->name = $detail['name'];
                 $orderDetail->brand = $detail['brand'];
@@ -71,12 +121,28 @@ class SaleDashController extends Controller
                 $orderDetail->save();
             }
 
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'order' => $order,
+                'message' => 'Venta registrada con éxito'
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Error en el servidor',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
 
-    public function show(string $id)
+    public function show($id)
     {
-        return view(view: 'admin.saledash.show');
+        $order=SaleDashOrder::find($id);
+        return view('admin.saledash.show',compact('order'));
     }
 
 

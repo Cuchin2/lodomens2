@@ -44,6 +44,14 @@ class SaleDashTable extends Component
         $this->id=$id;
         $this->state= $state;
     }
+    public function update_state(){
+        $order = SaleDashOrder::find($this->id);
+        $order->status = $this->state;
+        $order->save();
+        $this->dispatch('spinoff');
+        $this->dispatch('state',state:$this->state,id:$this->id);
+        $this->showModal = false;
+    }
     public function reloadd()
     {
         $this->showModal=false;

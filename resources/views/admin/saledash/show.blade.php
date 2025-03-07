@@ -23,10 +23,10 @@
             <div class="bg-gris-80 p-5 md:w-5/6 mx-auto w-full">
                 <!-- Contenido del correo -->
                 <div class="text-center text-gris-10 font-sans text-2xl">
-                    @if($order->status == 'CANCEL')
-                    <b class="text-red-500">Pedido cancelado</b>
+                    @if($order->status == 'cancelado')
+                    <b class="text-rojo-50">Pedido cancelado</b>
                     @else
-                    <b>Estado del pedido (Vendido)</b>
+                    <b class="text-verde-50">Estado del pedido (Vendido)</b>
                     @endif
                 </div>
 

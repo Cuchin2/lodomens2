@@ -108,7 +108,7 @@
 
                                     <td class="px-4 py-[13px]" wire:ignore>
 
-                                        <x-dropdown.dropdown status="{{ $sale->status }}" id="{{ $sale->id }}" />
+                                        <x-dropdown.dropdownsaledash status="{{ $sale->status }}" id="{{ $sale->id }}" />
                                     </td>
                                     <td class="px-4 py-[13px] ">
                                         <a href="{{ route('sale.dash.show',$sale->id) }}" wire:navigate class="text-verde-50 hover:text-verde-30 cursor-pointer flex justify-center">
@@ -143,7 +143,7 @@
         </x-slot>
 
         <x-slot name="content">
-            <p>Estas seguro de actualizar el proceso de <b>"{{ $state_name }}"</b> </p>
+            <p>Estas seguro de actualizar el proceso de <b>"{{ $state_name }}"</b> a <b>"{{ $state }}"</b> </p>
 
             <x-elements.progress-bar step="{{ $step }}" />
         </x-slot>

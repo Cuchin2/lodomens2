@@ -31,13 +31,14 @@
     <div class="flex flex-col w-[99px] mt-4"
     >
 
-    <a x-show="status !== 'Entregado'"
+  {{--   <a x-show="status !== 'Entregado'"
     @click="dropdown = false; $wire.status('entregado','{{ $id }}','4',status);"
     href="#"
     class="hover:bg-gris-70 py-1 hover:text-verde-10"
     >
     Entregado
-    </a>
+    </a> --}}
+    <template x-if="status == 'entregado' ">
         <a x-show="status !== 'Cancelado'"
         @click="dropdown = false; $wire.status('cancelado','{{ $id }}','5',status);"
         href="#"
@@ -45,6 +46,7 @@
     >
         Cancelado
     </a>
+</template>
     </div>
 
 

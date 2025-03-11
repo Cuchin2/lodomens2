@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\SaleDashOrder;
+use App\Models\SaleDashDetail;
+use App\Models\Sku;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Url;
@@ -51,6 +53,19 @@ class SaleDashTable extends Component
         $this->dispatch('spinoff');
         $this->dispatch('state',state:$this->state,id:$this->id);
         $this->showModal = false;
+        $this->cancelOrder();
+    }
+    public function cancelOrder()
+    {
+        $orderDetails = SaleDashDetail::where('order_dash_id', $this->id)->get();
+
+        foreach ($orderDetails as $detail) {
+            $sku = Sku::where('code', $detail->sku)->first();
+
+            if ($sku) {
+                $sku->increment('stock', $detail->qtn);
+            }
+        }
     }
     public function reloadd()
     {

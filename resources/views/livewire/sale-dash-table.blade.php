@@ -91,8 +91,8 @@
                             <tbody class="text-[14px] ">
                                 @foreach ($sales as $sale)
 
-                                <tr wire:key="{{$sale->id}}" class="border-b border-gris-70 hover:bg-gris-70 hover:bg-opacity-[25%] px-[140px]">
-                                    <th scope="row" class="px-4 py-[13px] font-medium  whitespace-nowrap text-gris-30">
+                                <tr wire:key="{{$sale->id}}" class="border-b border-gris-70 hover:bg-gris-70 hover:bg-opacity-[25%] px-[140px] @if($sale->status == 'cancelado') text-rojo-50 @endif">
+                                    <th scope="row" class="px-4 py-[13px] font-medium  whitespace-nowrap">
                                         {{$sale->id}}</th>
                                     <td class="px-4 py-[13px]">
                                         {{ now()->parse($sale->created_at)->format('d/m/Y h:ia') }}
@@ -110,7 +110,11 @@
 
                                         <x-dropdown.dropdownsaledash status="{{ $sale->status }}" id="{{ $sale->id }}" />
                                     </td>
-                                    <td class="px-4 py-[13px] ">
+                                    <td class="px-4 py-[13px] flex justify-around">
+{{--                                         <a class="text-azul-50 hover:text-azul-30"
+                                        href="{{route('sale.dash.edit',$sale->id)}}">
+                                        <x-icons.edit></x-icons.edit>
+                                        </a> --}}
                                         <a href="{{ route('sale.dash.show',$sale->id) }}" wire:navigate class="text-verde-50 hover:text-verde-30 cursor-pointer flex justify-center">
                                             <x-icons.eye class="h-5 w-5"></x-icons.eye>
                                         </a>

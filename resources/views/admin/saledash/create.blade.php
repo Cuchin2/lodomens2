@@ -12,7 +12,7 @@
     <x-slot name="slot2">
 
 
-        <div class="container mx-auto p-4" x-data="pos()">
+        <div class="mx-auto p-4" x-data="pos()">
 
 
             <div class="grid grid-cols-1 md:grid-cols-3">
@@ -96,7 +96,7 @@
                                         <h3 class="text-lg font-semibold text-center"
                                             :class="{'line-through':product.stock == 0}" x-text="product.name"></h3>
                                         <template x-if="product.stock > 0">
-                                            <div class="rounded-[3px] border-[2px] my-2 mx-auto w-fit relative"
+                                            <div class="container rounded-[3px] border-[2px] my-2 mx-auto w-fit relative"
                                                 :style="'border-color:'+product.hex">
                                                 <img :src="'{{ asset('storage') }}/'+product.image" alt=""
                                                     class="w-32 h-32  ">
@@ -126,7 +126,7 @@
                                     <button @click.stop="addToCartWithAnimation(product,$event)"
                                         class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/30 text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
                                         <img :src="'{{ asset('storage') }}/'+product.brandimg" alt=""
-                                            class="w-16 h-16 rounded-full">
+                                            class="w-16 h-16 rounded-full ">
                                     </button>
 
                                     <div x-show="product.moveToCart"
@@ -627,7 +627,7 @@
       product.animation = true;
       product.moveToCart = true;
       this.addToCart(product);
-      this.animateToCart(event)
+      this.animateToCart(product.image,event)
       setTimeout(() => {
         product.animation = false;
         setTimeout(() => {
@@ -635,8 +635,9 @@
         }, 1000);
       }, 500);
     },
-    animateToCart(event) {
-          const image = event.currentTarget.children[0];
+    animateToCart(imageSrc, event) {
+          const container = event.target.closest('.container');
+          const image = container.querySelector('.image');
           const cartContainer = document.getElementById('cart-container');
 
           // Get the position and dimensions of the image and cart
@@ -645,7 +646,7 @@
 
           // Create a moving image element
           const movingImage = document.createElement('img');
-          movingImage.src = image.src;
+          movingImage.src = imageSrc;
           movingImage.classList.add('moving-image');
           document.body.appendChild(movingImage);
 
@@ -678,7 +679,7 @@
               opacity: 0.2
             }
           ], {
-            duration: 1000,
+            duration: 500,
             easing: 'ease-in-out',
             fill: 'forwards'
           }).onfinish = () => {
@@ -702,15 +703,63 @@
                 @endpush
 
     </x-slot>
+    @push('styles')
     <style>
-        .moving-image {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            z-index: 10;
-            pointer-events: none;
-            /* Avoid interfering with clicks */
-        }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      /* Hide scrollbars */
+    }
+
+/*     .container {
+      width: 200px;
+      height: 200px;
+      border: 1px solid #ccc;
+      position: relative;
+      overflow: hidden;
+
+      margin: 20px;
+    } */
+
+    .image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Maintain aspect ratio and cover the container */
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease;
+    }
+
+    .image:hover {
+      transform: scale(1.05);
+    }
+
+
+    .moving-image {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      z-index: 1000;
+      /* High z-index */
+      pointer-events: none;
+      /* Avoid interfering with clicks */
+      border-radius: 5px;
+      /* Rounded corners */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      /* Add a subtle shadow */
+    }
+
+    .image-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
     </style>
+    @endpush
+
 </x-app-layout>

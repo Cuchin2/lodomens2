@@ -160,11 +160,11 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
 Route::get('bienvenido',[WelcomeController::class,'bienvenido']);
 Route::get('verificar',[WelcomeController::class,'verificar'])->name('verified');
 // Ruta FIJA que se usa en el QR
-Route::get('/redireccion', function () {
-    return redirect('https://lodomens.com/nueva-url'); // Cambia esta URL sin afectar el QR
+Route::get('/lobby', function () {
+    return redirect('https://lodomens.com/qr'); // Cambia esta URL sin afectar el QR
 })->name('redireccion');
-Route::get('nueva-url',[QRController::class,'index'])->name('qr.index');
-Route::get('qr',[QRController::class,'generateQrCode'])->name('qr.generate');
+Route::get('qr',[QRController::class,'index'])->name('qr.index');
+Route::get('qr-code',[QRController::class,'generateQrCode'])->name('qr.generate');
 /*         $get= Address::where('user_id',auth()->user()->id)->get() ?? '';
     $get2= Address::where(['user_id'=>auth()->user()->id,'current'=>1])->first()->name ?? '';
     $datosCombinados = [

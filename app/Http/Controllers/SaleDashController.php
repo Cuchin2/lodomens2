@@ -271,7 +271,7 @@ class SaleDashController extends Controller
                 'material' => $sku->product && $sku->product->material
                     ? $sku->product->material->name
                     : 'N/A',
-                'img'=>$sku->product->type->images ? $sku->product->type->images->first()->url :'N/A',
+                'img'=>$sku->product->type->images ? $sku->product->type->images->url :'N/A',
                 'image' => optional($sku->product->images->where('color_id', $sku->color_id)->first())->url ?? 'image/dashboard/No_image_dark.png',
             ];
         });

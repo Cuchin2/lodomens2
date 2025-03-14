@@ -15,7 +15,9 @@
     @mouseleave="showBtn = false"
     >
     {{ $slot }}
+@if($img !== '')
 <img class="absolute {{$param}} z-10" src="{{ asset('storage').'/'.$img }}" alt="">
+@endif
 <template x-if="isVideo">
     <video src="{{ asset('storage/'.($url ?? '')) }}" class="rounded-[3px]" controls>
 </template>

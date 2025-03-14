@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Livewire;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;

@@ -131,8 +131,10 @@ $routeCart = route('addcart');
                         <lodo
                             class="relative items-center  flex max-w-[200px] max-h-[200px] mx-auto md:!max-h-[136px] md:!w-1/2 h-full overflow-hidden"
                             @mouseenter="showBtn = true" @mouseleave="showBtn = false">
+                            <template x-if="src">
                             <img class="absolute top-3 left-2 scale-75 z-50" :src="'{{ asset('storage')}}'+'/'+src"
                                 alt="">
+                            </template>
                             <template x-if="isVideo">
                                 <video :src="'{{ asset('storage') }}'+'/'+url"
                                     class="rounded-[3px]  w-full h-full border-corp-50 border-[3px]" style="z-index: 20"

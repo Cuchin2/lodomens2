@@ -31,6 +31,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\SaleDashController;
 use App\Http\Controllers\QRController;
+use App\Http\Controllers\ReclamationController;
 use App\Models\Address;
 use App\Models\SaleOrder;
 
@@ -47,7 +48,8 @@ use App\Models\SaleOrder;
 */
 
 Route::get('/', function () {
-    return view('layouts.proximamente');
+    return redirect()->route('web.shop.index');
+    /* return view('layouts.proximamente'); */
 });
 
 Route::get('inicio',[MainController::class,'index'])->name('root');
@@ -175,3 +177,5 @@ Route::get('qr-code',[QRController::class,'generateQrCode'])->name('qr.generate'
     return response()->json($datosCombinados); */
 Route::get('pruebas',[PruebaController::class ,'pruebas']);
 Route::get('permisos',[PruebaController::class ,'permission']);
+Route::get('reclamaciones',[ReclamationController::class,'index'])->name('reclamation.index');
+Route::post('reclamaciones//enviar',[ReclamationController::class,'send'])->name('reclamation.send');

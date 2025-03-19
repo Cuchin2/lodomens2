@@ -142,18 +142,24 @@
                         {{-- <x-sidebar.ul-simple href="{{ route('tags.index') }}"
                             :active="request()->routeIs('tags.*')">Etiquetas</x-sidebar.ul-simple> --}}
                             {{-- @can(['sales.index','sale.show','sale.dash.index']) --}}
+                            @canany(['sales.index','sales.show','sales.dash.index','sales.dash.create','sales.dash.show'])
                             <x-sidebar.ul-drop name="Ventas" id="4" :active="request()->routeIs('sale.*')">
                                         <x-slot name="icon">
                                             <x-icons.cart class="h-[20px] w-[20px]" />
                                         </x-slot>
-                                        <x-sidebar.ul-drop-son href="{{ route('sale.dash.create') }}" :active2="request()->routeIs('sale.dash.create')" navigate="false">Añandir nuevo
-                                        </x-sidebar.ul-drop-son>
+                                        @can(['sales.index','sales.show'])
                                         <x-sidebar.ul-drop-son href="{{ route('sale.index') }}" :active2="request()->routeIs('sale.index')">Ventas web
                                         </x-sidebar.ul-drop-son>
-                                        <x-sidebar.ul-drop-son href="{{ route('sale.dash.index') }}" :active2="request()->routeIs('sale.dash.index')">Ventas registradas
+                                        @endcan
+                                        @can(['sales.dash.index','sales.dash.show','sales.dash.create'])
+                                        <x-sidebar.ul-drop-son href="{{ route('sale.dash.create') }}" :active2="request()->routeIs('sale.dash.create')" navigate="false">Añandir nuevo
                                         </x-sidebar.ul-drop-son>
 
+                                        <x-sidebar.ul-drop-son href="{{ route('sale.dash.index') }}" :active2="request()->routeIs('sale.dash.index')">Ventas registradas
+                                        </x-sidebar.ul-drop-son>
+                                        @endcan
                             </x-sidebar.ul-drop>
+                            @endcanany
                             {{-- @endcan --}}
 {{--                          @can(['products.index', 'categories.index', 'tags.index', 'brands.index'])
                         <x-sidebar.ul-drop name="eCommerce" id="5">

@@ -12,7 +12,16 @@ use Illuminate\Testing\TestResponse;
 
 class SaleDashController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware([
+            'permission:sales.dash.index',
+            'permission:sales.dash.show',
+            'permission:sales.dash.create',
+        ]);
 
+    }
     public function index()
     {
         return view('admin.saledash.index');

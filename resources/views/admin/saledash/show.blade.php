@@ -86,7 +86,7 @@
 
                         <div class="flex font-bold">
                             <p class="m-1 text-xl ml-auto">Total:</p>
-                            <p class="m-1 text-xl">{{ ($order->country =='Perú' ? 'S/. ' : '$ '). $order->total }}</p>
+                            <p class="m-1 text-xl">{{ session('currency'). $order->total }}</p>
                         </div>
                     </div>
                 </div>

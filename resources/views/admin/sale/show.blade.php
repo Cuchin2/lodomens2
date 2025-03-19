@@ -97,7 +97,7 @@
                                 <div class="flex w-full">
                                     <div class="m-3">
                                         <h6 class="m-0 text-lg font-bold">{{ $item->name }}</h6>
-                                        <p class="m-3 text-sm">Precio unidad: {{session('currency')}}{{ $item->sell_price }}</p>
+                                        <p class="m-0 text-sm">Precio unidad: {{session('currency')}}{{ $item->sell_price }}</p>
                                         <p class="m-0 text-sm">Color:  {{ $item->color }}</p>
                                         <p class="m-0 text-sm">Marca:  {{ $item->brand }}</p>
                                     </div>

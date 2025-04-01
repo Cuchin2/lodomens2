@@ -3,6 +3,11 @@
 
 <head>
     <meta charset="utf-8">
+    <meta property="og:url" content="https://www.lodomens.com">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Lodo Mens | Joyería Masculina que Redefine el Lujo">
+    <meta property="og:description" content="Piezas únicas para el hombre que no teme al brillo ni al color. Diseños artesanales, materiales sofisticados y envíos a todo el mundo.">
+    <meta property="og:image" content="{{ asset('image/lodomens/Favicon_LodoMens.ico') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name_web') }}</title>

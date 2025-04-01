@@ -14,8 +14,14 @@ use Cart;
 class GraciasController extends Controller
 {
     public function gracias(){
-        $order=SaleOrder::where('user_id',auth()->user()->id)->pluck('id')->last();
+        $order = SaleOrder::where('user_id', auth()->user()->id)
+        ->orderBy('created_at', 'desc') // Ordenar por fecha de creación descendente
+        ->first();
 
+        $footer= \App\Models\Footer::find(1);
+        if($order->delivery == 0){
+            $whatssap=true;
+        } else {$whatssap=false; }
         if (!session('thanks')) {
             return redirect()->route('web.shop.cart.index');
         }
@@ -23,7 +29,7 @@ class GraciasController extends Controller
         session()->forget('shipping');
         session()->forget('pay');
         $this->checkoutPay();
-        return view('web.cart.gracias',['order'=>$order]);
+        return view('web.cart.gracias',['order'=>$order, 'footer'=>$footer,'whatssap'=>$whatssap]);
     }
     private function checkoutPay()
     {

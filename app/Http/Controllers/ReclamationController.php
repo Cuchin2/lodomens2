@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ReclamationMail;
+use App\Mail\ConfirmationMail;
 class ReclamationController extends Controller
 {
     public function index(){
@@ -35,6 +36,15 @@ class ReclamationController extends Controller
             'body'  => $request->body
         ];
         Mail::to($toEmail)->send(new ReclamationMail($mailData));
+    // 📌 2️⃣ Correo de confirmación al usuario
+    $confirmationData = [
+        'email' =>'contacto@lodomens.com',
+        'from' => 'Lodomens Soporte',
+        'name'=>$request->fromName,
+        'subject' => 'Lodomens: '.$subject,
+    ];
+
+        Mail::to($request->correo)->send(new ConfirmationMail($confirmationData));
         return response()->json(['message' => 'Correo enviado exitosamente']);
     }
 }

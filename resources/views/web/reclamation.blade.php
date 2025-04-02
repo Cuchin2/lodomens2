@@ -8,8 +8,8 @@
 @auth()
 <div class="xl:w-2/3 lg:w-full  mx-auto lg:px-20 px-4"
 x-data="{
-    email : '',
-    name : '',
+    email : '{{ auth()->user()->email }}',
+    name : '{{ auth()->user()->name }}',
     subject :'',
     body : '',
     errors : {},

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\SaleDashOrder;
 use App\Models\SaleDashDetail;
+use App\Models\SaleNotes;
 use App\Models\Sku;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -26,7 +27,8 @@ class SaleDashTable extends Component
     #[Url(history:true)]
     public $sortDir = 'DESC';
     public $showModal = false; public $state; public $step = 1; public $state_name = ''; public $id;
-    public $showModal2 = false;  public $sort_status = '';
+    public $showModal2 = false;  public $sort_status = ''; public $salesperson='';  public $id_dashorder=''; public $salesperson_id='';
+    public $showModal3 = false;  public $name_note =''; public $description_note=''; public $id_note=''; public $user_id_note=''; public $salesperson_ab= false;
     public function updateSearch(){
         $this->resetPage();
     }
@@ -78,6 +80,34 @@ class SaleDashTable extends Component
     public function setStatus($status)
     {
         $this->sort_status = $status;
+    }
+    public function SendNote($name,$id,$salesperson_id){
+        $this->id_dashorder=$id;
+        $this->reset('salesperson','name_note','description_note','user_id_note','id_note','salesperson_id');
+
+        $note = SaleNotes::where('dashorder_id',$id)->first() ?? false;
+        if($note) {
+        $this->id_note=$note->id;
+        $this->user_id_note=$note->user_id;
+        $this->name_note = $note->name;
+        $this->description_note= $note->description; }
+        $this->showModal3 = true;
+        $this->salesperson = $name;
+        $this->salesperson_id=$salesperson_id;
+        $this->salesperson_ab=$salesperson_id == auth()->user()->id ? false : true;
+
+    }
+    public function updateNote(){
+        SaleNotes::updateOrCreate(
+            ['id' => $this->id_note], // Condiciones de búsqueda: busca un producto con el id especificado
+            [
+                'name' => $this->name_note,
+                'description' => $this->description_note,
+                'dashorder_id' =>$this->id_dashorder,
+                'user_id' => auth()->user()->id
+            ] // Valores a actualizar o crear
+        );
+        $this->showModal3 = false;
     }
     public function clearFilters()
     {

@@ -23,7 +23,10 @@ class SaleDashOrder extends Model
     {
         return $this->hasMany(SaleDashDetail::class, 'order_dash_id');
     }
-
+    public function SaleNotes()
+    {
+        return $this->hasOne(SaleNotes::class,'dashorder_id');
+    }
     public function user()
     {
         return $this->belongsTo(User::class);

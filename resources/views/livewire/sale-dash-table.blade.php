@@ -111,10 +111,17 @@
                                         <x-dropdown.dropdownsaledash status="{{ $sale->status }}" id="{{ $sale->id }}" />
                                     </td>
                                     <td class="px-4 py-[13px] flex justify-around">
-{{--                                         <a class="text-azul-50 hover:text-azul-30"
-                                        href="{{route('sale.dash.edit',$sale->id)}}">
+                                        @if ($sale->status =='cancelado')
+
+                                        <button class="flex space-x-1 text-azul-50 hover:text-azul-30" title="crear o ver nota"
+                                        wire:click="SendNote('{{$sale->user->name}}','{{ $sale->id }}','{{ $sale->user_id }}')"
+                                        >@if($sale->SaleNotes)
+                                        (1)
+                                        @endif
                                         <x-icons.edit></x-icons.edit>
-                                        </a> --}}
+                                        </button>
+                                        @endif
+
                                         <a href="{{ route('sale.dash.show',$sale->id) }}" wire:navigate class="text-verde-50 hover:text-verde-30 cursor-pointer flex justify-center">
                                             <x-icons.eye class="h-5 w-5"></x-icons.eye>
                                         </a>
@@ -173,6 +180,42 @@
         <x-slot name="footer">
             <div class="w-fit mx-auto">
                 <x-button.corp1 wire:click="$toggle('showModal2')" wire:loading.attr="disabled">Aceptar</x-button.corp1>
+            </div>
+        </x-slot>
+    </x-dialog-modal>
+    <x-dialog-modal wire:model="showModal3" maxWidth="md">
+        <x-slot name="title">
+            Nota de cancelación de <b>"{{ $salesperson }}"</b>
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="m-4 flex space-x-5">
+                <div class="w-full">
+                <x-label class="my-2">Título</x-label>
+
+                <x-input  disabled="{{  $salesperson_ab }}"
+
+                placeholder="Nombre" wire:model="name_note" name="name" value="{{$name_note}}" class="w-full"></x-imput>
+                    @error('name_note')
+                    <div class="text-corp-10 ml-2"> {{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            <div class="m-4">
+                <x-label class="my-2">Descripción</x-label>
+                <x-input-textarea disabled="{{  $salesperson_ab }}" placeholder="Descripción" wire:model="description_note" name="description" col="4">
+                    {{$description_note}}
+                </x-imput-textarea>
+
+            </div>
+        </x-slot>
+
+        <x-slot name="footer">
+            <div class="flex space-x-2 justify-center ">
+                <x-button.corp_secundary wire:click="$toggle('showModal3')" wire:loading.attr="disabled">Cancelar</x-button.corp_secundary>
+           @if (!$salesperson_ab)
+           <x-button.corp1 wire:click="updateNote" wire:loading.attr="disabled">Aceptar</x-button.corp1>
+           @endif
             </div>
         </x-slot>
     </x-dialog-modal>

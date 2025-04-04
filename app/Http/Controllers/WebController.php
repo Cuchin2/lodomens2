@@ -25,8 +25,14 @@ class WebController extends Controller
     }
     public function contact()
     {
+        $footer= \App\Models\Footer::find(1);
+        $inputPhoneNumber = $footer->phone;
+
+        // Eliminar todos los caracteres que no sean dígitos
+        $phoneNumber = preg_replace('/\D/', '', $inputPhoneNumber);
+
         $contacts=Contact::orderBy('order','asc')->get();
-        return view('web.contact.index',compact('contacts'));
+        return view('web.contact.index',compact('contacts','phoneNumber'));
     }
     public function login_register()
     {

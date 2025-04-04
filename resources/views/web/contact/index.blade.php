@@ -138,7 +138,7 @@
                     <p class="text-[14px]">Santiago de Surco, 15056</p>
                     <p class="text-[14px]">Lima, Perú</p>
                     <div class="flex mt-4 justify-center">
-                        <a href="https://wa.link/7mmbr5" @click="console.log('hola bb')" target="blank">
+                        <a href="https://wa.me/{{ $phoneNumber}}" target="blank">
                         <x-button.webprimary class="w-fit px-8 scale-[80%]">AGENDAR
                         </x-button.webprimary></a>
                     </div>

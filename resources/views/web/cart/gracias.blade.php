@@ -107,8 +107,8 @@
 
         const orderMessage = message + `\n\n *Total: S/. ${total.value}*`;
         const encodedMessage = encodeURIComponent(orderMessage);
-        const phoneNumber = '51930915760'; // Número de teléfono de WhatsApp
-
+        const inputPhoneNumber = '{{ $footer->phone }}'; // Número de teléfono de WhatsApp
+        const phoneNumber = inputPhoneNumber.replace(/\D/g, '');
         window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
     }
 </script>

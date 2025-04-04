@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use App\Models\SaleOrder;
 use Livewire\Component;
+use App\Models\SaleDetail;
+use App\Models\Sku;
 use Livewire\WithPagination;
 use Livewire\Attributes\Url;
 use App\Mail\OrderStatusChanged;
@@ -51,6 +53,10 @@ class SaleTable extends Component
     }
     public function update_state(){
         $sale = SaleOrder::with('saleDetails')->find($this->id);
+        $old_status = $sale->status;
+        if($old_status == 'CANCEL'){
+            $this->revertOrder();
+        }
         $sale->status = $this->state;
         $sale->save();
         $email= $sale->email;
@@ -77,6 +83,9 @@ class SaleTable extends Component
             'subject'=>$subject ?? '',
          ];
         Mail::to($email)->send(new OrderStatusChanged($data));
+        }
+        if($sale->status == 'CANCEL'){
+            $this->cancelOrder();
         }
         $this->showModal = false;
         $this->dispatch('state',state:$sale->convert(),id:$this->id);
@@ -111,5 +120,29 @@ class SaleTable extends Component
     {
         $this->reset('sort_status','search','sortBy','sortDir','perPage');
         $this->resetPage();   // Opcional: Restablece la paginación a la primera página
+    }
+    public function cancelOrder()
+    {
+        $orderDetails = SaleDetail::where('order_id', $this->id)->get();
+
+        foreach ($orderDetails as $detail) {
+            $sku = Sku::where('code', $detail->sku)->first();
+
+            if ($sku) {
+                $sku->increment('stock', $detail->qtn);
+            }
+        }
+    }
+    public function revertOrder()
+    {
+        $orderDetails = SaleDetail::where('order_id', $this->id)->get();
+
+        foreach ($orderDetails as $detail) {
+            $sku = Sku::where('code', $detail->sku)->first();
+
+            if ($sku) {
+                $sku->decrement('stock', $detail->qtn);
+            }
+        }
     }
 }

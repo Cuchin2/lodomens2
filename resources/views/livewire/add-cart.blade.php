@@ -86,8 +86,8 @@ x-init="changestock(color)">
             <div class="text-center">Anuncio</div>
         </x-slot>
         <x-slot name="content">
-            <div class="flex justify-center">
-                Se agregó, <b>"{{ $product_name }}"</b> a tu lista de deseos.
+            <div class="flex text-[12px] md:text-[14px]">
+               <p> Se agregó, <b>"{{ $product_name }}"</b> a tu lista de deseos.</p>
             </div>
         </x-slot>
         <x-slot name="footer">

@@ -138,7 +138,18 @@
                         </x-sidebar.ul-drop>
 
                         @endcan
+                        @role(['Admin','Gerencia'])
+                        <x-sidebar.ul-drop name="Transferencia" id="6" :active="request()->routeIs('transfer.*')">
+                            <x-slot name="icon">
+                                <x-icons.eCommerce class="h-[20px] w-[20px]" />
+                            </x-slot>
+                            <x-sidebar.ul-drop-son href="{{ route('transfer.index') }}" :active2="request()->routeIs('transfer.index')">Nueva</x-sidebar.ul-drop-son>
+                            <x-sidebar.ul-drop-son>Listado</x-sidebar.ul-drop-son>
 
+
+                        </x-sidebar.ul-drop>
+
+                        @endrole
                         {{-- <x-sidebar.ul-simple href="{{ route('tags.index') }}"
                             :active="request()->routeIs('tags.*')">Etiquetas</x-sidebar.ul-simple> --}}
                             {{-- @can(['sales.index','sale.show','sale.dash.index']) --}}

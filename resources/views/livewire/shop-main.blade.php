@@ -210,10 +210,10 @@
                                             <img src="{{ asset('storage/' . $gama->images->url) }}"
                                                 wire:click="colorized('{{ $gama->name }}', '{{ $gama->id }}')"
                                                 @click="if(window.innerWidth < 768) { open = false; } else { menu1 = 0; }"
-                                                class="rounded-full w-4 h-4 cursor-pointer" alt=""
+                                                class="rounded-full w-4 h-4 cursor-pointer border-gris-30 border" alt=""
                                                 title="{{ $gama->name }}">
                                         @else
-                                            <div class="rounded-full w-4 h-4 cursor-pointer"
+                                            <div class="rounded-full w-4 h-4 cursor-pointer border-gris-30 border"
                                                 wire:click="colorized('{{ $gama->name }}', '{{ $gama->id }}')"
                                                 @click="if(window.innerWidth < 768) { open = false; } else { menu1 = 0; }"
                                                 style="background: {{ $gama->hex }}" title="{{ $gama->name }}">

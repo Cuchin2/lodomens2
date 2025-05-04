@@ -3,7 +3,7 @@
 use App\Http\Controllers\PaidController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\StoreController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('ipn', [PaidController::class, 'notificationIpn']);
+Route::get('/stores/{store}/skus', [StoreController::class, 'skus']);

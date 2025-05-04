@@ -32,6 +32,7 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\SaleDashController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\ReclamationController;
+use App\Http\Controllers\TransferController;
 use App\Models\Address;
 use App\Models\SaleOrder;
 
@@ -114,7 +115,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
         Route::get('sales/{id}',[SaleController::class, 'show'])->name('sale.show');
         // Ventas en el dashboard
         Route::resource('saleDash',SaleDashController::class)->except(['delete','edit'])->names('sale.dash');
-
+        Route::resource('transfer',TransferController::class)->names('transfer');
     });
     Route::get('panel/wishlist',[WishlistController::class,'index'])->name('web.shop.webdashboard.wishlist');
     Route::get('panel/perfil',[WishlistController::class,'profile'])->name('web.shop.webdashboard.profile');

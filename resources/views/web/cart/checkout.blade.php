@@ -73,20 +73,20 @@
                         </div>
                     </div>
                         {{-- Pruebas --}}
-                        <div x-data="countryStateCity1()" class="grid grid-cols-2 gap-4">
+                        <div x-data="countryStateCity1()" class="grid grid-cols-2 gap-4" x-init="startfunction">
                             <div>
                                 <x-labelweb>País <x-required /> </x-labelweb>
                                 <x-select-web x-model="selectedCountry" @change="fetchStates" name="country">
                                     <option value="" disabled selected>Selecciona el pais</option>
                                     <template x-for="country in countries" :key="country.code">
-                                        <option :value="country.code" x-text="country.name" x-bind:selected="country.code === '{{ old('country',$form1->country ?? '') }}' ? true : false"></option>
+                                        <option :value="country.code" x-text="country.name" x-bind:selected="country.code === '{{ old('country',$form1->country ?? 'PE') }}' ? true : false"></option>
                                         {{--  <option :value="country.code" x-text="country.name"></option>  --}}
                                     </template>
                                 </x-select-web>
                                     @error('country') <p1 class="text-corp-10 ml-2"> {{ $message }}</p1> @enderror
                                 <x-labelweb class="mt-4">Ciudad <x-required /> </x-labelweb>
-                                <x-select-web x-model="selectedCity" @change="fetchDistrits" name="city" {{--  x-show="cities.length > 0"  --}}>
-                                    <option value="" disabled selected>Selecciona la ciudad</option>
+                                <x-select-web x-model="selectedCity" @change="fetchDistrits"  name="city" x-bind:class="{ '!cursor-not-allowed bg-red-600/20': !selectedStateRdy }"  x-bind:disabled=" !selectedStateRdy" x-bind:disabled=" !selectedState">
+                                    <option value="">Selecciona la ciudad</option>
                                     <template x-for="city in cities" :key="city.geonameId">
                                         <option :value="city.geonameId" x-text="city.name" x-bind:selected="city.geonameId === {{ old('city',$form1->city ?? '') }} ? true : false"></option>
                                     </template>
@@ -95,8 +95,8 @@
                             </div>
                             <div>
                                 <x-labelweb >Estado/Provincia <x-required /> </x-labelweb>
-                                <x-select-web x-model="selectedState" @change="fetchCities" name="state" {{--  x-show="states.length > 0"  --}}>
-                                    <option value="" disabled selected>Selecciona el Estado/Departamento</option>
+                                <x-select-web x-model="selectedState" @change="fetchCities" name="state">
+                                    <option value="" >Selecciona el Estado/Departamento</option>
                                     <template x-for="state in states" :key="state.geonameId">
                                         <option :value="state.geonameId" x-text="state.name" x-bind:selected="state.geonameId === {{ old('state',$form1->state ?? '') }} ? true : false"></option>
                                     </template>
@@ -104,26 +104,31 @@
                                 @error('state') <p1 class="text-corp-10 ml-2"> {{ $message }}</p1> @enderror
 
                                 <x-labelweb class="mt-4">Distrito/Localidad <x-required /> </x-labelweb>
-                                <x-select-web x-model="selectedDistrit" name="district" {{--  x-show="distrits.length > 0"  --}}>
-                                    <option value="" disabled selected>Selecciona el distrito</option>
+
+                                <x-select-web x-model="selectedDistrit" name="district" x-bind:class="{ '!cursor-not-allowed bg-red-600/20': !selectedCityRdy }"  x-bind:disabled=" !selectedCityRdy" >
+                                    <option value="" >Selecciona el distrito</option>
                                     <template x-for="distrit in distrits" :key="distrit.geonameId">
                                         <option :value="distrit.geonameId" x-text="distrit.name" x-bind:selected="distrit.geonameId === {{ old('district',$form1->district ?? '') }} ? true : false"></option>
                                     </template>
                                 </x-select-web>
+
                                 @error('district') <p1 class="text-corp-10 ml-2"> {{ $message }}</p1> @enderror
                             </div>
                         </div>
                         <script>
                             function countryStateCity1() {
+
                                     return {
                                         countries: @json($getCountry),
                                         states: @json($getState),
                                         cities: @json($getCity),
                                         distrits: @json($getDistrit),
-                                        selectedCountry: '{{ $form1->country ?? 'PE' }}',
-                                        selectedState: '{{ $form1->state ?? null }}',
-                                        selectedCity: '{{ $form1->city ?? null }}',
-                                        selectedDistrit : '{{ $form1->district ?? null }}',
+                                        selectedCountry: '{{  old('country',$form1->country ?? 'PE') }}',
+                                        selectedState: '{{ old('state',$form1->state ?? '') }}',
+                                        selectedCity: '{{ old('city',$form1->city ?? '') }}',
+                                        selectedDistrit : '{{ old('district',$form1->district ?? '') }}',
+                                        selectedCityRdy : '{{ old('city',$form1->city ?? '') }}',
+                                        selectedStateRdy: '{{ old('state',$form1->state ?? '') }}',
                                         fetchCountries() {
                                             axios.get('/api/countries')
                                                 .then(response => {
@@ -139,6 +144,8 @@
                                                     this.selectedState = null;
                                                     this.selectedCity = null;
                                                     this.selectedDistrit = null;
+                                                    this.selectedCityRdy = '';
+                                                    this.selectedStateRdy = '';
                                                 });
                                         },
                                         fetchCities() {
@@ -147,20 +154,31 @@
                                                     this.cities = response.data;
                                                     this.distrits = [];
                                                     this.selectedCity = null;
-                                                    this.selectedDistrit = null;
+                                                    this.selectedCityRdy= '';
+                                                    this.selectedDistrit = '';
+                                                    this.selectedStateRdy ='ready';
                                                 });
                                         },
                                         fetchDistrits() {
                                             axios.get(`/api/distrits/${this.selectedCity}`)
                                                 .then(response => {
                                                     this.distrits = response.data;
-
+                                                    this.selectedCityRdy='ready';
                                                 });
                                         },
+                                        startfunction(){
+                                          probar = '{{ $errors->any() }}' ;
+                                          form1  =  '{{ $form1 }}';
+                                            if(!form1){
+                                                this.fetchStates();
+                                            }
+                                            /* this.fetchStates(); */
+                                        }
                                     }
                                 }
                                 document.addEventListener('alpine:init', () => {
                                     Alpine.data('countryStateCity1', countryStateCity1);
+
                                 });
                         </script>
                         {{-- Fin de pruebas --}}
@@ -226,20 +244,20 @@
                                 </div>
                              </div>
                               {{-- Pruebas --}}
-                        <div x-data="countryStateCity()" class="grid grid-cols-2 gap-4">
+                        <div x-data="countryStateCity()" class="grid grid-cols-2 gap-4" x-init="startfunction">
                             <div>
                                 <x-labelweb>País <x-required /> </x-labelweb>
-                                <x-select-web x-model="selectedCountry" @change="fetchStates" name="country2" >
+                                <x-select-web x-model="selectedCountry" @change="fetchStates" name="country2">
                                     <option value="" disabled selected>Selecciona el pais</option>
                                     <template x-for="country in countries" :key="country.code">
-                                        <option :value="country.code" x-text="country.name" x-bind:selected="country.code === '{{ old('country2',$form2->country ?? '') }}' ? true : false"></option>
+                                        <option :value="country.code" x-text="country.name" x-bind:selected="country.code === '{{ old('country2',$form2->country ?? 'PE') }}' ? true : false"></option>
                                         {{--  <option :value="country.code" x-text="country.name"></option>  --}}
                                     </template>
                                 </x-select-web>
                                 @error('country2') <p1 class="text-corp-10 ml-2"> {{ $message }}</p1> @enderror
                                 <x-labelweb class="mt-4">Ciudad <x-required /> </x-labelweb>
-                                <x-select-web x-model="selectedCity" @change="fetchDistrits" name="city2"  {{--  x-show="cities.length > 0"  --}}>
-                                    <option value="" disabled selected>Selecciona la ciudad</option>
+                                <x-select-web x-model="selectedCity" @change="fetchDistrits"  name="city2" x-bind:class="{ '!cursor-not-allowed bg-red-600/20': !selectedStateRdy }"  x-bind:disabled=" !selectedStateRdy" x-bind:disabled=" !selectedState">
+                                    <option value="">Selecciona la ciudad</option>
                                     <template x-for="city in cities" :key="city.geonameId">
                                         <option :value="city.geonameId" x-text="city.name" x-bind:selected="city.geonameId === {{ old('city2',$form2->city ?? '') }} ? true : false"></option>
                                     </template>
@@ -248,18 +266,18 @@
                             </div>
                             <div>
                                 <x-labelweb >Estado/Provincia <x-required /> </x-labelweb>
-                                <x-select-web x-model="selectedState" @change="fetchCities" name="state2"   {{--  x-show="states.length > 0"  --}}>
-                                    <option value="" disabled selected>Selecciona el Estado/Departamento</option>
+                                <x-select-web x-model="selectedState" @change="fetchCities" name="state2">
+                                    <option value="" >Selecciona el Estado/Departamento</option>
                                     <template x-for="state in states" :key="state.geonameId">
                                         <option :value="state.geonameId" x-text="state.name" x-bind:selected="state.geonameId === {{ old('state2',$form2->state ?? '') }} ? true : false"></option>
                                     </template>
                                 </x-select-web>
                                 @error('state2') <p1 class="text-corp-10 ml-2"> {{ $message }}</p1> @enderror
                                 <x-labelweb class="mt-4">Distrito/Localidad <x-required /> </x-labelweb>
-                                <x-select-web x-model="selectedDistrit" name="district2"  {{--  x-show="distrits.length > 0"  --}}>
-                                    <option value="" disabled selected>Selecciona el distrito</option>
+                                <x-select-web x-model="selectedDistrit" name="district2" x-bind:class="{ '!cursor-not-allowed bg-red-600/20': !selectedCityRdy }"  x-bind:disabled=" !selectedCityRdy" >
+                                    <option value="" >Selecciona el distrito</option>
                                     <template x-for="distrit in distrits" :key="distrit.geonameId">
-                                        <option :value="distrit.geonameId" x-text="distrit.name"  x-bind:selected="distrit.geonameId === {{ old('district2',$form2->district ?? '') }} ? true : false"></option>
+                                        <option :value="distrit.geonameId" x-text="distrit.name" x-bind:selected="distrit.geonameId === {{ old('district2',$form2->district ?? '') }} ? true : false"></option>
                                     </template>
                                 </x-select-web>
                                 @error('district2') <p1 class="text-corp-10 ml-2"> {{ $message }}</p1> @enderror
@@ -272,16 +290,19 @@
                                         states: @json($getState2),
                                         cities: @json($getCity2),
                                         distrits: @json($getDistrit2),
-                                        selectedCountry: '{{ $form2->country ?? 'PE' }}',
+                                        selectedCountry: '{{  old('country',$form2->country ?? 'PE') }}',
                                         selectedState: '{{ $form2->state ?? null }}',
                                         selectedCity: '{{ $form2->city ?? null }}',
                                         selectedDistrit : '{{ $form2->district ?? null }}',
+                                        selectedCityRdy : '{{ old('city',$form1->city ?? '') }}',
+                                        selectedStateRdy: '{{ old('state',$form1->state ?? '') }}',
                                         fetchCountries() {
                                             axios.get('/api/countries')
                                                 .then(response => {
                                                     this.countries = response.data;
                                                 });
                                         },
+
                                         fetchStates() {
                                             axios.get(`/api/states/${this.selectedCountry}`)
                                                 .then(response => {
@@ -291,6 +312,8 @@
                                                     this.selectedState = null;
                                                     this.selectedCity = null;
                                                     this.selectedDistrit = null;
+                                                    this.selectedCityRdy = '';
+                                                    this.selectedStateRdy = '';
                                                 });
                                         },
                                         fetchCities() {
@@ -299,18 +322,25 @@
                                                     this.cities = response.data;
                                                     this.distrits = [];
                                                     this.selectedCity = null;
-                                                    this.selectedDistrit = null;
+                                                    this.selectedCityRdy= '';
+                                                    this.selectedDistrit = '';
+                                                    this.selectedStateRdy ='ready';
                                                 });
-                                        },
+                                            },
                                         fetchDistrits() {
                                             axios.get(`/api/distrits/${this.selectedCity}`)
                                                 .then(response => {
                                                     this.distrits = response.data;
-
+                                                    this.selectedCityRdy='ready';
                                                 });
                                         },
-                                        init() {
-                                            this.fetchCountries();
+                                        startfunction(){
+                                          probar = '{{ $errors->any() }}' ;
+                                          form2  =  '{{ $form2 }}';
+                                            if(!form2){
+                                                this.fetchStates();
+                                            }
+                                            /* this.fetchStates(); */
                                         }
                                     }
                                 }

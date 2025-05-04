@@ -37,4 +37,10 @@ class Sku extends Model
     public function images(){
         return $this->morphMany('App\Models\Image','imageable');
     }
+    public function stores()
+    {
+        return $this->belongsToMany(Store::class)
+                    ->withPivot('stock')
+                    ->withTimestamps();
+    }
 }

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transfers', function (Blueprint $table) {
+        Schema::create('transfer_notes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');  // Usuario que realiza la operación
-            $table->foreignId('store_id')->constrained()->onDelete('cascade'); // Tienda destino
-
-            $table->text('observations')->nullable(); // Notas u observaciones
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->foreignId('transfer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transfers');
+        Schema::dropIfExists('transfer_notes');
     }
 };

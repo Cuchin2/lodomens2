@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Sku;
 use App\Models\Store;
 use App\Models\Transfer;
+use App\Models\TransferDetail;
+
 class TransferController extends Controller
 {
     /**
@@ -13,9 +15,8 @@ class TransferController extends Controller
      */
     public function index()
     {
-        $skus = $this->findSku();
-        $stores= Store::all();
-        return view('admin.transfer.index',compact('skus','stores'));
+        $transfers= Transfer::all();
+        return view('admin.transfer.index',compact('transfers'));
     }
 
     /**
@@ -23,7 +24,9 @@ class TransferController extends Controller
      */
     public function create()
     {
-        //
+        $skus = $this->findSku();
+        $stores= Store::all();
+        return view('admin.transfer.create',compact('skus','stores'));
     }
 
     /**
@@ -31,13 +34,6 @@ class TransferController extends Controller
      */
     public function store(Request $request)
     {
-/*         $request->validate([
-            'store' => 'required|exists:stores,id',
-            'detalles' => 'required|array',
-            'detalles.*.id' => 'required|exists:skus,id',
-            'detalles.*.stock' => 'required|integer|min:0',
-        ]); */
-
         $storeId = $request->store;
         $skus = $request->detalles;
     // 1. Crear nueva transferencia
@@ -62,11 +58,30 @@ class TransferController extends Controller
                 // No existe la relación, la creamos
                 $sku->stores()->attach($storeId, ['stock' => $item['quantity']]);
             }
+                    // ✅ Asociar a transfer_skus
+                $transfer->skus()->attach($sku->id, [
+                    'quantity' => $item['quantity'],
+                ]);
                     // Opcional: puedes guardar los SKUs que se actualizaron
                 $updatedItems[] = [
                     'sku_id' => $sku->id,
                     'stock_added' => $item['quantity'],
                 ];
+                //Creando detalles
+                    $transferDetail = new TransferDetail();
+                    $transferDetail->name = $item['name'];
+                    $transferDetail->brand = $item['brand'];
+                    $transferDetail->slug = $item['slug'];
+                    $transferDetail->qtn = $item['quantity'];
+                    $transferDetail->sell_price = $item['price'];
+                    $transferDetail->productImage = $item['image'] ?? null;
+                    $transferDetail->category = $item['category'] ?? null;
+                    $transferDetail->sku = $item['sku'] ?? null;
+                    $transferDetail->color = $item['color'] ?? null;
+                    $transferDetail->hex = $item['hex'] ?? null;
+                    $transferDetail->src = $item['src'] ?? null;
+                    $transferDetail->transfer_id = $transfer->id;
+                    $transferDetail->save();
         }
 
         return response()->json([
@@ -81,7 +96,8 @@ class TransferController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $transfer=Transfer::find($id);
+        return view('admin.transfer.show',compact('transfer'));
     }
 
     /**

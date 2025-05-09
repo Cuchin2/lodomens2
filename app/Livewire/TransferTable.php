@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\TransferNote;
 use App\Models\Transfer;
+use App\Models\Store;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Url;
@@ -53,7 +54,9 @@ class TransferTable extends Component
         $this->dispatch('spinoff');
         $this->dispatch('state',state:$this->state,id:$this->id);
         $this->showModal = false;
-
+        $store= Store::find($order->store_id);
+        $store->deleteWithSkus();
+        $order->deleteWithSkus();
     }
 
     public function reloadd()

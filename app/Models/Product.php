@@ -13,7 +13,6 @@ use App\Models\Color;
 use App\Models\Type;
 use App\Models\Sku;
 use App\Models\Material;
-use App\Models\OrderDetail;
 class Product extends Model implements CanVisit
 {
     use HasFactory;
@@ -52,7 +51,7 @@ class Product extends Model implements CanVisit
         return $this->belongsTo(Brand::class);
        }
     public function order_details(){
-        return $this->hasMany(OrderDetail::class);
+        return $this->hasMany(SaleDetail::class);
     }
     public function promotions(){
         return $this->belongsToMany(Promotion::class);
@@ -196,16 +195,17 @@ class Product extends Model implements CanVisit
                         'code' => $product->brand->slug.str_pad($product->category->code,2, '0', STR_PAD_LEFT).str_pad($product->code, 4, '0', STR_PAD_LEFT).str_pad($colorCode->code, 2, '0', STR_PAD_LEFT),
                     ]);
                 }
-
+                $first_price=Sku::where(['product_id'=>$request->id,'color_id'=>$b[0]])->pluck('sell_price');
+                $product->sell_price=$first_price[0];
+                $product->save();
             }
                 else {
                      // Verifica si hay etiquetas asociadas antes de realizar el detach
                         $this->colors()->detach();
                         Sku::where('product_id', $request->id)->delete();
                 }
-                $first_price=Sku::where(['product_id'=>$request->id,'color_id'=>$b[0]])->pluck('sell_price');
-                $product->sell_price=$first_price[0];
-                $product->save();
+
+
             }
             public function status(){
                 switch ($this->attributes['status']) {

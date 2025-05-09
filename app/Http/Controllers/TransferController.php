@@ -136,7 +136,7 @@ class TransferController extends Controller
         ])->get()
         ->map(function ($sku) {
             // Stock general menos lo distribuido a tiendas
-            $distributedStock = $sku->stores->sum('pivot.stock');
+            $distributedStock = $sku->stores->sum('pivot.stock') ?? 0;
             $realStock = ($sku->stock ?? 0) - $distributedStock;
 
             return [

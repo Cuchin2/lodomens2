@@ -147,14 +147,14 @@ checkextensions(url){
                     <p class="font-bold"> {{ $colorSelect->count() === 1 ? 'COLOR: ' : 'COLORES: ' }}</p class="font-bold">
                     <div class="flex space-x-2" x-data="{active:'{{ $indice }}'}">
                         @foreach ($colorSelect as $key => $color )
-                            <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[3px]"           :class="{'border-corp-50 border-[3px]' : active === '{{ $key}}' }"
+                            <div  class="h-[27px] w-[27px] rounded-full cursor-pointer hover:border-corp-50 hover:border-[1.5px] border-[1.5px] border-gris-30"           :class="{'border-corp-50 border-[1.5px]' : active === '{{ $key}}' }"
                             @if(!$color->url)
                             style="background:{{ $color->hex }}"
                             @endif
 
                             x-on:click="$dispatch('send',{ parm: '{{ $key }}' }); getImage(abc,{{ $color->id }}); active='{{ $key }}'; $dispatch('sku',{parm:{{ $color->id }}});">
                             @if($color->url)
-                            <img src="{{ asset('storage/'.$color->url) }}"  class="rounded-full mx-auto w-full h-full" alt="">
+                            <img src="{{ asset('storage/'.$color->url) }}"  class="rounded-full mx-auto w-full h-full border-[1.5px] border-gris-30" alt="">
                             @endif
                         </div>
                         @endforeach

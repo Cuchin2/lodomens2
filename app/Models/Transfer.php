@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 class Transfer extends Model
 {
     use HasFactory;
@@ -40,6 +40,15 @@ class Transfer extends Model
     {
         return $this->hasMany(TransferDetail::class, 'transfer_id');
     }
+        // Método para eliminar la transferencia y sus SKUs asociados
+        public function deleteWithSkus()
+        {
+            // Usamos una transacción para garantizar que ambas operaciones se completen correctamente
+            return DB::transaction(function () {
+                $this->skus()->detach();
+                // Eliminar las relaciones en la tabla transfer_skus
+            });
+        }
     public function scopeSearch($query, $value)
     {
         $query->where(function ($query) use ($value) {

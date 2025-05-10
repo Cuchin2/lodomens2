@@ -20,3 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('ipn', [PaidController::class, 'notificationIpn']);
 Route::get('/stores/{store}/skus', [StoreController::class, 'skus']);
+Route::post('/stores/update/stock',[StoreController::class, 'stock']);
+Route::post('/stores/restore/stock',[StoreController::class, 'restock']);
+

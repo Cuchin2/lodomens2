@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Store;
 use App\Models\Sku;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class StoreController extends Controller
 {
     public function skus(Store $store)
@@ -69,4 +69,125 @@ public function all(){
 public function sales(){
      return view('admin.shop.sales');
 }
+public function stock(Request $request)
+{
+    DB::beginTransaction();
+    $detalles = $request->detalles;
+    $productosNoDisponibles = [];
+    $storeId = $request->store_id ?? null;
+
+    try {
+        // Validar stock y preparar lista de productos no disponibles
+        foreach ($detalles as $item) {
+            $sku = Sku::where('code', $item['sku'])
+                ->where('stock', '>=', $item['quantity'])
+                ->first();
+
+            if (!$sku) {
+                $skuInfo = Sku::where('code', $item['sku'])->first();
+                $productosNoDisponibles[] = [
+                    'name' => $skuInfo->product->name ?? 'N/A',
+                    'code' => $skuInfo['code'],
+                    'image' => optional($skuInfo->product->images->where('color_id', $skuInfo->color_id)->first())->url ?? 'image/dashboard/No_image_dark.png',
+                    'available' => $skuInfo?->stock ?? 0,
+                    'hex' => $skuInfo->product->type ? $skuInfo->product->type->hex : 'N/A',
+                    'img' => $skuInfo->product->type->images ? $skuInfo->product->type->images->first()->url : 'N/A',
+                    'required' => $item['quantity']
+                ];
+                continue;
+            }
+
+            // Restar stock general del SKU
+            Sku::where('id', $sku->id)
+                ->where('stock', '>=', $item['quantity'])
+                ->decrement('stock', $item['quantity']);
+
+            // Si se proporciona store_id, restar stock en la tienda específica
+            if ($storeId) {
+                $store = $sku->stores()->where('store_id', $storeId)->first();
+
+                if ($store && $store->pivot->stock >= $item['quantity']) {
+                    // Restar stock en la tienda
+                    $newStock = $store->pivot->stock - $item['quantity'];
+                    $sku->stores()->updateExistingPivot($storeId, ['stock' => $newStock]);
+                } else {
+                    // Si no hay suficiente stock en la tienda, agregar a productos no disponibles
+                    $productosNoDisponibles[] = [
+                        'name' => $sku->product->name ?? 'N/A',
+                        'code' => $sku->code,
+                        'image' => optional($sku->product->images->where('color_id', $sku->color_id)->first())->url ?? 'image/dashboard/No_image_dark.png',
+                        'available' => $store ? $store->pivot->stock : 0,
+                        'hex' => $sku->product->type ? $sku->product->type->hex : 'N/A',
+                        'img' => $sku->product->type->images ? $sku->product->type->images->first()->url : 'N/A',
+                        'required' => $item['quantity']
+                    ];
+                }
+            }
+        }
+
+        // Si hay productos sin stock, retornar respuesta estructurada
+        if (!empty($productosNoDisponibles)) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Stock insuficiente para algunos productos',
+                'unavailable_products' => $productosNoDisponibles
+            ], 422);
+        }
+
+        DB::commit();
+        return response()->json([
+            'success' => true,
+            'message' => 'Venta registrada con éxito'
+        ]);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json([
+            'success' => false,
+            'message' => 'Error en el servidor',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+public function restock(Request $request)
+{
+    DB::beginTransaction();
+    $detalles = $request->detalles;
+
+    try {
+        foreach ($detalles as $item) {
+            $sku = Sku::where('code', $item['sku'])->first();
+            if ($sku) {
+                // Incrementar stock general
+                $sku->increment('stock', $item['quantity']);
+
+                // Verificar si también debe actualizar stock en la tabla pivote
+                if ($request->has('store_id')) {
+                    $storeId = $request->store_id;
+                    $store = $sku->stores()->where('store_id', $storeId)->first();
+
+                    if ($store) {
+                        $newStock = $store->pivot->stock + $item['quantity'];
+                        $sku->stores()->updateExistingPivot($storeId, ['stock' => $newStock]);
+                    }
+                }
+            }
+        }
+
+        DB::commit();
+        return response()->json([
+            'success' => true,
+            'message' => 'Stock restaurado correctamente'
+        ]);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json([
+            'success' => false,
+            'message' => 'Error al restaurar el stock',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
 }

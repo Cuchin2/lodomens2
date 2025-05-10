@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Store;
+use App\Models\Sku;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
@@ -36,5 +37,33 @@ class StoreController extends Controller
         'store_name' => $store->name,
         'skus' => $skus,
     ]);
+}
+public function all(){
+            $skus = Sku::with(['product', 'color', 'category', 'brand'])
+        ->get()
+        ->map(function ($sku) {
+            return [
+                'id' => $sku->id,
+                'sku' => $sku->code,
+                'name' => $sku->product ? $sku->product->name : 'N/A',
+                'slug' =>$sku->product ? $sku->product->slug : 'N/A',
+                'stock'=> $sku->stock ?? 0,
+                'price' => $sku->sell_price,
+                'brand'=> $sku->brand ? $sku->brand->name :'N/A',
+                'brandimg' => $sku->brand->images ? $sku->brand->images->url : 'image/dashboard/No_image_dark.png',
+                'category' => $sku->category ? $sku->category->name : 'N/A',
+                'color' => $sku->color ? $sku->color->name : 'N/A',
+                'type' => $sku->product ? $sku->product->type->name : 'N/A',
+                'hex' => $sku->product->type ? $sku->product->type->hex : 'N/A',
+                'material' => $sku->product && $sku->product->material
+                    ? $sku->product->material->name
+                    : 'N/A',
+                'img'=>$sku->product->type->images ? $sku->product->type->images->url :'N/A',
+                'image' => optional($sku->product->images->where('color_id', $sku->color_id)->first())->url ?? 'image/dashboard/No_image_dark.png',
+            ];
+        });
+
+        $stores= Store::all();
+    return view('admin.shop.inventory',compact('skus','stores'));
 }
 }

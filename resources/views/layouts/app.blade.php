@@ -141,7 +141,7 @@
                         @role(['Admin','Gerencia'])
                         <x-sidebar.ul-drop name="Transferencia" id="6" :active="request()->routeIs('transfer.*')">
                             <x-slot name="icon">
-                                <x-icons.eCommerce class="h-[20px] w-[20px]" />
+                                <x-icons.pedidos class="h-[20px] w-[20px]" />
                             </x-slot>
                             <x-sidebar.ul-drop-son href="{{ route('transfer.create') }}" :active2="request()->routeIs('transfer.create')">Nueva</x-sidebar.ul-drop-son>
                             <x-sidebar.ul-drop-son href="{{ route('transfer.index') }}" :active2="request()->routeIs('transfer.index')">Listado</x-sidebar.ul-drop-son>
@@ -184,7 +184,25 @@
                             <x-sidebar.ul-drop-son>Promociones</x-sidebar.ul-drop-son>
                         </x-sidebar.ul-drop>
                         @endcan  --}}
+                        {{-- Tiendas --}}
+                        @role(['Admin','Gerencia'])
+                            <x-sidebar.ul-drop name="Tiendas" id="7" :active="request()->routeIs('store.*')">
+                                        <x-slot name="icon">
+                                            <x-icons.eCommerce class="h-[20px] w-[20px]" />
+                                        </x-slot>
 
+                                        <x-sidebar.ul-drop-son href="{{ route('store.products') }}" :active2="request()->routeIs('store.products')">Productos
+                                        </x-sidebar.ul-drop-son>
+
+
+{{--                                         <x-sidebar.ul-drop-son href="{{ route('sale.dash.create') }}" :active2="request()->routeIs('sale.dash.create')" navigate="false">Añandir nuevo
+                                        </x-sidebar.ul-drop-son>
+
+                                        <x-sidebar.ul-drop-son href="{{ route('sale.dash.index') }}" :active2="request()->routeIs('sale.dash.index')">Ventas registradas
+                                        </x-sidebar.ul-drop-son> --}}
+
+                            </x-sidebar.ul-drop>
+                        @endrole
                         @can(['users.index', 'users.create', 'users.store', 'users.show', 'users.edit', 'users.update',
                         'users.destroy'])
                         <x-sidebar.ul-simple :active="request()->routeIs('users.*')" href="{{ route('users.index') }}">

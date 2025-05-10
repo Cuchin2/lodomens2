@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FooterController;
 use App\Http\Controllers\InicioController;
+use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TiendaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
@@ -116,7 +117,10 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
         // Ventas en el dashboard
         Route::resource('saleDash',SaleDashController::class)->except(['delete','edit'])->names('sale.dash');
         Route::resource('transfer',TransferController::class)->names('transfer');
+        Route::get('tiendas/productos',[StoreController::class, 'all'])->name('store.products');
     });
+
+    //otras rutas
     Route::get('panel/wishlist',[WishlistController::class,'index'])->name('web.shop.webdashboard.wishlist');
     Route::get('panel/perfil',[WishlistController::class,'profile'])->name('web.shop.webdashboard.profile');
     Route::get('panel/direcciones',[WishlistController::class,'address'])->name('web.shop.webdashboard.address');

@@ -118,6 +118,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
         Route::resource('saleDash',SaleDashController::class)->except(['delete','edit'])->names('sale.dash');
         Route::resource('transfer',TransferController::class)->names('transfer');
         Route::get('tiendas/productos',[StoreController::class, 'all'])->name('store.products');
+         Route::get('tiendas/ventas',[StoreController::class, 'sales'])->name('store.sales');
     });
 
     //otras rutas

@@ -136,7 +136,25 @@
                             <x-sidebar.ul-drop-son href="{{ route('inventory.colors.index')}}" :active2="request()->routeIs('inventory.colors.index')">Colores
                             </x-sidebar.ul-drop-son>
                         </x-sidebar.ul-drop>
+                        {{-- Ventas --}}
+                                                    @canany(['sales.index','sales.show','sales.dash.index','sales.dash.create','sales.dash.show'])
+                            <x-sidebar.ul-drop name="Ventas" id="4" :active="request()->routeIs('sale.*')">
+                                        <x-slot name="icon">
+                                            <x-icons.cart class="h-[20px] w-[20px]" />
+                                        </x-slot>
+                                        @can(['sales.index','sales.show'])
+                                        <x-sidebar.ul-drop-son href="{{ route('sale.index') }}" :active2="request()->routeIs('sale.index')">Tienda Web
+                                        </x-sidebar.ul-drop-son>
+                                        @endcan
+                                        @can(['sales.dash.index','sales.dash.show','sales.dash.create'])
+                                        <x-sidebar.ul-drop-son href="{{ route('sale.dash.create') }}" :active2="request()->routeIs('sale.dash.create')" navigate="false">Añandir nuevo
+                                        </x-sidebar.ul-drop-son>
 
+                                        <x-sidebar.ul-drop-son href="{{ route('sale.dash.index') }}" :active2="request()->routeIs('sale.dash.index')">Tienda Física
+                                        </x-sidebar.ul-drop-son>
+                                        @endcan
+                            </x-sidebar.ul-drop>
+                            @endcanany
                         @endcan
                         @role(['Admin','Gerencia'])
                         <x-sidebar.ul-drop name="Transferencia" id="6" :active="request()->routeIs('transfer.*')">
@@ -153,24 +171,7 @@
                         {{-- <x-sidebar.ul-simple href="{{ route('tags.index') }}"
                             :active="request()->routeIs('tags.*')">Etiquetas</x-sidebar.ul-simple> --}}
                             {{-- @can(['sales.index','sale.show','sale.dash.index']) --}}
-                            @canany(['sales.index','sales.show','sales.dash.index','sales.dash.create','sales.dash.show'])
-                            <x-sidebar.ul-drop name="Ventas" id="4" :active="request()->routeIs('sale.*')">
-                                        <x-slot name="icon">
-                                            <x-icons.cart class="h-[20px] w-[20px]" />
-                                        </x-slot>
-                                        @can(['sales.index','sales.show'])
-                                        <x-sidebar.ul-drop-son href="{{ route('sale.index') }}" :active2="request()->routeIs('sale.index')">Ventas web
-                                        </x-sidebar.ul-drop-son>
-                                        @endcan
-                                        @can(['sales.dash.index','sales.dash.show','sales.dash.create'])
-                                        <x-sidebar.ul-drop-son href="{{ route('sale.dash.create') }}" :active2="request()->routeIs('sale.dash.create')" navigate="false">Añandir nuevo
-                                        </x-sidebar.ul-drop-son>
 
-                                        <x-sidebar.ul-drop-son href="{{ route('sale.dash.index') }}" :active2="request()->routeIs('sale.dash.index')">Ventas registradas
-                                        </x-sidebar.ul-drop-son>
-                                        @endcan
-                            </x-sidebar.ul-drop>
-                            @endcanany
                             {{-- @endcan --}}
 {{--                          @can(['products.index', 'categories.index', 'tags.index', 'brands.index'])
                         <x-sidebar.ul-drop name="eCommerce" id="5">
@@ -193,7 +194,8 @@
 
                                         <x-sidebar.ul-drop-son href="{{ route('store.products') }}" :active2="request()->routeIs('store.products')">Productos
                                         </x-sidebar.ul-drop-son>
-
+                                        <x-sidebar.ul-drop-son href="{{ route('store.sales') }}" :active2="request()->routeIs('store.sales')">Ventas
+                                        </x-sidebar.ul-drop-son>
 
 {{--                                         <x-sidebar.ul-drop-son href="{{ route('sale.dash.create') }}" :active2="request()->routeIs('sale.dash.create')" navigate="false">Añandir nuevo
                                         </x-sidebar.ul-drop-son>
@@ -203,6 +205,8 @@
 
                             </x-sidebar.ul-drop>
                         @endrole
+
+                            {{-- usuarios --}}
                         @can(['users.index', 'users.create', 'users.store', 'users.show', 'users.edit', 'users.update',
                         'users.destroy'])
                         <x-sidebar.ul-simple :active="request()->routeIs('users.*')" href="{{ route('users.index') }}">

@@ -66,4 +66,7 @@ public function all(){
         $stores= Store::all();
     return view('admin.shop.inventory',compact('skus','stores'));
 }
+public function sales(){
+     return view('admin.shop.sales');
+}
 }

@@ -3,6 +3,7 @@ import Scroll from '@alpine-collective/toolkit-scroll'
 import sort from '@alpinejs/sort'
 Alpine.plugin(Scroll)
 Alpine.plugin(sort)
+
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 // Inicializa el mapa en un elemento del DOM (ejemplo: un div con id 'mi_mapa')

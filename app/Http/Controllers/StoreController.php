@@ -5,6 +5,7 @@ use App\Models\Store;
 use App\Models\Sku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 class StoreController extends Controller
 {
     public function skus(Store $store)
@@ -189,5 +190,11 @@ public function restock(Request $request)
         ], 500);
     }
 }
-
+    public function show($id)
+    {
+        $response = Http::get("https://gamarra.lodomens.com/api/apisale/{$id}");
+        $order = $response->json(); // Initialize $order to null or an empty array in case of API failure
+        // Pass the $order data (or null if API call failed) to your Blade view
+        return view('admin.saledash.show', compact('order'));
+    }
 }

@@ -4,7 +4,7 @@
     href="{{$href}}"
 @endif  type="{{ $type }}">
     <div class="flex items-center justify-center mx-[10px]">
-    <div class="text-center text-[12px] font-inter font-normal leading-4 whitespace-normal my-[4px] mx-[10px] ">
+    <div class="text-center text-[12px] font-inter font-normal leading-4 whitespace-nowrap my-[4px] mx-[10px] ">
         {{$slot}}
     </div>
   </div>

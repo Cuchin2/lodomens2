@@ -36,7 +36,7 @@
 
                             </div>
                             <div>
-                            <x-label class="my-2">Código SKU</x-label>
+                                <x-label class="my-2">Código SKU</x-label>
                                 <x-input x-model="searchSKU" placeholder="Buscar SKU ... " />
                                 <x-label class="my-2">Categorias</x-label>
                                 <x-select x-model="selectedCategory">
@@ -93,9 +93,110 @@
                             </span>
                         </div>
                         <!-- Reset Filters Button -->
-                        <x-button.corp_secundary @click="resetFilters">
-                            Limpiar filtros
-                        </x-button.corp_secundary>
+                        <div class="flex space-x-2">
+                            <x-button.corp_secundary @click="resetFilters">
+                                Limpiar filtros
+                            </x-button.corp_secundary>
+                            <x-button.corp_secundary @click="showAllProducts">
+                                <template x-if="paginar">
+                                    <p>Con Paginación</p>
+                                </template>
+                                <template x-if="!paginar">
+                                    <p>Sin Paginación</p>
+                                </template>
+                            </x-button.corp_secundary>
+
+                            <x-button.corp_secundary @click="exportar">
+                                Exportar Excel
+                            </x-button.corp_secundary>
+<div
+    class="msa-wrapper border-gris-70 border bg-gris-90 text-gray-300 w-full rounded-lg shadow-sm"
+    x-data="{
+        listActive: false,
+        options: [
+            { value: 'sku', label: 'SKU' },
+            { value: 'name', label: 'Nombre' },
+            { value: 'stock', label: 'Stock' },
+            { value: 'price', label: 'Precio' },
+            { value: 'color', label: 'Color' },
+            { value: 'brand', label: 'Marca' },
+            { value: 'material', label: 'Material' },
+            { value: 'category', label: 'Categoría' },
+            { value: 'type', label: 'Tipo' }
+        ],
+        toggleOption(val) {
+            const i = selectedColumns.indexOf(val);
+            if (i > -1) selectedColumns.splice(i, 1);
+            else selectedColumns.push(val);
+        },
+        isSelected(val) {
+            return selectedColumns.includes(val);
+        }
+    }"
+    @click.away="listActive = false"
+>
+    <input type="hidden" name="columns" :value="selectedColumns.join(',')" />
+
+    <!-- Presentación de selección -->
+    <div
+        class="input-presentation flex flex-wrap gap-2 items-center px-3 py-2 rounded-lg cursor-pointer"
+        @click="listActive = !listActive"
+        :class="{'border-b border-corp-50 rounded-b-none': listActive}"
+    >
+        <template x-if="selectedColumns.length === 0">
+            <span class="text-gris-30 text-xs">Selecciona columnas</span>
+        </template>
+
+        <template x-for="(val, idx) in selectedColumns" :key="val">
+            <div class="tag-badge bg-gris-60 text-white rounded-full px-3 py-1 text-xs flex items-center relative">
+                <span x-text="options.find(o => o.value === val)?.label || val"></span>
+                <button
+                    type="button"
+                    class="ml-2 text-white/80 hover:bg-white/20 hover:text-white rounded-full px-1 py-0.5 text-xs font-semibold absolute right-0 pr-2 pl-1"
+                    @click.stop="selectedColumns.splice(idx, 1)"
+                >×</button>
+            </div>
+        </template>
+
+        <div class="text-gris-30 ml-auto">
+            <x-icons.chevron-down />
+        </div>
+    </div>
+
+    <!-- Lista desplegable -->
+    <ul
+        class="border-t border-gris-70 bg-gris-90 rounded-b-lg text-[12px] text-gris-30"
+        x-show="listActive"
+        x-transition
+        role="listbox"
+    >
+        <template x-for="option in options" :key="option.value">
+            <li
+                role="option"
+                class="px-3 py-2 cursor-pointer capitalize hover:bg-corp-50 hover:text-white"
+                :class="{ 'bg-corp-50 text-white': isSelected(option.value) }"
+                @click.stop="toggleOption(option.value)"
+            >
+                <span x-text="option.label"></span>
+            </li>
+        </template>
+    </ul>
+</div>
+
+
+
+{{--                             <select multiple x-model="selectedColumns" class="border rounded p-2">
+                                <option value="sku">SKU</option>
+                                <option value="name">Nombre</option>
+                                <option value="stock">Stock</option>
+                                <option value="price">Price</option>
+                                <option value="color">Color</option>
+                                <option value="brand">Marca</option>
+                                <option value="material">Material</option>
+                                <option value="category">Categoría</option>
+                                <option value="type">Tipo</option>
+                            </select> --}}
+                        </div>
                     </div>
                     {{-- Lista de Productos --}}
                     <div class="bg-gris-80 shadow-xl rounded-lg p-4">
@@ -192,16 +293,17 @@
 
 
                 @push('scripts')
-
+                <!-- SheetJS (xlsx) CDN -->
+                <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 
                 <script>
                     Alpine.data('pos', () => ({
-    searchQuery: '',
+    searchQuery: '', paginar: true,
     selectedCategory: 'All', selectedStore: 'All', stores : @json($stores),
     products: @json($skus), loading:false, allproducts: @json($skus),
     cart: [], validations:{}, order:'', totalmodal:'', productosDiponibles:[],
     checkoutComplete: false, selectedStoreValue:null,
-    searchSKU: '',
+    searchSKU: '', selectedColumns: ['sku', 'name', 'stock','price'],
     searchColor: '',
     selectedMaterial: 'All',
     selectedBrand: 'All',
@@ -447,14 +549,27 @@ axios.get('/api/stores/'+this.selectedStore+'/skus') // Reemplaza '/api/datos' c
 
       return pages;
     },
+exportar() {
+    if (!this.selectedColumns.length) {
+        alert('Debes seleccionar al menos una columna');
+        return;
+    }
 
+    // Filtrar cada producto solo con las claves seleccionadas
+    const filteredData = this.displayedProducts.map(producto => {
+        const nuevoObjeto = {};
+        this.selectedColumns.forEach(col => {
+            nuevoObjeto[col] = producto[col];
+        });
+        return nuevoObjeto;
+    });
 
-
-
-
-
-
-
+    const ws = XLSX.utils.json_to_sheet(filteredData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Productos');
+    XLSX.writeFile(wb, 'productos_filtrados.xlsx');
+},
+// Excel exportación
 
 /*     reset() {
       this.cart = [];
@@ -462,7 +577,19 @@ axios.get('/api/stores/'+this.selectedStore+'/skus') // Reemplaza '/api/datos' c
       this.checkoutComplete = false;
       this.currentPage = 1;
     }, */
+showAllProducts() {
+    this.paginar = !this.paginar;
 
+    if (this.paginar) {
+        // Volver a paginación normal
+        this.itemsPerPage = "6";
+    } else {
+        // Mostrar todos los productos
+        this.itemsPerPage = this.filteredProducts.length;
+    }
+
+    this.currentPage = 1;
+},
     init() {
       this.$watch('itemsPerPage', (value) => {
         this.currentPage = 1;
@@ -487,13 +614,13 @@ axios.get('/api/stores/'+this.selectedStore+'/skus') // Reemplaza '/api/datos' c
     </x-slot>
     @push('styles')
     <style>
-    body {
-      margin: 0;
-      overflow-x: hidden;
-      /* Hide scrollbars */
-    }
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            /* Hide scrollbars */
+        }
 
-/*     .container {
+        /*     .container {
       width: 200px;
       height: 200px;
       border: 1px solid #ccc;
@@ -503,45 +630,118 @@ axios.get('/api/stores/'+this.selectedStore+'/skus') // Reemplaza '/api/datos' c
       margin: 20px;
     } */
 
-    .image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      /* Maintain aspect ratio and cover the container */
-      cursor: pointer;
-      position: relative;
-      z-index: 1;
-      transition: transform 0.3s ease;
-    }
+        .image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Maintain aspect ratio and cover the container */
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
 
-    .image:hover {
-      transform: scale(1.05);
-    }
+        .image:hover {
+            transform: scale(1.05);
+        }
 
 
-    .moving-image {
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
-      z-index: 1000;
-      /* High z-index */
-      pointer-events: none;
-      /* Avoid interfering with clicks */
-      border-radius: 5px;
-      /* Rounded corners */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      /* Add a subtle shadow */
-    }
+        .moving-image {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            z-index: 1000;
+            /* High z-index */
+            pointer-events: none;
+            /* Avoid interfering with clicks */
+            border-radius: 5px;
+            /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            /* Add a subtle shadow */
+        }
 
-    .image-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
+        .image-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
     </style>
+    <style>
+    .msa-wrapper {
+        &>* {
+            display: block;
+            width: 100%;
+        }
+
+        .input-presentation {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            min-height: 30px;
+            padding: 0px 10px;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+
+            &.active {
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+                border-color: #16AC9F;
+            }
+
+            .tag-badge {
+                height: 20px;
+                padding-left: 14px;
+                padding-right: 28px;
+                color: white;
+                border-radius: 14px;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                span {
+                    font-size: 12px;
+                    line-height: 20px;
+                }
+
+                button {
+                    position: absolute;
+                    right: 0px;
+                    padding: 0 10px;
+                    border: none;
+                    background: transparent;
+                    font-size: 12px;
+                    color: white;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: rgba(255,255,255,0.2);
+                    }
+                }
+            }
+        }
+
+        ul {
+            border: 1px solid rgba(0,0,0,0.3);
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+
+            li {
+                padding: 6px 12px;
+                cursor: pointer;
+                text-transform: capitalize;
+            }
+        }
+    }
+</style>
     @endpush
 
 </x-app-layout>

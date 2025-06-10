@@ -27,11 +27,31 @@ class ShopSaleTable extends Component
 
     #[Url(history:true)]
     public $sortDir = 'DESC';
-    public $showModal = false; public $state; public $step = 1; public $state_name = ''; public $id;
+    public $showModal = false; public $state; public $step = 1; public $state_name = ''; public $id; public $page = 1;
     public $showModal2 = false;  public $sort_status = ''; public $salesperson='';  public $id_dashorder=''; public $salesperson_id='';
     public $showModal3 = false;  public $name_note =''; public $description_note=''; public $id_note=''; public $user_id_note=''; public $salesperson_ab= false;
+
+    public function mount()
+    {
+        $this->page = 1; // ✅ Aseguramos que siempre inicie en la página 1
+    }
     public function updateSearch(){
         $this->resetPage();
+    }
+     public function setPagina($page)
+    {
+        if ($page) {
+            $this->page = (int) $page;
+        }
+    }
+        private function extractPage($url)
+    {
+        if ($url) {
+            $parsedUrl = parse_url($url);
+            parse_str($parsedUrl['query'] ?? '', $query);
+            return $query['page'] ?? 1;
+        }
+        return 1;
     }
     public function setSortBy($sortByField)
     {
@@ -74,7 +94,7 @@ class ShopSaleTable extends Component
     {
         $this->showModal=false;
     }
-    public function page($page)
+    public function holabb($page)
     {
         $this->perPage = $page;
     }
@@ -82,62 +102,53 @@ class ShopSaleTable extends Component
     {
         $this->sort_status = $status;
     }
-    public function SendNote($name,$id,$salesperson_id){
-        $this->id_dashorder=$id;
+    public function SendNote($name,$descripcion,$salesperson_name){
+
         $this->reset('salesperson','name_note','description_note','user_id_note','id_note','salesperson_id');
 
-        $note = SaleNotes::where('dashorder_id',$id)->first() ?? false;
-        if($note) {
-        $this->id_note=$note->id;
-        $this->user_id_note=$note->user_id;
-        $this->name_note = $note->name;
-        $this->description_note= $note->description; }
-        $this->showModal3 = true;
-        $this->salesperson = $name;
-        $this->salesperson_id=$salesperson_id;
-        $this->salesperson_ab=$salesperson_id == auth()->user()->id ? false : true;
+        if($name) {
 
-    }
-    public function updateNote(){
-        SaleNotes::updateOrCreate(
-            ['id' => $this->id_note], // Condiciones de búsqueda: busca un producto con el id especificado
-            [
-                'name' => $this->name_note,
-                'description' => $this->description_note,
-                'dashorder_id' =>$this->id_dashorder,
-                'user_id' => auth()->user()->id
-            ] // Valores a actualizar o crear
-        );
-        $this->showModal3 = false;
+        $this->name_note = $name;
+        $this->description_note= $descripcion; }
+        $this->showModal3 = true;
+      $this->salesperson = $salesperson_name; /*
+        $this->salesperson_id=$salesperson_id;
+        $this->salesperson_ab=$salesperson_id == auth()->user()->id ? false : true; */
+
     }
     public function clearFilters()
     {
         $this->reset('sort_status','search','sortBy','sortDir','perPage');
         $this->resetPage();   // Opcional: Restablece la paginación a la primera página
     }
-    public function render()
-    {
-/*         return view('livewire.shop-sale-table',[
-            'sales' => SaleDashOrder::search($this->search)
-            ->when($this->sort_status !== '', function ($query) {
-                $query->where('status', $this->sort_status);
-            })
-            ->orderBy($this->sortBy,$this->sortDir)
-            ->paginate($this->perPage)
-        ]); */
-    $response = Http::get('https://gamarra.lodomens.com/api/sales', [
+public function render()
+{
+    $response = Http::get('http://127.0.0.1:8000/api/stores/sales', [
         'search' => $this->search,
         'status' => $this->sort_status,
         'sortBy' => $this->sortBy,
         'sortDir' => $this->sortDir,
         'perPage' => $this->perPage,
+        'page' => $this->page,
     ]);
 
-    $sales = $response->json();
-
-    return view('livewire.sale-dash-table',[
-        'sales' => collect($sales['data']),
-        'links' => $sales['links'] ?? null
-    ]);
+    if ($response->successful()) {
+        $sales = $response->json();
+        $salesData = collect($sales['data'] ?? []);
+        $links = collect($sales['links'] ?? []);
+    } else {
+        $salesData = collect();
+        $links = collect();
     }
+
+    return view('livewire.shop-sale-table', [
+        'sales' => $salesData,
+        'links' => $links,
+    ]);
+}
+
+
+
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Type;
 use App\Models\Category;
@@ -22,9 +23,9 @@ class ProductTable extends Component
     #[Validate('required', message: 'Seleccione una categoría')]
      public $category_id; public $color1='inherit';
     public $itemName; public $product = ''; public $state = ''; public $id=''; public $status= ''; public $color2='inherit'; public $change2=''; public $status2= '';
-    public $name; public $tipo_name; public $tipo_new_name; public $tipo_hex; public $tipo_old_hex; public $product_name; public $type_id;
-    public $code; public $category_nuevo; public $material_selected; public $state_selected; public $type_selected;
-    public $perPage = 10;
+    public $name; public $tipo_name; public $tipo_new_name; public $tipo_hex; public $tipo_old_hex; public $product_name; public $type_id; public $brand_id;
+    public $category_nuevo; public $material_selected; public $state_selected; public $type_selected; public $brand_selected;
+    public $perPage = 10; public $code;
 
     #[Url(history:true)]
     public $search = '';
@@ -44,19 +45,17 @@ class ProductTable extends Component
                 'required',
                 Rule::unique('products')->ignore($this->product),
             ],
-            'code' => [
+            'category_id' => [
                 'required',
-                'size:4',
-                Rule::unique('products')->ignore($this->product),
-                ]
+            ],
+
         ];
     }
     public function messages()
     {
         return [
             'name.required' => 'El nombre es requerido.',
-            'code.required' => 'El código es requerido.',
-            'code.size' => 'Se Requiere 4 dígitos .',
+            'category_id.required' => 'La categoría es requerida.'
         ];
     }
 
@@ -83,19 +82,29 @@ class ProductTable extends Component
         }
 
     }
-    public function create()
-    {
-        $this->validate();
-         $product=Product::create([
-            'name' => $this->name,
-            'code'=> $this->code,
-            'slug' =>Str::slug($this->name),
-            'category_id' => $this->category_id,
-            'type_id' => Type::where('is_default',1)->pluck('id')->first() ?? 1,
-        ]);
-        $this->showModalCreate = false;
-        $this->redirectRoute('inventory.products.edit',['product'=>$product]);
-    }
+public function create()
+{
+    // Obtener el último código y sumarle 1
+    $lastCode = Product::max('code') ?? 0;
+    $this->code = $lastCode + 1;
+
+    // Completar con ceros a la izquierda hasta 4 dígitos
+    $this->code = str_pad($this->code, 4, '0', STR_PAD_LEFT);
+
+    $this->validate();
+
+    $product = Product::create([
+        'name'        => $this->name,
+        'code'        => $this->code,
+        'slug'        => Str::slug($this->name),
+        'category_id' => $this->category_id,
+        'type_id'     => 1,
+    ]);
+
+    $this->showModalCreate = false;
+    $this->redirectRoute('inventory.products.edit', ['product' => $product]);
+}
+
     public function setSortBy($sortByField)
     {
         if($this->sortBy === $sortByField){
@@ -126,10 +135,14 @@ class ProductTable extends Component
                 ->when(!empty($this->type_selected), function ($query) {
                     $query->where('type_id', $this->type_selected);
                 })
+                ->when(!empty($this->brand_selected), function ($query) {
+                    $query->where('brand_id', $this->brand_selected);
+                })
                 ->orderBy($this->sortBy, $this->sortDir)
                 ->paginate($this->perPage),
             'categories' => Category::all()->pluck('name', 'id')->toArray(),
             'materials' => Material::all()->pluck('name', 'id')->toArray(),
+            'brands' => Brand::all()->pluck('name', 'id')->toArray(),
             'product_states' => [
                 '1'=>'Publicado',
                 '2'=>'Borrador',
@@ -173,7 +186,9 @@ class ProductTable extends Component
         }
         if($set ==5){
             $this->category_id=$value;
-
+        }
+        if($set ==6){
+            $this->brand_selected=$value;
         }
     }
     public function resetSelectors(){
@@ -181,7 +196,8 @@ class ProductTable extends Component
         $this->dispatch('rest2');
         $this->dispatch('rest3');
         $this->dispatch('rest4');
-        $this->reset('category_selected','material_selected','state_selected','type_selected');
+        $this->dispatch('rest6');
+        $this->reset('category_selected','material_selected','state_selected','type_selected','brand_selected');
     }
     public function estado($state,$id,$status,$color,$name){
         $this->showModal = true;

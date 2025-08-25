@@ -26,36 +26,36 @@
                         <div class="text-gris-20 flex space-x-2">
                             <div>
                                 <x-label class="ml-2 mb-2"> Categorias</x-label>
-                                <x-select-search placeholder="Selecciona un categoría" altura="250px" set="1"
+                                <x-select-search placeholder="Seleccione" altura="250px" set="1"
                                     livewire="true" message="Ninguna categoría coincide con la búsqueda" name="status"
-                                    :data="$categories" selected="">
-                                </x-select-search>
+                                    :data="$categories" selected=""/>
                             </div>
                             <div>
                                 <x-label class="ml-2 mb-2"> Materiales</x-label>
-                                <x-select-search placeholder="Selecciona un material" altura="250px" set="2"
+                                <x-select-search placeholder="Seleccione" altura="250px" set="2"
                                     livewire="true" message="Ningun material coincide con la búsqueda" name="status"
                                     :data="$materials" selected="" />
                             </div>
                             <div>
                                 <x-label class="ml-2 mb-2"> Tipo</x-label>
-                                <x-select-search placeholder="Selecciona un tipo" altura="250px" set="4"
+                                <x-select-search placeholder="Seleccione" altura="250px" set="4"
                                     livewire="true" message="Ningun tipo coincide con la búsqueda" name="status"
                                     :data="$typess" selected="" />
                             </div>
                             <div>
                                 <x-label class="ml-2 mb-2">Estados</x-label>
-                                <x-select-search placeholder="Selecciona un estado" altura="250px" set="3"
+                                <x-select-search placeholder="Seleccione" altura="250px" set="3"
                                     livewire="true" message="Ningun estado coincide con la búsqueda" name="status"
-                                    :data="$product_states" selected="">
+                                    :data="$product_states" selected=""/>
+                            </div>
+                            <div>
+                                <x-label class="ml-2 mb-2">Marcas</x-label>
+                                <x-select-search placeholder="Seleccione" altura="250px" set="6"
+                                    livewire="true" message="Ningun estado coincide con la búsqueda" name="status"
+                                    :data="$brands" selected=""/>
                             </div>
 
-                            </x-select-search>
 
-
-
-
-                        </div>
                     </div>
 
                     <div class="ml-auto">
@@ -75,6 +75,7 @@
                             </th>
                             <th scope="col" class="px-4 py-[13px] font-normal">Categoría</th>
                             <th scope="col" class="px-4 py-[13px] font-normal">Material</th>
+                            <th scope="col" class="px-4 py-[13px] font-normal">Marca</th>
                             <th scope="col" class="px-4 w-[123px] py-[13px] font-normal cursor-pointer"
                                 wire:click="setSortBy('status')">Estado</th>
                             <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer"
@@ -137,6 +138,8 @@
                                 {{$product->category->name}}</td>
                             <td class="px-4 py-[13px] ">
                                 {{$product->material->name ?? 'N/A'}}</td>
+                            <td class="px-4 py-[13px] ">
+                                {{$product->brand->name ?? 'N/A'}}</td>
                             <td class="px-4 py-[13px]" wire:ignore>
 
                                 <x-dropdown.dropdownproduct status="{{ $product->status() }}" id="{{ $product->id }}"
@@ -144,8 +147,8 @@
                             </td>
                             </td>
                             <td class="px-4 py-[13px]" wire:ignore>
-                                <x-dropdown.dropdowntype :type="$product->type" :types="$types" :id="$product->id"
-                                    :nameproduct="$product->name" />
+                          <x-dropdown.dropdowntype :type="$product->type" :types="$types" :id="$product->id"
+                                    :nameproduct="$product->name"/>
                             </td>
                             <td class="px-4 py-[13px] flex items-center justify-center space-x-5 h-[63px]">
 
@@ -206,14 +209,14 @@
         @endif
     </x-slot>
 </x-dialog-modal>
-<x-dialog-modal wire:model="showModalCreate">
+<x-dialog-modal wire:model="showModalCreate" maxWidth="md">
     <x-slot name="title">
         Crear Producto
     </x-slot>
 
     <x-slot name="content">
-        <div class="grid grid-cols-2 gap-4">
-            <div class="my-3 flex space-x-5">
+        <div class="grid grid-cols-2 gap-2">
+            <div class="my-3 flex space-x-2">
                 <div>
                     <x-label class="mb-2">Nombre</x-label>
                     <x-input name="name" wire:model="name" placeholder="Nombre del producto "></x-input>
@@ -221,13 +224,13 @@
                     <div class="text-corp-10 ml-2"> {{ $message }}</div>
                     @enderror
                 </div>
-                <div>
+{{--                 <div>
                     <x-label class="mb-2">Código</x-label>
                     <x-input name="code" wire:model="code" placeholder="Código del producto "></x-input>
                     @error('code')
                     <div class="text-corp-10 ml-2"> {{ $message }}</div>
                     @enderror
-                </div>
+                </div> --}}
             </div>
             <div class="my-3">
                 <x-label class="mb-2">Categoría</x-label>

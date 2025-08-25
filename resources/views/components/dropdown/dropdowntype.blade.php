@@ -5,13 +5,13 @@
      @tipo.window="ty=$event.detail.name; color=$event.detail.hex;"
     >
     <button class="text-center py-[2px] px-2 absolute  whitespace-nowrap
- -translate-y-1/2 left-[26px] h-[24px]"
+ -translate-y-1/2 left-[-6px] h-[24px]"
  :style="'color:'+ color"
  @click=" dropdown = !dropdown" :class="{'z-20' : dropdown}" x-text="ty">
 
     </button>
     <div x-show="dropdown" x-cloak x-transition @click.away="dropdown = false"
-        class="absolute bg-gris-80 border border-gris-50 rounded-[15px] px-2 z-10 top-[-17px]  left-[21px] pt-[33px] min-w-[80px] w-fit">
+        class="absolute bg-gris-80 border border-gris-50 rounded-[15px] px-2 z-10 top-[-17px]  left-[-11px] pt-[33px] min-w-[80px] w-fit">
         <div class="flex flex-col">
             <template x-for="(type, index) in types">
                 <template x-if="ty !== type.name">

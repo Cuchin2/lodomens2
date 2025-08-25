@@ -126,6 +126,9 @@ class Product extends Model implements CanVisit
               })
               ->orWhereHas('category', function ($q) use ($value) {
                   $q->where('name', 'like', "%{$value}%");
+              })
+              ->orWhereHas('brand', function ($q) use ($value) {
+                  $q->where('name', 'like', "%{$value}%");
               });
 
             // Si hay coincidencias en los estados, agregar condición OR en el WHERE

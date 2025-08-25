@@ -70,6 +70,9 @@ public function all(){
 public function sales(){
      return view('admin.shop.sales');
 }
+public function salesDraken(){
+    return view('admin.shop.salesdraken');
+}
 public function stock(Request $request)
 {
     DB::beginTransaction();
@@ -190,9 +193,10 @@ public function restock(Request $request)
         ], 500);
     }
 }
-    public function show($id)
+    public function show($id,$store_id)
     {
-        $response = Http::get("https://gamarra.lodomens.com/api/apisale/{$id}");
+        $store=Store::find($store_id); /* gamarra.lodomens.com */
+        $response = Http::get("https://{$store->domain}/api/apisale/{$id}");
         $order = $response->json(); // Initialize $order to null or an empty array in case of API failure
         // Pass the $order data (or null if API call failed) to your Blade view
         return view('admin.saledash.show', compact('order'));

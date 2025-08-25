@@ -118,8 +118,9 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
         Route::resource('saleDash',SaleDashController::class)->except(['delete','edit'])->names('sale.dash');
         Route::resource('transfer',TransferController::class)->names('transfer');
         Route::get('tiendas/productos',[StoreController::class, 'all'])->name('store.products');
-        Route::get('tiendas/ventas',[StoreController::class, 'sales'])->name('store.sales');
-        Route::get('tiendas/ventas/{id}',[StoreController::class, 'show'])->name('store.show');
+        Route::get('tiendas/ventas/gamarra',[StoreController::class, 'sales'])->name('store.sales.gamarra');
+        Route::get('tiendas/ventas/draken',[StoreController::class, 'salesDraken'])->name('store.sales.draken');
+        Route::get('tiendas/ventas/{id}/{store}',[StoreController::class, 'show'])->name('store.show');
     });
 
     //otras rutas

@@ -26,7 +26,7 @@
                                 <x-label class="my-2">Tiendas</x-label>
                                 <x-select x-model="selectedStore" @change="handleStoreChange()">
                                     <option :value="-1" x-text="'Todas las tiendas'"></option>
-                                    <template x-for="store in stores" :key="store.index">
+                                    <template x-for="store in stores" :key="store.id">
                                         <option :value="store.id" x-text="store.name"></option>
                                     </template>
                                 </x-select>

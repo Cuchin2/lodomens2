@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 class Store extends Model
 {
+    protected $fillable = [
+        'name',
+        'domain',
+        'phone',
+        'address',
+        'description',
+    ];
     use HasFactory;
     public function skus()
     {

@@ -91,7 +91,7 @@ class ProductTable extends Component
             'code'=> $this->code,
             'slug' =>Str::slug($this->name),
             'category_id' => $this->category_id,
-            'type_id' => Type::where('is_default',1)->pluck('id')->first() ?? null,
+            'type_id' => Type::where('is_default',1)->pluck('id')->first() ?? 1,
         ]);
         $this->showModalCreate = false;
         $this->redirectRoute('inventory.products.edit',['product'=>$product]);

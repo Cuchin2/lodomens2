@@ -25,7 +25,7 @@
                         <table class="w-full text-center   text-gris-30">
                             <thead class="text-[16px] text-gris-20  bg-gris-70 ">
                                 <tr>
-                                    <th scope="col" class="px-4 py-[13px] font-normal select-none">N° de venta</th>
+                                    <th scope="col" class="px-4 py-[13px] font-normal select-none">N°</th>
                                     <th scope="col" class="px-4 py-[13px] font-normal cursor-pointer" wire:click="setSortBy('created_at')">
                                         <div class="flex justify-center items-center">
                                             <p class="flex items-center select-none hover:text-white">Fecha de venta</p>
@@ -127,7 +127,7 @@
                                         </button>
                                         @endif
 
-                                        <a href="{{ route('store.show',$sale['id']) }}" wire:navigate class="text-verde-50 hover:text-verde-30 cursor-pointer flex justify-center">
+                                        <a href="{{ route('store.show',[$sale['id'],1]) }}" wire:navigate class="text-verde-50 hover:text-verde-30 cursor-pointer flex justify-center">
                                             <x-icons.eye class="h-5 w-5"></x-icons.eye>
                                         </a>
                                         {{-- <button  class="text-rojo-50 hover:text-rojo-30" wire:click="showDeleteModal('{{ $sale['id'] }}',' {{$sale['name']}}','{{ $sale->hex }}','{{ $sale->code }}','{{ asset('storage/'.($sale->images->url ?? '')) }}')" >

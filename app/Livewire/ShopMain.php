@@ -2,154 +2,149 @@
 
 namespace App\Livewire;
 
-use App\Models\Rating;
 use Livewire\Component;
-use Livewire\Attributes\Computed;
+use Livewire\WithPagination;
 use Livewire\Attributes\On;
+
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Color;
 use App\Models\Material;
-use Illuminate\Support\Facades\DB;
-use App\Models\Sku;
 use App\Models\Type;
-use Livewire\Attributes\Url;
-use Livewire\WithPagination;
-use Illuminate\Support\Facades\Session;
 
 class ShopMain extends Component
 {
     use WithPagination;
-    public $rating=''; public $cat=''; public $cat_id=''; public $perPage = 16; public $new= ''; public $type_id=''; public $type_name=''; public $material_id=''; public $material_name='';
-    public $bra=''; public $brand_id=''; public $gam='';  public $selectedOption = ''; public $selectedPrice = ''; public $page = 1;
-    #[Url(history:true)]
-    public $gam_id='';
-    #[Url(history:true)]
-    public $search = '';
-    #[Url(history:true)]
-    public $type = '';
-    #[Url(history:true)]
-    public $material = '';
-    #[Url(history:true)]
-    public $sortBy = 'created_at';
 
-    #[Url(history:true)]
+    // Filtros
+    public $rating = '';
+    public $cat = ''; public $bra = ''; public $gam = '';
+    public $cat_id = '';
+    public $type_id = '';
+    public $material_id = '';
+    public $brand_id = '';
+    public $gam_id = '';
+
+    public $type_name = '';
+    public $material_name = '';
+
+    public $perPage = 16;
+    public $new = '';                 // 'created_at' si "Productos nuevos"
+    public $selectedPrice = '';       // 'asc' | 'desc'
+    public $selectedOption = '';      // solo para el <select> (visual)
+    public $page = 1;
+
+    public $search = '';
+    public $sortBy = 'created_at';
     public $sortDir = 'DESC';
+
+    /** Claves que persistimos en sesión */
+    protected array $persistable = [
+        'rating','cat_id','brand_id','search','sortBy','sortDir',
+        'type_id','material_id','gam_id','selectedPrice','new'
+    ];
+
+    public function mount()
+    {
+        // Restaurar valores desde sesión
+        foreach ($this->persistable as $prop) {
+            $this->$prop = session("shop.$prop", $this->$prop);
+        }
+        $this->hydrateDerivedLabels();
+    }
+
+    /** Calcula nombres/labels a partir de los IDs (no se guardan en sesión) */
+    protected function hydrateDerivedLabels(): void
+    {
+        $this->cat           = $this->cat_id       ? (Category::whereKey($this->cat_id)->value('name') ?? '') : '';
+        $this->bra           = $this->brand_id     ? (Brand::whereKey($this->brand_id)->value('name') ?? '') : '';
+        $this->type_name     = $this->type_id      ? (Type::whereKey($this->type_id)->value('name') ?? '') : '';
+        $this->material_name = $this->material_id  ? (Material::whereKey($this->material_id)->value('name') ?? '') : '';
+        $this->gam           = $this->gam_id       ? (Color::whereKey($this->gam_id)->value('name') ?? '') : '';
+    }
+
+    /** Persistimos en sesión automáticamente en cada request */
+    public function dehydrate()
+    {
+        foreach ($this->persistable as $prop) {
+            session()->put("shop.$prop", $this->$prop);
+        }
+    }
 
     public function updatedSearch()
     {
         $this->resetPage();
     }
-    public function mount(){
-        if (!empty($this->cat_id)) {
-            $category = Category::where('id', $this->cat_id)->value('name');
-            $this->cat = $category;
-        }
-    }
+
     public function getProductsProperty()
     {
-        return   Product::search($this->search)
-            ->where('status','SHOP')
-            ->when($this->rating, function ($query) {
-                $query->where('rating', $this->rating);
-            })
-            ->when($this->cat_id, function ($query) {
-                $query->where('category_id', $this->cat_id);
-            })
-            ->when($this->brand_id, function ($query) {
-                $query->where('brand_id', $this->brand_id);
-            })
-            ->when($this->type_id, function ($query) {
-                $query->where('type_id', $this->type_id);
-            })
-            ->when($this->material_id, function ($query) {
-                $query->where('material_id', $this->material_id);
-            })
-            ->when($this->gam_id != '', function ($query) {
-                $query->whereHas('colors', function ($query) {
-                    $query->where('color_id', $this->gam_id);
-                });
-            })
-            ->when($this->selectedPrice != '',function($query){
-                $query->orderBy('sell_price', $this->selectedPrice);
-            })
-            ->when($this->new,function($query){
-                $query->orderBy($this->new, 'desc');
-            })->with('type.images')
-            ->orderBy($this->sortBy,$this->sortDir)
+        return Product::search($this->search)
+            ->where('status', 'SHOP')
+            ->when($this->rating, fn($q) => $q->where('rating', $this->rating))
+            ->when($this->cat_id, fn($q) => $q->where('category_id', $this->cat_id))
+            ->when($this->brand_id, fn($q) => $q->where('brand_id', $this->brand_id))
+            ->when($this->type_id, fn($q) => $q->where('type_id', $this->type_id))
+            ->when($this->material_id, fn($q) => $q->where('material_id', $this->material_id))
+            ->when($this->gam_id !== '', fn($q) =>
+                $q->whereHas('colors', fn($cq) => $cq->where('color_id', $this->gam_id))
+            )
+            ->when($this->selectedPrice !== '', fn($q) => $q->orderBy('sell_price', $this->selectedPrice))
+            ->when($this->new, fn($q) => $q->orderBy($this->new, 'desc'))
+            ->with('type.images')
+            ->orderBy($this->sortBy, $this->sortDir)
             ->paginate($this->perPage);
+    }
 
-    }
-    public function updated($propertyName)
-    {
-        // Reinicia la página a 1 cuando cambia cualquier filtro
-        if (in_array($propertyName, ['search', 'rating', 'cat_id', 'brand_id', 'type_id', 'gam_id', 'selectedPrice', 'new', 'sortBy', 'sortDir','material_id'])) {
-            $this->resetPage();
-        }
-    }
     public function render()
     {
+        /* dump(session('shop')); */
 
-        return view('livewire.shop-main',[
-            'gamas'=>Color::with('images')->get(),
-            'products' => $this->getProductsProperty(), /* 'products' => $this->products, */
+        return view('livewire.shop-main', [
+            'gamas'      => Color::with('images')->get(),
+            'products'   => $this->products,
             'categories' => Category::all(),
-            'brands' => Brand::all(),
-            'types'=> Type::all(),
-            'materials'=>Material::all()
+            'brands'     => Brand::all(),
+            'types'      => Type::all(),
+            'materials'  => Material::all(),
         ]);
     }
-    /* filtros */
-    public function clean(){
-        $this->reset('rating','cat','cat_id','bra','brand_id','gam','gam_id','type_id','type_name','material_id','material_name');
-        $this->resetPage();
-    }
-    public function rate($star)
+
+    /** Acciones de filtros */
+    public function clean()
     {
-        $this->rating=$star;
+        // Reset props
+        $this->reset(
+            'rating','cat','cat_id','bra','brand_id','gam','gam_id',
+            'type_id','type_name','material_id','material_name',
+            'selectedPrice','new'
+        );
+
+        // Limpiar sesión de todos los filtros persistidos
+        session()->forget(array_map(fn($p) => "shop.$p", $this->persistable));
+
         $this->resetPage();
+
+        // Si usabas Alpine/localStorage, emite evento para limpiar frontend (opcional)
+        $this->dispatch('clear-filters');
     }
-    public function categorized($name,$id)
-    {
-        $this->cat=$name;
-        $this->cat_id=$id;
-        $this->resetPage();
-    }
-    public function brandized($name,$id)
-    {
-        $this->bra=$name;
-        $this->brand_id=$id;
-        $this->resetPage();
-    }
-    public function colorized($name,$id)
-    {
-        $this->gam=$name;
-        $this->gam_id=$id; /* $this->dispatch('out'); */
-        $this->resetPage();
-    }
-    public function typerized($name,$id)
-    {
-        $this->type_id=$id;
-        $this->type_name=$name;
-        $this->resetPage();
-    }
-    public function materialized($name,$id)
-    {
-        $this->material_id=$id;
-        $this->material_name=$name;
-        $this->resetPage();
-    }
+
+    public function rate($star)              { $this->rating = $star; $this->resetPage(); }
+    public function categorized($name,$id)   { $this->cat = $name; $this->cat_id = $id; $this->resetPage(); }
+    public function brandized($name,$id)     { $this->bra = $name; $this->brand_id = $id; $this->resetPage(); }
+    public function colorized($name,$id)     { $this->gam = $name; $this->gam_id = $id; $this->resetPage(); }
+    public function typerized($name,$id)     { $this->type_name = $name; $this->type_id = $id; $this->resetPage(); }
+    public function materialized($name,$id)  { $this->material_name = $name; $this->material_id = $id; $this->resetPage(); }
+
     #[On('option-selected')]
     public function abc($value)
     {
-        if($value == 'new'){
-            $this->new='created_at';
-            $this->selectedPrice='';
-        }
-        else{
-            $this->selectedPrice=$value;
+        if ($value === 'new') {
+            $this->new = 'created_at';
+            $this->selectedPrice = '';
+        } else {
+            $this->new = '';
+            $this->selectedPrice = $value; // 'asc' | 'desc'
         }
     }
-
 }

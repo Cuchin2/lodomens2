@@ -1,10 +1,10 @@
 <x-app-layout>
 
     <x-slot name="slot1">
-        <x-breadcrumb.title title='Ventas por Tienda'/>
+        <x-breadcrumb.title title='Ventas de Gamarra'/>
         <x-breadcrumb.breadcrumb>
 
-            <x-breadcrumb.breadcrumb2 name='Ventas por Ventas'/>
+            <x-breadcrumb.breadcrumb2 name='Ventas de Gamarra'/>
         </x-breadcrumb.breadcrumb>
     </x-slot>
 

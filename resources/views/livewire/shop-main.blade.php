@@ -1,6 +1,6 @@
 <div>
     {{-- Because she competes with no one, no one can compete with her. --}}
-    <div x-data="{ open: window.innerWidth > 1024, open2: false, sort: 3, show: false }" x-init="window.addEventListener('resize', () => {
+    <div x-data="{ open: window.innerWidth > 1024, open2: false, sort: 3, show: false,}" x-init="window.addEventListener('resize', () => {
         console.log(window.innerWidth, open);
         if (window.innerWidth < 671) { sort = 3; }
         if (window.innerWidth > 1024) {

@@ -34,6 +34,7 @@ use App\Http\Controllers\SaleDashController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\ReclamationController;
 use App\Http\Controllers\TransferController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Models\Address;
 use App\Models\SaleOrder;
 
@@ -53,7 +54,9 @@ Route::get('/', function () {
     return redirect()->route('web.shop.index');
     /* return view('layouts.proximamente'); */
 });
-
+Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
+    ->middleware(['signed'])
+    ->name('verification.verify');
 Route::get('inicio',[MainController::class,'index'])->name('root');
 Route::post('addcart',[TiendaController::class,'addcart'])->name('addcart');
 Route::middleware([

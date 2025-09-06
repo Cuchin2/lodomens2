@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('returnns', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');  // Usuario que realiza la operación
+            $table->foreignId('store_id')->constrained()->onDelete('cascade'); // Tienda destino
+            $table->enum('status', ['cancelado', 'entregado'])->default('entregado');
+            $table->text('observations')->nullable(); // Notas u observaciones
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('returnns');
+    }
+};

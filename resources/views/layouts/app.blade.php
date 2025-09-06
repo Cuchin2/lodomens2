@@ -160,7 +160,15 @@
 
 
                                 </x-sidebar.ul-drop>
+                                <x-sidebar.ul-drop name="Devoluciones" id="8" :active="request()->routeIs('return.*')">
+                                    <x-slot name="icon">
+                                        <x-icons.pedidos class="h-[20px] w-[20px] transform scale-x-[-1]" />
+                                    </x-slot>
+                                    <x-sidebar.ul-drop-son href="{{ route('return.create') }}" :active2="request()->routeIs('return.create')">Nueva</x-sidebar.ul-drop-son>
+                                    <x-sidebar.ul-drop-son href="{{ route('return.index') }}" :active2="request()->routeIs('return.index')">Listado</x-sidebar.ul-drop-son>
 
+
+                                </x-sidebar.ul-drop>
                                 @endrole
                                 {{-- <x-sidebar.ul-simple href="{{ route('tags.index') }}"
                                 :active="request()->routeIs('tags.*')">Etiquetas</x-sidebar.ul-simple> --}}

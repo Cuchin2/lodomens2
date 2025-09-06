@@ -34,9 +34,11 @@ use App\Http\Controllers\SaleDashController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\ReclamationController;
 use App\Http\Controllers\TransferController;
+use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Models\Address;
 use App\Models\SaleOrder;
+use PhpParser\Node\Stmt\Return_;
 
 /*
 
@@ -120,6 +122,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
         // Ventas en el dashboard
         Route::resource('saleDash',SaleDashController::class)->except(['delete','edit'])->names('sale.dash');
         Route::resource('transfer',TransferController::class)->names('transfer');
+        Route::resource('return',ReturnController::class)->names('return');
         Route::get('tiendas/productos',[StoreController::class, 'all'])->name('store.products');
         Route::get('tiendas/ventas/gamarra',[StoreController::class, 'sales'])->name('store.sales.gamarra');
         Route::get('tiendas/ventas/draken',[StoreController::class, 'salesDraken'])->name('store.sales.draken');
@@ -190,3 +193,8 @@ Route::get('pruebas',[PruebaController::class ,'pruebas']);
 Route::get('permisos',[PruebaController::class ,'permission']);
 Route::get('reclamaciones',[ReclamationController::class,'index'])->name('reclamation.index');
 Route::post('reclamaciones//enviar',[ReclamationController::class,'send'])->name('reclamation.send');
+
+
+Route::get('/test-419', function () {
+    abort(419);
+});

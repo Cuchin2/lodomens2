@@ -1,16 +1,11 @@
 import './bootstrap';
 import Scroll from '@alpine-collective/toolkit-scroll'
 import sort from '@alpinejs/sort'
-import persist from '@alpinejs/persist'
 Alpine.plugin(Scroll)
 Alpine.plugin(sort)
-Alpine.plugin(persist)
-window.Alpine = Alpine
-Alpine.start()
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 // Inicializa el mapa en un elemento del DOM (ejemplo: un div con id 'mi_mapa')
-
 
 // Ejecuta la inicialización del mapa cuando el DOM esté cargado
 document.addEventListener('DOMContentLoaded', initializeMap);

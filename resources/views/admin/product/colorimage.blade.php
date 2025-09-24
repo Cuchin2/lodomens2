@@ -28,7 +28,7 @@
                         <div x-data="{
               imageUrl: null, modalImg: false, file: null, idem: null,
               isVideo: null, cropper: null, croppable: false, croppedData: null,
-              basicInfoModal: false, progress: 0,
+              basicInfoModal: false, progress: 0, spin:false,
               getImage(order,color){
 
                   axios.get('{{ route('getimage.product.color') }}', {
@@ -116,6 +116,7 @@ this.progress= 1;
         this.files.push(this.imageUrl);
         this.getImage(order, color); // Llamada adicional para obtener la imagen del servidor
         this.progress = 0; // Reiniciar el progreso al finalizar
+        this.spin = true; setTimeout(() => {  this.spin = false;}, 2500);
     })
     .catch(error => {
         // Manejar cualquier error que ocurra durante la solicitud
@@ -176,8 +177,8 @@ this.progress= 1;
                     // Opcional: Eliminar el cropper para evitar interacciones adicionales
                     this.cropper.destroy();
                     this.cropper = null;
-
                     this.modalImg = false;
+                    this.$dispatch('accion1', false)
                                     },
                  WithtOutCrop(){
                  this.modalImg = false;
@@ -214,23 +215,30 @@ this.progress= 1;
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                                 </svg>
-                                                <div class="w-full p-2">
-                                                    <div x-show="progress > 0" class="w-full rounded-[3px] bg-gris-30">
-                                                        <div class="bg-green-600 text-[12px] py-1 text-green-100 text-center  leading-none rounded-[3px] h-full"
-                                                            :style="'width:'+progress+'%'">
-                                                            <p x-text="progress+'%'" class="text-center"></p>
-                                                        </div>
 
-                                                    </div>
-                                                    <p x-show="progress > 0"
-                                                        class="text-center text-[12px] animate-pulse">Cargando ...</p>
-
-                                                </div>
                                                 <div>Subir imagen</div>
 
                                             </div>
                                         </template>
+                                        <div class="absolute" x-show="progress > 0">
+                                            <div class="w-full rounded-[3px] bg-gris-30">
+                                                <div class="bg-green-600 text-[12px] py-1 text-green-100 text-center  leading-none rounded-[3px] h-full"
+                                                    :style="'width:'+progress+'%'">
+                                                    <p x-text="progress+'%'" class="text-center"></p>
+                                                </div>
+
+                                            </div>
+                                            <p class="text-center text-[12px] animate-pulse text-white font-bold">
+                                                Cargando ...</p>
+                                        </div>
+                                        <div x-show="spin" class="bg-gris-90 w-full h-full absolute  opacity-70 ">
+                                            <div class="relative mt-8">
+                                        <x-elements.success />
+                                        </div>
+                                        </div>
                                     </div>
+
+
                                 </label>
                                 <div x-show="imageUrl"
                                     class="absolute bottom-4 left-4 hover:text-red-500 cursor-pointer"
@@ -239,7 +247,7 @@ this.progress= 1;
                                 </div>
 
                                 <input class="w-full cursor-pointer hidden" type="file" :name="color.name + index"
-                                 name="croppedImage" id="fileInput" x-ref="croppedImage" accept="/*"
+                                    name="croppedImage" id="fileInput" x-ref="croppedImage" accept="/*"
                                     :id="color.name + index" @change="fileChosen($event, line.id)">
 
                             </div>
@@ -261,13 +269,14 @@ this.progress= 1;
                                         </div>
                                         <template x-if="isVideo">
                                             <div class="mt-4 text-[15px] text-gray-400 flex items-center">
-                                                ¿Estás seguro de que deseas eliminar el video ? <video :src="imageUrl" class="h-[70px] ml-auto" controls></video>
+                                                ¿Estás seguro de que deseas eliminar el video ? <video :src="imageUrl"
+                                                    class="h-[70px] ml-auto" controls></video>
                                             </div>
                                         </template>
                                         <template x-if="!isVideo">
                                             <div class="mt-4 text-[15px] text-gray-400 flex items-center">
-                                                ¿Estás seguro de que deseas eliminar la imangen? <img :src="imageUrl" alt=""
-                                                    class="w-[70px] ml-auto">
+                                                ¿Estás seguro de que deseas eliminar la imangen? <img :src="imageUrl"
+                                                    alt="" class="w-[70px] ml-auto">
                                             </div>
                                         </template>
 
@@ -280,37 +289,43 @@ this.progress= 1;
                                     </div>
                                 </div>
                             </div>
-                        {{-- modal cropper --}}
-                        <div x-show="modalImg" x-transition.opacity="" x-transition:enter.duration.100ms=""
-                            x-transition:leave.duration.300ms=""
-                            class="fixed top-0 left-0 z-50 bg-black/40 h-screen w-full flex items-center justify-center ">
-                            <div @click.away="modalImg = false"
-                                class="relative sm:w-full sm:max-w-2xl sm:mx-auto bg-gris-70 rounded-lg shadow-xl text-gray-400 border-t-[3.5px] border-corp-50">
-                                <span @click="modalImg = false"
-                                    class="absolute right-2 top-1 text-xl cursor-pointer hover:text-gray-600"
-                                    title="Close">
-                                    ✕
-                                </span>
-                                <div class="px-6 py-4">
-                                    <div class="text-lg font-medium text-gris-10">
-                                        Deseas recotar la imagen
-                                    </div>
-                                    <div class="mt-4 text-[15px] text-gray-400 flex items-center">
-                                        <div style="height: 200px" class="flex mx-auto">
+                            {{-- modal cropper --}}
+                            <div x-show="modalImg" x-transition.opacity="" x-transition:enter.duration.100ms=""
+                                x-transition:leave.duration.300ms=""
+                                class="fixed top-0 left-0 z-50 bg-black/40 h-screen w-full flex items-center justify-center ">
+                                <div @click.away="modalImg = false"
+                                    class="relative sm:w-full sm:max-w-2xl sm:mx-auto bg-gris-70 rounded-lg shadow-xl text-gray-400 border-t-[3.5px] border-corp-50">
+                                    <span @click="modalImg = false"
+                                        class="absolute right-2 top-1 text-xl cursor-pointer hover:text-gray-600"
+                                        title="Close">
+                                        ✕
+                                    </span>
+                                    <div class="px-6 py-4">
+                                        <div class="text-lg font-medium text-gris-10">
+                                            Deseas recotar la imagen
+                                        </div>
+                                        <div class="mt-4 text-[15px] text-gray-400 flex items-center">
+                                            <div style="height: 200px" class="flex mx-auto">
 
                                                 <img x-ref="cropperImage" :src="imageUrl" alt="" class="w-full h-full">
 
 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="flex flex-row justify-end px-6 py-4 bg-gris-70 text-end rounded-lg">
+                                    <div class="flex flex-row justify-end px-6 py-4 bg-gris-70 text-end rounded-lg">
 
-                                    <x-button.corp1 @click="cropAndCloseModal()" >Aceptar</x-button.corp1>
+                                        <x-button.corp1 id="1"
+                                            @click="$dispatch('accion1', true); setTimeout(() => cropAndCloseModal(), 20)">
+                                            Aceptar
+                                        </x-button.corp1>
+
+
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </div>
 
 

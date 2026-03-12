@@ -125,7 +125,7 @@
                 </ul>
             </div>
             <div class="hidden lg:block col-12 md:col-4 mx-auto w-[300px]">
-                    <img src="{{ asset('storage/'.$datos['logo']) }}" alt=""  class="w-auto h-[82px] mx-auto">
+                    <img src="{{ asset('storage/'.$datos['logo']) }}" alt=""  class="w-auto {{-- h-[82px] --}} h-[42px]  mt-4 mx-auto">
 
 
                 <div class="mt-[25px] flex space-x-5 justify-center">

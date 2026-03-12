@@ -34,12 +34,22 @@ export default {
                 'gris-20':'#8F8F8F',
                 'gris-10':'#A4A4A4',
                 'gris-5': '#D1D1D1',
-                'corp-90':'#C000A1',
+/*                 'corp-90':'#C000A1',
                 'corp-70':'#D917B9',
                 'corp-60':'#E023C5',
                 'corp-50':'#F12ED2',
                 'corp-30':'#F852DD',
-                'corp-10':'#FF76E9',
+                'corp-10':'#FF76E9', */
+
+'corp-90': '#1A4A4C', // -40% lightness, +10% saturation
+  'corp-80': '#245D5F',
+  'corp-70': '#2F7173',
+  'corp-60': '#398486',
+  'corp-50': '#4B9A9D', // Tu color base
+  'corp-40': '#5EA8AA',
+  'corp-30': '#72B6B8',
+  'corp-20': '#85C4C5',
+  'corp-10': '#99D2D3',
                 'corp2-90':'#522C1C',
                 'corp2-70':'#5A3424',
                 'corp2-50':'#613C2C',

@@ -203,14 +203,17 @@ class CheckoutController extends Controller
 
     /* Izipay */
     private function generateFormToken(){
-
+        $amount = session('totality')*100;
+        if(session('location') !== 'PE'){
+        $amount = session('totality')*100*4;
+        }
         $auth= base64_encode(config('services.izipay.client_id').':'.config('services.izipay.secret'));
         $response= Http::withHeaders([
              'Authorization' => "Basic $auth",
              'Content-Type' => 'application/json',
         ])->
         post(config('services.izipay.url'),[
-            'amount'  => session('totality')*100,
+            'amount'  => $amount,
             'currency' => 'PEN',
             'orderId'  => Str::random(20),
             'customer' => [

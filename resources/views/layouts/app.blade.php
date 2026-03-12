@@ -41,9 +41,10 @@
 
                     <a href="#" class="h-[54px] flex fixed z-10 w-inherit items-center dark:bg-gris-90 overflow-hidden border-gris-70 border-r sm:border-b" :class="{'dark:border-none' : !isSidebarExpanded}">
                         {{-- <x-icons.logosSvg.Logo_imag_Def width="38px"></x-icons.logosSvg.Logo_imag_Def> --}}
-                        <img src="{{ asset('image/lodomens/Logo_isotipo2.svg') }}" class="h-[23.48px] w-[33px] ml-[9px]">
+                        <img src="{{-- {{ asset('image/lodomens/Logo_isotipo2.svg') }} --}} {{ asset('image/Logo_imag_Turquesa.png') }}" class="h-[23.48px] w-[23.48px] {{-- w-[33px]  --}}ml-[9px]">
                         <span class="font-medium duration-300 ease-in-out ml-[13.74px] mr-[13px]" :class="isSidebarExpanded ? 'block' : 'hidden'">
-                            <x-icons.logosSvg.Logo_horizontal_Def width="131px" />
+                            {{-- <x-icons.logosSvg.Logo_horizontal_Def width="131px" /> --}}
+                             <img src="{{ asset('image/Logo_horizontal_Turquesa.png') }}" alt=""  class="w-[131px] {{-- h-[82px] --}}  mx-auto">
                         </span>
                     </a>
 

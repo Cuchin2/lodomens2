@@ -16,7 +16,7 @@ class GetClientIP
     public function handle(Request $request, Closure $next): Response
     {
         $clientIP = $request->ip();
-        if ($clientIP ==  '192.168.3.34')
+        if ($clientIP !==  '192.168.3.34')
         { $clientIP = '69.162.81.155';  } else { $clientIP = '179.6.2.241'; } //179.6.2.241
         $location = Location::get($clientIP);
         if ($location && $location->countryCode === 'PE') {

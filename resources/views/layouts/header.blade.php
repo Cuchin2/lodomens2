@@ -6,7 +6,8 @@
         <div
             class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 md:relative md:flex md:top-1/4 md:left-[104px]">
             <a href="../../">
-                <x-lodomens.icons.logo_secundario class="md:h-[40px] h-[27px]" />
+                {{-- <x-lodomens.icons.logo_secundario class="md:h-[40px] h-[27px]" /> --}}
+                <img src="{{ asset('image/Logo_imag_Blanco.png') }}" class="md:h-[40px] h-[27px] opacity-50" alt="">
             </a>
         </div>
 

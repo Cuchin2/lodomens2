@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Sku;
 use App\Models\Store;
+use App\Models\User;
 use App\Models\Transfer;
 use App\Models\TransferDetail;
-
+use App\Mail\TransferNotification;
+use Illuminate\Support\Facades\Mail;
 class TransferController extends Controller
 {
     /**
@@ -83,7 +85,11 @@ class TransferController extends Controller
                     $transferDetail->transfer_id = $transfer->id;
                     $transferDetail->save();
         }
-
+        // Después de guardar la transferencia...
+        $admins = User::role('Gerencia')->get();
+            // Enviar correo de notificación (encolado)
+        $emails = $admins->pluck('email')->toArray();
+        Mail::to($emails)->queue(new TransferNotification($transfer));
         return response()->json([
             'message' => 'Transferencia registrada y SKUs asignados correctamente.',
             'transfer_id' => $transfer->id,

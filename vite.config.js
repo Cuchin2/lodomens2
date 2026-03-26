@@ -9,11 +9,11 @@ export default defineConfig(({ mode }) => {
         server: {
             // Usa tu dirección IP específica en lugar de 'true' para forzar a Vite
             // a escuchar en esta interfaz de red.
-            host: '127.0.0.1',
+            host: '192.168.3.9',
             port: 5173,
             hmr: {
                 // Esta configuración asegura que HMR use la misma IP.
-                host: '127.0.0.1',
+                host: '192.168.3.9',
                 protocol: new URL(appUrl).protocol.replace(':', ''),
             },
         },

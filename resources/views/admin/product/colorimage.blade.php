@@ -23,7 +23,7 @@
               });
           }
           }">
-                    <div class="handle cursor-move text-gris-20 p-2" x-text="index+1"></div>
+                    <div class="handle cursor-move text-gris-20 p-2 h-[170px] flex items-center" x-text="index+1" draggable="false"></div>
                     <template x-for="color in colors" :key="color.name">
                         <div x-data="{
               imageUrl: null, modalImg: false, file: null, idem: null,
@@ -375,8 +375,27 @@ this.progress= 1;
 </div>
 
 
+@push('styles')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.css">
-
+    <style>
+.handle {
+    cursor: move;
+    touch-action: none;              /* Evita scroll mientras arrastras */
+    min-width: 48px;                 /* Área táctil mínima recomendada */
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;               /* Evita selección de texto */
+    -webkit-tap-highlight-color: transparent;
+    background-color: rgba(0,0,0,0.02); /* Opcional: para visualizar el área */
+}
+#lista {
+    touch-action: pan-y;              /* Permite scroll vertical general */
+    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+}
+    </style>
+@endpush
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.js"></script>
 <script>
@@ -404,9 +423,24 @@ this.progress= 1;
       },
       init(){
           this.lines = @json($numberArray);
+              this.$nextTick(() => {
+            const lista = document.getElementById('lista');
+            if (lista) {
+                Sortable.create(lista, sortableConfig);
+            } else {
+                console.error('Elemento #lista no encontrado');
+            }
+        });
           const sortableConfig = {
           animation: 150,
           handle: '.handle',
+            delay: 150,
+            delayOnTouchOnly: true,
+            swapThreshold: 0.5,
+            touchStartThreshold: 3,
+            invertSwap: false,
+            filter: "input, label, video",
+            preventOnFilter: false,
           store:{
               set: (sortable) => {
               this.order = sortable.toArray().slice(1);
@@ -423,7 +457,14 @@ this.progress= 1;
               }
           }
       };
-      let sortableInstance = Sortable.create(this.sortableList,sortableConfig);
+                  // Inicializar Sortable cuando el DOM esté listo
+            this.$nextTick(() => {
+                if (this.sortableList) {
+                    Sortable.create(this.sortableList, sortableConfig);
+                } else {
+                    console.error('Elemento #lista no encontrado');
+                }
+            });
       }
     };
   }

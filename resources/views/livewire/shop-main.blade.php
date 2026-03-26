@@ -13,9 +13,10 @@
         <div
             class="fixed w-full sm:w-[442px] md:w-[711px] lg:w-[962px] xl:w-[1115px] bg-black z-30 left-1/2 transform -translate-x-1/2 md:top-[159px] px-3">
             <div class="flex py-3 mx-auto items-center">
-                <div class="!w-[40.5px] h-[34px] bg-gris-90 rounded p-1 cursor-pointer flex items-center mr-2"
+                <div class="!w-fit h-[34px] bg-gris-90 rounded p-1 cursor-pointer flex items-center mr-2 pr-2 space-x-2"
                     @click="open=!open;">
-                    <x-icons.chevron-left height="22px" width="22px" grosor="2" class="p-1 mx-auto" />
+                    <x-icons.hamburger height="22px" width="22px" grosor="2" class="p-1 mx-auto" />
+                    <p>Filtros</p>
                 </div>
                 <div class="hidden md:block w-fit mx-[50px] whitespace-nowrap">
                     <p>{{-- 107 --}} {{ $this->products->count() }}
@@ -65,7 +66,7 @@
                 open = false;
             }">
                 <div class="h-full bg-gris-90 md:w-[148px] lg:w-[205px] md:relative rounded-[3px]">
-                    <ul class="md:fixed bg-gris-90 md:w-[148px] lg:w-[205px]  rounded-[3px] h-fit md:max-h-full overflow-hidden xl:px-3"
+                    <ul class="bg-gris-90 md:w-[148px] lg:w-[205px]  rounded-[3px] h-fit md:max-h-full overflow-hidden xl:px-3"
                         @click.away="menu1 = 0">
                         <li class="p-2 ">
                             <div class="flex justify-between items-center">

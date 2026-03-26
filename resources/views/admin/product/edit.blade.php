@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <x-slot name="slot1">
-        <x-breadcrumb.title title='Editar producto "{{$product->name}}"' />
+        <x-breadcrumb.title title='Editar producto"{{$product->name}}"' />
         <x-breadcrumb.breadcrumb>
             <x-breadcrumb.breadcrumb2 href="{{route('inventory.products.index')}}" name='Productos' />
             <x-breadcrumb.breadcrumb2 name='{{$product->name}}' />
@@ -209,7 +209,8 @@
         </form>
 
         @push('scripts')
-        <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+            {{-- <scriptpt src="https://cdn.jsdelivr.net/npm/interactjs@1.10.27/dist/interact.min.js"></script> --}}
         <script>
             CKEDITOR.replace('body', {
                     language: 'es',

@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "dev-server": "php artisan serve --host=192.168.3.9"
     },
     "devDependencies": {
         "@alpine-collective/toolkit-scroll": "^1.0.2",

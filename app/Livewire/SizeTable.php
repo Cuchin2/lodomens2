@@ -102,4 +102,8 @@ class SizeTable extends Component
             'sizes' => $sizes,
         ]);
     }
+    public function page($page)
+    {
+        $this->perPage = $page;
+    }
 }

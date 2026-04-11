@@ -85,30 +85,7 @@
 
                                 </x-sidebar.ul-drop>
                                 @endrole
-                                {{-- @can('purchases.index')
-                        <x-sidebar.ul-simple :active="request()->routeIs('home')"
-                            href="{{ route('dashboard') }}">
-                                <x-slot name="icon">
-                                    <x-icons.cart-plus class="h-[20px] w-[20px]" />
-                                </x-slot> Compras
-                                </x-sidebar.ul-simple>
-                                @endcan --}}
-                                {{-- @can('sales.index')
-                    <x-sidebar.ul-simple :active="request()->routeIs('sale.index')"
-                            href="{{ route('sale.index') }}">
-                                <x-slot name="icon">
-                                    <x-icons.cart class="h-[20px] w-[20px]" />
-                                </x-slot> Ventas
-                                </x-sidebar.ul-simple>
-                                @endcan --}}
-                                {{-- @can('orders.index')
-                        <x-sidebar.ul-simple :active="request()->routeIs('home')"
-                            href="{{ route('dashboard') }}">
-                                <x-slot name="icon">
-                                    <x-icons.pedidos class="h-[20px] w-[20px]" />
-                                </x-slot> Pedidos
-                                </x-sidebar.ul-simple>
-                                @endcan --}}
+
                                 @can(['products.index', 'categories.index', 'tags.index', 'brands.index'])
                                 <x-sidebar.ul-drop name="Inventario" id="3" :active="request()->routeIs('inventory.*')">
                                     <x-slot name="icon">
@@ -129,6 +106,8 @@
                                     <x-sidebar.ul-drop-son href="{{ route('inventory.tags.index')}}" :active2="request()->routeIs('inventory.tags.index')">Etiquetas
                                     </x-sidebar.ul-drop-son>
                                     <x-sidebar.ul-drop-son href="{{ route('inventory.colors.index')}}" :active2="request()->routeIs('inventory.colors.index')">Colores
+                                    </x-sidebar.ul-drop-son>
+                                    <x-sidebar.ul-drop-son href="{{ route('inventory.sizes.index')}}" :active2="request()->routeIs('inventory.sizes.index')">Tallas
                                     </x-sidebar.ul-drop-son>
                                 </x-sidebar.ul-drop>
                                 {{-- Ventas --}}

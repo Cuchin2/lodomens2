@@ -36,8 +36,10 @@ use App\Http\Controllers\ReclamationController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\SizeController;
 use App\Models\Address;
 use App\Models\SaleOrder;
+use App\Models\Size;
 use PhpParser\Node\Stmt\Return_;
 
 /*
@@ -111,6 +113,7 @@ Route::middleware(['auth', config('jetstream.auth_session'),'verified', ])->grou
             Route::resource('categories', CategoryController::class)->names('inventory.categories');
             Route::resource('tags', TagController::class)->except('show')->names('inventory.tags');
             Route::resource('materials', MaterialController::class)->names('inventory.materials');
+            Route::resource('sizes', SizeController::class)->names('inventory.sizes');
         Route::get('tag/{type}',[TagController::class,'type'])->name('tags.indextype');
         Route::get('category/product',[CategoryController::class,'index_product'])->name('categories.PRODUCT');
         Route::get('getimages/{product}',[ProductController::class,'getimages'])->name('getimages');

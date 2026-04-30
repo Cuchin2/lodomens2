@@ -66,7 +66,7 @@
             </div>
 
             <!-- Modal de Crear/Editar/Eliminar -->
-            <x-dialog-modal wire:model="showModal">
+            <x-dialog-modal wire:model="showModal" maxWidth="sm">
                 <x-slot name="title">
                     {{$which == 'DELETE' ? 'Confirmar Eliminación' :  ($which == 'CREATE' ? 'Crear Talla' : 'Editar Talla') }}
                 </x-slot>

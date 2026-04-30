@@ -14,14 +14,13 @@ use App\Models\Setting;
 use App\Models\Sku;
 use Illuminate\Support\Str;
 use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
+use App\Models\Size;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+
 class ProductController extends Controller
 {
     public function __construct()
@@ -31,7 +30,6 @@ class ProductController extends Controller
             'permission:products.index',
             'permission:products.edit'
         ]);
-
     }
     public function index()
     {
@@ -43,12 +41,12 @@ class ProductController extends Controller
      */
     public function create(Request $request)
     {
-        $product=Product::create([
+        $product = Product::create([
             'name' => $request->name,
-            'slug' =>Str::slug( $request->name),
+            'slug' => Str::slug($request->name),
             'category_id' => $request->category_id,
         ]);
-        return redirect()->view('admin.product.edit',['slug'=>$product->slug]);
+        return redirect()->view('admin.product.edit', ['slug' => $product->slug]);
     }
 
     /**
@@ -62,9 +60,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
-    {
-    }
+    public function show(Product $product) {}
 
     /**
      * Show the form for editing the specified resource.
@@ -75,7 +71,7 @@ class ProductController extends Controller
         $brands = Brand::all()->pluck('name', 'id')->toArray();
         $types = Type::all()->pluck('name', 'id')->toArray();
         $materials = Material::all()->pluck('name', 'id')->toArray();
-        $average=round($product->reviews()->latest()->get()->avg('score'), 1);
+        $average = round($product->reviews()->latest()->get()->avg('score'), 1);
         //multiselect Tags
         $tagNames = Tag::pluck('name')->toArray();
         $tagSelect = $product->tags()->pluck('name')->toArray();
@@ -89,19 +85,31 @@ class ProductController extends Controller
         $colorUnSelect2 = array_udiff($colorNames, $colorSelect, function ($a, $b) {
             return $a['hex'] <=> $b['hex'];
         });
-        $colorUnSelect=array_merge($colorUnSelect2);
+        $colorUnSelect = array_merge($colorUnSelect2);
+        // 👇 MULTISELECT TALLAS (mismo formato que tags)
+            $allSizes = Size::forCurrentBrand()
+                ->orderBy('name')
+                ->get(['id', 'name']); // colección de modelos
+
+            $selectedSizes = $product->sizes->pluck('id')->toArray();
+                //
         $imagenes = $product->images;
         $rowIds = $imagenes->pluck('id');
         $numberArray = Row::whereHas('images', function ($query) use ($rowIds) {
             $query->whereIn('image_id', $rowIds);
         })->orderBy('order', 'asc')->get();
-        $status= [
+        $status = [
             'DRAFT' => 'Borrador',
             'SHOP' => 'Publicado',
             'POS' =>  'Programado',
             'DISABLED' => 'Cancelado'
         ];
-        return view('admin.product.edit', compact('status','product','categories','average','tagNames','tagSelect','colorNames','colorSelect','colorUnSelect','numberArray','brands','types','materials'));
+        return view('admin.product.edit', compact(
+            'status', 'product', 'categories', 'average',
+            'tagNames', 'tagSelect', 'colorNames', 'colorSelect',
+            'colorUnSelect', 'numberArray', 'brands', 'types',
+            'materials','allSizes','selectedSizes' // 👈 Añadir estos dos
+        ));
     }
 
     /**
@@ -110,9 +118,9 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate([
-            'code' => ['required','numeric','max:9999',Rule::unique('products')->ignore($product->id)],
+            'code' => ['required', 'numeric', 'max:9999', Rule::unique('products')->ignore($product->id)],
             'brand_id' => ['required'],
-            'name' => ['required']
+            'name' => ['required'],
             // Añade aquí otras reglas de validación según sea necesario
         ], [
             'code.required' => 'El campo código es obligatorio.',
@@ -120,35 +128,36 @@ class ProductController extends Controller
             'code.max' => 'El campo código debe contener 4 dígitos.',
             'code.unique' => 'El código ya está en uso.',
             'brand_id.required' => 'Seleccione una marca.',
-            'name.required'=>'El campo nombre es obligatorio'
+            'name.required' => 'El campo nombre es obligatorio'
             // Añade otros mensajes de error aquí
         ]);
         $request->merge(['id' => $product->id]);
         $product->my_update($request);
         $stock = $request->input('stock');
-        if($request->input('colors') == null){
+        if ($request->input('colors') == null) {
             Session::flash('mensaje', 'Selecione un color');
-            return redirect()->route('inventory.products.edit',$product);
+            return redirect()->route('inventory.products.edit', $product);
         }
 
         $sellPrices = $request->input('sell_price');
-        if($sellPrices){
-        foreach($sellPrices as $index => $price) {
-            if ($price === null || $price == 0) {
-                Session::flash('mensaje2', 'Seleccione un precio');
-                return redirect()->route('inventory.products.edit', $product);
+        if ($sellPrices) {
+            foreach ($sellPrices as $index => $price) {
+                if ($price === null || $price == 0) {
+                    Session::flash('mensaje2', 'Seleccione un precio');
+                    return redirect()->route('inventory.products.edit', $product);
+                }
             }
-        }}
-        $skus= Sku::where('product_id',$product->id)->get();
-        $usd=Setting::find(2)->action ?? '1';
+        }
+        $skus = Sku::where('product_id', $product->id)->get();
+        $usd = Setting::find(2)->action ?? '1';
 
         foreach ($skus as $index => $sku) {
             $sku->stock = $stock[$index] ?? '0';
             $sku->sell_price = $sellPrices[$index] ?? '0';
-            $sku->usd = ($sellPrices[$index] ?? '0' )/$usd;
+            $sku->usd = ($sellPrices[$index] ?? '0') / $usd;
             $sku->save();
-            }
-        return redirect()->route('inventory.products.edit',$product)->with('info','Se actualizarón los datos del producto '.$product->name);
+        }
+        return redirect()->route('inventory.products.edit', $product)->with('info', 'Se actualizarón los datos del producto ' . $product->name);
     }
 
     /**
@@ -158,11 +167,12 @@ class ProductController extends Controller
     {
         //
     }
-    public function getimages($id){
-        $product= Product::find($id);
-        $images = $product->images->sortBy('order')->values()->map(function ($image,$index) {
+    public function getimages($id)
+    {
+        $product = Product::find($id);
+        $images = $product->images->sortBy('order')->values()->map(function ($image, $index) {
             $urlParts = explode('/', $image->url);
-            $sizeInBytes = filesize('storage/'.$image->url);
+            $sizeInBytes = filesize('storage/' . $image->url);
             $sizeText = $sizeInBytes > 1024 ?
                 ($sizeInBytes > 1048576 ?
                     round($sizeInBytes / 1048576) . " mb" :
@@ -171,33 +181,34 @@ class ProductController extends Controller
             $imageName = end($urlParts); // Obtener el nombre del archivo de la URL
             return (object)[
                 'name' => $imageName, // Usar solo el nombre del archivo
-                'url' => asset('storage/'.$image->url),
+                'url' => asset('storage/' . $image->url),
                 'size' => $sizeText,
-                'id'=> $image->id,
-                'extension'=> File::extension(asset('storage/'.$image->url))
+                'id' => $image->id,
+                'extension' => File::extension(asset('storage/' . $image->url))
             ];
         });
         return response()->json($images);
     }
-    public function addimages (Request $request,$id){
-        $product= Product::find($id);
+    public function addimages(Request $request, $id)
+    {
+        $product = Product::find($id);
         $newOrder = count($product->images);
-            $files = $request->file('files');
-            foreach ($files as  $key => $file) {
-                $fileName = time().'-'.$file->getClientOriginalName();
-                $originalPath = 'storage/image/product/' . $fileName;
-                // Almacena el archivo en el sistema de archivos
-                $file->storeAs('image/lodomens/', $fileName, 'public');
-                $product->images()->create([
-                    'url' => 'image/lodomens/'. $fileName,
-                    'order' =>$newOrder+$key,
-                    'imageable_type'=>'App\Models\Product',
-                    'imageable_id'=>$id
-                ]);
-            }
-        return response()->json(['id'=>$id]);
+        $files = $request->file('files');
+        foreach ($files as  $key => $file) {
+            $fileName = time() . '-' . $file->getClientOriginalName();
+            $originalPath = 'storage/image/product/' . $fileName;
+            // Almacena el archivo en el sistema de archivos
+            $file->storeAs('image/lodomens/', $fileName, 'public');
+            $product->images()->create([
+                'url' => 'image/lodomens/' . $fileName,
+                'order' => $newOrder + $key,
+                'imageable_type' => 'App\Models\Product',
+                'imageable_id' => $id
+            ]);
+        }
+        return response()->json(['id' => $id]);
     }
-    public function handleReorder(Request $request,$id)
+    public function handleReorder(Request $request, $id)
     {
         $images = Product::find($id)->images->keyBy('id');
         $orders = request('sorts');
@@ -213,7 +224,7 @@ class ProductController extends Controller
     {
         $image = Image::find($id);
         if ($image) {
-/*             $filePath = storage_path('app/public/'.$image->url);
+            /*             $filePath = storage_path('app/public/'.$image->url);
             if (file_exists($filePath)) {
                 unlink($filePath);
             } */

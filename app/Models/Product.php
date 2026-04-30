@@ -95,6 +95,10 @@ class Product extends Model implements CanVisit
     public function reviews(){
         return $this->morphToMany(Review::class, 'reviewable');
     }
+    public function sizes()
+    {
+        return $this->belongsToMany(Size::class);
+    }
     public function scopeSearch($query, $value)
     {
         // Mapeo de traducciones en español a los valores originales en la base de datos
@@ -207,9 +211,17 @@ class Product extends Model implements CanVisit
                         $this->colors()->detach();
                         Sku::where('product_id', $request->id)->delete();
                 }
-
-
+            // Dentro de my_update(), después del bloque de colors
+            // 👇 SIZES (muchos a muchos estándar)
+            if ($request->filled('sizes')) {
+                $sizeIds = explode(',', $request->sizes);
+                $sizeIds = array_map('intval', $sizeIds);
+                $this->sizes()->sync($sizeIds);
+            } else {
+                $this->sizes()->detach();
             }
+
+    }
             public function status(){
                 switch ($this->attributes['status']) {
                     case 'DRAFT':
@@ -224,10 +236,7 @@ class Product extends Model implements CanVisit
                         return 'Borrador';
                 }
             }
-        public function sizes()
-        {
-            return $this->belongsToMany(Size::class);
-        }
+
 
         // Helper para obtener nombres de tallas como string
         public function getSizeNamesAttribute()

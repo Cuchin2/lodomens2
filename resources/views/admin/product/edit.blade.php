@@ -162,7 +162,7 @@
                             <x-label class="mb-2">Colores:</x-label>
                         </div>
                         <div class=" mb-4">
-                            <x-dashboard.multipleselect id="1" name="colors" placeholder="Selccione los colores"
+                            <x-dashboard.multipleselect id="1" name="colors" placeholder="Seleccione los colores"
                                 :colorSelect="$colorSelect" :colorUnSelect="$colorUnSelect" />
 
                             @if(Session::has('mensaje'))
@@ -188,10 +188,20 @@
                         <div class=" mb-4">
                             <x-dashboard.multipleselectsimple id="2" name="tags" placeholder="Seleccione las etiquetas"
                                 :selected="$tagSelect" :unselected="$tagNames" param="0" />
-
                         </div>
-
-
+                        <div class="my-3">
+                            <x-label class="mb-2">Tallas:</x-label>
+                        </div>
+                        <div class=" mb-4">
+                            <x-dashboard.multipleselectsimpleById
+                                id="sizes"
+                                param="1"
+                                name="sizes"
+                                placeholder="Seleccione las tallas"
+                                :items="$allSizes"
+                                :selectedIds="$selectedSizes"
+                            />
+                        </div>
                     </div>
 
 
